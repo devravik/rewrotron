@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/behavior/behavior-case.schema.json",
+  "title": "BehaviorCase",
+  "description": "Schema for a concrete, executable behavioral test case in Rewrotron",
+  "type": "object",
+  "required": [
+    "case_id",
+    "contract_id",
+    "http_method",
+    "path",
+    "headers",
+    "preconditions",
+    "expected_response"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "contract_id": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "http_method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"]
+    },
+    "path": {
+      "type": "string"
+    },
+    "headers": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "query_params": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "payload": {
+      "type": ["object", "string", "null"]
+    },
+    "preconditions": {
+      "type": "object",
+      "properties": {
+        "database_fixtures": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "session_state": {
+          "type": "object"
+        }
+      }
+    },
+    "expected_response": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599
+        },
+        "headers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "redirect_path": {
+          "type": "string"
+        },
+        "body_schema": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

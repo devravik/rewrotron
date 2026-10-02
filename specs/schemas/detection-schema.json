@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/schemas/detection-schema.json",
+  "title": "DetectionResult",
+  "description": "Output schema for rewrotron detect and project.detect",
+  "type": "object",
+  "required": [
+    "language",
+    "framework",
+    "application_type",
+    "confidence",
+    "gate_status"
+  ],
+  "properties": {
+    "language": { "type": "string" },
+    "framework": { "type": "string" },
+    "detected_version": { "type": ["string", "null"] },
+    "php_compatibility": { "type": ["string", "null"] },
+    "application_type": { "type": "string" },
+    "routes_count": { "type": "integer" },
+    "controllers_count": { "type": "integer" },
+    "models_count": { "type": "integer" },
+    "views_count": { "type": "integer" },
+    "database_engine": { "type": ["string", "null"] },
+    "external_integrations_count": { "type": "integer" },
+    "authentication_type": { "type": "string" },
+    "cron_entrypoints_count": { "type": "integer" },
+    "confidence": {
+      "type": "object",
+      "required": ["framework"],
+      "properties": {
+        "framework": { "type": "number", "minimum": 0, "maximum": 1 },
+        "version": { "type": "number", "minimum": 0, "maximum": 1 },
+        "database": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "potential_concerns": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "gate_status": {
+      "type": "string",
+      "enum": ["AWAITING_SOURCE_CONFIRMATION", "SOURCE_CONFIRMED"]
+    }
+  }
+}

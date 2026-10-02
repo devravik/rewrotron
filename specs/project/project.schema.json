@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/project.schema.json",
+  "title": "ProjectConfig",
+  "description": "Schema for project.yaml configuration file",
+  "type": "object",
+  "required": ["version", "project_id", "source", "target"],
+  "properties": {
+    "version": { "type": "integer", "enum": [1] },
+    "project_id": { "type": "string", "pattern": "^[a-zA-Z0-9_-]+$" },
+    "source": {
+      "type": "object",
+      "required": ["type", "path"],
+      "properties": {
+        "type": { "type": "string" },
+        "path": { "type": "string" },
+        "runtime": { "type": "object" },
+        "confirmed": { "type": "boolean", "default": false },
+        "configuration_hash": { "type": "string" }
+      }
+    },
+    "target": {
+      "type": "object",
+      "required": ["language", "framework"],
+      "properties": {
+        "language": { "type": "string" },
+        "framework": { "type": "string" },
+        "version": { "type": "string" },
+        "architecture": {
+          "type": "object",
+          "properties": {
+            "style": { "type": "string", "default": "modular_monolith" },
+            "service_layer": { "type": "string" }
+          }
+        },
+        "confirmed": { "type": "boolean", "default": false }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "properties": {
+        "mode": { "type": "string", "enum": ["local", "docker", "sandbox"] },
+        "database": { "type": "object" }
+      }
+    },
+    "compatibility": {
+      "type": "object"
+    },
+    "safety": {
+      "type": "object"
+    }
+  }
+}

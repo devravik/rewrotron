@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/behavior/behavior-contract.schema.json",
+  "title": "BehaviorContract",
+  "description": "Canonical schema for a target-agnostic behavioral contract",
+  "type": "object",
+  "required": [
+    "operation_id",
+    "version",
+    "entrypoint",
+    "inputs",
+    "database_effects",
+    "response"
+  ],
+  "properties": {
+    "operation_id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "entrypoint": {
+      "type": "object",
+      "required": ["type", "method", "path"],
+      "properties": {
+        "type": { "type": "string", "enum": ["http", "cli", "cron", "event"] },
+        "method": { "type": "string" },
+        "path": { "type": "string" }
+      }
+    },
+    "authentication": {
+      "type": "object",
+      "properties": {
+        "required": { "type": "boolean" },
+        "mechanism": { "type": "string" }
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "properties": {
+        "roles": { "type": "array", "items": { "type": "string" } },
+        "permissions": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "properties": {
+        "parameters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "type"],
+            "properties": {
+              "name": { "type": "string" },
+              "type": { "type": "string" },
+              "required": { "type": "boolean" },
+              "source": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "database_effects": {
+      "type": "object",
+      "properties": {
+        "transactional": { "type": "boolean" },
+        "mutations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["action", "table"],
+            "properties": {
+              "action": { "type": "string", "enum": ["INSERT", "UPDATE", "DELETE"] },
+              "table": { "type": "string" },
+              "columns": { "type": "object" },
+              "where": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "session_effects": {
+      "type": "object"
+    },
+    "external_effects": {
+      "type": "object"
+    },
+    "response": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "type": "integer" },
+        "headers": { "type": "object" },
+        "redirect": { "type": "object" },
+        "body": { "type": "object" }
+      }
+    },
+    "variability": {
+      "type": "object"
+    }
+  }
+}

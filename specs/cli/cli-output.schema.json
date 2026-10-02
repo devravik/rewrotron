@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/cli-output.schema.json",
+  "title": "CLIOutputEnvelope",
+  "description": "Standard JSON envelope returned on stdout by all rewrotron CLI commands when --json is passed",
+  "type": "object",
+  "required": [
+    "version",
+    "command",
+    "success",
+    "exit_code",
+    "timestamp",
+    "duration_ms",
+    "data",
+    "errors"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "version": { "type": "string" },
+    "command": { "type": "string" },
+    "success": { "type": "boolean" },
+    "exit_code": { "type": "integer" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "duration_ms": { "type": "number" },
+    "data": { "type": "object" },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": { "type": "string" },
+          "message": { "type": "string" },
+          "details": { "type": "object" }
+        }
+      }
+    }
+  }
+}

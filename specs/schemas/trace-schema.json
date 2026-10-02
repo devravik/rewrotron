@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/schemas/trace-schema.json",
+  "title": "ObservationTrace",
+  "description": "Schema for runtime observation execution traces captured by Rewrotron",
+  "type": "object",
+  "required": [
+    "trace_id",
+    "project_id",
+    "environment",
+    "timestamp",
+    "duration_ms",
+    "request",
+    "response"
+  ],
+  "properties": {
+    "trace_id": { "type": "string" },
+    "project_id": { "type": "string" },
+    "environment": { "type": "string", "enum": ["source_legacy", "target_modern"] },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "duration_ms": { "type": "number" },
+    "request": {
+      "type": "object",
+      "required": ["method", "path", "headers"],
+      "properties": {
+        "method": { "type": "string" },
+        "path": { "type": "string" },
+        "query": { "type": "object" },
+        "headers": { "type": "object" },
+        "body_redacted": { "type": "boolean" },
+        "body_ref": { "type": "string" }
+      }
+    },
+    "route": {
+      "type": "object",
+      "properties": {
+        "matched_pattern": { "type": "string" },
+        "controller": { "type": "string" },
+        "action": { "type": "string" }
+      }
+    },
+    "session": {
+      "type": "object",
+      "properties": {
+        "initial": { "type": "object" },
+        "mutations": { "type": "array" }
+      }
+    },
+    "database": {
+      "type": "object",
+      "properties": {
+        "queries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["sql", "duration_us"],
+            "properties": {
+              "query_index": { "type": "integer" },
+              "sql": { "type": "string" },
+              "bindings": { "type": "array" },
+              "duration_us": { "type": "number" },
+              "rows_affected": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    "external_calls": {
+      "type": "array"
+    },
+    "response": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": { "type": "integer" },
+        "headers": { "type": "object" },
+        "body_ref": { "type": "string" },
+        "body_sha256": { "type": "string" }
+      }
+    }
+  }
+}
