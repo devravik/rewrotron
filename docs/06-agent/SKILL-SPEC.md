@@ -85,11 +85,21 @@ author: Rewrotron Core Team
 
 **Advisory invariants:** Capability skills are strictly advisory aids for target generation and repair. They cannot grant Gate 1, Gate 2, or Gate 3 approval, cannot override or alter deterministic verifier verdicts (PASS, MISMATCH, UNKNOWN), cannot turn UNKNOWN into PASS, cannot declare code DEAD, and cannot alter canonical machine contracts or schemas.
 
+### Canonical content-hash preimage (`rwt-skill-package-1`)
+
+To ensure deterministic content-addressing across clients and environments without divergence:
+
+1. Enumerate all regular files within the skill package directory (`SKILL.md`, `references/*`, `scripts/*`), excluding VCS and ephemeral files.
+2. Represent each file by its relative POSIX path, raw byte length (`size_bytes`), and SHA-256 digest of raw file bytes (`sha256`, 64 lowercase hex characters).
+3. Construct a canonical JSON manifest with key `"identity": "rwt-skill-package-1"` and `"entries"` sorted strictly by unnormalized UTF-8 path bytes.
+4. Serialize using [rwt-cjson-1](../02-domain/CONFIRMATION-PROTOCOL.md).
+5. Compute the SHA-256 digest of the serialized UTF-8 bytes: `content_hash = "sha256:" + lowercase_hex(SHA256(preimage))`.
+
 ---
 
 ## 3. Skill Routing Manifest
 
-The repository maintains an authoritative routing manifest at `skills/manifest.json` indexing all registered skills:
+The repository maintains a repository skill discovery index at `skills/manifest.json` (a non-authoritative discovery cache; canonical specifications remain the sole authority):
 
 ```json
 {
@@ -113,10 +123,10 @@ The repository maintains an authoritative routing manifest at `skills/manifest.j
 
 ### Deterministic routing semantics
 
-1. When working on a specialized unit, an agent inspects the active unit domain, frameworks, and keywords.
-2. The agent queries `skills/manifest.json` (or CLI `skills search --query <domain>`).
-3. Only skills with `status IN ('STABLE')` are eligible for automatic routing (or `EXPERIMENTAL` when explicitly requested).
-4. The router matches trigger tags or framework predicates, selecting at most 1–2 matching capability skills.
+1. When working on a specialized unit, an agent consults `skills/manifest.json` via small bounded manifest lookup (or CLI `skills search --query <domain>`).
+2. **Category filtering:** Capability skill routing evaluates ONLY domain capability categories (`category IN ('migration', 'analysis', 'verification')`). The `operation` category designates execution entrypoints or engine operator skills (such as `operation.rewrotron`), which govern process flow and are never selected as domain transformation capabilities.
+3. **Status filtering:** Only capability skills with `status IN ('STABLE')` are eligible for automatic routing (or `EXPERIMENTAL` when explicitly requested).
+4. **Metadata filtering:** The router applies deterministic low-cost metadata filtering against trigger tags and framework predicates, selecting at most 1–2 matching capability skills.
 5. The agent loads only the selected `SKILL.md` (and specific `references/*.md` on demand).
 6. **Absence/malformation fallback:** If `skills/manifest.json` is absent, malformed, or unreadable, the agent falls back directly to canonical specifications in `docs/`. Absence or corruption of the manifest never blocks execution.
 

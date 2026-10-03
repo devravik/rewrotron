@@ -37,7 +37,7 @@ The four skill lifecycle states correspond to SQLite schema constraints in [SQLI
 
 Every skill version is content-addressed:
 
-* The `document_ref` in `skill_versions` references an immutable artifact (`artifacts.id`) containing the SHA-256 digest of canonical skill files.
+* The `document_ref` in `skill_versions` references an immutable artifact (`artifacts.id`) containing the `rwt-skill-package-1` SHA-256 digest defined in [SKILL-SPEC](../06-agent/SKILL-SPEC.md).
 * Frontmatter provenance links the skill version directly to supporting `lessons` and `experiments` records (with SHA-256 context fingerprints).
 * Past revisions in `skill_versions` are immutable; revisions append new rows with incremented semantic versions rather than modifying existing entries.
 
