@@ -1,6 +1,6 @@
 # ADR 0009: Three IRs and explicit target model
 
-**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [TARGET-ARCHITECTURE](../../04-migration/TARGET-ARCHITECTURE.md). This ADR records the decision, not a duplicate field specification.
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owners: [IR-CONTRACTS](../../02-domain/IR-CONTRACTS.md) for neutral records, [TARGET-ARCHITECTURE](../../04-migration/TARGET-ARCHITECTURE.md) for lowering and [SERVICE-CONTRACTS](../SERVICE-CONTRACTS.md) for qualification. This ADR records the decision, not a duplicate field specification.
 
 ## Context
 
@@ -8,32 +8,32 @@ Behavior does not specify target component ownership/lowering/build capabilities
 
 ## Problem
 
-Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
+Open supported_profiles metadata could silently become admission policy, and unchanged schema URIs could hide changed extraction semantics. A broad adapter can lose declarations not represented by the current neutral facets.
 
 ## Decision
 
-Source/Application/Behavior IR plus lightweight target-specific implementation model proposed before Gate 2 and activated after; progress separate.
+Keep three evidence-bearing neutral IRs and target-specific lowering model. Current adapters use exact implementation/schema/profile qualification, not metadata inference. Initial supported subset refuses unrepresented declarations. A generic executable constraint language and wider neutral facets are deferred prerequisites of M8.
 
 ## Alternatives considered
 
-Behavior IR directly to files; another universal source IR; target-specific ownership/lowering model.
+Behavior IR directly to files; another universal source IR; target-specific ownership/lowering model. For support admission: trust open manifest metadata, design a universal constraint DSL immediately, or qualify exact pinned profiles first.
 
 ## Why rejected
 
-Direct generation hides architectural decisions; duplicating source semantics confuses source obligations and target choices.
+Direct generation hides architectural decisions; duplicating source semantics confuses source obligations and target choices. Open metadata has no deterministic support predicate; a universal profile DSL delays the first falsifiable experiment without evidence that its abstractions preserve real adapter constraints. Exact-profile qualification is the narrow initial boundary.
 
 ## Consequences
 
-More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
+Implementation has an explicit narrow admission boundary and additional falsification evidence obligations. Missing qualification or required capture blocks the affected claim; historical bytes stay retained. Documentation validation does not establish runtime maturity.
 
 ## Machine-contract impact
 
-Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+Adapter manifest 2.1 pins schema_refs and qualification_refs; qualification.schema identifies exact implementation/profile/control/result bytes and status/limitations. SERVICE-CONTRACTS derives admission from trusted current controls. Data-model 2.0 qualifies DB identity without introducing a framework category in core.
 
 ## Migration/compatibility implications
 
-Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+Unversioned/2.0 manifests and old IR children remain descriptive/history. Existing approvals retain exact schemas; current admission does not broaden ranges from a newer registry. General profile DSL and language facets need versioned contracts/mutants before expansion.
 
 ## Acceptance experiment / falsification test
 
-X17/X22/X40. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.
+X40/X58: change schema bytes under a stable URI, advertise an untested framework/runtime profile, and submit a declaration that cannot survive neutral extraction. Refuse current execution/closure without destroying historical hashes or dropping uncertainty.

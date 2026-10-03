@@ -177,5 +177,67 @@
     },
     "canonical_utf8": "{\"adapter_bindings\":[{\"adapter_id\":\"synthetic\",\"implementation_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"manifest_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"role\":\"TARGET\",\"version\":\"1.0.0\"}],\"behavior_ir_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"canonicalization\":\"rwt-cjson-1\",\"configuration_hash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"consumed_revision_refs\":[],\"corpus_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"decision_refs\":[\"sha256:0ab26ee1f8b0f264905fd9b11c832060d4d39202e517ffe098f2d6346412ed21\",\"sha256:a17d92d37e6785b1487096bcd4c8eafdb915ed5bda24ceafe3a5b98da0220d8e\"],\"dependency_edges\":[],\"dependency_graph_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"kind\":\"PLAN\",\"omission_proof_refs\":[],\"ordered_units\":[{\"capabilities\":[\"http\"],\"case_ids\":[\"login\"],\"contract_refs\":[\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"],\"priority\":1,\"unit_id\":\"login\"}],\"policy_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"project_id\":\"fixture\",\"resolved_environment_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"schema_version\":\"2.0\",\"scope_exclusion_refs\":[],\"snapshot_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"target_intent_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"target_model_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"unresolved_items\":[]}",
     "sha256": "2fea0aa910c9d732a7d087b3065ed9f477c5afe9d524b95a1e93bc6dda2c2e18"
+  },
+  {
+    "name": "plan-pins-core-and-performance-policy",
+    "approval_schema": true,
+    "subject": {
+      "schema_version": "2.0",
+      "canonicalization": "rwt-cjson-1",
+      "project_id": "fixture",
+      "kind": "PLAN",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "snapshot_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "behavior_ir_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "corpus_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "target_intent_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "resolved_environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "target_model_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "decision_refs": [
+        "sha256:0ab26ee1f8b0f264905fd9b11c832060d4d39202e517ffe098f2d6346412ed21",
+        "sha256:a17d92d37e6785b1487096bcd4c8eafdb915ed5bda24ceafe3a5b98da0220d8e",
+        "sha256:d43779ac52603c01f17df4d44c9f29b664eabf83daeb9290dbd636113222f482"
+      ],
+      "dependency_graph_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "adapter_bindings": [
+        {
+          "role": "RUNNER",
+          "adapter_id": "rewrotron-engine",
+          "version": "0.0.0-fixture",
+          "manifest_ref": "sha256:f15137ae55782632bd879ee73df45e0e0d7fbc9c2cb0b1b0063f2a40e6f3b116",
+          "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "role": "TARGET",
+          "adapter_id": "synthetic",
+          "version": "1.0.0",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "consumed_revision_refs": [],
+      "ordered_units": [
+        {
+          "unit_id": "login",
+          "contract_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "case_ids": [
+            "login"
+          ],
+          "priority": 1,
+          "capabilities": [
+            "http"
+          ]
+        }
+      ],
+      "dependency_edges": [],
+      "omission_proof_refs": [],
+      "scope_exclusion_refs": [],
+      "unresolved_items": []
+    },
+    "canonical_utf8": "{\"adapter_bindings\":[{\"adapter_id\":\"rewrotron-engine\",\"implementation_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"manifest_ref\":\"sha256:f15137ae55782632bd879ee73df45e0e0d7fbc9c2cb0b1b0063f2a40e6f3b116\",\"role\":\"RUNNER\",\"version\":\"0.0.0-fixture\"},{\"adapter_id\":\"synthetic\",\"implementation_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"manifest_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"role\":\"TARGET\",\"version\":\"1.0.0\"}],\"behavior_ir_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"canonicalization\":\"rwt-cjson-1\",\"configuration_hash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"consumed_revision_refs\":[],\"corpus_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"decision_refs\":[\"sha256:0ab26ee1f8b0f264905fd9b11c832060d4d39202e517ffe098f2d6346412ed21\",\"sha256:a17d92d37e6785b1487096bcd4c8eafdb915ed5bda24ceafe3a5b98da0220d8e\",\"sha256:d43779ac52603c01f17df4d44c9f29b664eabf83daeb9290dbd636113222f482\"],\"dependency_edges\":[],\"dependency_graph_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"kind\":\"PLAN\",\"omission_proof_refs\":[],\"ordered_units\":[{\"capabilities\":[\"http\"],\"case_ids\":[\"login\"],\"contract_refs\":[\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"],\"priority\":1,\"unit_id\":\"login\"}],\"policy_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"project_id\":\"fixture\",\"resolved_environment_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"schema_version\":\"2.0\",\"scope_exclusion_refs\":[],\"snapshot_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"target_intent_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"target_model_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"unresolved_items\":[]}",
+    "sha256": "cd3ce6b639fc07e6b79475c902bc7f1a37c9353b3b554a202fdb8fb7081e70a5"
   }
 ]

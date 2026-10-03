@@ -14,7 +14,8 @@ Start with [PRODUCT](00-vision/PRODUCT.md), then [SYSTEM-DESIGN](01-architecture
 | Package boundaries and ports | [SYSTEM-DESIGN](01-architecture/SYSTEM-DESIGN.md) | [Components](01-architecture/COMPONENTS.md), [service records](01-architecture/SERVICE-CONTRACTS.md), [ADRs](01-architecture/ADR/0011-development-baseline-and-contract-completion.md) |
 | Three IR tiers and evidence | [BEHAVIOR-MODEL](02-domain/BEHAVIOR-MODEL.md) | [IR contracts](02-domain/IR-CONTRACTS.md), [domain entities](02-domain/DOMAIN-MODEL.md) |
 | Shared assessment checkpoint | [PROJECT-LIFECYCLE](02-domain/PROJECT-LIFECYCLE.md) | [Report schema](../specs/reports/assessment-report.schema.json), [selection schema](../specs/project/assessment-selection.schema.json) |
-| States, gates, hashes | [PROJECT-LIFECYCLE](02-domain/PROJECT-LIFECYCLE.md) | [Confirmation protocol](02-domain/CONFIRMATION-PROTOCOL.md) |
+| States and readiness | [PROJECT-LIFECYCLE](02-domain/PROJECT-LIFECYCLE.md) | [Confirmation protocol](02-domain/CONFIRMATION-PROTOCOL.md) |
+| Approval subjects and execution closure | [CONFIRMATION-PROTOCOL](02-domain/CONFIRMATION-PROTOCOL.md) | [Execution manifest](../specs/project/execution-manifest.schema.json), [service qualification](01-architecture/SERVICE-CONTRACTS.md) |
 | Analysis and omission | [ANALYSIS-SPEC](03-analysis/ANALYSIS-SPEC.md) | [Classification](03-analysis/CODE-CLASSIFICATION.md), [adapter](04-migration/CI3-ADAPTER.md) |
 | Runtime capture and replay | [RUNTIME-OBSERVATION](03-analysis/RUNTIME-OBSERVATION.md) | [Sandbox](09-security/SANDBOX.md), [differential testing](05-verification/DIFFERENTIAL-TESTING.md) |
 | User target and feasibility | [TARGET-SPECIFICATION](04-migration/TARGET-SPECIFICATION.md) | [Decision ADR](01-architecture/ADR/0012-target-specification-and-dependency-resolution.md), [target schema](../specs/project/target.schema.json) |

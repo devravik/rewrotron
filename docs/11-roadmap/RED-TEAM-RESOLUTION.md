@@ -1,5 +1,7 @@
 # Post-red-team revision report and disposition matrix
 
+**Latest checkpoint:** See “Current re-audit and revision deliverables” below for the current A–G manifest, machine-version corrections and validation limits. Earlier pass counts and manifests are historical audit entries.
+
 Revision date: 2026-10-03. Input: unchanged Rewrotron_Pre-Implementation_Red-Team_Review.md. This report is an audit index, not a competing subsystem specification. RESOLVED means the owning specification/machine representation was revised; it never means implementation/runtime experiments passed.
 
 ## Authority and impact map
@@ -29,7 +31,7 @@ Each original failure scenario has an explicit owning document, companion schema
 | F13: Native extension writes files or contacts a service | Accept defect; revise canonical contract | [RUNTIME-OBSERVATION](../03-analysis/RUNTIME-OBSERVATION.md) | Capability-specific observation or UNKNOWN Priority: P1. Machine owner: specs/observation/attestation.schema.json; ADR 0005. Runtime evidence is still required. | RESOLVED |
 | F14: Failed transaction consumes auto-increment values | Accept defect; revise canonical contract | [DATABASE-COMPARISON](../05-verification/DATABASE-COMPARISON.md) | Restore/check sequence behavior explicitly Priority: P1. Machine owner: specs/observation/reset-report.schema.json; ADR 0005. Runtime evidence is still required. | RESOLVED |
 | F15: Request creates temporary tables or performs DDL | Accept defect; revise canonical contract | [DATABASE-COMPARISON](../05-verification/DATABASE-COMPARISON.md) | Fresh DB instance or supported full reset Priority: P0 before replay. Machine owner: specs/observation/reset-report.schema.json; ADR 0005. Runtime evidence is still required. | RESOLVED |
-| F16: Two connections both contain an `orders` table | Accept defect; revise canonical contract | [DATABASE-COMPARISON](../05-verification/DATABASE-COMPARISON.md) | Add connection/catalog/schema identity Priority: P1. Machine owner: specs/observation/effects.schema.json; ADR 0005. Runtime evidence is still required. | RESOLVED |
+| F16: Two connections both contain an `orders` table | Accept defect; revise canonical contract | [DATABASE-COMPARISON](../05-verification/DATABASE-COMPARISON.md) | Add connection/catalog/schema identity and typed value-mapping evidence Priority: P1. Machine owners: specs/observation/effects.schema.json and specs/ir/data-model.schema.json; ADR 0005. Runtime evidence is still required. | RESOLVED |
 | F17: Payment provider offers no safe sandbox | Accept defect; revise canonical contract | [SANDBOX](../09-security/SANDBOX.md) | Verified mock/retained boundary or explicit unsupported scope Priority: P0. Machine owner: specs/observation/effects.schema.json; ADR 0005. Runtime evidence is still required. | RESOLVED |
 | F18: Worker crashes after sink acceptance but before acknowledgement | Accept defect; revise canonical contract | [BEHAVIOR-MODEL](../02-domain/BEHAVIOR-MODEL.md) | Model acknowledgements, idempotency and delivery semantics Priority: P1. Machine owner: specs/observation/causality.schema.json; ADR 0005. Runtime evidence is still required. | RESOLVED |
 | F19: Redis holds sessions, locks, queues and feature flags | Accept defect; revise canonical contract | [DATABASE-COMPARISON](../05-verification/DATABASE-COMPARISON.md) | Separate stores/namespaces and reset contracts Priority: P1. Machine owner: specs/observation/profile.schema.json; ADR 0005. Runtime evidence is still required. | RESOLVED |
@@ -85,7 +87,7 @@ Each original failure scenario has an explicit owning document, companion schema
 | D13 | Private vault/sanitized evidence | SECURITY | Byte-exact private source; mediated export/privacy controls; same-account limit explicit | RESOLVED |
 | D14 | Quotas and verified archives | ARTIFACT-STORE/RECOVERY | Protected closure never silently GC; active-history compaction deferred with admission cap | RESOLVED |
 | D15 | Explicit statistical claim | PERFORMANCE | Improvement/non-inferiority/budget, bounded paired methodology | RESOLVED |
-| D16 | Holdout/quality/retraction | LEARNING-SYSTEM | Pin consumers; negative mutants and independent provenance; global activation M7 | RESOLVED |
+| D16 | Holdout/quality/retraction; global machine contract deferred | LEARNING-SYSTEM / KNOWLEDGE-MODEL | Baseline project guards resolved; typed global revision/evaluation/consumer/retraction/outbox contracts are explicit prerequisites before M7 activation | DEFERRED |
 | D17 | Decision ref before receipt | COMPATIBILITY-SPEC | Normalization proposal ref approved transitively by plan, no circular approval hash | RESOLVED |
 | D18 | Serial baseline + resource ownership | MISSION-PROTOCOL/RECOVERY | Atomic active-work uniqueness/claims plus process ownership through writes | RESOLVED |
 
@@ -135,7 +137,7 @@ P2 deferred capabilities: streams/general async/distributed concurrency; broader
 
 P3: desktop rendering, vector search and convenience configure UI. None blocks the bounded reference experiment.
 
-Order: M0 durable foundation → M1 falsifiable stateful experiment → M2 real reference characterization → M3 exact resolution/decisions/model → M4 accepted slices → M5 bounded repair/interfaces → M6 project/performance/release; optional M7 learning; M8 capability expansion. TESTING owns X01–X40; all are planned, not executed here.
+Order: M0 durable foundation → M1 falsifiable stateful experiment → M2 real reference characterization → M3 exact resolution/decisions/model → M4 accepted slices → M5 bounded repair/interfaces → M6 project/performance/release; optional M7 learning; M8 capability expansion. TESTING owns the current experiment registry; all are planned, not executed here.
 
 ## Contradiction scan
 
@@ -420,3 +422,152 @@ Contradiction scan corrected overview pipeline bypass, generic completion-as-pac
 Executed structural validation: `python3 tools/docs/validate.py` and `git diff --check`, exit 0 before this audit appendix; rerun after publication is required. At that check: 130 schemas, 178 positive/negative fixtures, 71 CLI/MCP catalog entries, 474 local links, 40 SQL tables across the same two migrations and nine approval vectors. Go/runtime/agent/sandbox/client tests were not run. X41–X55 are acceptance specifications, not passing runtime tests. Original input review and migrations remain byte-identical; no engine, adapter, production Go, new executable tool or Skill was implemented.
 
 Post-publication rerun passed: 130 schemas, 178 positive/negative fixtures, 71 catalog entries, 535 local links, the same 40 SQL tables and nine approval vectors. `git diff --check` passed. All fifteen X41–X55 entries are present, all eight original vectors are unchanged, and the scope check found no Go or SQL migration changes. This follow-up changed 49 existing files and added ten necessary specification files; runtime acceptance remains pending.
+
+## Current re-audit and revision deliverables
+
+This section is the latest revision checkpoint and supersedes earlier validation counts/file manifests. Historical entries above remain an audit of previous passes, not current schema-version requirements. The current delta is measured against repository bytes captured at the start of this revision: **49 changed existing files and three new schemas**. Prior assessment work is preserved. The unchanged review is at docs/Rewrotron_Pre-Implementation_Red-Team_Review.md; SHA256 1b4ca30d5f310213402bdf49dcd48efdde06c864c8347cea50de11b3d152bcc2.
+
+### A. Changed files
+
+| File | Reason | Major changes |
+| --- | --- | --- |
+| [AGENTS.md](../../AGENTS.md) | Keep constitution aligned | Require engine/build/schema revision pins; retain concise owner references |
+| [REWROTRON_PROJECT_PLAN.md](../../REWROTRON_PROJECT_PLAN.md) | Replace vague sequencing with verifiable prerequisites | Execution-bound approvals, early interpreter mutants, approved policies and honest M7/M8 boundaries |
+| [docs/00-vision/PRODUCT.md](../../docs/00-vision/PRODUCT.md) | Bound reproducibility claim | Delegate exact engine/schema/control qualification to approval owner |
+| [docs/01-architecture/ADR/0003-behavior-as-canonical-model.md](../../docs/01-architecture/ADR/0003-behavior-as-canonical-model.md) | Record implementation-constraining decision | behavior as canonical model: specific problem/choice/machine impact/compatibility and falsification experiment; all nine ADR sections retained |
+| [docs/01-architecture/ADR/0005-differential-verification.md](../../docs/01-architecture/ADR/0005-differential-verification.md) | Record implementation-constraining decision | differential verification: specific problem/choice/machine impact/compatibility and falsification experiment; all nine ADR sections retained |
+| [docs/01-architecture/ADR/0008-mcp-as-agent-interface.md](../../docs/01-architecture/ADR/0008-mcp-as-agent-interface.md) | Record implementation-constraining decision | mcp as agent interface: specific problem/choice/machine impact/compatibility and falsification experiment; all nine ADR sections retained |
+| [docs/01-architecture/ADR/0009-three-tier-ir-architecture.md](../../docs/01-architecture/ADR/0009-three-tier-ir-architecture.md) | Record implementation-constraining decision | three tier ir architecture: specific problem/choice/machine impact/compatibility and falsification experiment; all nine ADR sections retained |
+| [docs/01-architecture/ADR/0010-mandatory-user-confirmation-gates.md](../../docs/01-architecture/ADR/0010-mandatory-user-confirmation-gates.md) | Record implementation-constraining decision | mandatory user confirmation gates: specific problem/choice/machine impact/compatibility and falsification experiment; all nine ADR sections retained |
+| [docs/01-architecture/ADR/0011-development-baseline-and-contract-completion.md](../../docs/01-architecture/ADR/0011-development-baseline-and-contract-completion.md) | Record implementation-constraining decision | development baseline and contract completion: specific problem/choice/machine impact/compatibility and falsification experiment; all nine ADR sections retained |
+| [docs/01-architecture/ADR/0014-learning-independence.md](../../docs/01-architecture/ADR/0014-learning-independence.md) | Record implementation-constraining decision | learning independence: specific problem/choice/machine impact/compatibility and falsification experiment; all nine ADR sections retained |
+| [docs/01-architecture/ADR/0015-statistical-performance.md](../../docs/01-architecture/ADR/0015-statistical-performance.md) | Record implementation-constraining decision | statistical performance: specific problem/choice/machine impact/compatibility and falsification experiment; all nine ADR sections retained |
+| [docs/01-architecture/SERVICE-CONTRACTS.md](../../docs/01-architecture/SERVICE-CONTRACTS.md) | Define actual admission evidence | Exact qualification records, current-version guards, no Gate-1 control cycle, descriptive profiles cannot authorize |
+| [docs/01-architecture/SYSTEM-DESIGN.md](../../docs/01-architecture/SYSTEM-DESIGN.md) | Align core pipeline with current services | Execution closure, qualified DB lowering, immutable performance decisions and shared assessment |
+| [docs/02-domain/BEHAVIOR-MODEL.md](../../docs/02-domain/BEHAVIOR-MODEL.md) | Eliminate undefined execution semantics | Row context/write output binding, boolean/null/pointer/decimal rules, bounded mutations and explicit transaction terminals |
+| [docs/02-domain/CONFIRMATION-PROTOCOL.md](../../docs/02-domain/CONFIRMATION-PROTOCOL.md) | Freeze execution and policy identity | Core RUNNER manifest and performance policy in unchanged v2 preimage; version-aware restart and not-applicable release evidence |
+| [docs/02-domain/DOMAIN-MODEL.md](../../docs/02-domain/DOMAIN-MODEL.md) | Represent invalidation of newly pinned inputs | Qualification/execution/performance typed edges and current witnesses |
+| [docs/02-domain/IR-CONTRACTS.md](../../docs/02-domain/IR-CONTRACTS.md) | Align neutral child record identities | Qualified data models and pinned schema/qualification bytes; no implicit child upgrades |
+| [docs/02-domain/PROJECT-LIFECYCLE.md](../../docs/02-domain/PROJECT-LIFECYCLE.md) | Align Gate 2/3 readiness | Qualified execution/performance inputs; explicit not-applicable readiness without fake measurements |
+| [docs/03-analysis/RUNTIME-OBSERVATION.md](../../docs/03-analysis/RUNTIME-OBSERVATION.md) | Make missing observation representable | Current 2.1 attestation branches, independent status derivation and historical reader limits |
+| [docs/04-migration/MIGRATION-ENGINE.md](../../docs/04-migration/MIGRATION-ENGINE.md) | Bind all planning choices | Require immutable performance policy before plan approval |
+| [docs/04-migration/TARGET-SPECIFICATION.md](../../docs/04-migration/TARGET-SPECIFICATION.md) | Separate target and policy authority | User performance choices use a separate immutable record and guarded plan input |
+| [docs/05-verification/DATABASE-COMPARISON.md](../../docs/05-verification/DATABASE-COMPARISON.md) | Prevent same-table identity/type confusion | Qualified model/relationships, native-to-canonical mapping evidence and UNKNOWN columns |
+| [docs/05-verification/PERFORMANCE.md](../../docs/05-verification/PERFORMANCE.md) | Make acceptance reproducible | Approved typed policy, paired estimand/seeded bootstrap, exact outcomes/sample/units/error controls |
+| [docs/06-agent/CLI-SPEC.md](../../docs/06-agent/CLI-SPEC.md) | Keep complete guarded fallback | Canonical capability error and contained performance-policy proposal/import/reuse protocol |
+| [docs/06-agent/ERROR-CATALOG.md](../../docs/06-agent/ERROR-CATALOG.md) | Remove competing public codes | ERR_UNSUPPORTED_CAPABILITY is the sole capability refusal name |
+| [docs/06-agent/MCP-SPEC.md](../../docs/06-agent/MCP-SPEC.md) | Remove hidden online schema dependency | Offline recursive schema bundles, uniform errors and performance-policy parity |
+| [docs/07-learning/KNOWLEDGE-MODEL.md](../../docs/07-learning/KNOWLEDGE-MODEL.md) | Expose missing future machine contracts | M7 global revision/evaluation/consumer/retraction/outbox prerequisites; project-only baseline |
+| [docs/08-storage/RECOVERY.md](../../docs/08-storage/RECOVERY.md) | Keep recovery error parity | Use the single canonical capability error |
+| [docs/08-storage/SQLITE-SCHEMA.md](../../docs/08-storage/SQLITE-SCHEMA.md) | Map added immutable records to storage | Existing artifacts/links/approval closure; no applied migration rewrite or fake global tables |
+| [docs/10-development/FIXTURE-CORPUS.md](../../docs/10-development/FIXTURE-CORPUS.md) | Align fixture obligations | X01–X60 and synthetic qualification controls before customer execution |
+| [docs/10-development/TESTING.md](../../docs/10-development/TESTING.md) | Specify meaningful falsification | X56–X60: row semantics, unavailable capture, execution pins, policy estimand and offline schemas |
+| [docs/11-roadmap/DECISION-REGISTER.md](../../docs/11-roadmap/DECISION-REGISTER.md) | Update pending decision status | Current branch map and explicit M7/M8 prerequisites remain separate from evidence |
+| [docs/11-roadmap/DEVELOPMENT-PLAN.md](../../docs/11-roadmap/DEVELOPMENT-PLAN.md) | Make milestones implementation-ready | Concrete objectives, assigned new tests, exact decision outputs and global/profile prerequisites |
+| [docs/11-roadmap/DOCUMENTATION-AUDIT.md](../../docs/11-roadmap/DOCUMENTATION-AUDIT.md) | Record audit limits | Current contract corrections; runtime evidence remains pending |
+| [docs/11-roadmap/RED-TEAM-RESOLUTION.md](../../docs/11-roadmap/RED-TEAM-RESOLUTION.md) | Provide reviewable A–G deliverables | Current delta, all material dispositions, priority boundaries, assumption pass and verification limits |
+| [docs/11-roadmap/ROADMAP.md](../../docs/11-roadmap/ROADMAP.md) | Align single queue | Execution-bound M0, performance-bound M3, exact-profile/project-only baseline |
+| [docs/README.md](../../docs/README.md) | Fix topic ownership | Separate lifecycle readiness from canonical approval/execution closure |
+| [specs/README.md](../../specs/README.md) | Remove contradictory blanket versions | Catalog 2.1 and per-record current-version map; offline schemas and historical read distinction |
+| [specs/adapters/manifest.schema.json](../../specs/adapters/manifest.schema.json) | Pin machine support evidence | Current 2.1 schema/qualification refs; preserve prior branches |
+| [specs/behavior/semantics.schema.json](../../specs/behavior/semantics.schema.json) | Represent actual interpreter inputs | row namespace, optional write bind and positive asynchronous quiescence |
+| [specs/behavior/workflow.schema.json](../../specs/behavior/workflow.schema.json) | Close async boundary loophole | Positive quiescence for current sink-ack completion |
+| [specs/cli/commands/plan.input.schema.json](../../specs/cli/commands/plan.input.schema.json) | Expose policy selection in CLI | Typed performance_policy_ref; domain guards distinguish syntax from current planning authority |
+| [specs/examples/approval-hash-vectors.json](../../specs/examples/approval-hash-vectors.json) | Demonstrate new pins without breaking history | One additional core/policy-bound vector; previous nine unchanged |
+| [specs/examples/validation-cases.json](../../specs/examples/validation-cases.json) | Test current shape rejection | 44 additional synthetic positive/negative cases; no runtime results claimed |
+| [specs/ir/data-model.schema.json](../../specs/ir/data-model.schema.json) | Qualify table/type identity | Current 2.0 model, typed destination relationships/value mappings and honest unknown types |
+| [specs/mcp/tools/migration.plan.input.schema.json](../../specs/mcp/tools/migration.plan.input.schema.json) | Keep MCP planning parity | Same immutable policy ref without approval/threshold bypass |
+| [specs/observation/attestation.schema.json](../../specs/observation/attestation.schema.json) | Distinguish missing capture from closure | Current 2.1 UNAVAILABLE/PARTIAL/COMPLETE/NOT_APPLICABLE shape constraints |
+| [specs/project/validity-graph.schema.json](../../specs/project/validity-graph.schema.json) | Type reverse invalidation inputs | Implementation qualification, execution result and performance result edge kinds |
+| [specs/verification/benchmark.schema.json](../../specs/verification/benchmark.schema.json) | Bind actual benchmark acceptance | Current 2.1 performance_policy_ref/native units/claim consistency; historical branches retained |
+
+### B. Necessary new files
+
+| File | Need / owning contract |
+| --- | --- |
+| [specs/project/execution-manifest.schema.json](../../specs/project/execution-manifest.schema.json) | Core/build/dependency/schema/canonicalizer byte identity was not representable as an adapter version; CONFIRMATION-PROTOCOL owns it |
+| [specs/adapters/qualification.schema.json](../../specs/adapters/qualification.schema.json) | Exact implementation/schema/profile/control/result support must be a typed record rather than advertised open metadata; SERVICE-CONTRACTS owns it |
+| [specs/verification/performance-policy.schema.json](../../specs/verification/performance-policy.schema.json) | Claim/method/workload/metric limits and explicit not-applicability must be immutable reviewed decisions; PERFORMANCE owns it |
+
+No new ADR, Go file, executable tool, Skill or SQL migration was created. Existing artifact/reference storage represents these records; migrations 0001/0002 remain byte-identical.
+
+### C. Red-team disposition and impact map
+
+The original CR-01–CR-07, F01–F51 and D01–D18 dispositions above remain the full review matrix, with the clarified global-contract deferrals below. No finding is silently dropped. Current re-audit findings trace the remaining concrete mismatches to those original IDs:
+
+| Finding | Decision | Owning document | Resolution | Status |
+| --- | --- | --- | --- | --- |
+| R2-01 (CR-04, F06, F12, D05) | Accept concrete contract defect | [docs/03-analysis/RUNTIME-OBSERVATION.md](../../docs/03-analysis/RUNTIME-OBSERVATION.md) | Versioned current attestation distinguishes missing evidence from closed coverage; current COMPLETE conditions and independent derivation | RESOLVED |
+| R2-02 (F16, D03, D12) | Accept concrete contract defect | [docs/05-verification/DATABASE-COMPARISON.md](../../docs/05-verification/DATABASE-COMPARISON.md) | Current v2 qualified model and typed cross-connection relationships; legacy descriptive shape retained | RESOLVED |
+| R2-03 (CR-03, F09, D03, D04) | Accept concrete contract defect | [docs/02-domain/BEHAVIOR-MODEL.md](../../docs/02-domain/BEHAVIOR-MODEL.md) | Bounded operator/context/action semantics, optional additive row/bind fields with capability guards and unsupported failure paths | RESOLVED |
+| R2-04 (F29, F47, D12) | Narrow current support; defer broader machine capability | [docs/01-architecture/SERVICE-CONTRACTS.md](../../docs/01-architecture/SERVICE-CONTRACTS.md) | Initial support established only by exact-profile qualification controls/typed ports; generic constraint profile language deferred before M8 | DEFERRED |
+| R2-05 (F49, D15) | Accept concrete contract defect | [docs/05-verification/PERFORMANCE.md](../../docs/05-verification/PERFORMANCE.md) | Immutable typed performance policy in PLAN decision closure; v2.1 benchmark subject; precise paired estimand and outcomes | RESOLVED |
+| R2-06 (D01, D05) | Accept concrete contract defect | [docs/06-agent/ERROR-CATALOG.md](../../docs/06-agent/ERROR-CATALOG.md) | One canonical domain code across all interfaces and owners | RESOLVED |
+| R2-07 (F45, F46, D16) | Narrow current support; defer broader machine capability | [docs/07-learning/KNOWLEDGE-MODEL.md](../../docs/07-learning/KNOWLEDGE-MODEL.md) | M7 owns typed global schema/migrations before any promotion API; project-only baseline remains | DEFERRED |
+| R2-08 (F27, D07) | Accept concrete contract defect | [docs/06-agent/MCP-SPEC.md](../../docs/06-agent/MCP-SPEC.md) | Deterministic self-contained local schema bundles and recursive refs; integration tests remain pending | RESOLVED |
+| R2-09 (CR-01, F28, D01, D09) | Accept concrete contract defect | [docs/02-domain/CONFIRMATION-PROTOCOL.md](../../docs/02-domain/CONFIRMATION-PROTOCOL.md) | Exact core RUNNER binding plus trusted qualification and typed reverse invalidation; missing bytes block current execution, historical hashes unchanged | RESOLVED |
+| Existing bounded claims/intent-resolution/scoped acceptance/snapshot/side-effect/assessment mechanisms | Retain already revised owner contract | PRODUCT, PROJECT-LIFECYCLE, MIGRATION-UNITS, ANALYSIS-SPEC, SANDBOX | No competing pipeline, extra successful verdict or duplicate specification; original experiments remain required | ALREADY COVERED |
+| Historical-state reconstruction and hostile same-account prevention as baseline promises | Retain rejection with precise boundary | EXECUTION-OBSERVABILITY, SECURITY | Current state plus event window; mediated safety and trusted local account; expanded profiles remain deferred | REJECTED |
+
+| Finding | Severity / resolution gate | Machine owners | Related decision owners | Actual conflict before revision |
+| --- | --- | --- | --- | --- |
+| R2-01 | P0 before capture acceptance | specs/observation/attestation.schema.json | ADR 0005; related owners referenced by the canonical document | UNAVAILABLE requires supported paths/instrumentation/control/closure evidence; COMPLETE accepts PARTIAL mechanisms structurally |
+| R2-02 | P1 before DB extraction | specs/ir/data-model.schema.json | ADR 0005; related owners referenced by the canonical document | Unqualified data model cannot distinguish duplicate table names while owner requires qualified identity |
+| R2-03 | P1 before M1 | specs/behavior/semantics.schema.json | ADR 0003; related owners referenced by the canonical document | No row context or write output binding; truth evaluation/termination/rollback/decimal/pointer behavior insufficiently deterministic |
+| R2-04 | P1 reference / P2 broader profiles | specs/adapters/manifest.schema.json | ADR 0009; related owners referenced by the canonical document | Open advertised supported_profiles could be treated as compatibility authority |
+| R2-05 | P1 before benchmark acceptance | specs/verification/benchmark.schema.json; specs/verification/performance-policy.schema.json | ADR 0015; related owners referenced by the canonical document | Chosen policy/claim/method not explicitly bound via Gate2; estimand/outcome mapping and required measurement completeness ambiguous |
+| R2-06 | P1 protocol parity | Interface/domain owner only | ADR 0011; related owners referenced by the canonical document | ERR_CAPABILITY_UNSUPPORTED versus ERR_UNSUPPORTED_CAPABILITY competing canonical names |
+| R2-07 | P2 before M7 | Interface/domain owner only | ADR 0014; related owners referenced by the canonical document | Old RWT-023 sequencing and undeveloped global record schema |
+| R2-08 | P1 before M5 interfaces | Interface/domain owner only | ADR 0008; related owners referenced by the canonical document | Logical remote schema refs must not imply client network/schema hosting dependency |
+| R2-09 | P1 before M0 approval execution | specs/project/execution-manifest.schema.json; specs/adapters/qualification.schema.json; specs/project/validity-graph.schema.json | ADR 0010; related owners referenced by the canonical document | Adapter pins alone do not freeze core evaluator/build/schema bytes; no current typed exact-profile qualification or performance/execution validity edges |
+
+R2-04 resolves baseline admission by exact qualified profiles; only generic executable constraints remain DEFERRED before M8. R2-07 resolves incorrect sequencing language; typed global records/migrations remain DEFERRED before optional M7. Core promotion/acceptance cannot use either deferred capability. Every RESOLVED status denotes specification resolution, not executed behavior.
+
+### D. Remaining architecture blockers
+
+- **P0:** No unresolved canonical design decision identified that prevents the bounded M0 foundation from starting. Hash/snapshot/driver/filesystem/privacy controls must execute before their dependent claims; an existing schema-only PASS is not admission evidence.
+- **P1 (before reference/runtime claims):** Actual core/adapter qualification, independent stateful mutant rejection, mechanism/control closure, runtime/image/extension acquisition, reset, target/dependency feasibility and session/rollback continuity remain UNKNOWN until M0–M6 experiments. Signing/security custody remains required before release publication. These are missing evidence, not permission to guess support.
+- **P2 (explicit capability prerequisites):** Typed global learning/promotion/retraction machine records and migrations before M7; generic executable profile constraints and wider neutral facets/protocols before M8; general distributed schedules/streams, hostile-agent OS isolation, disjoint parallel mutation and active-history compaction remain outside the initial capability boundary.
+- **P3:** Desktop, vector search and convenience configuration rendering remain optional later work.
+
+Missing runtime evidence is recorded as ASSUMPTION/UNKNOWN with its acquisition experiment and blocking claim. The documentation pass does not discharge it.
+
+### E. Revised implementation order
+
+1. M0: coherent snapshot, pinned build/schema/storage closure, durable human subjects and useful assessment projection without implementation authority.
+2. M1: bounded two-actor stateful reconstruction, typed row/write binding, independent environments, scoped acceptance, wrong-target mutants, capture incompleteness and interruption without an LLM.
+3. M2: characterize licensed CI3/PHP7.4/MySQL/Redis reference safely; preserve dynamic/cron/vendor/native gaps.
+4. M3: explicit selected-work continuation; exact target, immutable dependency/performance decisions, lowering ownership model and Gate 2.
+5. M4: generated reference slices, session/identity/effect fidelity and implemented regressions.
+6. M5: bounded repair and complete CLI/offline-schema stdio interfaces; actual client switch/resume tests.
+7. M6: full PROJECT corpus, recomputed approved performance claim, write-aware rollback and exact Gate 3 package.
+8. Optional M7: global typed-contract prerequisites, independent holdouts/quality/retraction before promotion.
+9. M8: broader profile/neutral facets/adapters; optional UI/scale only after their capability experiments.
+
+[DEVELOPMENT-PLAN](DEVELOPMENT-PLAN.md) retains all eleven required fields for every milestone and owns the queue. Assessment has no second engine, queue or implementation authorization.
+
+### F. Acceptance experiments and Assumption Elimination Pass
+
+[TESTING](../10-development/TESTING.md) owns X01–X60. Existing X01–X55 and all seventeen M1 premise checks remain required. New obligations:
+
+| Undefined/unverified claim | Deterministic requirement / detection / decision | Falsification gate |
+| --- | --- | --- |
+| ASSUMPTION: a typed rule selects/mutates the correct row and binds its ID | Explicit row context, old-row simultaneous values, real write result, strict types/pointers/terminals and relation assertions | X03–X06/X56 before M1 |
+| ASSUMPTION: absent observer means no effects, or producer COMPLETE is true | Current 2.1 unavailable shape plus current trusted mechanism/control derivation | X08/X57 before capture acceptance; useful assessment may still complete |
+| ASSUMPTION: stable version/URI means identical execution/support | Exact core/build/schema/adapter bytes, typed qualification and reverse invalidation witnesses | X01/X58 before M0/M1 admission; old vectors remain reconstructable |
+| ASSUMPTION: no profile metadata constraints means any profile works | Admit only exact qualified profile; generic constraint language is explicit limitation | X58 baseline; M8 prerequisite for widening |
+| ASSUMPTION: benchmark verdict/method is reproducible and approved | Immutable policy in PLAN; paired ratio-of-means/mean-of-trial-quantiles, deterministic bootstrap and complete samples/errors | X33/X59 before accepted performance/Gate 3 |
+| ASSUMPTION: a client can resolve schema URLs offline | Self-contained recursive local bundles with preserved constraints, no network fallback | X31/X60 before M5 client claim |
+| ASSUMPTION: three successful projects can promote global truth | Typed revisions/consumers/holdouts/mutants/privacy/retraction required before activation | X37–X39 and M7 contracts; explicitly deferred |
+
+New/modified structural examples are illustrative exact strings/refs and rejection cases, not acquired legacy/runtime/control evidence. Qualification status is derived from trusted actual results; an imported agent assertion cannot establish support.
+
+### G. Contradiction scan and verification
+
+Reviewed canonical owners and searched the repository for equivalence/proof/completeness/maturity, approvals/hashes/resolution, corpus/UNKNOWN/DEAD, observation, background/disconnect, history/watermark, rollback/performance, vendor-neutral/SQLite/learning/skill/adapter/transport. Corrected the competing capability-error spelling, blanket registry version, old fixture/test range and obsolete global-task sequencing. Historical review/audit wording is not normative.
+
+Current answers align across AGENTS, PRODUCT, SYSTEM-DESIGN, domain owners, schemas, ADRs and roadmap: bounded claims; current executable branch versus historical reader; qualified core/schema/profile bytes; independent capture and replay; UNIT/regression/PROJECT scopes; immutable decisions versus progress; protected retention; current N/event-window M; shared assessment checkpoint with explicit continuation and separate approval. No unresolved normative contradiction was identified. Intentional M7/M8 deferrals are named prerequisites/refusal boundaries, not competing specifications.
+
+Structural validation: `python3 tools/docs/validate.py` verifies 133 schemas, 222 positive/negative fixtures, 71 CLI/MCP entries, 608 local links, 40 tables across unchanged migrations and ten approval vectors. `git diff --check` checks whitespace. All fifteen ADRs have the nine required sections; all nine milestones have eleven required fields. Original nine approval vectors, the input review and both migrations were independently compared byte/value-wise with the pre-revision repository and preserved.
+
+**No Go/race/framework/runtime/client/security/performance experiment was executed or passed in this task.** Foundation implementation may begin under the narrow current contracts; broader claims remain blocked by their named evidence. Do not begin implementation as part of this revision.

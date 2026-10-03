@@ -1,97 +1,345 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/ir/data-model.schema.json",
-  "title": "data-model.schema",
-  "type": "object",
-  "properties": {
-    "model_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "table": {
-      "type": "string",
-      "minLength": 1
-    },
-    "columns": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "minLength": 1
-          },
-          "type": {
-            "type": "string",
-            "minLength": 1
-          },
-          "nullable": {
-            "type": "boolean"
-          },
-          "precision": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "scale": {
-            "type": "integer",
-            "minimum": 0
-          }
+  "description": "Unversioned models are historical/descriptive. Current DB extraction/lowering requires qualified v2 records; namespace/relationship validity is engine-checked.",
+  "oneOf": [
+    {
+      "title": "data-model.schema",
+      "type": "object",
+      "properties": {
+        "model_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
         },
-        "required": [
-          "name",
-          "type",
-          "nullable"
-        ],
-        "additionalProperties": false
-      }
-    },
-    "primary_key": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      }
-    },
-    "unique_keys": {
-      "type": "array",
-      "items": {
-        "type": "array",
-        "items": {
+        "table": {
           "type": "string",
           "minLength": 1
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "precision": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "scale": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "name",
+              "type",
+              "nullable"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "primary_key": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unique_keys": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "collation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          }
         }
-      }
+      },
+      "required": [
+        "model_id",
+        "table",
+        "columns",
+        "primary_key",
+        "unique_keys",
+        "relationships",
+        "evidence_ids"
+      ],
+      "additionalProperties": false
     },
-    "relationships": {
-      "type": "array",
-      "items": {
-        "type": "object"
-      }
-    },
-    "collation": {
-      "type": "string",
-      "minLength": 1
-    },
-    "timezone": {
-      "type": "string",
-      "minLength": 1
-    },
-    "evidence_ids": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^[a-z0-9_-]+$"
-      }
+    {
+      "title": "data-model.schema",
+      "type": "object",
+      "properties": {
+        "model_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "table": {
+          "type": "string",
+          "minLength": 1
+        },
+        "columns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "minLength": 1
+              },
+              "type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "nullable": {
+                "type": "boolean"
+              },
+              "precision": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "scale": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "value_type": {
+                "enum": [
+                  "string",
+                  "boolean",
+                  "integer",
+                  "decimal",
+                  "timestamp",
+                  "bytes",
+                  "object",
+                  "array",
+                  "UNKNOWN"
+                ]
+              },
+              "type_mapping_ref": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "name",
+              "type",
+              "nullable",
+              "value_type",
+              "type_mapping_ref"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "value_type": {
+                      "const": "UNKNOWN"
+                    }
+                  },
+                  "required": [
+                    "value_type"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "type_mapping_ref": {
+                      "type": "null"
+                    }
+                  }
+                },
+                "else": {
+                  "properties": {
+                    "type_mapping_ref": {
+                      "type": "string",
+                      "pattern": "^sha256:[a-f0-9]{64}$"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "primary_key": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "unique_keys": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "relationships": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": [
+                  "FOREIGN_KEY",
+                  "OBSERVED_LOGICAL",
+                  "INFERRED_LOGICAL"
+                ]
+              },
+              "from_columns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "to_connection_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "to_catalog": {
+                "type": "string",
+                "minLength": 1
+              },
+              "to_schema": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "minLength": 1
+              },
+              "to_table": {
+                "type": "string",
+                "minLength": 1
+              },
+              "to_columns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false,
+            "required": [
+              "kind",
+              "from_columns",
+              "to_connection_id",
+              "to_catalog",
+              "to_schema",
+              "to_table",
+              "to_columns",
+              "evidence_refs"
+            ]
+          }
+        },
+        "collation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "timezone": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          }
+        },
+        "schema_version": {
+          "const": "2.0"
+        },
+        "connection_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "catalog": {
+          "type": "string",
+          "minLength": 1
+        },
+        "schema": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "server_behavior_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "model_id",
+        "table",
+        "columns",
+        "primary_key",
+        "unique_keys",
+        "relationships",
+        "evidence_ids",
+        "schema_version",
+        "connection_id",
+        "catalog",
+        "schema",
+        "server_behavior_ref"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "model_id",
-    "table",
-    "columns",
-    "primary_key",
-    "unique_keys",
-    "relationships",
-    "evidence_ids"
-  ],
-  "additionalProperties": false
+  ]
 }

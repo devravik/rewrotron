@@ -1,179 +1,546 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/observation/attestation.schema.json",
-  "type": "object",
-  "properties": {
-    "schema_version": {
-      "const": "2.0"
-    },
-    "attestation_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "project_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "profile_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "mechanisms": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "mechanism_id": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "dimension": {
-            "enum": [
-              "HTTP",
-              "DB",
-              "FILES",
-              "CACHE",
-              "QUEUE",
-              "SESSION",
-              "EXTERNAL",
-              "WORKER",
-              "CRON",
-              "CLI",
-              "GENERATED_CODE",
-              "NATIVE_EXTENSION"
-            ]
-          },
-          "boundary_ref": {
-            "type": "string",
-            "pattern": "^sha256:[a-f0-9]{64}$"
-          },
-          "instrumentation_ref": {
-            "type": "string",
-            "pattern": "^sha256:[a-f0-9]{64}$"
-          },
-          "supported_paths": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "minLength": 1
-            },
-            "minItems": 1,
-            "uniqueItems": true
-          },
-          "excluded_paths": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "minLength": 1
-            },
-            "minItems": 0,
-            "uniqueItems": true
-          },
-          "escape_paths": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "minLength": 1
-            },
-            "minItems": 0,
-            "uniqueItems": true
-          },
-          "control_test_refs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "pattern": "^sha256:[a-f0-9]{64}$"
-            },
-            "minItems": 1,
-            "uniqueItems": true
-          },
-          "closure_test_refs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "pattern": "^sha256:[a-f0-9]{64}$"
-            },
-            "minItems": 1,
-            "uniqueItems": true
-          },
-          "failure_refs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "pattern": "^sha256:[a-f0-9]{64}$"
-            },
-            "minItems": 0,
-            "uniqueItems": true
-          },
-          "residual_limitations": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "minLength": 1
-            },
-            "minItems": 0,
-            "uniqueItems": true
-          },
-          "coverage": {
-            "enum": [
-              "CLOSED",
-              "PARTIAL",
-              "UNAVAILABLE"
-            ]
-          }
+  "description": "2.0 is historical-readable; current derivation requires 2.1 and independent engine validation. UNAVAILABLE permits absent probe/control evidence without manufacturing it.",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.0"
         },
-        "required": [
-          "mechanism_id",
-          "dimension",
-          "boundary_ref",
-          "instrumentation_ref",
-          "supported_paths",
-          "excluded_paths",
-          "escape_paths",
-          "control_test_refs",
-          "closure_test_refs",
-          "failure_refs",
-          "residual_limitations",
-          "coverage"
-        ],
-        "additionalProperties": false
-      },
-      "minItems": 1,
-      "uniqueItems": true
-    },
-    "derived_status": {
-      "enum": [
-        "COMPLETE",
-        "PARTIAL",
-        "UNAVAILABLE",
-        "NOT_APPLICABLE"
-      ]
-    },
-    "derivation_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "not_applicable_contract_ref": {
-      "oneOf": [
-        {
+        "attestation_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "profile_ref": {
           "type": "string",
           "pattern": "^sha256:[a-f0-9]{64}$"
         },
+        "mechanisms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "mechanism_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "dimension": {
+                "enum": [
+                  "HTTP",
+                  "DB",
+                  "FILES",
+                  "CACHE",
+                  "QUEUE",
+                  "SESSION",
+                  "EXTERNAL",
+                  "WORKER",
+                  "CRON",
+                  "CLI",
+                  "GENERATED_CODE",
+                  "NATIVE_EXTENSION"
+                ]
+              },
+              "boundary_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "instrumentation_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "supported_paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "excluded_paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "escape_paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "control_test_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "closure_test_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "failure_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "residual_limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "coverage": {
+                "enum": [
+                  "CLOSED",
+                  "PARTIAL",
+                  "UNAVAILABLE"
+                ]
+              }
+            },
+            "required": [
+              "mechanism_id",
+              "dimension",
+              "boundary_ref",
+              "instrumentation_ref",
+              "supported_paths",
+              "excluded_paths",
+              "escape_paths",
+              "control_test_refs",
+              "closure_test_refs",
+              "failure_refs",
+              "residual_limitations",
+              "coverage"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "derived_status": {
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "derivation_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "not_applicable_contract_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "attestation_id",
+        "project_id",
+        "profile_ref",
+        "mechanisms",
+        "derived_status",
+        "derivation_ref",
+        "not_applicable_contract_ref"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.1"
+        },
+        "attestation_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "profile_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "mechanisms": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "mechanism_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "dimension": {
+                "enum": [
+                  "HTTP",
+                  "DB",
+                  "FILES",
+                  "CACHE",
+                  "QUEUE",
+                  "SESSION",
+                  "EXTERNAL",
+                  "WORKER",
+                  "CRON",
+                  "CLI",
+                  "GENERATED_CODE",
+                  "NATIVE_EXTENSION"
+                ]
+              },
+              "boundary_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "instrumentation_ref": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "supported_paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "excluded_paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "escape_paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "control_test_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "closure_test_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "failure_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "residual_limitations": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "coverage": {
+                "enum": [
+                  "CLOSED",
+                  "PARTIAL",
+                  "UNAVAILABLE"
+                ]
+              }
+            },
+            "required": [
+              "mechanism_id",
+              "dimension",
+              "boundary_ref",
+              "instrumentation_ref",
+              "supported_paths",
+              "excluded_paths",
+              "escape_paths",
+              "control_test_refs",
+              "closure_test_refs",
+              "failure_refs",
+              "residual_limitations",
+              "coverage"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "coverage": {
+                      "const": "CLOSED"
+                    }
+                  },
+                  "required": [
+                    "coverage"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "instrumentation_ref": {
+                      "type": "string",
+                      "pattern": "^sha256:[a-f0-9]{64}$"
+                    },
+                    "supported_paths": {
+                      "minItems": 1
+                    },
+                    "control_test_refs": {
+                      "minItems": 1
+                    },
+                    "closure_test_refs": {
+                      "minItems": 1
+                    },
+                    "failure_refs": {
+                      "maxItems": 0
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "coverage": {
+                      "enum": [
+                        "UNAVAILABLE",
+                        "PARTIAL"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "coverage"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "residual_limitations": {
+                      "minItems": 1
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "derived_status": {
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "derivation_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "not_applicable_contract_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "attestation_id",
+        "project_id",
+        "profile_ref",
+        "mechanisms",
+        "derived_status",
+        "derivation_ref",
+        "not_applicable_contract_ref"
+      ],
+      "additionalProperties": false,
+      "allOf": [
         {
-          "type": "null"
+          "if": {
+            "properties": {
+              "derived_status": {
+                "const": "NOT_APPLICABLE"
+              }
+            },
+            "required": [
+              "derived_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "mechanisms": {
+                "maxItems": 0
+              },
+              "not_applicable_contract_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "mechanisms": {
+                "minItems": 1
+              },
+              "not_applicable_contract_ref": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "derived_status": {
+                "const": "COMPLETE"
+              }
+            },
+            "required": [
+              "derived_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "mechanisms": {
+                "items": {
+                  "properties": {
+                    "coverage": {
+                      "const": "CLOSED"
+                    }
+                  },
+                  "required": [
+                    "coverage"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "derived_status": {
+                "const": "UNAVAILABLE"
+              }
+            },
+            "required": [
+              "derived_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "mechanisms": {
+                "items": {
+                  "properties": {
+                    "coverage": {
+                      "const": "UNAVAILABLE"
+                    }
+                  },
+                  "required": [
+                    "coverage"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "derived_status": {
+                "const": "PARTIAL"
+              }
+            },
+            "required": [
+              "derived_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "mechanisms": {
+                "contains": {
+                  "properties": {
+                    "coverage": {
+                      "enum": [
+                        "PARTIAL",
+                        "UNAVAILABLE"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "coverage"
+                  ]
+                }
+              }
+            }
+          }
         }
       ]
     }
-  },
-  "required": [
-    "schema_version",
-    "attestation_id",
-    "project_id",
-    "profile_ref",
-    "mechanisms",
-    "derived_status",
-    "derivation_ref",
-    "not_applicable_contract_ref"
-  ],
-  "additionalProperties": false
+  ]
 }

@@ -6,7 +6,7 @@ A reusable pattern additionally records pattern ID/version, supported capability
 
 Framework examples must be evidence-based. CI3 session formats depend on the configured driver; do not assume encrypted session cookies or a particular legacy cipher. Session bridges must satisfy [AUTH-AND-SESSION](../04-migration/AUTH-AND-SESSION.md).
 
-Project lessons are local-first and can exist without global storage. Global pattern schema/migration is developed in RWT-023 with privacy and regression fixtures before promotion is exposed. Pending global functionality cannot block a baseline migration.
+Project lessons are local-first and can exist without global storage. M7 must specify typed global pattern/revision, applicability, evaluation, consumer, retraction and promotion/outbox records and incremental migrations with privacy/independence/regression fixtures before any global promotion or activation is exposed. Those global machine contracts are explicitly DEFERRED; existing project-lesson services do not implement them. Historical RWT aliases are not a separate implementation queue. Pending global functionality cannot block a baseline migration.
 
 ## Dependency resolution experience
 

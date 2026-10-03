@@ -8,32 +8,32 @@ Implicit hash construction/registry lookups and incoherent scans break approval 
 
 ## Problem
 
-Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
+Pinning adapters without core interpreter/schema bytes lets the same approved rule execute with different semantics after upgrade. A mutable performance choice or assessment report can also be mistaken for implementation authority.
 
 ## Decision
 
-Versioned canonical SOURCE/PLAN/RELEASE subjects bind sealed snapshot/exact resolution/adapter content/choices; reconstruct original bytes; explicit human receipts/token consumption.
+Keep canonical SOURCE/PLAN/RELEASE subjects and exact local human gates. SOURCE and PLAN bind the core execution manifest via the existing RUNNER role. PLAN binds immutable assessment selection/basis and performance policy through decision_refs. Reconstruct retained bytes, independently check current execution prerequisites, and require successor approval for changed choices.
 
 ## Alternatives considered
 
-Registry-derived hash; mutable YAML approval; retained versioned canonical subject.
+Registry-derived hash; mutable YAML approval; retained versioned canonical subject. Version-label-only engine pins versus exact executable/build/schema closure.
 
 ## Why rejected
 
-Registry changes make old preimages irreconstructable and edited YAML cannot establish human intent.
+Registry changes make old preimages irreconstructable and edited YAML cannot establish human intent. Version labels alone cannot distinguish changed interpreter/schema bytes, so they cannot preserve the semantics of an old approval.
 
 ## Consequences
 
-More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
+Implementation has an explicit narrow admission boundary and additional falsification evidence obligations. Missing qualification or required capture blocks the affected claim; historical bytes stay retained. Documentation validation does not establish runtime maturity.
 
 ## Machine-contract impact
 
-Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+Execution-manifest 1.0 pins engine/build/dependency/schema/canonicalization/qualification bytes. Approval-subject 2.0 preimage remains unchanged; semantic checks require exact core binding and typed policy/assessment refs. Plan envelope 2.1 retains checkpoint references. New vector exercises existing binding fields; previous nine vectors remain unchanged.
 
 ## Migration/compatibility implications
 
-Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+Historical subjects remain reconstructable under retained schema/canonicalizer bytes; missing old executable blocks execution, not history. Never fetch/run an imported historical binary automatically or manufacture new receipts. Migrations 0001/0002 are untouched.
 
 ## Acceptance experiment / falsification test
 
-X01/X02/X16. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.
+X01/X02/X16/X55/X58/X59: reconstruct after restart/registry upgrade; replace core/schema bytes with the same version names; change performance policy or substitute assessment hash for plan token. Changed execution must block or require the applicable successor gate; original approved hash stays identical.

@@ -42,7 +42,10 @@
               "INPUT_ASSESSMENT_FINDING",
               "FINDING_ASSESSMENT_REPORT",
               "ASSESSMENT_SELECTION",
-              "SELECTION_PLAN"
+              "SELECTION_PLAN",
+              "IMPLEMENTATION_QUALIFICATION",
+              "EXECUTION_RESULT",
+              "PERFORMANCE_RESULT"
             ]
           },
           "predicate": {

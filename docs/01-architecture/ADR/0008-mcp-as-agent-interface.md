@@ -8,32 +8,32 @@ Transport existence does not prove client compatibility or worker survival.
 
 ## Problem
 
-Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
+Logical schema URLs cannot imply an online schema service or assume every client dereferences external recursive refs. Stdio disconnect also cannot decide whether durable work survives.
 
 ## Decision
 
-MCP2025-11-25 stdio; Streamable HTTP deferred, legacy SSE not baseline. Long actions use supervisor; clients unverified until actual sessions.
+Keep pinned MCP2025-11-25 stdio and explicit engine supervision for long work. Advertise deterministic self-contained schema bundles from the pinned local registry, preserving recursive local refs. CLI remains the complete guarded fallback; named clients remain UNVERIFIED until actual integration sessions.
 
 ## Alternatives considered
 
-Legacy SSE; immediate remote Streamable HTTP; pinned stdio with explicit supervision.
+Remote schema fetch; naive recursive inlining; offline local bundles. Foreground client-owned long tasks versus explicit supervisor.
 
 ## Why rejected
 
-Remote transport requires additional authentication/origin/egress design; legacy SSE is not the pinned baseline.
+Remote fetch violates offline installation and cannot bind schema bytes; recursive inlining does not terminate for rule expressions. Client-owned tasks lose process ownership on disconnect. Remote transports add authentication/origin work and stay deferred.
 
 ## Consequences
 
-More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
+Implementation has an explicit narrow admission boundary and additional falsification evidence obligations. Missing qualification or required capture blocks the affected claim; historical bytes stay retained. Documentation validation does not establish runtime maturity.
 
 ## Machine-contract impact
 
-Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+MCP-SPEC owns logical-ref resolution, deterministic $defs naming/rewrites, supported ref subset and message limits. Catalog schema IDs stay stable; advertised schema bytes are locally bundled. Domain failures consistently use ERR_UNSUPPORTED_CAPABILITY. No new business tool/server implementation is added.
 
 ## Migration/compatibility implications
 
-Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+Transport revision and CLI envelope are unchanged. Bundle incompatibility blocks advertisement rather than broadening a schema. Existing artifacts remain inspectable; client certification requires actual sessions after M5.
 
 ## Acceptance experiment / falsification test
 
-X26/X31. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.
+X26/X31/X60: terminate the client while supervisor owns work, then reconnect from another client. With networking disabled validate recursive input/output schemas and the same negative mutants; absent registry refs, unsupported anchors and oversized bundles refuse advertisement.

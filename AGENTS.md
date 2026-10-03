@@ -26,7 +26,7 @@ All long operations expose committed stage/task/reason/outcome/blockers/next act
 
 SQLite plus local artifacts is authoritative; cloud/vector services are optional. Large evidence is stored outside SQLite. Approval/release evidence cannot be silently collected. [Storage](docs/08-storage/SQLITE-SCHEMA.md) owns driver/version/filesystem policy. Verification uses independent environments and proven reset profiles. Irreversible external effects are never blindly replayed. [Security](docs/09-security/SECURITY.md) distinguishes mediated enforcement from same-account trust; it does not promise hostile-agent OS isolation.
 
-Learning is evidence-based, scoped, versioned, retractable and advisory. Pin all consumed tool/skill/knowledge revisions. Global knowledge cannot approve targets or establish compatibility. [Learning](docs/07-learning/LEARNING-SYSTEM.md) owns promotion.
+Learning is evidence-based, scoped, versioned, retractable and advisory. Pin engine/build/schema bytes and all consumed tool/skill/knowledge revisions through the approval execution closure. Global knowledge cannot approve targets or establish compatibility. [Learning](docs/07-learning/LEARNING-SYSTEM.md) owns promotion.
 
 ## Status and development rules
 

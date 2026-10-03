@@ -161,7 +161,8 @@
                 "state",
                 "result",
                 "clock",
-                "binding"
+                "binding",
+                "row"
               ]
             },
             "pointer": {
@@ -494,6 +495,10 @@
                   "type": "null"
                 }
               ]
+            },
+            "bind": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
             }
           },
           "required": [
@@ -622,7 +627,28 @@
         "quiescence_ms",
         "predicate"
       ],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "SINK_ACK_QUIESCENCE"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "quiescence_ms": {
+                "minimum": 1
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "type": "object",
@@ -716,7 +742,28 @@
         "quiescence_ms",
         "predicate"
       ],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "SINK_ACK_QUIESCENCE"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "quiescence_ms": {
+                "minimum": 1
+              }
+            }
+          }
+        }
+      ]
     }
   },
   "required": [
@@ -726,5 +773,6 @@
     "branches",
     "completion"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "description": "Closed bounded executable vocabulary. Additive row/write-bind support requires explicit pinned evaluator and adapter capability qualification; old artifacts are unchanged, never retroactively reinterpreted."
 }

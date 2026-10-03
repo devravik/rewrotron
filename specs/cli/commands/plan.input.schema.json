@@ -18,9 +18,13 @@
     "selection_ref": {
       "type": "string",
       "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "performance_policy_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
     }
   },
   "required": [],
   "additionalProperties": false,
-  "description": "Requires supplied or current explicit human CONTINUE_PLANNING selection. Absent valid selection is a domain error; target/style assertions cannot replace it."
+  "description": "Requires supplied or current explicit human CONTINUE_PLANNING selection. Absent valid selection is a domain error; target/style assertions cannot replace it. Current planning also requires a supplied or explicitly reused immutable performance policy, including evidenced not-applicable scope."
 }

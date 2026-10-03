@@ -314,7 +314,28 @@
                   "quiescence_ms",
                   "predicate"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "mode": {
+                          "const": "SINK_ACK_QUIESCENCE"
+                        }
+                      },
+                      "required": [
+                        "mode"
+                      ]
+                    },
+                    "then": {
+                      "properties": {
+                        "quiescence_ms": {
+                          "minimum": 1
+                        }
+                      }
+                    }
+                  }
+                ]
               }
             },
             "required": [

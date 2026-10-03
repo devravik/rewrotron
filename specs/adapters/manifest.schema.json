@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
-  "description": "maturity is distribution tier; validation_maturity requires separately identified evidence. v1 historical only.",
+  "description": "Unversioned/2.0 manifests are historical-readable. Current execution uses 2.1 with exact schema and qualification refs. Advertised supported_profiles are descriptive, never support authority; qualifications bind exact tested inputs.",
   "oneOf": [
     {
       "title": "manifest.schema",
@@ -223,6 +223,197 @@
                 ]
               },
               "evidence_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "title": "manifest.schema",
+      "type": "object",
+      "properties": {
+        "adapter_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direction": {
+          "type": "string",
+          "enum": [
+            "SOURCE",
+            "TARGET",
+            "PROBE",
+            "RUNNER",
+            "COMPARATOR"
+          ]
+        },
+        "implementation_status": {
+          "type": "string",
+          "enum": [
+            "IMPLEMENTED",
+            "PLANNED"
+          ]
+        },
+        "maturity": {
+          "type": "string",
+          "enum": [
+            "EXPERIMENTAL",
+            "BETA",
+            "STABLE"
+          ]
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "supported_profiles": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        },
+        "schema_version": {
+          "const": "2.1"
+        },
+        "validation_maturity": {
+          "enum": [
+            "DESIGNED",
+            "SPECIFIED",
+            "STRUCTURALLY_VALIDATED",
+            "IMPLEMENTED",
+            "UNIT_TESTED",
+            "RUNTIME_VALIDATED",
+            "INTEGRATION_VALIDATED",
+            "RELEASE_VALIDATED"
+          ]
+        },
+        "implementation_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "schema_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "qualification_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "adapter_id",
+        "version",
+        "direction",
+        "implementation_status",
+        "maturity",
+        "capabilities",
+        "supported_profiles",
+        "limitations",
+        "evidence_refs",
+        "schema_version",
+        "validation_maturity",
+        "implementation_ref",
+        "schema_refs",
+        "qualification_refs"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "implementation_status": {
+                "const": "PLANNED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "validation_maturity": {
+                "enum": [
+                  "DESIGNED",
+                  "SPECIFIED",
+                  "STRUCTURALLY_VALIDATED"
+                ]
+              },
+              "implementation_ref": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "implementation_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "validation_maturity": {
+                "enum": [
+                  "IMPLEMENTED",
+                  "UNIT_TESTED",
+                  "RUNTIME_VALIDATED",
+                  "INTEGRATION_VALIDATED",
+                  "RELEASE_VALIDATED"
+                ]
+              },
+              "evidence_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "implementation_status": {
+                "const": "IMPLEMENTED"
+              }
+            },
+            "required": [
+              "implementation_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "schema_refs": {
                 "minItems": 1
               }
             }

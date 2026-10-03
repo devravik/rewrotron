@@ -6,11 +6,11 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 ## M0 — Durable evidence and approval foundation
 
-**Objective:** Durable evidence and approval foundation.
+**Objective:** Persist a coherent source snapshot and exact approval closure, then reconstruct the same hash after restart and registry/schema changes; publish an assessment without implementation authority.
 
 **Prerequisites:** None.
 
-**Inputs:** Synthetic immutable source tree, schemas v2, local filesystem profile.
+**Inputs:** Synthetic immutable source tree, current versioned schemas and historical vectors, pinned local filesystem/build profile.
 
 **Outputs:** Guarded CLI JSON, sealed source artifacts, project DB with migrations 0001/0002, canonical subject service, persisted assessment projection/selection records.
 
@@ -18,7 +18,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Implementation scope:** Go bootstrap/ports; exact driver/toolchain manifest; artifact/privacy/admission; snapshot acquisition; explicit human receipts; current execution/event-window service; assessment report publication over available canonical records and trusted human selection (no second analyzer).
 
-**Tests:** X01 hash/restart/registry; X02 snapshot ABA/symlink; X25 ownership/leases; X28 storage/backup; X30 quota; X41/X43/X45/X46/X51/X53/X55 assessment stop/non-mutation/history/no authority.
+**Tests:** X01 hash/restart/registry; X02 snapshot ABA/symlink; X25 ownership/leases; X28 storage/backup; X30 quota; X57 unavailable attestation; X58 pinned execution closure; X41/X43/X45/X46/X51/X53/X55 assessment stop/non-mutation/history/no authority.
 
 **Acceptance criteria:** Reconstruct identical approved subjects from retained bytes after restart; reject stale/forged/missing approval and unsafe snapshot; preserve failure evidence; report completion is separate from migration feasibility and never creates Gate 2/implementation work.
 
@@ -30,7 +30,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 ## M1 — Falsifiable deterministic reconstruction experiment
 
-**Objective:** Falsifiable deterministic reconstruction experiment.
+**Objective:** Execute a two-actor stateful scenario against independent environments and reject missing-write, wrong-principal and duplicate-effect mutants while allowing useful assessment-only completion.
 
 **Prerequisites:** M0.
 
@@ -42,7 +42,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Implementation scope:** Small rule interpreter; minimal fixture source/target adapters; login→create operation with authorization failure; independent DBs and sink; foreground/supervisor ownership; current status; report partial state before planning and require explicit human continuation before fixture target planning.
 
-**Tests:** X03 unsupported operator; X04 branch/state; X05 missing DB write; X06 wrong principal; X07 duplicate effect; X08 incomplete capture; X26 disconnect; X27 event failure; X42/X44/X47/X52/X54 blocked-but-useful assessment, production safety, shared-record reuse and classification.
+**Tests:** X03 unsupported operator; X04 branch/state; X05 missing DB write; X06 wrong principal; X07 duplicate effect; X08 incomplete capture; X26 disconnect; X27 event failure; X56 row/binding/terminal semantics; X57 capture derivation; X58 capability qualification; X42/X44/X47/X52/X54 blocked-but-useful assessment, production safety, shared-record reuse and classification.
 
 **Acceptance criteria:** Good target passes UNIT+implemented regression; each wrong mutant fails for intended reason; login completes before create; incomplete capture yields UNKNOWN; interruption recovers without duplicate effects; repeat without LLM; the same fixture can stop successfully at assessment with blocked planning and later reuse valid shared findings after human continuation/Gate 2.
 
@@ -54,7 +54,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 ## M2 — Characterize real reference source safely
 
-**Objective:** Characterize real reference source safely.
+**Objective:** Boot the pinned legacy fixture in disposable infrastructure and obtain bounded, mechanism-qualified behavior evidence; report unavailable paths rather than declaring false completeness.
 
 **Prerequisites:** M1.
 
@@ -78,19 +78,19 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 ## M3 — Freeze feasible target decisions and implementation model
 
-**Objective:** Freeze feasible target decisions and implementation model.
+**Objective:** Derive an exact selected-work plan from current assessment evidence, immutable dependency/performance decisions and owned lowering model, then persist Gate 2 over its reproducible subject.
 
 **Prerequisites:** M2.
 
 **Inputs:** Persisted assessment, explicit human selected-work/CONTINUE_PLANNING record, current user target intent, source usage/capability graph, approved behavior candidates.
 
-**Outputs:** Exact resolved PHP/Laravel/service/build artifacts, immutable decisions/model/assessment planning basis/plan envelope 2.1, Gate 2 receipt.
+**Outputs:** Exact resolved PHP/Laravel/service/build artifacts, immutable dependency/performance decisions/model/assessment planning basis/plan envelope 2.1, Gate 2 receipt.
 
 **Owned specs:** TARGET-SPECIFICATION, DEPENDENCY-RESOLUTION, TARGET-ARCHITECTURE, CONFIRMATION-PROTOCOL.
 
 **Implementation scope:** Recursive used-capability feasibility, action-enum decision CLI/MCP-neutral service, target model ownership/lowering, typed invalidation/reuse; assessed-state delta and hashed selection/basis closure.
 
-**Tests:** X15 wildcards; X16 reject/alternative; X17 progress hash stability; X18 dependency graph; X29 selective target drift; X49/X50/X55 target/dependency assessment invalidation and assessment-token rejection.
+**Tests:** X15 wildcards; X16 reject/alternative; X17 progress hash stability; X18 dependency graph; X29 selective target drift; X58 profile qualification; X59 performance policy identity; X49/X50/X55 target/dependency assessment invalidation and assessment-token rejection.
 
 **Acceptance criteria:** User version retained or blocked; no unresolved in-scope target gaps; exact pinned adapter/model/decision refs reconstruct; changing progress leaves hash unchanged; assessment/continuation alone cannot generate implementation work; plan explains changed/reused findings and matches exact selected scope.
 
@@ -102,7 +102,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 ## M4 — Generate and accept reference vertical slices
 
-**Objective:** Generate and accept reference vertical slices.
+**Objective:** Build the reference target from approved mappings and complete prerequisite slices using UNIT plus implemented-regression acceptance without waiting for future dependent cases.
 
 **Prerequisites:** M3.
 
@@ -126,7 +126,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 ## M5 — Bounded repair and vendor-neutral client interfaces
 
-**Objective:** Bounded repair and vendor-neutral client interfaces.
+**Objective:** Repair identified mutants within incident budgets and resume one durable project through CLI and actually tested stdio clients without conversation history or approval bypass.
 
 **Prerequisites:** M4.
 
@@ -138,7 +138,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Implementation scope:** Incident budgets, reviewed patches, CLI/MCP adapters; optional orchestration using fixed capabilities, no provider core coupling.
 
-**Tests:** X24 stale/idempotent work; X26 disconnect; X31 numeric transport/client parity; X32 same-account trust; X46/X51/X52/X55 checkpoint/interface parity and no implicit implementation.
+**Tests:** X24 stale/idempotent work; X26 disconnect; X31 numeric transport/client parity; X60 offline schema bundles; X32 same-account trust; X46/X51/X52/X55 checkpoint/interface parity and no implicit implementation.
 
 **Acceptance criteria:** Client switch resumes same project without conversation; human decisions available via CLI; no approval bypass; supervisor survives client disconnect; at least two actual clients before integration claim; CLI-only assessment/selection/plan approval works, and MCP cannot turn a report or agent proposal into continuation/approval.
 
@@ -150,7 +150,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 ## M6 — Whole-project correctness and performance/release package
 
-**Objective:** Whole-project correctness and performance/release package.
+**Objective:** Accept the full current corpus, recompute the approved statistical claim and rehearse write-aware rollback before publishing the exact Gate 3 release package.
 
 **Prerequisites:** M5.
 
@@ -162,7 +162,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Implementation scope:** Full corpus replay, paired measurement/statistical decision, session/data rollback rehearsal, package/restore/native scope metadata.
 
-**Tests:** X33 noisy performance; X34 rollback after writes; X35 whole-project scope; X28 restore; X36 native distribution.
+**Tests:** X33 noisy performance; X59 recomputed approved estimands; X34 rollback after writes; X35 whole-project scope; X28 restore; X36 native distribution.
 
 **Acceptance criteria:** All required current cases/dimensions accepted; required metrics accepted under declared claim; rollback reconciles target writes or release blocks; Gate 3 exact subject.
 
@@ -174,7 +174,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 ## M7 — Evidence-quality learning and capability reuse
 
-**Objective:** Evidence-quality learning and capability reuse.
+**Objective:** Promote only independently evaluated sanitized revisions and locate/invalidate every consumer on retraction without changing historical approvals.
 
 **Prerequisites:** M6.
 
@@ -184,7 +184,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Owned specs:** LEARNING-SYSTEM, KNOWLEDGE-MODEL, SKILL-EVOLUTION, EXPERIMENT-LEDGER.
 
-**Implementation scope:** Optional global import/outbox, exact/full-text search, tool/skill candidate evaluation and controlled activation.
+**Implementation scope:** Typed global record/migration prerequisites followed by optional global import/outbox, exact/full-text search, tool/skill candidate evaluation and controlled activation.
 
 **Tests:** X37 correlated oracle; X38 degraded tool; X39 retraction/privacy.
 
@@ -198,7 +198,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 ## M8 — Broader adapters and optional scale/UI
 
-**Objective:** Broader adapters and optional scale/UI.
+**Objective:** Prove one additional source/target path preserves neutral semantics and uncertainty, then qualify any expanded protocol, platform or storage boundary with its own mutants.
 
 **Prerequisites:** M6; M7 only for learning-dependent capabilities.
 
@@ -208,7 +208,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Owned specs:** IR-CONTRACTS, adapter manifests, PRODUCT, SYSTEM-DESIGN.
 
-**Implementation scope:** One additional target then source; capability-gated streams/concurrency; measured archive/compaction/native profiles and desktop rendering later.
+**Implementation scope:** Specify and qualify a generic executable capability/profile constraint language before widening exact-profile admission; one additional target then source; capability-gated streams/concurrency; measured archive/compaction/native profiles and desktop rendering later.
 
 **Tests:** X40 Django→Go/Laravel→Rust/custom PHP→Python; X36 platform; X28 archival; ownership race extensions.
 

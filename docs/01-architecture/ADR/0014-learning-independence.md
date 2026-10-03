@@ -8,11 +8,11 @@ Repeated correlated oracles and degraded capture can promote false techniques.
 
 ## Problem
 
-Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
+Correlated fixtures can promote a wrong oracle; open global prose cannot establish a versioned/retractable machine lifecycle. Historical RWT sequencing obscures when those missing contracts must exist.
 
 ## Decision
 
-Independent holdouts/mutants/quality denominators, sanitized opt-in promotion, pinned consumers and transitive retraction; global knowledge advisory.
+Retain project-local evidence first, global advisory opt-in learning only after M7 independent holdouts/mutants/quality evidence. M7 must specify typed revision/applicability/evaluation/consumer/retraction/outbox records and migrations before exposing promotion. Nothing in learning establishes compatibility, changes a target or bypasses approval.
 
 ## Alternatives considered
 
@@ -24,16 +24,16 @@ Correlated oracles and degraded tools can inflate success; live revisions defeat
 
 ## Consequences
 
-More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
+Implementation has an explicit narrow admission boundary and additional falsification evidence obligations. Missing qualification or required capture blocks the affected claim; historical bytes stay retained. Documentation validation does not establish runtime maturity.
 
 ## Machine-contract impact
 
-Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+Existing project lessons and typed validity links remain baseline. Global machine contracts are explicitly DEFERRED before M7, not claimed to be represented by a generic artifact alone. Every consumer must pin revisions and be discoverable by reverse dependency lookup; disclosure/promotion requires privacy controls.
 
 ## Migration/compatibility implications
 
-Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+No global tables/API invented during this documentation pass; no baseline migration depends on them. Retracted revisions remain immutable history; current consumers become stale, not erased. Successor knowledge requires explicit applicability and new evidence.
 
 ## Acceptance experiment / falsification test
 
-X37/X38/X39. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.
+X37–X39: correlated wrong oracle, tool that drops hard traces, leaked secret and failed holdout must reject promotion; crash/outbox/retraction finds every consumer while preserving old pinned approvals.

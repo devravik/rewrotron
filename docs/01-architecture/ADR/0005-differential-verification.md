@@ -8,11 +8,11 @@ Finite samples, self-generated oracles and probe assertions can falsely accept w
 
 ## Problem
 
-Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
+The prior attestation shape required installed instrumentation and tests even for UNAVAILABLE, while COMPLETE could contain PARTIAL mechanisms. Unqualified data models could select the wrong orders table across databases. Either permits fabricated evidence or blocks honest assessment.
 
 ## Decision
 
-Independent environments, mechanism-derived attestations, relational policies and semantic mutants; PASS/MISMATCH/UNKNOWN only, no self-certified corpus completeness.
+Use independent owned/reset environments and derive observation completeness from actual mechanism/control closure. Current attestations distinguish unavailable evidence from closed coverage; current data models are connection/catalog/schema-qualified. Relation-preserving comparisons, independent oracle review and mutants determine scoped acceptance. Assessment may complete with unavailable capture; verification cannot pass it.
 
 ## Alternatives considered
 
@@ -24,16 +24,16 @@ Shared state contaminates replay and a probe assertion cannot establish uncaptur
 
 ## Consequences
 
-More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
+Implementation has an explicit narrow admission boundary and additional falsification evidence obligations. Missing qualification or required capture blocks the affected claim; historical bytes stay retained. Documentation validation does not establish runtime maturity.
 
 ## Machine-contract impact
 
-Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+Attestation 2.1 supports absent instrumentation/control refs for UNAVAILABLE but requires pinned controls for CLOSED and all CLOSED for COMPLETE. Data-model 2.0 adds qualified identity/server evidence and typed destination relationships. Service validates causal/profile/control currentness and column arity; historical branches cannot satisfy current acceptance.
 
 ## Migration/compatibility implications
 
-Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+Old 2.0 attestations and unversioned models remain history. Re-extract/qualify rather than silently upgrade their meaning. No shared writable replay, no fabricated no-effect observation, no SQL migration rewrite.
 
 ## Acceptance experiment / falsification test
 
-X05/X06/X07/X08/X11/X20. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.
+X05–X08/X11/X14/X20/X57: remove a write, use another database with the same table, bypass the framework with PDO and submit COMPLETE without control closure. Known wrong effects must mismatch; missing capture must UNKNOWN. Unavailable observation must still be representable in a completed assessment.

@@ -1,6 +1,6 @@
 # Falsification and evidence requirements
 
-**Owner:** Acceptance experiment registry. All X01–X55 are specified experiments, NOT executed runtime results. [FIXTURE-CORPUS](FIXTURE-CORPUS.md) references this registry; milestone assignments are in [DEVELOPMENT-PLAN](../11-roadmap/DEVELOPMENT-PLAN.md).
+**Owner:** Acceptance experiment registry. All X01–X60 are specified experiments, NOT executed runtime results. [FIXTURE-CORPUS](FIXTURE-CORPUS.md) references this registry; milestone assignments are in [DEVELOPMENT-PLAN](../11-roadmap/DEVELOPMENT-PLAN.md).
 
 The core question is whether the engine detects a plausible WRONG reconstruction. Positive targets alone cannot establish verifier quality. Each test records approved subject/corpus/policy/target/profile, deliberate fault, independent expected failure reason, actual verdict and evidence. A mutant rejected for unrelated setup failure is not a semantic kill. Unknown capture must produce UNKNOWN; known behavior defects must MISMATCH. No passing corpus proves its own completeness.
 
@@ -61,6 +61,13 @@ The core question is whether the engine detects a plausible WRONG reconstruction
 | X53 | Historical versus current | Publish report at N, advance source/intent at N+1; old report stays byte-identical, view labels latest/history and per-finding validity at current sequence; no reconstructed historical mutable status | M0/M3 |
 | X54 | Finding classification | Static-only, runtime observation, inferred proposal, missing evidence and unsupported mechanism are classified with provenance/limits; planted static claim of observed runtime parity must fail | M1/M2 |
 | X55 | Assessment is not a token | Submit report ref/hash or human continuation selection to confirm-plan/generate; reject kind/subject/token mismatch. Plan wrapper with mismatched selection/basis or omitted hashed refs also fails | M0/M3/M5 |
+
+
+| X56 | Row and action semantics | Insert with bound actual generated ID; mutate UPDATE predicate/old-row values, boolean short circuit, null/absence, pointer escapes, decimal overflow and terminal open transaction; wrong behavior must mismatch or explicit unsupported, never implicit coercion/commit | M1 |
+| X57 | Honest unavailable capture | No installed observer yields a representable UNAVAILABLE assessment finding; COMPLETE with partial mechanism/missing controls or unjustified NOT_APPLICABLE must fail current schema/derivation; legacy attestation cannot confer PASS | M0/M1 |
+| X58 | Executable qualification closure | Swap core/schema bytes under same version/URI or widen advertised profile without controls; current approval must refuse execution; retained old subject/vector is unchanged and reconstructable, planned manifest cannot qualify | M0/M1/M3 |
+| X59 | Approved performance estimand | Change policy/workload/method after Gate 2, omit required counter, conflate pooled percentile with mean of trial quantiles, fabricate CI or error omission; service must reject/inconclusive, equal data within approved positive margin can accept | M3/M6 |
+| X60 | Offline protocol schema bundle | Validate recursive rule/tool schemas with networking disabled; preserve same positive/negative outcomes and recursive refs, reject absent registry document, unsupported anchor/dynamicRef and oversized bundle; no client fetch dependency | M5 |
 
 ## Execution profiles and claims
 

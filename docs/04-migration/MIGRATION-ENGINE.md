@@ -7,7 +7,7 @@
 1. Acquire/seal source and profiles; bounded detection; explicit Gate 1.
 2. Extract Source/Application IR; inventory dynamic uncertainty and operational roots; observe isolated scenarios with mechanism attestations.
 3. Persist an assessment projection from available shared analysis/behavior/feasibility records; partial or blocked feasibility still permits completion. Stop here for assessment-only use. Await an explicit human continuation selection.
-4. On a separate plan request, validate selected assessed work and current finding validity, record changes since assessment, complete applicable executable contracts/corpus and exact runtime/dependency/capability resolution, then create Target Implementation Model and ordered plan subject. In-scope blockers prevent execution, not assessment completion. Confirm Gate 2.
+4. On a separate plan request, validate selected assessed work and current finding validity, record changes since assessment, complete applicable executable contracts/corpus and exact runtime/dependency/capability resolution and immutable performance policy, then create Target Implementation Model and ordered plan subject. In-scope blockers prevent execution, not assessment completion. Confirm Gate 2.
 5. Claim ready unit and project mutation/resource ownership; stage adapter implementation using pinned inputs and revisions. Build in resolved environment.
 6. Publish through before-hash/fence/journal checks; verify independent source/target fixtures and UNIT plus implemented regressions. Complete only scoped evidence; continue dependent units.
 7. Diagnose MISMATCH/UNKNOWN separately. Repairs are bounded proposals, never comparator relaxation to hide faults. Every changed shared component reverifies consumers.

@@ -7873,5 +7873,2159 @@
       ]
     },
     "valid": false
+  },
+  {
+    "name": "v2.1-closed-attestation",
+    "schema": "https://rewrotron.dev/specs/observation/attestation.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "attestation_id": "att",
+      "project_id": "fixture",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "mechanisms": [
+        {
+          "mechanism_id": "db",
+          "dimension": "DB",
+          "boundary_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "instrumentation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "supported_paths": [
+            "owned-db"
+          ],
+          "excluded_paths": [],
+          "escape_paths": [],
+          "control_test_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "closure_test_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "failure_refs": [],
+          "residual_limitations": [],
+          "coverage": "CLOSED"
+        }
+      ],
+      "derived_status": "COMPLETE",
+      "derivation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "not_applicable_contract_ref": null
+    },
+    "valid": true
+  },
+  {
+    "name": "v2.1-reject-partial-as-complete",
+    "schema": "https://rewrotron.dev/specs/observation/attestation.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "attestation_id": "att",
+      "project_id": "fixture",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "mechanisms": [
+        {
+          "mechanism_id": "db",
+          "dimension": "DB",
+          "boundary_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "instrumentation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "supported_paths": [
+            "owned-db"
+          ],
+          "excluded_paths": [],
+          "escape_paths": [],
+          "control_test_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "closure_test_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "failure_refs": [],
+          "residual_limitations": [
+            "direct PDO uncontained"
+          ],
+          "coverage": "PARTIAL"
+        }
+      ],
+      "derived_status": "COMPLETE",
+      "derivation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "not_applicable_contract_ref": null
+    },
+    "valid": false
+  },
+  {
+    "name": "v2.1-partial-attestation",
+    "schema": "https://rewrotron.dev/specs/observation/attestation.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "attestation_id": "att",
+      "project_id": "fixture",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "mechanisms": [
+        {
+          "mechanism_id": "db",
+          "dimension": "DB",
+          "boundary_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "instrumentation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "supported_paths": [
+            "owned-db"
+          ],
+          "excluded_paths": [],
+          "escape_paths": [],
+          "control_test_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "closure_test_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "failure_refs": [],
+          "residual_limitations": [
+            "direct PDO uncontained"
+          ],
+          "coverage": "PARTIAL"
+        }
+      ],
+      "derived_status": "PARTIAL",
+      "derivation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "not_applicable_contract_ref": null
+    },
+    "valid": true
+  },
+  {
+    "name": "v2.1-unavailable-without-fake-tests",
+    "schema": "https://rewrotron.dev/specs/observation/attestation.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "attestation_id": "att",
+      "project_id": "fixture",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "mechanisms": [
+        {
+          "mechanism_id": "db",
+          "dimension": "DB",
+          "boundary_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "instrumentation_ref": null,
+          "supported_paths": [],
+          "excluded_paths": [],
+          "escape_paths": [],
+          "control_test_refs": [],
+          "closure_test_refs": [],
+          "failure_refs": [],
+          "residual_limitations": [
+            "observer is not installed"
+          ],
+          "coverage": "UNAVAILABLE"
+        }
+      ],
+      "derived_status": "UNAVAILABLE",
+      "derivation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "not_applicable_contract_ref": null
+    },
+    "valid": true
+  },
+  {
+    "name": "v2.1-reject-closed-without-control",
+    "schema": "https://rewrotron.dev/specs/observation/attestation.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "attestation_id": "att",
+      "project_id": "fixture",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "mechanisms": [
+        {
+          "mechanism_id": "db",
+          "dimension": "DB",
+          "boundary_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "instrumentation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "supported_paths": [
+            "owned-db"
+          ],
+          "excluded_paths": [],
+          "escape_paths": [],
+          "control_test_refs": [],
+          "closure_test_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "failure_refs": [],
+          "residual_limitations": [],
+          "coverage": "CLOSED"
+        }
+      ],
+      "derived_status": "COMPLETE",
+      "derivation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "not_applicable_contract_ref": null
+    },
+    "valid": false
+  },
+  {
+    "name": "v2.1-justified-not-applicable",
+    "schema": "https://rewrotron.dev/specs/observation/attestation.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "attestation_id": "att",
+      "project_id": "fixture",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "mechanisms": [],
+      "derived_status": "NOT_APPLICABLE",
+      "derivation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "not_applicable_contract_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2.1-reject-unjustified-not-applicable",
+    "schema": "https://rewrotron.dev/specs/observation/attestation.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "attestation_id": "att",
+      "project_id": "fixture",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "mechanisms": [],
+      "derived_status": "NOT_APPLICABLE",
+      "derivation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "not_applicable_contract_ref": null
+    },
+    "valid": false
+  },
+  {
+    "name": "bounded-write-output-binding",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json",
+    "instance": {
+      "preconditions": [],
+      "postconditions": [
+        {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      ],
+      "invariants": [],
+      "branches": [
+        {
+          "branch_id": "default",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          },
+          "actions": [
+            {
+              "action": "db_write",
+              "connection_id": "primary",
+              "catalog": "shop",
+              "table": "orders",
+              "mutation": "INSERT",
+              "where": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "values": {
+                "owner_id": {
+                  "op": "ref",
+                  "namespace": "actor",
+                  "pointer": "/id",
+                  "value_type": "integer"
+                }
+              },
+              "transaction_id": null,
+              "bind": "created_order"
+            },
+            {
+              "action": "respond",
+              "status": 200,
+              "body": {
+                "op": "literal",
+                "value_type": "string",
+                "value": "ok"
+              }
+            }
+          ]
+        }
+      ],
+      "completion": {
+        "mode": "HTTP_RESPONSE",
+        "timeout_ms": 30000,
+        "expected_receipts": 0,
+        "quiescence_ms": 0,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "bounded-row-predicate",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json",
+    "instance": {
+      "preconditions": [],
+      "postconditions": [
+        {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      ],
+      "invariants": [],
+      "branches": [
+        {
+          "branch_id": "default",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          },
+          "actions": [
+            {
+              "action": "db_write",
+              "connection_id": "primary",
+              "catalog": "shop",
+              "table": "orders",
+              "mutation": "UPDATE",
+              "where": {
+                "op": "eq",
+                "left": {
+                  "op": "ref",
+                  "namespace": "row",
+                  "pointer": "/owner_id",
+                  "value_type": "integer"
+                },
+                "right": {
+                  "op": "ref",
+                  "namespace": "actor",
+                  "pointer": "/id",
+                  "value_type": "integer"
+                }
+              },
+              "values": {
+                "owner_id": {
+                  "op": "ref",
+                  "namespace": "actor",
+                  "pointer": "/id",
+                  "value_type": "integer"
+                }
+              },
+              "transaction_id": null,
+              "bind": "created_order"
+            },
+            {
+              "action": "respond",
+              "status": 200,
+              "body": {
+                "op": "literal",
+                "value_type": "string",
+                "value": "ok"
+              }
+            }
+          ]
+        }
+      ],
+      "completion": {
+        "mode": "HTTP_RESPONSE",
+        "timeout_ms": 30000,
+        "expected_receipts": 0,
+        "quiescence_ms": 0,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "positive-async-boundary",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json",
+    "instance": {
+      "preconditions": [],
+      "postconditions": [
+        {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      ],
+      "invariants": [],
+      "branches": [
+        {
+          "branch_id": "default",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          },
+          "actions": [
+            {
+              "action": "db_write",
+              "connection_id": "primary",
+              "catalog": "shop",
+              "table": "orders",
+              "mutation": "INSERT",
+              "where": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "values": {
+                "owner_id": {
+                  "op": "ref",
+                  "namespace": "actor",
+                  "pointer": "/id",
+                  "value_type": "integer"
+                }
+              },
+              "transaction_id": null,
+              "bind": "created_order"
+            },
+            {
+              "action": "respond",
+              "status": 200,
+              "body": {
+                "op": "literal",
+                "value_type": "string",
+                "value": "ok"
+              }
+            }
+          ]
+        }
+      ],
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 30000,
+        "expected_receipts": 1,
+        "quiescence_ms": 100,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-zero-async-quiescence",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json",
+    "instance": {
+      "preconditions": [],
+      "postconditions": [
+        {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      ],
+      "invariants": [],
+      "branches": [
+        {
+          "branch_id": "default",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          },
+          "actions": [
+            {
+              "action": "db_write",
+              "connection_id": "primary",
+              "catalog": "shop",
+              "table": "orders",
+              "mutation": "INSERT",
+              "where": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "values": {
+                "owner_id": {
+                  "op": "ref",
+                  "namespace": "actor",
+                  "pointer": "/id",
+                  "value_type": "integer"
+                }
+              },
+              "transaction_id": null,
+              "bind": "created_order"
+            },
+            {
+              "action": "respond",
+              "status": 200,
+              "body": {
+                "op": "literal",
+                "value_type": "string",
+                "value": "ok"
+              }
+            }
+          ]
+        }
+      ],
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 30000,
+        "expected_receipts": 1,
+        "quiescence_ms": 0,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "reject-zero-workflow-async-quiescence",
+    "schema": "https://rewrotron.dev/specs/behavior/workflow.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "workflow_id": "checkout",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "initial_state_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actors": [
+        {
+          "actor_id": "a",
+          "principal_fixture_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "start_step_id": "login",
+      "steps": [
+        {
+          "step_id": "login",
+          "actor_id": "a",
+          "operation_id": "login",
+          "request_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          },
+          "bindings": {},
+          "transitions": [
+            {
+              "guard": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "next_step_id": null,
+              "terminal_id": "done"
+            }
+          ],
+          "completion": {
+            "mode": "SINK_ACK_QUIESCENCE",
+            "timeout_ms": 30000,
+            "expected_receipts": 1,
+            "quiescence_ms": 0,
+            "predicate": {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          }
+        }
+      ],
+      "terminals": [
+        {
+          "terminal_id": "done",
+          "outcome": "SUCCESS",
+          "state_assertions": [
+            {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          ],
+          "expected_effect_refs": []
+        }
+      ],
+      "max_executed_steps": 2,
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "v2.1-planned-manifest-honest",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "adapter_id": "synthetic",
+      "version": "1.0.0",
+      "direction": "TARGET",
+      "implementation_status": "PLANNED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "SPECIFIED",
+      "implementation_ref": null,
+      "capabilities": [
+        "http"
+      ],
+      "supported_profiles": [],
+      "limitations": [
+        "Pending implementation"
+      ],
+      "evidence_refs": [],
+      "schema_refs": [],
+      "qualification_refs": []
+    },
+    "valid": true
+  },
+  {
+    "name": "v2.1-reject-implemented-no-schema-pin",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "adapter_id": "synthetic",
+      "version": "1.0.0",
+      "direction": "TARGET",
+      "implementation_status": "IMPLEMENTED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "UNIT_TESTED",
+      "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "capabilities": [
+        "http"
+      ],
+      "supported_profiles": [],
+      "limitations": [
+        "Pending implementation"
+      ],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "schema_refs": [],
+      "qualification_refs": []
+    },
+    "valid": false
+  },
+  {
+    "name": "v2.1-pinned-adapter-manifest",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "adapter_id": "synthetic",
+      "version": "1.0.0",
+      "direction": "TARGET",
+      "implementation_status": "IMPLEMENTED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "UNIT_TESTED",
+      "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "capabilities": [
+        "http"
+      ],
+      "supported_profiles": [],
+      "limitations": [
+        "Pending implementation"
+      ],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "schema_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "qualification_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "exact-execution-qualification",
+    "schema": "https://rewrotron.dev/specs/adapters/qualification.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "qualification_id": "control",
+      "project_id": "fixture",
+      "subject_kind": "ENGINE",
+      "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "schema_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "capability_ids": [
+        "rules.row",
+        "canonical.rwt-cjson-1"
+      ],
+      "input_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "control_suite_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "control_result_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "limitations": [],
+      "status": "SUPPORTED",
+      "reason_codes": []
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-qualification-without-reason",
+    "schema": "https://rewrotron.dev/specs/adapters/qualification.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "qualification_id": "control",
+      "project_id": "fixture",
+      "subject_kind": "ENGINE",
+      "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "schema_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "capability_ids": [
+        "rules.row",
+        "canonical.rwt-cjson-1"
+      ],
+      "input_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "control_suite_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "control_result_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "limitations": [],
+      "status": "INCONCLUSIVE",
+      "reason_codes": []
+    },
+    "valid": false
+  },
+  {
+    "name": "inconclusive-execution-qualification",
+    "schema": "https://rewrotron.dev/specs/adapters/qualification.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "qualification_id": "control",
+      "project_id": "fixture",
+      "subject_kind": "ENGINE",
+      "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "schema_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "capability_ids": [
+        "rules.row",
+        "canonical.rwt-cjson-1"
+      ],
+      "input_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "control_suite_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "control_result_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "limitations": [],
+      "status": "INCONCLUSIVE",
+      "reason_codes": [
+        "CONTROL_MISSING"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "pinned-engine-execution-manifest",
+    "schema": "https://rewrotron.dev/specs/project/execution-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "manifest_id": "engine",
+      "project_id": "fixture",
+      "engine_version": "0.0.0-fixture",
+      "engine_binary_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "build_environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "dependency_lock_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "schema_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "canonicalization_profile": "rwt-cjson-1",
+      "capability_ids": [
+        "canonical.rwt-cjson-1"
+      ],
+      "qualification_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-unpinned-engine-schemas",
+    "schema": "https://rewrotron.dev/specs/project/execution-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "manifest_id": "engine",
+      "project_id": "fixture",
+      "engine_version": "0.0.0-fixture",
+      "engine_binary_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "build_environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "dependency_lock_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "schema_refs": [],
+      "canonicalization_profile": "rwt-cjson-1",
+      "capability_ids": [
+        "canonical.rwt-cjson-1"
+      ],
+      "qualification_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "approved-positive-performance-margin",
+    "schema": "https://rewrotron.dev/specs/verification/performance-policy.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "policy_id": "performance",
+      "project_id": "fixture",
+      "applicable": true,
+      "claim": "NON_INFERIORITY",
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "method_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "measurement_profile": "RWT_PAIRED_BOOTSTRAP_1",
+      "required_metrics": [
+        {
+          "metric_id": "P95",
+          "unit": "ms",
+          "limit_kind": "RELATIVE_NON_INFERIORITY",
+          "limit": 1.05,
+          "minimum_successes_per_trial": 500
+        }
+      ],
+      "max_error_rate": 0,
+      "rationale": "Explicit customer-reviewed positive margin for a bounded synthetic workload.",
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-implicit-zero-performance-margin",
+    "schema": "https://rewrotron.dev/specs/verification/performance-policy.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "policy_id": "performance",
+      "project_id": "fixture",
+      "applicable": true,
+      "claim": "NON_INFERIORITY",
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "method_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "measurement_profile": "RWT_PAIRED_BOOTSTRAP_1",
+      "required_metrics": [
+        {
+          "metric_id": "P95",
+          "unit": "ms",
+          "limit_kind": "RELATIVE_NON_INFERIORITY",
+          "limit": 1,
+          "minimum_successes_per_trial": 500
+        }
+      ],
+      "max_error_rate": 0,
+      "rationale": "Explicit customer-reviewed positive margin for a bounded synthetic workload.",
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "reject-underpowered-p99-policy",
+    "schema": "https://rewrotron.dev/specs/verification/performance-policy.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "policy_id": "performance",
+      "project_id": "fixture",
+      "applicable": true,
+      "claim": "NON_INFERIORITY",
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "method_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "measurement_profile": "RWT_PAIRED_BOOTSTRAP_1",
+      "required_metrics": [
+        {
+          "metric_id": "P99",
+          "unit": "ms",
+          "limit_kind": "RELATIVE_NON_INFERIORITY",
+          "limit": 1.05,
+          "minimum_successes_per_trial": 500
+        }
+      ],
+      "max_error_rate": 0,
+      "rationale": "Explicit customer-reviewed positive margin for a bounded synthetic workload.",
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "explicit-performance-not-applicable",
+    "schema": "https://rewrotron.dev/specs/verification/performance-policy.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "policy_id": "performance",
+      "project_id": "fixture",
+      "applicable": false,
+      "claim": null,
+      "workload_ref": null,
+      "environment_ref": null,
+      "method_ref": null,
+      "measurement_profile": null,
+      "required_metrics": [],
+      "max_error_rate": 0,
+      "rationale": "Assessment-only checkpoint does not make performance claims.",
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-inconsistent-performance-applicability",
+    "schema": "https://rewrotron.dev/specs/verification/performance-policy.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "policy_id": "performance",
+      "project_id": "fixture",
+      "applicable": false,
+      "claim": null,
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": null,
+      "method_ref": null,
+      "measurement_profile": null,
+      "required_metrics": [],
+      "max_error_rate": 0,
+      "rationale": "Assessment-only checkpoint does not make performance claims.",
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "v2.1-policy-bound-benchmark",
+    "schema": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "benchmark_id": "bench",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_tree_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verification_report_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "seed": 1,
+      "trials": [
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        }
+      ],
+      "confidence_intervals": {},
+      "outcome": "APPROVED_BUDGET",
+      "artifact_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "errors": [],
+      "claim": "NON_INFERIORITY",
+      "budget_decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "method_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "metric_evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "metrics": [
+        {
+          "metric_id": "P95",
+          "unit": "ms",
+          "required": true,
+          "source_value": 100,
+          "target_value": 90,
+          "lower_bound": 0.85,
+          "upper_bound": 0.95,
+          "source_sample_count": 5000,
+          "target_sample_count": 5000,
+          "approved_limit": 1.05,
+          "raw_samples_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "performance_policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2.1-reject-unbound-benchmark",
+    "schema": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "benchmark_id": "bench",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_tree_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verification_report_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "seed": 1,
+      "trials": [
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        }
+      ],
+      "confidence_intervals": {},
+      "outcome": "APPROVED_BUDGET",
+      "artifact_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "errors": [],
+      "claim": "NON_INFERIORITY",
+      "budget_decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "method_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "metric_evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "metrics": [
+        {
+          "metric_id": "P95",
+          "unit": "ms",
+          "required": true,
+          "source_value": 100,
+          "target_value": 90,
+          "lower_bound": 0.85,
+          "upper_bound": 0.95,
+          "source_sample_count": 5000,
+          "target_sample_count": 5000,
+          "approved_limit": 1.05,
+          "raw_samples_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "v2.1-reject-budget-without-decision",
+    "schema": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "benchmark_id": "bench",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_tree_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verification_report_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "seed": 1,
+      "trials": [
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        }
+      ],
+      "confidence_intervals": {},
+      "outcome": "APPROVED_BUDGET",
+      "artifact_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "errors": [],
+      "claim": "NON_INFERIORITY",
+      "budget_decision_ref": null,
+      "method_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "metric_evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "metrics": [
+        {
+          "metric_id": "P95",
+          "unit": "ms",
+          "required": true,
+          "source_value": 100,
+          "target_value": 90,
+          "lower_bound": 0.85,
+          "upper_bound": 0.95,
+          "source_sample_count": 5000,
+          "target_sample_count": 5000,
+          "approved_limit": 1.05,
+          "raw_samples_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "performance_policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "v2.1-reject-relaxed-claim-strict-label",
+    "schema": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "benchmark_id": "bench",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_tree_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verification_report_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "seed": 1,
+      "trials": [
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        }
+      ],
+      "confidence_intervals": {},
+      "outcome": "NON_REGRESSION",
+      "artifact_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "errors": [],
+      "claim": "NON_INFERIORITY",
+      "budget_decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "method_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "metric_evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "metrics": [
+        {
+          "metric_id": "P95",
+          "unit": "ms",
+          "required": true,
+          "source_value": 100,
+          "target_value": 90,
+          "lower_bound": 0.85,
+          "upper_bound": 0.95,
+          "source_sample_count": 5000,
+          "target_sample_count": 5000,
+          "approved_limit": 1.05,
+          "raw_samples_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "performance_policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "v2.1-reject-native-values-with-ratio-unit",
+    "schema": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "benchmark_id": "bench",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_tree_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verification_report_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "seed": 1,
+      "trials": [
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        }
+      ],
+      "confidence_intervals": {},
+      "outcome": "APPROVED_BUDGET",
+      "artifact_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "errors": [],
+      "claim": "NON_INFERIORITY",
+      "budget_decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "method_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "metric_evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "metrics": [
+        {
+          "metric_id": "P95",
+          "unit": "ratio",
+          "required": true,
+          "source_value": 100,
+          "target_value": 90,
+          "lower_bound": 0.85,
+          "upper_bound": 0.95,
+          "source_sample_count": 5000,
+          "target_sample_count": 5000,
+          "approved_limit": 1.05,
+          "raw_samples_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "performance_policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "qualified-primary-orders-model",
+    "schema": "https://rewrotron.dev/specs/ir/data-model.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "model_id": "primary_orders",
+      "connection_id": "primary",
+      "catalog": "shop",
+      "schema": null,
+      "server_behavior_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "table": "orders",
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "name": "owner_id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "relationships": [],
+      "evidence_ids": [
+        "orders_table"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "qualified-same-table-second-connection",
+    "schema": "https://rewrotron.dev/specs/ir/data-model.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "model_id": "audit_orders",
+      "connection_id": "audit",
+      "catalog": "audit",
+      "schema": null,
+      "server_behavior_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "table": "orders",
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "name": "owner_id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "relationships": [],
+      "evidence_ids": [
+        "orders_table"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-current-unqualified-data-model",
+    "schema": "https://rewrotron.dev/specs/ir/data-model.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "model_id": "primary_orders",
+      "catalog": "shop",
+      "schema": null,
+      "server_behavior_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "table": "orders",
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "name": "owner_id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "relationships": [],
+      "evidence_ids": [
+        "orders_table"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "qualified-logical-cross-db-relationship",
+    "schema": "https://rewrotron.dev/specs/ir/data-model.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "model_id": "primary_orders",
+      "connection_id": "primary",
+      "catalog": "shop",
+      "schema": null,
+      "server_behavior_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "table": "orders",
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "name": "owner_id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "relationships": [
+        {
+          "kind": "OBSERVED_LOGICAL",
+          "from_columns": [
+            "id"
+          ],
+          "to_connection_id": "audit",
+          "to_catalog": "audit",
+          "to_schema": null,
+          "to_table": "orders",
+          "to_columns": [
+            "id"
+          ],
+          "evidence_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "orders_table"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-unqualified-relationship",
+    "schema": "https://rewrotron.dev/specs/ir/data-model.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "model_id": "primary_orders",
+      "connection_id": "primary",
+      "catalog": "shop",
+      "schema": null,
+      "server_behavior_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "table": "orders",
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "name": "owner_id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "relationships": [
+        {
+          "kind": "OBSERVED_LOGICAL",
+          "from_columns": [
+            "id"
+          ],
+          "to_catalog": "audit",
+          "to_schema": null,
+          "to_table": "orders",
+          "to_columns": [
+            "id"
+          ],
+          "evidence_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "evidence_ids": [
+        "orders_table"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "typed-implementation-qualification-edge",
+    "schema": "https://rewrotron.dev/specs/project/validity-graph.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "graph_id": "exec_graph",
+      "project_id": "fixture",
+      "edges": [
+        {
+          "from_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "to_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "kind": "IMPLEMENTATION_QUALIFICATION",
+          "predicate": "SAME_CONTENT",
+          "witness_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "unknown_impact_refs": []
+    },
+    "valid": true
+  },
+  {
+    "name": "typed-execution-result-edge",
+    "schema": "https://rewrotron.dev/specs/project/validity-graph.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "graph_id": "exec_graph",
+      "project_id": "fixture",
+      "edges": [
+        {
+          "from_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "to_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "kind": "EXECUTION_RESULT",
+          "predicate": "SAME_CONTENT",
+          "witness_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "unknown_impact_refs": []
+    },
+    "valid": true
+  },
+  {
+    "name": "typed-performance-result-edge",
+    "schema": "https://rewrotron.dev/specs/project/validity-graph.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "graph_id": "exec_graph",
+      "project_id": "fixture",
+      "edges": [
+        {
+          "from_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "to_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "kind": "PERFORMANCE_RESULT",
+          "predicate": "SAME_CONTENT",
+          "witness_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "unknown_impact_refs": []
+    },
+    "valid": true
+  },
+  {
+    "name": "unknown-database-column-type-honest",
+    "schema": "https://rewrotron.dev/specs/ir/data-model.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "model_id": "primary_orders",
+      "connection_id": "primary",
+      "catalog": "shop",
+      "schema": null,
+      "server_behavior_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "table": "orders",
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "name": "owner_id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "UNKNOWN",
+          "type_mapping_ref": null
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "relationships": [],
+      "evidence_ids": [
+        "orders_table"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-known-column-without-type-mapping",
+    "schema": "https://rewrotron.dev/specs/ir/data-model.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "model_id": "primary_orders",
+      "connection_id": "primary",
+      "catalog": "shop",
+      "schema": null,
+      "server_behavior_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "table": "orders",
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "name": "owner_id",
+          "type": "integer",
+          "nullable": false,
+          "value_type": "integer",
+          "type_mapping_ref": null
+        }
+      ],
+      "primary_key": [
+        "id"
+      ],
+      "unique_keys": [],
+      "relationships": [],
+      "evidence_ids": [
+        "orders_table"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "cli-plan-explicit-performance-policy",
+    "schema": "https://rewrotron.dev/specs/cli/commands/plan.input.schema.json",
+    "instance": {
+      "selection_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "performance_policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "cli-plan-explicit-performance-policy-reject-latest",
+    "schema": "https://rewrotron.dev/specs/cli/commands/plan.input.schema.json",
+    "instance": {
+      "selection_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "performance_policy_ref": "latest"
+    },
+    "valid": false
+  },
+  {
+    "name": "mcp-plan-explicit-performance-policy",
+    "schema": "https://rewrotron.dev/specs/mcp/tools/migration.plan.input.schema.json",
+    "instance": {
+      "project_id": "fixture",
+      "idempotency_key": "policy_plan",
+      "selection_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "performance_policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "mcp-plan-explicit-performance-policy-reject-latest",
+    "schema": "https://rewrotron.dev/specs/mcp/tools/migration.plan.input.schema.json",
+    "instance": {
+      "project_id": "fixture",
+      "idempotency_key": "policy_plan",
+      "selection_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "performance_policy_ref": "latest"
+    },
+    "valid": false
   }
 ]

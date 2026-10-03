@@ -8,11 +8,11 @@ Strict equality under noise can remain inconclusive; arbitrary allowances weaken
 
 ## Problem
 
-Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
+An approved plan did not unambiguously freeze performance claim/method/limits. Ratio of means versus mean of ratios and pooled versus trial quantiles can change verdicts on the same data; equality should not be treated as proven regression.
 
 ## Decision
 
-Choose improvement/non-inferiority/approved budget explicitly with paired block methodology, sample requirements, bounded retries and required evidence.
+Bind an immutable typed performance policy in Gate 2, including evidenced not-applicable scope. Specify paired-trial estimands, bootstrap endpoints/error controls and deterministic outcome mapping in PERFORMANCE. Positive approved non-inferiority margins allow evidence-supported equality; strict improvement stays strict. Bounded measurement budgets prevent endless retries.
 
 ## Alternatives considered
 
@@ -24,16 +24,16 @@ Equal noisy systems may remain inconclusive under improvement; automatic toleran
 
 ## Consequences
 
-More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
+Implementation has an explicit narrow admission boundary and additional falsification evidence obligations. Missing qualification or required capture blocks the affected claim; historical bytes stay retained. Documentation validation does not establish runtime maturity.
 
 ## Machine-contract impact
 
-Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+Performance-policy 1.0 names exact claim/profile/workload/environment/method/metrics/bounds; benchmark 2.1 references it. Native units and sample minimums are typed. Services verify PLAN closure and recompute statistics/outcome from raw samples; a producer CI/object or mutable budget is not authority.
 
 ## Migration/compatibility implications
 
-Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+Old benchmark shapes remain history, not current acceptance. Policy changes need successor plan approval and invalidate affected benchmarks/releases; progress does not mutate policy. No new SQL table or reinterpretation of old measurements.
 
 ## Acceptance experiment / falsification test
 
-X33. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.
+X33/X59: equal noisy values within approved margin can pass budget; strict equality cannot prove improvement. Zero denominator, insufficient p99, missing counters, omitted errors, pooled-quantile substitution and changed post-approval policy cannot pass. Known slowdown must fail against its declared limit.
