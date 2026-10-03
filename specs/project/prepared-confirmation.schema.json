@@ -1,35 +1,86 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/project/prepared-confirmation.schema.json",
-  "title": "prepared-confirmation.schema",
-  "type": "object",
-  "properties": {
-    "project_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
+  "description": "v1 historical read-only; current service output v2.",
+  "oneOf": [
+    {
+      "title": "prepared-confirmation.schema",
+      "type": "object",
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "detection_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "subject_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "merged_facts": {
+          "type": "object"
+        },
+        "reviewed_payload_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "project_id",
+        "detection_id",
+        "subject_hash",
+        "merged_facts",
+        "reviewed_payload_ref"
+      ],
+      "additionalProperties": false
     },
-    "detection_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "subject_hash": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
-    },
-    "merged_facts": {
-      "type": "object"
-    },
-    "reviewed_payload_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.0"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "detection_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "subject_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "measured_detection_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "assertions_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "reviewed_payload_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "subject": {
+          "$ref": "https://rewrotron.dev/specs/project/approval-subject.schema.json#/$defs/source"
+        }
+      },
+      "required": [
+        "schema_version",
+        "project_id",
+        "detection_id",
+        "subject_hash",
+        "measured_detection_ref",
+        "assertions_ref",
+        "reviewed_payload_ref",
+        "subject"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "project_id",
-    "detection_id",
-    "subject_hash",
-    "merged_facts",
-    "reviewed_payload_ref"
-  ],
-  "additionalProperties": false
+  ]
 }

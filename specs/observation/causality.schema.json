@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/observation/causality.schema.json",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "workflow_instance_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "operation_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "request_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "process_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "trace_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "span_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "parent_span_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "cause_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]+$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "job_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "effect_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "project_id",
+    "run_id",
+    "workflow_instance_id",
+    "operation_id",
+    "request_id",
+    "process_id",
+    "trace_id",
+    "span_id",
+    "parent_span_id",
+    "cause_ids",
+    "job_id",
+    "effect_id"
+  ],
+  "additionalProperties": false
+}

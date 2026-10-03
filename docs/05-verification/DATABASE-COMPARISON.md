@@ -1,19 +1,15 @@
-# Database state comparison
+# Application database identity, comparison and reset
 
-Compare application data in independent identically seeded databases using the same engine/version, schema, collation, timezone, SQL mode, isolation level and initial sequences. Retaining the schema does not permit source and target to share a writable database.
+**Owner:** Behavior of retained databases and full fixture reset. Preserving schema does not establish equivalent connection semantics. Source/target writable verification DBs are independent.
 
-## Capture
+Capture connection_id, catalog/schema/table, engine exact bytes/version, driver, SQL mode, collation, timezone, isolation, autocommit, locking and connection-local state. Qualified reads/mutations include transaction IDs/order, generated values/sequences, triggers/routines/views/generated columns, precision/null/implicit cast semantics, errors and committed state. Raw SQL text is diagnostic; equivalent queries need not be text-equal. Read sets/transaction/locking behavior remain required where contract-relevant; unsupported visibility yields UNKNOWN even if final rows match.
 
-Record the pre-state, committed post-state, transaction boundaries, tables read/written, and trigger/procedure outcomes. Query logs alone cannot prove mutations. Snapshot all in-scope tables initially; narrow coverage only after dependency/trigger analysis proves the affected set. A required table without capture is UNKNOWN.
+Multi-DB effects are never keyed only by table name. No implicit cross-database atomicity claim. SQL without ORDER BY keeps observed ordering unless approved semantics explicitly permit another relation. Corrupted/legacy data and implicit MySQL conversions require characterization, not automatic target cleanup.
 
-Compare rows by declared primary/unique keys, stable column ordering, typed values, nulls, binary data, exact decimal representations, and date/time semantics. Row order is irrelevant for a table, but response query ordering remains observable. A table without a stable key uses a complete multiset comparison only when rows can be uniquely correlated; ambiguity yields UNKNOWN.
+## Reset profiles
 
-## Generated keys
+Each profile declares all mutable DB connections, rows/schema/triggers/routines/sequences/temp tables/connection state, session/cache/queue namespaces/files/sinks, initial identities and control assertions. Reset reports prove exact initial state within that boundary and no leftover workers. Transaction rollback alone is insufficient for auto-increment burns, DDL/implicit commits/nontransactional tables/temp tables or side effects. Use fresh owned DB instances from verified fixtures when restoration cannot prove these dimensions. Unsupported reset blocks replay.
 
-IDs remain exact by default because they may appear in URLs, API payloads, files and integrations. If the plan explicitly approves different generated IDs, create a one-to-one mapping using an unambiguous creation event or stable business key. Enforce uniqueness, foreign-key integrity, cardinality and consistency across response URLs, session values, subsequent workflow requests, emails and other effects. Never mask IDs independently in different dimensions. If mapping is ambiguous, return UNKNOWN.
+Each side opens independent logical connections mapped to equivalent fixtures. Preserve intra-workflow state; reset between fresh scenarios/trials. Redis session/cache/locks/queues/flags need separate owned namespaces and restored TTL/clock behavior, not a wildcard cache clear on shared infrastructure. Disallow production access or same writable fixture on both sides.
 
-## Failure paths and concurrency
-
-Check failed validation, insufficient permissions, constraint failures, partial transactions, and duplicate/replayed requests. A failed operation must leave the same committed state and effect counts as the source. Triggers and stored procedures are application behavior and must be included. Concurrency/locking behavior is a separate explicit scenario; sequential cases do not establish concurrent equivalence.
-
-The first execution profile is MySQL with preserved customer schemas. PostgreSQL/other engines can be detected and inventoried but require a declared sandbox/reset/comparison capability before replay. Fixtures for signed/unsigned types, decimal precision, null/missing values, timezone, generated keys, triggers, rollback, multi-table writes and ambiguous keys are required in RWT-012.
+Tests must remove a write, write to a same-named table on another DB, alter transaction boundaries, consume sequences on rollback, leave temp tables, perform DDL, change collation/timezone and contaminate Redis. Each must produce MISMATCH, invalid reset or UNKNOWN—not PASS.

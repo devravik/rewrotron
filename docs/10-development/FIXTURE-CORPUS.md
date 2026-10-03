@@ -1,23 +1,5 @@
-# Fixture corpus and acceptance matrix
+# Fixture corpus requirements
 
-All fixtures are synthetic, redistribution-safe, versioned and free of real customer credentials. RWT-007 establishes the source archive checksum/license, source/runtime images, DB settings/schema, startup commands and Composer locks. Pin image digests and exact versions before any runtime claims.
+[TESTING](TESTING.md) owns X01–X40 falsification requirements. [DEVELOPMENT-PLAN](../11-roadmap/DEVELOPMENT-PLAN.md) owns sequencing. Fixture bytes/licensing/checksums/images are required implementation inputs, currently UNKNOWN until acquired and recorded.
 
-| Fixture path | Required behavior and negative mutation |
-| --- | --- |
-| `testdata/ci3-fixtures/routing` | Config/verb/convention routes, regex precedence, default/404, `_remap`, nested controllers; deliberately swap route order |
-| `testdata/ci3-fixtures/dynamic` | Dynamic loaders/includes, partial parse, custom bases, unreachable cycle, cron-only roots; falsely classify a dynamic target DEAD |
-| `testdata/ci3-fixtures/read-json` | Deterministic JSON and authorization failure; alter number/type/status |
-| `testdata/ci3-fixtures/auth-session` | Login/roles, cookies, CSRF, flash, rotation/logout/active source session; switch principal or ignore invalid token |
-| `testdata/ci3-fixtures/crud-workflow` | Multi-step write/read, transaction rollback, decimal/null/timezone/generated IDs; skip audit insert or break FK mapping |
-| `testdata/ci3-fixtures/hooks-effects` | Existing hooks, early exits/cache, HTTP/mail sink; duplicate side effect or lose capture |
-| `testdata/ci3-fixtures/views-files` | Forms/assets/whitespace, upload/download; remove input or change binary bytes |
-| `testdata/ci3-fixtures/realistic-portal` | Combined custom controllers/dynamic loading/auth/DB/effects/CLI inventory; exercise complete report and limitations |
-| `testdata/compatibility-cases` | Canonical contracts/cases and expected trace/normalization verdicts |
-| `testdata/contracts` | CLI/MCP success/error/gate/empty-queue/cancellation/dry-run schemas |
-| `testdata/storage` | Migration versions, invalid relations, immutable records, contention/recovery checkpoints |
-
-Source instrumentation control compares uninstrumented/instrumented HTTP/state behavior. Every trace identifies required capture dimensions; missing probes produce UNKNOWN. Include deliberate regressions in every comparator dimension rather than tests that only echo implementation behavior.
-
-Keep HTTP and non-HTTP inventory visible. The first HTTP replay engine marks unsupported command/consumer cases explicitly; full release support is limited to capability-tested operations. A combined fixture with unsupported cron cannot be reported as whole-app equivalent without a reviewed exclusion.
-
-Runtime corpus pass evidence contains seed/schema/image/lock/probe hashes and cleanup outcome. A first read-json pass is a smoke slice; auth and transactional workflows are required before BETA. Stable release needs the full published supported matrix, two agent/client integrations, restart recovery, security checks and release runbooks.
+M1 uses a small independent two-actor login/create stateful fixture with failure branch, DB writes and acknowledged sink effects plus deliberately wrong targets. M2 adds the licensed ugly CI3 reference (cron, PDO bypass, vendor patches, flags, uploads, custom sessions). M8 adds neutral Django/Go, Laravel/Rust and custom-PHP/Python semantic preservation fixtures. Raw/empty query, exact JSON integers, DB reset/Redis, ID/token relationships, async duplicate effects and interruption are mandatory fault variants. A read-only JSON route remains a smoke test.

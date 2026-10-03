@@ -1,260 +1,97 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/behavior/behavior-contract.schema.json",
-  "title": "behavior-contract.schema",
-  "type": "object",
-  "properties": {
-    "schema_version": {
-      "const": "1.0"
-    },
-    "operation_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "version": {
-      "type": "string",
-      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
-    },
-    "description": {
-      "type": "string",
-      "minLength": 1
-    },
-    "entrypoint": {
-      "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/entrypoint"
-    },
-    "authentication": {
-      "type": "object"
-    },
-    "authorization": {
-      "type": "object"
-    },
-    "preconditions": {
-      "type": "object"
-    },
-    "inputs": {
+  "description": "Version 1 is readable historical data only. Current execution requires version 2 plus service invariants.",
+  "oneOf": [
+    {
+      "title": "behavior-contract.schema",
       "type": "object",
       "properties": {
-        "parameters": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "name": {
-                "type": "string",
-                "minLength": 1
-              },
-              "type": {
-                "type": "string",
-                "enum": [
-                  "string",
-                  "integer",
-                  "number",
-                  "boolean",
-                  "array",
-                  "object",
-                  "file"
-                ]
-              },
-              "required": {
-                "type": "boolean"
-              },
-              "source": {
-                "type": "string",
-                "enum": [
-                  "path",
-                  "query",
-                  "body",
-                  "header",
-                  "file",
-                  "argument",
-                  "event"
-                ]
-              },
-              "constraint_ref": {
-                "type": "string",
-                "pattern": "^[a-z0-9_-]+$"
-              },
-              "allowed_values": {
-                "type": "array",
-                "items": {}
-              }
-            },
-            "required": [
-              "name",
-              "type",
-              "required",
-              "source"
-            ],
-            "additionalProperties": false
-          }
+        "schema_version": {
+          "const": "1.0"
         },
-        "headers": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
-        }
-      },
-      "required": [
-        "parameters"
-      ],
-      "additionalProperties": false
-    },
-    "business_rules": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "description": {
-            "type": "string",
-            "minLength": 1
-          },
-          "representation": {
-            "type": "string",
-            "enum": [
-              "DECLARATIVE",
-              "OBSERVED_ONLY",
-              "UNRESOLVED"
-            ]
-          },
-          "evidence_ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "pattern": "^[a-z0-9_-]+$"
-            }
-          },
-          "data": {
-            "type": "object"
-          }
+        "operation_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
         },
-        "required": [
-          "id",
-          "description",
-          "representation",
-          "evidence_ids"
-        ],
-        "additionalProperties": false
-      }
-    },
-    "database_effects": {
-      "type": "object",
-      "properties": {
-        "transactional": {
-          "type": "boolean"
+        "version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
         },
-        "mutations": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "action": {
-                "type": "string",
-                "enum": [
-                  "INSERT",
-                  "UPDATE",
-                  "DELETE"
-                ]
-              },
-              "table": {
-                "type": "string",
-                "minLength": 1
-              },
-              "columns": {
-                "type": "object"
-              },
-              "where": {
-                "type": "string",
-                "minLength": 1
-              },
-              "batch_from": {
-                "type": "string",
-                "minLength": 1
-              },
-              "captured_keys": {
-                "type": "object"
-              },
-              "mutation": {
-                "type": "string",
-                "minLength": 1
-              }
-            },
-            "required": [
-              "action",
-              "table"
-            ],
-            "additionalProperties": false
-          }
-        }
-      },
-      "required": [
-        "transactional",
-        "mutations"
-      ],
-      "additionalProperties": false
-    },
-    "session_effects": {
-      "type": "object"
-    },
-    "external_effects": {
-      "type": "object"
-    },
-    "response": {
-      "type": "object",
-      "properties": {
-        "status": {
-          "type": "integer",
-          "minimum": 100,
-          "maximum": 599
+        "description": {
+          "type": "string",
+          "minLength": 1
         },
-        "headers": {
-          "type": "object",
-          "properties": {},
-          "required": [],
-          "additionalProperties": {
-            "oneOf": [
-              {
-                "type": "string",
-                "minLength": 1
-              },
-              {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "minLength": 1
-                }
-              }
-            ]
-          }
+        "entrypoint": {
+          "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/entrypoint"
         },
-        "redirect": {
+        "authentication": {
           "type": "object"
         },
-        "body": {
+        "authorization": {
+          "type": "object"
+        },
+        "preconditions": {
+          "type": "object"
+        },
+        "inputs": {
           "type": "object",
           "properties": {
-            "type": {
-              "type": "string",
-              "enum": [
-                "empty",
-                "json",
-                "html",
-                "text",
-                "binary"
-              ]
+            "parameters": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "string",
+                      "integer",
+                      "number",
+                      "boolean",
+                      "array",
+                      "object",
+                      "file"
+                    ]
+                  },
+                  "required": {
+                    "type": "boolean"
+                  },
+                  "source": {
+                    "type": "string",
+                    "enum": [
+                      "path",
+                      "query",
+                      "body",
+                      "header",
+                      "file",
+                      "argument",
+                      "event"
+                    ]
+                  },
+                  "constraint_ref": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_-]+$"
+                  },
+                  "allowed_values": {
+                    "type": "array",
+                    "items": {}
+                  }
+                },
+                "required": [
+                  "name",
+                  "type",
+                  "required",
+                  "source"
+                ],
+                "additionalProperties": false
+              }
             },
-            "artifact_ref": {
-              "type": "string",
-              "pattern": "^sha256:[a-f0-9]{64}$"
-            },
-            "schema": {
-              "type": "object"
-            },
-            "assertions": {
+            "headers": {
               "type": "array",
               "items": {
                 "type": "object"
@@ -262,27 +99,11 @@
             }
           },
           "required": [
-            "type"
+            "parameters"
           ],
           "additionalProperties": false
         },
-        "exit_code": {
-          "type": "integer"
-        },
-        "event_assertions": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          }
-        }
-      },
-      "required": [],
-      "additionalProperties": false
-    },
-    "variability": {
-      "type": "object",
-      "properties": {
-        "rules": {
+        "business_rules": {
           "type": "array",
           "items": {
             "type": "object",
@@ -291,31 +112,17 @@
                 "type": "string",
                 "pattern": "^[a-z0-9_-]+$"
               },
-              "version": {
+              "description": {
                 "type": "string",
                 "minLength": 1
               },
-              "paths": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "minLength": 1
-                }
-              },
-              "operator": {
+              "representation": {
                 "type": "string",
                 "enum": [
-                  "opaque_relation",
-                  "origin_mapping",
-                  "time_window"
+                  "DECLARATIVE",
+                  "OBSERVED_ONLY",
+                  "UNRESOLVED"
                 ]
-              },
-              "validator": {
-                "type": "object"
-              },
-              "relation_group": {
-                "type": "string",
-                "pattern": "^[a-z0-9_-]+$"
               },
               "evidence_ids": {
                 "type": "array",
@@ -324,160 +131,440 @@
                   "pattern": "^[a-z0-9_-]+$"
                 }
               },
-              "approval_ref": {
-                "type": "string",
-                "pattern": "^[a-z0-9_-]+$"
+              "data": {
+                "type": "object"
               }
             },
             "required": [
               "id",
-              "version",
-              "paths",
-              "operator",
-              "validator",
-              "evidence_ids",
-              "approval_ref"
+              "description",
+              "representation",
+              "evidence_ids"
             ],
             "additionalProperties": false
           }
-        }
-      },
-      "required": [
-        "rules"
-      ],
-      "additionalProperties": false
-    },
-    "evidence_ids": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^[a-z0-9_-]+$"
-      }
-    },
-    "required_dimensions": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "enum": [
-          "http",
-          "body",
-          "authentication",
-          "authorization",
-          "session",
-          "database",
-          "external",
-          "files",
-          "cache",
-          "errors",
-          "execution"
-        ]
-      },
-      "uniqueItems": true,
-      "minItems": 1
-    },
-    "open_questions": {
-      "type": "array",
-      "items": {
-        "type": "object"
-      }
-    },
-    "extensions": {
-      "type": "object"
-    }
-  },
-  "required": [
-    "schema_version",
-    "operation_id",
-    "version",
-    "entrypoint",
-    "inputs",
-    "business_rules",
-    "database_effects",
-    "response",
-    "evidence_ids",
-    "required_dimensions",
-    "open_questions"
-  ],
-  "additionalProperties": false,
-  "allOf": [
-    {
-      "if": {
-        "properties": {
-          "entrypoint": {
-            "properties": {
-              "type": {
-                "const": "http"
-              }
+        },
+        "database_effects": {
+          "type": "object",
+          "properties": {
+            "transactional": {
+              "type": "boolean"
             },
-            "required": [
-              "type"
-            ]
-          }
-        }
-      },
-      "then": {
-        "properties": {
-          "response": {
-            "required": [
-              "status",
-              "body"
-            ]
-          }
-        }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "entrypoint": {
-            "properties": {
-              "type": {
-                "enum": [
-                  "cli",
-                  "cron"
+            "mutations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "action": {
+                    "type": "string",
+                    "enum": [
+                      "INSERT",
+                      "UPDATE",
+                      "DELETE"
+                    ]
+                  },
+                  "table": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "columns": {
+                    "type": "object"
+                  },
+                  "where": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "batch_from": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "captured_keys": {
+                    "type": "object"
+                  },
+                  "mutation": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "action",
+                  "table"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "transactional",
+            "mutations"
+          ],
+          "additionalProperties": false
+        },
+        "session_effects": {
+          "type": "object"
+        },
+        "external_effects": {
+          "type": "object"
+        },
+        "response": {
+          "type": "object",
+          "properties": {
+            "status": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 599
+            },
+            "headers": {
+              "type": "object",
+              "properties": {},
+              "required": [],
+              "additionalProperties": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
                 ]
               }
             },
-            "required": [
-              "type"
-            ]
+            "redirect": {
+              "type": "object"
+            },
+            "body": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "empty",
+                    "json",
+                    "html",
+                    "text",
+                    "binary"
+                  ]
+                },
+                "artifact_ref": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "schema": {
+                  "type": "object"
+                },
+                "assertions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              },
+              "required": [
+                "type"
+              ],
+              "additionalProperties": false
+            },
+            "exit_code": {
+              "type": "integer"
+            },
+            "event_assertions": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "variability": {
+          "type": "object",
+          "properties": {
+            "rules": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_-]+$"
+                  },
+                  "version": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "paths": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "operator": {
+                    "type": "string",
+                    "enum": [
+                      "opaque_relation",
+                      "origin_mapping",
+                      "time_window"
+                    ]
+                  },
+                  "validator": {
+                    "type": "object"
+                  },
+                  "relation_group": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_-]+$"
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9_-]+$"
+                    }
+                  },
+                  "approval_ref": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_-]+$"
+                  }
+                },
+                "required": [
+                  "id",
+                  "version",
+                  "paths",
+                  "operator",
+                  "validator",
+                  "evidence_ids",
+                  "approval_ref"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "rules"
+          ],
+          "additionalProperties": false
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
           }
+        },
+        "required_dimensions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "http",
+              "body",
+              "authentication",
+              "authorization",
+              "session",
+              "database",
+              "external",
+              "files",
+              "cache",
+              "errors",
+              "execution"
+            ]
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "extensions": {
+          "type": "object"
         }
       },
-      "then": {
-        "properties": {
-          "response": {
-            "required": [
-              "exit_code"
-            ]
+      "required": [
+        "schema_version",
+        "operation_id",
+        "version",
+        "entrypoint",
+        "inputs",
+        "business_rules",
+        "database_effects",
+        "response",
+        "evidence_ids",
+        "required_dimensions",
+        "open_questions"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "entrypoint": {
+                "properties": {
+                  "type": {
+                    "const": "http"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "response": {
+                "required": [
+                  "status",
+                  "body"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entrypoint": {
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "cli",
+                      "cron"
+                    ]
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "response": {
+                "required": [
+                  "exit_code"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "entrypoint": {
+                "properties": {
+                  "type": {
+                    "const": "event"
+                  }
+                },
+                "required": [
+                  "type"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "response": {
+                "required": [
+                  "event_assertions"
+                ]
+              }
+            }
           }
         }
-      }
+      ]
     },
     {
-      "if": {
-        "properties": {
-          "entrypoint": {
-            "properties": {
-              "type": {
-                "const": "event"
-              }
-            },
-            "required": [
-              "type"
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.0"
+        },
+        "contract_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "configuration_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "operation_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "semantics": {
+          "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json"
+        },
+        "required_dimensions": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "http",
+              "body",
+              "authentication",
+              "authorization",
+              "session",
+              "database",
+              "external",
+              "files",
+              "cache",
+              "errors",
+              "execution"
             ]
-          }
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "uncertainty_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
         }
       },
-      "then": {
-        "properties": {
-          "response": {
-            "required": [
-              "event_assertions"
-            ]
-          }
-        }
-      }
+      "required": [
+        "schema_version",
+        "contract_id",
+        "project_id",
+        "configuration_hash",
+        "operation_id",
+        "version",
+        "semantics",
+        "required_dimensions",
+        "evidence_refs",
+        "uncertainty_refs"
+      ],
+      "additionalProperties": false
     }
   ]
 }

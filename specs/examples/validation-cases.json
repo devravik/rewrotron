@@ -3548,5 +3548,1947 @@
       }
     },
     "valid": true
+  },
+  {
+    "name": "v2-exact-resolution",
+    "schema": "https://rewrotron.dev/specs/project/resolved-environment.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "resolution_id": "res",
+      "project_id": "fixture",
+      "intent_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "language": "php",
+      "runtime": {
+        "name": "php",
+        "version": "8.3.1",
+        "distribution_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "framework": null,
+      "os": "linux",
+      "architecture": "amd64",
+      "services": [],
+      "package_manager": null,
+      "build_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "deployment_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "lock_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "feasibility_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-reject-resolution-13.wild",
+    "schema": "https://rewrotron.dev/specs/project/resolved-environment.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "resolution_id": "res",
+      "project_id": "fixture",
+      "intent_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "language": "php",
+      "runtime": {
+        "name": "php",
+        "version": "13.*",
+        "distribution_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "framework": null,
+      "os": "linux",
+      "architecture": "amd64",
+      "services": [],
+      "package_manager": null,
+      "build_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "deployment_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "lock_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "feasibility_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "v2-reject-resolution-latest",
+    "schema": "https://rewrotron.dev/specs/project/resolved-environment.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "resolution_id": "res",
+      "project_id": "fixture",
+      "intent_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "language": "php",
+      "runtime": {
+        "name": "php",
+        "version": "latest",
+        "distribution_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "framework": null,
+      "os": "linux",
+      "architecture": "amd64",
+      "services": [],
+      "package_manager": null,
+      "build_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "deployment_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "lock_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "feasibility_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "v2-reject-resolution-^8.3",
+    "schema": "https://rewrotron.dev/specs/project/resolved-environment.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "resolution_id": "res",
+      "project_id": "fixture",
+      "intent_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "language": "php",
+      "runtime": {
+        "name": "php",
+        "version": "^8.3",
+        "distribution_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "framework": null,
+      "os": "linux",
+      "architecture": "amd64",
+      "services": [],
+      "package_manager": null,
+      "build_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "deployment_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "lock_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "feasibility_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "v2-reject-resolution-8.3",
+    "schema": "https://rewrotron.dev/specs/project/resolved-environment.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "resolution_id": "res",
+      "project_id": "fixture",
+      "intent_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "language": "php",
+      "runtime": {
+        "name": "php",
+        "version": "8.3",
+        "distribution_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "framework": null,
+      "os": "linux",
+      "architecture": "amd64",
+      "services": [],
+      "package_manager": null,
+      "build_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "deployment_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "lock_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "feasibility_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "v2-semantics",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json",
+    "instance": {
+      "preconditions": [],
+      "postconditions": [
+        {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      ],
+      "invariants": [],
+      "branches": [
+        {
+          "branch_id": "default",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          },
+          "actions": [
+            {
+              "action": "respond",
+              "status": 200,
+              "body": {
+                "op": "literal",
+                "value_type": "string",
+                "value": "ok"
+              }
+            }
+          ]
+        }
+      ],
+      "completion": {
+        "mode": "HTTP_RESPONSE",
+        "timeout_ms": 30000,
+        "expected_receipts": 0,
+        "quiescence_ms": 0,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-unsupported-operator",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json",
+    "instance": {
+      "preconditions": [],
+      "postconditions": [
+        {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      ],
+      "invariants": [],
+      "branches": [
+        {
+          "branch_id": "default",
+          "guard": {
+            "op": "eval",
+            "value": "return true;"
+          },
+          "actions": [
+            {
+              "action": "respond",
+              "status": 200,
+              "body": {
+                "op": "literal",
+                "value_type": "string",
+                "value": "ok"
+              }
+            }
+          ]
+        }
+      ],
+      "completion": {
+        "mode": "HTTP_RESPONSE",
+        "timeout_ms": 30000,
+        "expected_receipts": 0,
+        "quiescence_ms": 0,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "v2-contract",
+    "schema": "https://rewrotron.dev/specs/behavior/behavior-contract.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "contract_id": "create",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "operation_id": "create",
+      "version": "1.0.0",
+      "semantics": {
+        "preconditions": [],
+        "postconditions": [
+          {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          }
+        ],
+        "invariants": [],
+        "branches": [
+          {
+            "branch_id": "default",
+            "guard": {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            },
+            "actions": [
+              {
+                "action": "respond",
+                "status": 200,
+                "body": {
+                  "op": "literal",
+                  "value_type": "string",
+                  "value": "ok"
+                }
+              }
+            ]
+          }
+        ],
+        "completion": {
+          "mode": "HTTP_RESPONSE",
+          "timeout_ms": 30000,
+          "expected_receipts": 0,
+          "quiescence_ms": 0,
+          "predicate": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          }
+        }
+      },
+      "required_dimensions": [
+        "http",
+        "database",
+        "authorization"
+      ],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "uncertainty_refs": []
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-workflow",
+    "schema": "https://rewrotron.dev/specs/behavior/workflow.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "workflow_id": "checkout",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "initial_state_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actors": [
+        {
+          "actor_id": "a",
+          "principal_fixture_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "start_step_id": "login",
+      "steps": [
+        {
+          "step_id": "login",
+          "actor_id": "a",
+          "operation_id": "login",
+          "request_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          },
+          "bindings": {},
+          "transitions": [
+            {
+              "guard": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "next_step_id": null,
+              "terminal_id": "done"
+            }
+          ],
+          "completion": {
+            "mode": "HTTP_RESPONSE",
+            "timeout_ms": 30000,
+            "expected_receipts": 0,
+            "quiescence_ms": 0,
+            "predicate": {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          }
+        }
+      ],
+      "terminals": [
+        {
+          "terminal_id": "done",
+          "outcome": "SUCCESS",
+          "state_assertions": [
+            {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          ],
+          "expected_effect_refs": []
+        }
+      ],
+      "max_executed_steps": 2,
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-empty-query",
+    "schema": "https://rewrotron.dev/specs/behavior/request.schema.json",
+    "instance": {
+      "method": "GET",
+      "raw_target": "/orders?filter=&flag&x=1&x=2",
+      "headers": [
+        {
+          "name": "X-Empty",
+          "value": ""
+        }
+      ],
+      "body_ref": null
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-subject",
+    "schema": "https://rewrotron.dev/specs/project/approval-subject.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "canonicalization": "rwt-cjson-1",
+      "project_id": "fixture",
+      "kind": "PLAN",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "snapshot_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "behavior_ir_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "corpus_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "target_intent_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "resolved_environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "target_model_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "decision_refs": [],
+      "dependency_graph_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "adapter_bindings": [
+        {
+          "role": "TARGET",
+          "adapter_id": "synthetic",
+          "version": "1.0.0",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "consumed_revision_refs": [],
+      "ordered_units": [
+        {
+          "unit_id": "login",
+          "contract_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "case_ids": [
+            "login"
+          ],
+          "priority": 1,
+          "capabilities": [
+            "http"
+          ]
+        }
+      ],
+      "dependency_edges": [],
+      "omission_proof_refs": [],
+      "scope_exclusion_refs": [],
+      "unresolved_items": []
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-plan",
+    "schema": "https://rewrotron.dev/specs/migration/plan.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "project_id": "fixture",
+      "plan_id": "plan",
+      "plan_hash": "3ccae952a8f049ec692f413163bfb5828b25dcf42a1f0d80eac7cb6a121bcb2e",
+      "subject": {
+        "schema_version": "2.0",
+        "canonicalization": "rwt-cjson-1",
+        "project_id": "fixture",
+        "kind": "PLAN",
+        "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "snapshot_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "behavior_ir_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "corpus_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "target_intent_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "resolved_environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "target_model_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "decision_refs": [],
+        "dependency_graph_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "adapter_bindings": [
+          {
+            "role": "TARGET",
+            "adapter_id": "synthetic",
+            "version": "1.0.0",
+            "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ],
+        "consumed_revision_refs": [],
+        "ordered_units": [
+          {
+            "unit_id": "login",
+            "contract_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "case_ids": [
+              "login"
+            ],
+            "priority": 1,
+            "capabilities": [
+              "http"
+            ]
+          }
+        ],
+        "dependency_edges": [],
+        "omission_proof_refs": [],
+        "scope_exclusion_refs": [],
+        "unresolved_items": []
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-model",
+    "schema": "https://rewrotron.dev/specs/migration/target-model.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "model_id": "model",
+      "revision": 1,
+      "project_id": "fixture",
+      "behavior_ir_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "resolved_environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "components": [
+        {
+          "component_id": "auth",
+          "owner_unit_id": "login",
+          "consumer_unit_ids": [],
+          "paths": [
+            "auth.go"
+          ],
+          "contract_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "lowering_choice": "synthetic",
+          "required_capabilities": [
+            "http"
+          ],
+          "constraint_refs": []
+        }
+      ],
+      "capability_gaps": []
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-decision",
+    "schema": "https://rewrotron.dev/specs/project/decision.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "decision_id": "dec",
+      "project_id": "fixture",
+      "action": "SELECT_STRATEGY",
+      "subject_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "strategy": "ADAPTER",
+      "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "exception_scope_ref": null,
+      "rationale": "Reviewed candidate",
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "status": "PROPOSED"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-causality",
+    "schema": "https://rewrotron.dev/specs/observation/causality.schema.json",
+    "instance": {
+      "project_id": "fixture",
+      "run_id": "run",
+      "workflow_instance_id": "wf",
+      "operation_id": "run",
+      "request_id": "req",
+      "process_id": "proc",
+      "trace_id": "trace",
+      "span_id": "span",
+      "parent_span_id": null,
+      "cause_ids": [],
+      "job_id": null,
+      "effect_id": null
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-attestation",
+    "schema": "https://rewrotron.dev/specs/observation/attestation.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "attestation_id": "att",
+      "project_id": "fixture",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "mechanisms": [
+        {
+          "mechanism_id": "db",
+          "dimension": "DB",
+          "boundary_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "instrumentation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "supported_paths": [
+            "owned-db"
+          ],
+          "excluded_paths": [],
+          "escape_paths": [],
+          "control_test_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "closure_test_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "failure_refs": [],
+          "residual_limitations": [],
+          "coverage": "CLOSED"
+        }
+      ],
+      "derived_status": "COMPLETE",
+      "derivation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "not_applicable_contract_ref": null
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-trace",
+    "schema": "https://rewrotron.dev/specs/schemas/trace-schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "trace_id": "trc_001",
+      "project_id": "fixture",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "entrypoint_type": "http",
+      "environment": "source_legacy",
+      "timestamp": "2026-10-03T00:00:00Z",
+      "duration_ms": 1,
+      "completeness": {
+        "http": "COMPLETE",
+        "body": "COMPLETE",
+        "authentication": "COMPLETE",
+        "authorization": "COMPLETE",
+        "session": "COMPLETE",
+        "database": "COMPLETE",
+        "external": "COMPLETE",
+        "files": "COMPLETE",
+        "cache": "COMPLETE",
+        "errors": "COMPLETE",
+        "execution": "NOT_APPLICABLE"
+      },
+      "request": {
+        "method": "GET",
+        "raw_target": "/?empty=",
+        "headers": [],
+        "body_ref": null
+      },
+      "response": {
+        "status": 200,
+        "headers": []
+      },
+      "redaction": {
+        "fields": [],
+        "withheld_dimensions": []
+      },
+      "causality": {
+        "project_id": "fixture",
+        "run_id": "run",
+        "workflow_instance_id": "wf",
+        "operation_id": "run",
+        "request_id": "req",
+        "process_id": "proc",
+        "trace_id": "trace",
+        "span_id": "span",
+        "parent_span_id": null,
+        "cause_ids": [],
+        "job_id": null,
+        "effect_id": null
+      },
+      "attestation_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "reset_report_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "effects_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scenario_id": null
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-current-window",
+    "schema": "https://rewrotron.dev/specs/execution/page.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "project_id": "fixture",
+      "after_sequence": 0,
+      "through_sequence": 10,
+      "next_sequence": 10,
+      "has_more": false,
+      "state": {
+        "schema_version": "1.0",
+        "project_id": "fixture",
+        "lifecycle_state": "ANALYZED",
+        "control_mode": "RUNNING",
+        "control_reason": "One observation mission is running",
+        "latest_event_sequence": 10,
+        "observed_at": "2026-10-03T12:41:01Z",
+        "focus_run_id": "op-observe",
+        "active_runs": [
+          {
+            "run_id": "op-observe",
+            "operation_id": "op-observe",
+            "stage": "OBSERVE",
+            "stage_instance_id": "stage-observe-1",
+            "status": "RUNNING",
+            "current_task": {
+              "task_id": "task-orders",
+              "mission_id": "mission-orders",
+              "title": "Characterize cross-account order creation",
+              "reason": "User-owned order creation lacks cross-account authorization evidence",
+              "status": "RUNNING",
+              "result": null,
+              "next_action": "Capture committed state and authenticated identity",
+              "evidence_refs": [
+                "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+              ]
+            },
+            "last_activity_at": "2026-10-03T12:41:00Z",
+            "last_heartbeat_at": "2026-10-03T12:41:00Z",
+            "subjects": {
+              "configuration_hash": null,
+              "plan_hash": null,
+              "target_spec_hash": null,
+              "target_tree_hash": null,
+              "corpus_hash": null,
+              "policy_hash": null
+            }
+          }
+        ],
+        "stage_instances": [
+          {
+            "stage_instance_id": "stage-observe-1",
+            "run_id": "op-observe",
+            "stage": "OBSERVE",
+            "status": "RUNNING",
+            "summary": "Testing POST /orders with a second supplied identity",
+            "evidence_refs": [
+              "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+            ],
+            "artifact_refs": []
+          }
+        ],
+        "last_activity_at": "2026-10-03T12:41:00Z",
+        "last_heartbeat_at": "2026-10-03T12:41:00Z",
+        "liveness": "FRESH",
+        "progress_metrics": [
+          {
+            "metric_id": "required-case-compatibility",
+            "definition": "Current PASS cases / required cases in frozen corpus",
+            "numerator": 397,
+            "denominator": null,
+            "unit": "cases",
+            "percent": null,
+            "scope_hash": null,
+            "basis_ref": null,
+            "accounting_revision": 1,
+            "evidence_sequence": 10,
+            "freshness": "CURRENT"
+          }
+        ],
+        "blockers": [],
+        "pending_approvals": [],
+        "next_action": "Capture committed state and authenticated identity",
+        "user_request": null,
+        "subjects": {
+          "configuration_hash": null,
+          "plan_hash": null,
+          "target_spec_hash": null,
+          "target_tree_hash": null,
+          "corpus_hash": null,
+          "policy_hash": null
+        },
+        "recent_change_refs": []
+      },
+      "events": [
+        {
+          "schema_version": "1.0",
+          "event_id": "evt-order-test",
+          "sequence": 10,
+          "project_id": "fixture",
+          "run_id": "op-observe",
+          "operation_id": "op-observe",
+          "mission_id": "mission-orders",
+          "task_id": "task-orders",
+          "stage": "OBSERVE",
+          "stage_instance_id": "stage-observe-1",
+          "type": "TASK_STARTED",
+          "kind": "ACTION",
+          "severity": "INFO",
+          "producer": "ENGINE",
+          "requires_user": false,
+          "created_at": "2026-10-03T12:41:00Z",
+          "causation_event_id": null,
+          "title": "Characterize cross-account order creation",
+          "summary": "Testing POST /orders with a second supplied identity",
+          "reason": "User-owned order creation lacks cross-account authorization evidence",
+          "result": null,
+          "next_action": "Capture committed state and authenticated identity",
+          "user_request": null,
+          "entity_type": "case",
+          "entity_id": "order-create-18",
+          "subjects": {
+            "configuration_hash": null,
+            "plan_hash": null,
+            "target_spec_hash": null,
+            "target_tree_hash": null,
+            "corpus_hash": null,
+            "policy_hash": null
+          },
+          "evidence_refs": [
+            "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+          ],
+          "artifact_refs": [],
+          "progress": null,
+          "approval": null,
+          "details": {}
+        }
+      ],
+      "changes": [],
+      "state_semantics": "CURRENT",
+      "state_sequence": 10
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-scope",
+    "schema": "https://rewrotron.dev/specs/verification/acceptance-scope.schema.json",
+    "instance": {
+      "kind": "UNIT",
+      "unit_ids": [
+        "login"
+      ],
+      "case_ids": [
+        "login"
+      ],
+      "corpus_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scope_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-validity-graph",
+    "schema": "https://rewrotron.dev/specs/project/validity-graph.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "graph_id": "graph",
+      "project_id": "fixture",
+      "edges": [
+        {
+          "from_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "to_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "kind": "SOURCE_IR",
+          "predicate": "SAME_CONTENT",
+          "witness_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "unknown_impact_refs": []
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-normalization",
+    "schema": "https://rewrotron.dev/specs/verification/normalization.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "rule_id": "id",
+      "path": "/order/id",
+      "value_type": "integer",
+      "variability": "GENERATED_ID",
+      "relation": "BIJECTIVE_ID",
+      "relation_group": "orders",
+      "lifecycle_contract_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "business_significance_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "negative_mutation_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-snapshot",
+    "schema": "https://rewrotron.dev/specs/project/source-snapshot.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "snapshot_id": "snap",
+      "project_id": "fixture",
+      "acquisition": "QUIESCED_COPY",
+      "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operational_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "closure_evidence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "content_root_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "private_location_id": "vault",
+      "publication_state": "SEALED"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-progress",
+    "schema": "https://rewrotron.dev/specs/migration/progress.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "project_id": "fixture",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "decision_or_model_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "entity_id": "login",
+      "status": "VERIFYING",
+      "through_sequence": 1,
+      "target_tree_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "acceptance_report_ref": null
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-reuse",
+    "schema": "https://rewrotron.dev/specs/project/reuse-certificate.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "project_id": "fixture",
+      "old_plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "new_plan_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "artifact_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "graph_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "kind": "IMPLEMENTATION",
+      "checked_edge_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "issuer": "ENGINE",
+      "valid": true
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-reset",
+    "schema": "https://rewrotron.dev/specs/observation/reset-report.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "project_id": "fixture",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "side": "SOURCE",
+      "connection_state_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "store_state_refs": [],
+      "file_state_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "sink_state_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "process_cleanup_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "control_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "outcome": "RESTORED"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-effects",
+    "schema": "https://rewrotron.dev/specs/observation/effects.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "project_id": "fixture",
+      "effects": [],
+      "identity_map_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-profile",
+    "schema": "https://rewrotron.dev/specs/observation/profile.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "profile_id": "profile",
+      "project_id": "fixture",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "operational_roots": [
+        {
+          "root_id": "http",
+          "kind": "HTTP",
+          "inventory_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "mechanism_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "required_dimensions": [
+        "http"
+      ],
+      "closed_boundary_evidence_ref": null,
+      "capture_limits_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "connection_profiles": [],
+      "store_profile_refs": [],
+      "completion_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-archive",
+    "schema": "https://rewrotron.dev/specs/operations/archive.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "project_id": "fixture",
+      "db_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "through_sequence": 4,
+      "migration_hashes": [
+        "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      ],
+      "objects": [
+        {
+          "ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "size_bytes": 2,
+          "retention_class": "APPROVAL",
+          "private": false
+        }
+      ],
+      "config_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "private_key_policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "closure_report_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-omission",
+    "schema": "https://rewrotron.dev/specs/analysis/omission-proof.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "project_id": "fixture",
+      "omitted_ids": [
+        "unused"
+      ],
+      "snapshot_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "closed_operational_boundary_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "parse_completeness_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "graph_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "analyzer_manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "no_reachable_path_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "no_unresolved_candidate_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "usable_corpus_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "zero_runtime_hits_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "validity_graph_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-admission",
+    "schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+    "instance": {
+      "operation_id": "run",
+      "status": "RUNNING",
+      "state": "MIGRATING",
+      "artifact_refs": [],
+      "entity_ids": [],
+      "blockers": [],
+      "summary": {}
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-dependency-frozen",
+    "schema": "https://rewrotron.dev/specs/migration/dependency-resolution.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "dependency_id": "dep-search",
+      "target_spec_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": {
+        "ecosystem": "composer",
+        "package": "legacy/search-client",
+        "version": "1.8.2",
+        "evidence_refs": [
+          "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        ]
+      },
+      "usage": {
+        "symbols": [
+          "Legacy\\Search\\Client::stream"
+        ],
+        "source_files": [
+          "application/libraries/Search.php"
+        ],
+        "affected_unit_ids": [
+          "search"
+        ],
+        "required_capabilities": [
+          "streaming"
+        ]
+      },
+      "proposal": {
+        "strategy": "REPLACEMENT",
+        "package": "modern/search-client",
+        "version": "4.1.0",
+        "adapter_required": true
+      },
+      "compatibility": {
+        "metadata": "COMPATIBLE",
+        "used_api": "PARTIAL",
+        "behavior": "UNKNOWN",
+        "missing_capabilities": [
+          "streaming"
+        ]
+      },
+      "capability_mappings": [
+        {
+          "capability_id": "streaming",
+          "provider": "modern/search-client",
+          "status": "MISSING",
+          "case_ids": [],
+          "evidence_refs": [
+            "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          ]
+        }
+      ],
+      "transitive_dependency_ids": [],
+      "evidence_refs": [
+        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      ],
+      "decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-relational-identities",
+    "schema": "https://rewrotron.dev/specs/verification/identity-map.schema.json",
+    "valid": true,
+    "instance": {
+      "schema_version": "2.0",
+      "project_id": "fixture",
+      "case_id": "case",
+      "workflow_instance_id": "wf",
+      "policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "bindings": [
+        {
+          "binding_id": "order",
+          "relation_group": "orders",
+          "actor_id": "a",
+          "connection_id": "db",
+          "logical_key": "order_one",
+          "source_value": {
+            "value_type": "integer",
+            "value": "9007199254740993"
+          },
+          "target_value": {
+            "value_type": "integer",
+            "value": "9007199254740995"
+          },
+          "evidence_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ]
+        }
+      ],
+      "relationship_assertion_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    }
+  },
+  {
+    "name": "v2-adapter-designed-not-tested",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "adapter_id": "synthetic",
+      "version": "1.0.0",
+      "direction": "TARGET",
+      "implementation_status": "PLANNED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "SPECIFIED",
+      "implementation_ref": null,
+      "capabilities": [
+        "http"
+      ],
+      "supported_profiles": [],
+      "limitations": [
+        "Pending implementation"
+      ],
+      "evidence_refs": []
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-adapter-reject-planned-runtime-maturity",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "adapter_id": "synthetic",
+      "version": "1.0.0",
+      "direction": "TARGET",
+      "implementation_status": "PLANNED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "RUNTIME_VALIDATED",
+      "implementation_ref": null,
+      "capabilities": [
+        "http"
+      ],
+      "supported_profiles": [],
+      "limitations": [
+        "Pending implementation"
+      ],
+      "evidence_refs": []
+    },
+    "valid": false
+  },
+  {
+    "name": "v2-artifact-visibility",
+    "schema": "https://rewrotron.dev/specs/common.schema.json#/$defs/artifact_policy",
+    "instance": {
+      "visibility": "SANITIZED_EVIDENCE",
+      "policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-populated-unit-report",
+    "schema": "https://rewrotron.dev/specs/verification/report.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "run_id": "run",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "corpus_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "policy_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_tree_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "status": "COMPLETED",
+      "verdict": "PASS",
+      "has_expected_changes": false,
+      "cases": [
+        {
+          "case_id": "login",
+          "source_trace_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "target_trace_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "verdict": "PASS",
+          "dimensions": {
+            "http": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "body": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "authentication": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "authorization": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "session": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "database": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "external": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "files": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "cache": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "errors": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "execution": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          },
+          "mismatch_ids": []
+        }
+      ],
+      "errors": [],
+      "acceptance_scope": {
+        "kind": "UNIT",
+        "unit_ids": [
+          "login"
+        ],
+        "case_ids": [
+          "login"
+        ],
+        "corpus_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "scope_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-reject-pass-containing-unknown",
+    "schema": "https://rewrotron.dev/specs/verification/report.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "run_id": "run",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "corpus_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "policy_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_tree_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "status": "COMPLETED",
+      "verdict": "PASS",
+      "has_expected_changes": false,
+      "cases": [
+        {
+          "case_id": "login",
+          "source_trace_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "target_trace_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "verdict": "PASS",
+          "dimensions": {
+            "http": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "body": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "authentication": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "authorization": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "session": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "database": {
+              "applicable": true,
+              "verdict": "UNKNOWN",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "external": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "files": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "cache": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "errors": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "execution": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          },
+          "mismatch_ids": []
+        }
+      ],
+      "errors": [],
+      "acceptance_scope": {
+        "kind": "UNIT",
+        "unit_ids": [
+          "login"
+        ],
+        "case_ids": [
+          "login"
+        ],
+        "corpus_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "scope_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "v2-reject-missing-acceptance-scope",
+    "schema": "https://rewrotron.dev/specs/verification/report.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "run_id": "run",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "corpus_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "policy_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_tree_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "status": "COMPLETED",
+      "verdict": "PASS",
+      "has_expected_changes": false,
+      "cases": [
+        {
+          "case_id": "login",
+          "source_trace_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "target_trace_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "verdict": "PASS",
+          "dimensions": {
+            "http": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "body": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "authentication": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "authorization": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "session": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "database": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "external": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "files": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "cache": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "errors": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            },
+            "execution": {
+              "applicable": true,
+              "verdict": "PASS",
+              "reason": null,
+              "evidence_refs": [
+                "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              ]
+            }
+          },
+          "mismatch_ids": []
+        }
+      ],
+      "errors": []
+    },
+    "valid": false
+  },
+  {
+    "name": "v2-benchmark-typed-metrics",
+    "schema": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "benchmark_id": "bench",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_tree_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verification_report_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "seed": 1,
+      "trials": [
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        }
+      ],
+      "confidence_intervals": {},
+      "outcome": "APPROVED_BUDGET",
+      "artifact_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "errors": [],
+      "claim": "NON_INFERIORITY",
+      "budget_decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "method_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "metric_evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "metrics": [
+        {
+          "metric_id": "P95",
+          "unit": "ratio",
+          "required": true,
+          "source_value": 1,
+          "target_value": 0.9,
+          "lower_bound": 0.85,
+          "upper_bound": 0.95,
+          "source_sample_count": 5000,
+          "target_sample_count": 5000,
+          "approved_limit": 1.05,
+          "raw_samples_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "v2-reject-accepted-missing-metric",
+    "schema": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "benchmark_id": "bench",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_tree_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verification_report_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "seed": 1,
+      "trials": [
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        },
+        {
+          "source_p95_ms": 100,
+          "target_p95_ms": 90,
+          "source_peak_memory_mb": 100,
+          "target_peak_memory_mb": 90,
+          "source_successes": 500,
+          "target_successes": 500,
+          "source_errors": 0,
+          "target_errors": 0,
+          "latency_ratio": 0.9,
+          "memory_ratio": 0.9
+        }
+      ],
+      "confidence_intervals": {},
+      "outcome": "APPROVED_BUDGET",
+      "artifact_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "errors": [],
+      "claim": "NON_INFERIORITY",
+      "budget_decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "method_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "metric_evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "metrics": [
+        {
+          "metric_id": "P95",
+          "unit": "ratio",
+          "required": true,
+          "source_value": 1,
+          "target_value": null,
+          "lower_bound": 0.85,
+          "upper_bound": 0.95,
+          "source_sample_count": 5000,
+          "target_sample_count": 5000,
+          "approved_limit": 1.05,
+          "raw_samples_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "v2-inconclusive-empty-trials",
+    "schema": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "benchmark_id": "bench",
+      "project_id": "fixture",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_tree_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "verification_report_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "workload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "seed": 1,
+      "trials": [],
+      "confidence_intervals": {},
+      "outcome": "INCONCLUSIVE",
+      "artifact_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "errors": [],
+      "claim": "NON_INFERIORITY",
+      "budget_decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "method_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "metric_evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "metrics": [
+        {
+          "metric_id": "P95",
+          "unit": "ratio",
+          "required": true,
+          "source_value": 1,
+          "target_value": null,
+          "lower_bound": 0.85,
+          "upper_bound": 0.95,
+          "source_sample_count": 5000,
+          "target_sample_count": 5000,
+          "approved_limit": 1.05,
+          "raw_samples_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    "valid": true
   }
 ]

@@ -1,0 +1,127 @@
+[
+  {
+    "name": "source",
+    "subject": {
+      "schema_version": "2.0",
+      "canonicalization": "rwt-cjson-1",
+      "project_id": "fixture",
+      "kind": "SOURCE",
+      "snapshot_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "detection_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "assertions_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "adapter_bindings": [
+        {
+          "role": "SOURCE",
+          "adapter_id": "synthetic",
+          "version": "1.0.0",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    "canonical_utf8": "{\"adapter_bindings\":[{\"adapter_id\":\"synthetic\",\"implementation_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"manifest_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"role\":\"SOURCE\",\"version\":\"1.0.0\"}],\"assertions_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"canonicalization\":\"rwt-cjson-1\",\"detection_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"kind\":\"SOURCE\",\"project_id\":\"fixture\",\"schema_version\":\"2.0\",\"snapshot_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+    "sha256": "6a72ec8f5a7cebc87e48f41601d822b4209f9a826afe2ed972561a5a2fca709c",
+    "approval_schema": true
+  },
+  {
+    "name": "plan",
+    "subject": {
+      "schema_version": "2.0",
+      "canonicalization": "rwt-cjson-1",
+      "project_id": "fixture",
+      "kind": "PLAN",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "snapshot_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "behavior_ir_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "corpus_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "target_intent_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "resolved_environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "target_model_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "decision_refs": [],
+      "dependency_graph_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "adapter_bindings": [
+        {
+          "role": "TARGET",
+          "adapter_id": "synthetic",
+          "version": "1.0.0",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "consumed_revision_refs": [],
+      "ordered_units": [
+        {
+          "unit_id": "login",
+          "contract_refs": [
+            "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          ],
+          "case_ids": [
+            "login"
+          ],
+          "priority": 1,
+          "capabilities": [
+            "http"
+          ]
+        }
+      ],
+      "dependency_edges": [],
+      "omission_proof_refs": [],
+      "scope_exclusion_refs": [],
+      "unresolved_items": []
+    },
+    "canonical_utf8": "{\"adapter_bindings\":[{\"adapter_id\":\"synthetic\",\"implementation_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"manifest_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"role\":\"TARGET\",\"version\":\"1.0.0\"}],\"behavior_ir_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"canonicalization\":\"rwt-cjson-1\",\"configuration_hash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"consumed_revision_refs\":[],\"corpus_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"decision_refs\":[],\"dependency_edges\":[],\"dependency_graph_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"kind\":\"PLAN\",\"omission_proof_refs\":[],\"ordered_units\":[{\"capabilities\":[\"http\"],\"case_ids\":[\"login\"],\"contract_refs\":[\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"],\"priority\":1,\"unit_id\":\"login\"}],\"policy_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"project_id\":\"fixture\",\"resolved_environment_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"schema_version\":\"2.0\",\"scope_exclusion_refs\":[],\"snapshot_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"target_intent_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"target_model_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"unresolved_items\":[]}",
+    "sha256": "3ccae952a8f049ec692f413163bfb5828b25dcf42a1f0d80eac7cb6a121bcb2e",
+    "approval_schema": true
+  },
+  {
+    "name": "release",
+    "subject": {
+      "schema_version": "2.0",
+      "canonicalization": "rwt-cjson-1",
+      "project_id": "fixture",
+      "kind": "RELEASE",
+      "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "plan_hash": "3ccae952a8f049ec692f413163bfb5828b25dcf42a1f0d80eac7cb6a121bcb2e",
+      "target_tree_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "whole_project_report_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "benchmark_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "runbook_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "rollback_rehearsal_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "canonical_utf8": "{\"benchmark_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"canonicalization\":\"rwt-cjson-1\",\"configuration_hash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"kind\":\"RELEASE\",\"plan_hash\":\"3ccae952a8f049ec692f413163bfb5828b25dcf42a1f0d80eac7cb6a121bcb2e\",\"project_id\":\"fixture\",\"rollback_rehearsal_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"runbook_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"schema_version\":\"2.0\",\"target_tree_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"whole_project_report_ref\":\"sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+    "sha256": "82c45c5409d976c4a942170e430c336a1acd468278a33ecb4afc60ab0612f1db",
+    "approval_schema": true
+  },
+  {
+    "name": "unicode-escaping-null",
+    "subject": {
+      "é": "line\n\t\"\\/",
+      "a": null,
+      "z": 0
+    },
+    "canonical_utf8": "{\"a\":null,\"z\":0,\"é\":\"line\\n\\t\\\"\\\\/\"}",
+    "sha256": "caed9569c6103ca4ac929f4fac5a12118a2ae7c243a5651037b5884b78b14404",
+    "approval_schema": false
+  },
+  {
+    "name": "duplicate-keys",
+    "rejected_raw_json": "{\"a\":1,\"a\":2}",
+    "expected_error": "NONCANONICAL_SUBJECT"
+  },
+  {
+    "name": "float",
+    "rejected_raw_json": "{\"a\":1.0}",
+    "expected_error": "NONCANONICAL_SUBJECT"
+  },
+  {
+    "name": "signed-overflow",
+    "rejected_raw_json": "{\"a\":9223372036854775808}",
+    "expected_error": "NONCANONICAL_SUBJECT"
+  },
+  {
+    "name": "invalid-surrogate",
+    "rejected_raw_json": "{\"a\":\"\\ud800\"}",
+    "expected_error": "NONCANONICAL_SUBJECT"
+  }
+]

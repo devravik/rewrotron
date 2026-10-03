@@ -2,7 +2,7 @@
 
 The engine owns gates, state, hashing, scheduling, sandbox execution, persistence and verifier verdicts. An optional external agent proposes interpretations, architectures, code patches, diagnosis and knowledge. The core runs without an LLM or provider credentials.
 
-Agents read snapshots and evidence through the CLI/MCP, claim fenced missions, propose target patches through staged generation, and submit completion evidence. They cannot mutate project SQLite directly, invent observations, approve their own proposals, mark uncertain code DEAD, overwrite source files, or alter deterministic results.
+Agents read snapshots and evidence through the CLI/MCP, claim fenced missions, propose target patches through staged generation, and submit completion evidence. Mediated agent operations do not permit direct SQLite mutation; same-account shell/filesystem access is outside this enforcement boundary. Through engine services they cannot, invent observations, approve their own proposals, mark uncertain code DEAD, overwrite source files, or alter deterministic results.
 
 The three approvals are exact subjects described in [CONFIRMATION-PROTOCOL](../02-domain/CONFIRMATION-PROTOCOL.md). Chat agreement alone is not a persisted approval. CLI human actions or MCP calls consuming a separately issued human token create `user_confirmations`. YAML flags and agent-controlled actor names cannot establish authority. The local account remains the trust boundary.
 
@@ -27,3 +27,7 @@ Agents inspect separate detection, requested target, recommendation, dependency 
 ## Visible agent execution
 
 An agent works through mission → reason/action → evidence/result → engine-validated completion → next mission. Canonical events/state update with those committed steps; the agent cannot replace them with an opaque activity message or make its narration an observed fact. Explanations cite goals/evidence and label hypotheses without exposing hidden reasoning. Inspect [EXECUTION-OBSERVABILITY](EXECUTION-OBSERVABILITY.md) for stage/task/result, liveness, blockers and next-action obligations. Persistent human pause stops new mission readiness; read-only inspection remains available.
+
+## Reproducibility and trust
+
+Current generation requires v2 executable contracts and the approved Target Implementation Model; arbitrary prose is not interpreted truth. Pins include source snapshot, exact resolution, adapters/comparators, tools/skills/knowledge and acceptance scope. Another client resumes through persisted subjects/missions/evidence without conversation history. Same-account users can bypass mediated access externally; SECURITY owns that limitation. An unavailable LLM does not prevent deterministic fixture replay/acceptance, but unsupported interpretation/generation remains BLOCKED rather than invented.

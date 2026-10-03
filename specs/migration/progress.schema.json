@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/migration/progress.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "decision_or_model_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "entity_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "status": {
+      "enum": [
+        "PLANNED",
+        "GENERATING",
+        "BUILDING",
+        "VERIFYING",
+        "VERIFIED",
+        "BLOCKED"
+      ]
+    },
+    "through_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "target_tree_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "acceptance_report_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "plan_hash",
+    "decision_or_model_ref",
+    "entity_id",
+    "status",
+    "through_sequence",
+    "target_tree_ref",
+    "acceptance_report_ref"
+  ],
+  "additionalProperties": false
+}

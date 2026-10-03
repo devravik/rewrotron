@@ -14,6 +14,10 @@
     },
     "all": {
       "type": "boolean"
+    },
+    "background": {
+      "type": "boolean",
+      "default": false
     }
   },
   "required": [],

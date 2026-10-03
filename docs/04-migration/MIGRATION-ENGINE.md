@@ -1,31 +1,22 @@
-# Migration engine contract
+# Migration engine
 
-**Status:** Normative. Target work requires valid Gates 1 and 2. Generation reconstructs behavior slices from canonical IR through a target adapter.
+**Owner:** Execution sequence and publication orchestration. [SYSTEM-DESIGN](../01-architecture/SYSTEM-DESIGN.md) owns pipeline; [MIGRATION-UNITS](MIGRATION-UNITS.md) owns scoped acceptance; [CONFIRMATION-PROTOCOL](../02-domain/CONFIRMATION-PROTOCOL.md) owns exact approvals.
 
-## Unit progression
+## Guarded sequence
 
-`DISCOVERED → PLANNED → GENERATING → GENERATED → VERIFYING → VERIFIED → COMPLETED`. A failure creates `BLOCKED` with concrete findings and preserves earlier evidence. A repair returns the unit to GENERATED/VERIFYING and invalidates current completion evidence.
+1. Acquire/seal source and profiles; bounded detection; explicit Gate 1.
+2. Extract Source/Application IR; inventory dynamic uncertainty and operational roots; observe isolated scenarios with mechanism attestations.
+3. Build evidenced Behavior IR and typed executable contracts/cases; review corpus/normalization and independent falsification controls.
+4. Read requested target, resolve exact runtime/dependencies/capabilities, create Target Implementation Model and deterministic ordered plan subject; material blockers remain explicit. Confirm Gate 2.
+5. Claim ready unit and project mutation/resource ownership; stage adapter implementation using pinned inputs and revisions. Build in resolved environment.
+6. Publish through before-hash/fence/journal checks; verify independent source/target fixtures and UNIT plus implemented regressions. Complete only scoped evidence; continue dependent units.
+7. Diagnose MISMATCH/UNKNOWN separately. Repairs are bounded proposals, never comparator relaxation to hide faults. Every changed shared component reverifies consumers.
+8. Execute PROJECT corpus, required performance claim and release/rollback rehearsals; freeze release subject, confirm Gate 3 and package.
 
-1. Characterize the entrypoints, behavior rules, required dimensions, fixtures and cases.
-2. Check target adapter capability coverage and dependency readiness.
-3. Include the unit and its risks in the immutable plan approved at Gate 2.
-4. Claim a fenced mission and stage target files/patches with before hashes.
-5. Run target build/static checks and differential cases; persist immutable reports.
-6. Repair proved defects using recorded hypotheses, maximum three attempts per current context; missing evidence creates an observation/review mission.
-7. Reverify the current full regression corpus and record provenance before completion.
+No execution chooses a lower user runtime or resolves latest after approval. A changed target/code/corpus/policy follows typed invalidation. Historic artifacts remain retained; reuse requires engine-validated certificates where allowed. Missing pinned bytes/capability blocks execution. Foreground/supervised lifetimes and crash reconciliation follow [RECOVERY](../08-storage/RECOVERY.md).
 
-A unit completes only with current PASS results in all required cases/dimensions, no unexplained mismatch, committed state/effect equivalence, target quality checks, and hashed artifacts. An approved intentional change is recorded as a policy exception and rerun; it is never a fourth verdict. Performance optimization requires prior correctness and fresh benchmark/regression evidence.
+## Safety and repair budgets
 
-## Plan stability and generation safety
+Initial mutation is serialized per project, including shared files. Sandbox replay has independent databases/session/cache/files/sinks and validated reset boundaries; production/irreversible effects are prohibited. Retry after uncertain external acknowledgement is not automatic: reconcile receipts/idempotency first. Repair attempts are limited to three per incident subject; changing a trivial patch fingerprint does not reset this budget. Further attempts require explicit reviewed incident/cause change. Failure leaves actionable evidence and current UNKNOWN/MISMATCH.
 
-The plan names source/configuration, IR/corpus/policy hashes, target/runtime/dependency versions, architecture, ordered units and dependencies, omissions, exclusions and blockers. Source drift invalidates Gate 1; changes to plan subjects invalidate Gate 2/3. A target implementation patch of the same confirmed behavior keeps Gate 2 but invalidates release results.
-
-Target publication and rollback are specified in [RECOVERY](../08-storage/RECOVERY.md); authentication continuity in [AUTH-AND-SESSION](AUTH-AND-SESSION.md). Adapters cannot mark themselves verified. Independent units can run after an unrelated blocker, while prerequisite and conflicting-file work remains blocked.
-
-Generation cannot derive arbitrary business logic from free-text descriptions alone. Unsupported computations return `ERR_UNSUPPORTED_CAPABILITY` with exact rule/evidence references. External agents may propose implementations; the same build, gates, staged publication and differential verifier govern them.
-
-## Target and dependency planning prerequisites
-
-Freeze the validated user [target specification](TARGET-SPECIFICATION.md) before synthesis. Compare detected/recommended/requested/exact resolved versions and run [dependency resolution](DEPENDENCY-RESOLUTION.md) recursively using actual usage and required capabilities. Include evidence-backed recommendation decisions, API changes, adapters/native implementations, characterization cases and unresolved scope in the plan review. REQUIRED actions need acceptance or target/scope revision; BLOCKING issues prevent dependent execution; optional changes need opt-in. Recommendations never mutate the target.
-
-New plans include `decision_system` with `target_spec_hash`, `target_spec_ref`, resolved target versions and immutable recommendation/dependency/feasibility refs. Gate 2 binds these inputs through the plan hash. Historic plans missing this section are readable but must be rebuilt before execution. Target edits invalidate the current approval and affected target evidence; preserve unrelated source work and use recorded dependency links to revalidate retained artifacts under the new plan. A feasibility success is not behavioral verification.
+Optimization is optional only after relevant scope parity; it produces new implementation bytes and scoped regression/performance evidence, never alters behavior obligations silently. A plausible target is not accepted until the verifier can reject deliberate wrong variants under the same approved policy.

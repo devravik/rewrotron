@@ -1,62 +1,24 @@
-# SQLite storage contract
+# SQLite metadata and operational contract
 
-**Status:** Initial implementation specification. The earlier DDL was an unimplemented draft. [0001_initial.sql](../../migrations/0001_initial.sql) is the initial executable project migration; there is no deployed database predecessor to upgrade. Future persistent changes require new numbered migrations and compatibility fixtures.
+**Owner:** Project metadata persistence, driver/filesystem policy and SQL migrations. Large bytes remain artifacts. Baseline driver is `modernc.org/sqlite v1.46.2` with its exact `modernc.org/libc v1.70.0` dependency; embedded engine must report SQLite 3.51.3, the engine listed in the [versioned driver documentation](https://pkg.go.dev/modernc.org/sqlite@v1.46.2). Toolchain floor Go 1.25.0. These are specified pins, not a claim this repository built/tested them. Verify module checksums, upstream engine identity and required compile options at bootstrap/release. [Driver module manifest](https://proxy.golang.org/modernc.org/sqlite/@v/v1.46.2.mod) establishes the Go/libc requirements. A different engine/driver needs a reviewed successor pin and operational tests.
 
-## Database ownership and connection policy
+[SQLite WAL guidance](https://www.sqlite.org/wal.html) requires same-host local filesystem shared-memory/locking and documents the WAL-reset fix. Reject network/NFS/SMB/cloud-synchronized workspace filesystems unless a future explicitly tested profile is added; an unknown filesystem requires explicit supported local placement. Enable foreign_keys=ON on every connection, journal_mode=WAL (verify returned mode), synchronous=FULL, bounded busy_timeout (5 seconds), short write/read transactions and checkpoint metrics. WAL still has one writer; serialize project mutations and retry bounded busy failures. Do not hold read transactions across artifact/network operations. Multi-process same-host access uses guarded services and ownership claims, not arbitrary DB writes.
 
-Project state lives in `.rewrotron/project.db`. The first release uses `database/sql` with `modernc.org/sqlite`. Set `PRAGMA foreign_keys=ON`, `journal_mode=WAL`, `synchronous=FULL`, and `busy_timeout=5000` on every relevant connection (WAL initialization is coordinated once per database). Use bounded busy retries and respect cancellation; never replay an external effect because a transaction was busy.
+## Version 2 alignment
 
-The runner owns `schema_migrations(version INTEGER PRIMARY KEY, checksum TEXT NOT NULL, applied_at TEXT NOT NULL)`. Apply migrations in numeric order inside transactions, verify previously applied checksums, reject a DB version newer than the binary, and back up before upgrading. WAL mode changes occur outside a migration transaction. File permissions restrict access to the local user.
+[0001_initial.sql](../../migrations/0001_initial.sql) remains unchanged below. Apply [0002_revision_contracts.sql](../../migrations/0002_revision_contracts.sql) incrementally after preflight. It adds immutable approval_subjects/source_snapshots/decision_records, mutable operation_owners and resource_claims, active mission work uniqueness, one case result per run/case immutable artifact metadata and project-ownership triggers for existing single-column artifact/operation references. Constraint failures are reported, never repaired by deleting historical evidence.
 
-Timestamp columns store UTC RFC3339 strings supplied by the injected clock. Event order uses `events.sequence`, not wall-clock time or random IDs. Application identifiers are strings; hashes are lowercase SHA-256. JSON columns are TEXT with `json_valid` checks; application schema validation still enforces their domain structure.
+Existing artifact refs in SQL are artifact row IDs; public sha256 refs resolve through project-qualified artifacts. Version 2 plans/reports are artifact documents indexed by existing migration_plans/verification_runs tables; acceptance scope and typed graph remain schema-validated documents linked through artifact_links. Denormalize only after profiling. Dependency/target progress is a projection keyed by immutable approved refs; progress cannot mutate decision_records. user_confirmations.reviewed_payload_ref resolves the exact immutable subject in approval_subjects; service validation enforces gate/kind/hash and parent closure in one transaction. SQL constraints alone do not perform semantic/schema/canonicalization validation.
 
-## Record catalog
+Initial durable projects.status enum is unchanged; display OBSERVE/VERIFY/REPAIR, pause and execution COMPLETED are separate projections, not SQL status values. [PROJECT-LIFECYCLE](../02-domain/PROJECT-LIFECYCLE.md) owns readiness. Historical ledger is append-only; current execution state is derived from current rows plus committed events, not a historical as-of projection.
 
-| Group | Tables | Contract |
-| --- | --- | --- |
-| Workspace and approvals | projects, source_detections, baselines, approval_tokens, user_confirmations | YAML holds intent; immutable reviewed subjects grant authority |
-| Source and IR | source_files, source_symbols, ir_documents, entrypoints | Baseline-scoped syntax/structure/evidence; HTTP is one entrypoint type |
-| Behavior | contracts, contract_entrypoints, behavior_cases, workflows | Contract revisions and cases are not one-to-one with routes |
-| Plan and target | migration_plans, migration_units, unit_cases, mappings | Immutable plans, mutable progress projections, explicit case coverage |
-| Verification and repair | observations, verification_runs, case_results, mismatches, experiments, repair_attempts, benchmarks | Immutable evidence/verdicts; intentional changes require new runs |
-| Scheduling/recovery | missions, mission_dependencies, operations, idempotency_requests, findings | Fenced leases, checkpoints, captured hashes, concrete blockers |
-| Evidence and learning | artifacts, artifact_links, lessons, skills, skill_versions, events | Registered content-addressed bytes, append-only audit, project-local lessons |
+## Operational limits and backup
 
-All child records preserve project ownership. Composite foreign keys enforce same-project references where available; repository validation also verifies artifact ownership, baseline consistency, ID references and current subject relations. An artifact reference string resolves to a registered artifact ID/digest before inserting metadata. No `ON DELETE CASCADE` can silently erase audit/confirmation history.
+[ARTIFACT-STORE](ARTIFACT-STORE.md) owns quotas/retention/scale targets; [RECOVERY](RECOVERY.md) owns coordinated online backup, integrity/foreign-key checks, restore closure and checksummed migration rollback. Admission stops before quota exhaustion; no silent evidence GC. FTS5 is optional search capability verified at doctor; vector search is deferred. Project and optional global DBs have separate transactions/privacy boundaries; promotion uses idempotent outbox reconciliation. No claim of years-long unlimited trace retention.
 
-## Immutability and revisions
+Required runtime experiments: actual pinned driver/version/compile options, busy/reader/checkpoint behavior, abrupt kill/power-loss simulation, network filesystem rejection, backup during publication, disk exhaustion and restore of protected approval refs. Python in-memory DDL validation is structural evidence only, not these operational tests.
 
-Triggers reject updates/deletes of confirmations, baselines, events, detections, IR documents, plans, cases, observations, verification results, mismatches and completed experiment evidence. Locked contracts cannot change; new revisions have new row IDs. Mismatch resolution/classification is an append-only event and new evidence, not editing the original discrepancy or verdict. Mutable project/unit/mission/finding rows are projections updated transactionally with events.
-
-`approval_tokens` stores only token digests and may update `consumed_at`. A consumed token and confirmation/event commit atomically. Gate validity is derived from exact hash subjects and parents, not existence of any past confirmation. See [CONFIRMATION-PROTOCOL](../02-domain/CONFIRMATION-PROTOCOL.md).
-
-## Transactions and constraints
-
-State changes use expected project revision and short write transactions. Long analysis/generation/replay occurs outside DB locks and publishes only after current-hash/fence checks. Mission claiming uses `BEGIN IMMEDIATE` plus lease/fence compare-and-swap. Repository APIs bind SQL parameters and expose domain methods; no raw SQL is public.
-
-DDL checks enforce nonnegative sizes/attempt counts, valid lifecycle/verdict enums, symbol span order, JSON validity and mission lease field presence. Semantic reference validation, DAG cycle checks, hash recomputation, append-only artifact links and lease expiry are service/repository responsibilities with explicit negative fixtures.
-
-## Global data and compatibility
-
-Global knowledge is optional and deferred to RWT-023. `~/.rewrotron/global.db` must have a separate numbered migration namespace and contain only privacy-reviewed promoted patterns, references and skill versions, never raw customer traces. An absent global database cannot block any baseline operation.
-
-Storage tests must cover fresh creation, schema version 0→1, reopening, WAL/foreign key behavior, invalid references/enums/JSON, immutability, rollback on migration failure, checksum/newer-version rejection, busy contention, backup/restore and actual previous-version upgrades as migrations are added. Executing initial DDL with Python SQLite validates SQL structure; it does not replace Go driver/recovery/race tests.
-
-## Target and dependency decision artifacts
-
-The decision system in [ADR 0012](../01-architecture/ADR/0012-target-specification-and-dependency-resolution.md) uses existing `artifacts`/`artifact_links` for immutable target revisions, source/target graphs, recommendations, API differences and feasibility. Plans embed subject hashes and references; `events` records revision/decision/invalidation provenance and `findings` projects current blockers. Exact approved target/dependency decisions are bound by the Gate 2 plan and `user_confirmations`; YAML exports cannot update that authority.
-
-Artifact links and service validation preserve project/input subject ownership and transitive impact references. A target change updates the current plan/progress projection without deleting baseline or source evidence. This design adds no tables or columns and changes no initial DDL; future indexing/normalized tables require incremental migrations and compatibility fixtures.
-
-## Execution observability storage
-
-[ADR 0013](../01-architecture/ADR/0013-transparent-execution.md) uses existing event payload JSON for typed starts/results/progress/heartbeat/explanations and persistent human controls. Existing operations/missions/findings/confirmations and registered artifacts provide domain truth; `internal/execution` rebuilds documented stage/control/timeline projections from those records at a sequence watermark. Project lifecycle and operation status columns are not extended with UI stage/pause labels. Client last-seen watermarks remain client-owned; inspection does not mark work or notifications approved.
-
-Execution run IDs identify operation attempts; evidence run IDs stay separate. Same-project ownership, valid fences/subjects, progress arithmetic, human control provenance and projection consistency require service tests. This design changes no tables/columns/initial DDL. Future indexed projection tables or server-side notification receipts require incremental migrations and compatibility fixtures.
-
-## Executable DDL
-
-The complete SQL below is mirrored from the initial migration. Keep it byte-consistent when revising the undeployed baseline; after deployment add incremental migrations and document the resulting schema.
+## Initial DDL (immutable migration 0001)
 
 ```sql
 -- Initial project schema: no deployed predecessor exists.
@@ -562,3 +524,5 @@ CREATE TRIGGER contracts_no_delete BEFORE DELETE ON contracts
 BEGIN SELECT RAISE(ABORT, 'contracts cannot be deleted'); END;
 
 ```
+
+Artifact registration redaction_json records visibility PRIVATE_SOURCE or SANITIZED_EVIDENCE and policy_ref; missing/unknown visibility is private/denied to agent artifact reads. Raw source stays in the private vault. This subrecord validates against common.schema.json#/$defs/artifact_policy (other redaction metadata is stored alongside it); the registering service validates it; old unclassified artifacts cannot be exported as sanitized by default.

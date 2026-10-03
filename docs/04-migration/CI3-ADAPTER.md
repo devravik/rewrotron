@@ -1,6 +1,6 @@
 # CodeIgniter 3 source adapter
 
-**Implementation:** Planned. **Initial implemented maturity:** EXPERIMENTAL. **Reference family:** CI3 3.1.x; first fixture pins 3.1.13. Path: `adapters/source/php/codeigniter3`.
+**Validation maturity:** SPECIFIED. **Distribution tier:** proposed EXPERIMENTAL after implementation; no runtime evidence exists. **Reference family:** CI3 3.1.x; first fixture pins 3.1.13. Path: `adapters/source/php/codeigniter3`.
 
 ## Detection and extraction
 
@@ -18,6 +18,6 @@ Source hooks alone do not capture every query, session driver mutation, file wri
 
 ## Required adapter fixtures
 
-Config/convention/verb routing and precedence; default/404; `_remap`; loader/autoload; custom base classes; hook ordering; session drivers/flashdata; cache/early exit; transactional DB writes; dynamic models; cron/CLI roots; views/assets. Compare expected neutral IR, source hits, and completeness flags. Promote maturity only on the evidence requirements in PRODUCT.
+Config/convention/verb routing and precedence; default/404; `_remap`; loader/autoload; custom base classes; hook ordering; session drivers/flashdata; cache/early exit; transactional DB writes; dynamic models; cron/CLI roots; views/assets. Compare expected neutral IR, source hits, and completeness flags. Promote validation maturity only after named runtime/integration evidence; distribution tier cannot substitute for it.
 
 Primary routing/session references are the [CI3 routing](https://codeigniter.com/userguide3/general/routing.html?highlight=uri) and [session guide](https://codeigniter.com/userguide3/libraries/sessions.html?highlight=sessions). Runtime support for a specific customer remains a doctor/fixture result.

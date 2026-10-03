@@ -1,19 +1,39 @@
-# ADR 0007: CLI as the Baseline Machine Interface
+# ADR 0007: Complete CLI fallback
 
-- **Status:** Accepted
-- **Date:** 2026-10-03
-- **Deciders:** Rewrotron Core Architecture Team
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [CLI-SPEC](../../06-agent/CLI-SPEC.md). This ADR records the decision, not a duplicate field specification.
 
 ## Context
-While MCP provides rich structured tooling for advanced agent clients, many environments (CI/CD pipelines, bash scripts, terminal-based AI tools like Aider) operate purely through command-line invocations. Rewrotron must be fully operable without an MCP client.
+
+MCP/client behavior differs and cannot be universal baseline.
+
+## Problem
+
+Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
 
 ## Decision
-Design the CLI (`cmd/rewrotron`) as the primary, fully capable baseline interface. Every major subsystem operation (`init`, `doctor`, `analyze`, `observe`, `discover`, `plan`, `migrate`, `verify`, `status`, `next`) must be executable via the CLI. When invoked with `--json`, commands MUST emit pure structured JSON to `stdout` and all logs/diagnostics to `stderr`.
 
-## Alternatives Considered
-- **MCP-Only Architecture:** Building Rewrotron purely as an MCP background daemon. Rejected because it precludes running in traditional CI/CD runners and simple shell scripts.
-- **REST/gRPC Daemon Only:** Requiring an HTTP daemon to be running. Rejected because it introduces unnecessary process management overhead.
+CLI JSON covers decisions/gates/missions/evidence/recovery with strict typing; v2 catalogs retain v1 envelope and historical artifact reading.
+
+## Alternatives considered
+
+MCP-only workflow; client-specific Skill commands; complete typed CLI services.
+
+## Why rejected
+
+Clients vary and Skills cannot grant authority or replace portable decision/recovery operations.
 
 ## Consequences
-- **Positive:** Maximum scriptability; works seamlessly in headless GitHub Actions runners; allows terminal agents (Aider, Claude Code CLI) to drive the migration directly.
-- **Negative:** CLI output payloads must be maintained and verified against JSON schemas alongside MCP tool schemas.
+
+More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
+
+## Machine-contract impact
+
+Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+
+## Migration/compatibility implications
+
+Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+
+## Acceptance experiment / falsification test
+
+X16/X21/X31. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.

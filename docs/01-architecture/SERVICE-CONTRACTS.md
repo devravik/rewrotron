@@ -44,6 +44,22 @@ Cross-record semantic checks cover duplicate IDs, local-ID/baseline resolution, 
 
 ## Execution records and injected ports
 
-`ExecutionEvent`, `ExecutionState`, `ProgressMetric` and `ExecutionPage` map to `specs/execution/`. Events identify execution operation/run, stage instance, task/mission/entity, reason/result, captured subjects, refs and sequence. `ExecutionSink` validates/redacts append requests and participates in the domain transaction for state-changing completion/control/approval events. `ExecutionReader` reads one consistent projection/page at a committed watermark; it cannot mutate gates, start work or acknowledge alerts globally.
+`ExecutionEvent`, `ExecutionState`, `ProgressMetric` and `ExecutionPage` map to `specs/execution/`. Events identify execution operation/run, stage instance, task/mission/entity, reason/result, captured subjects, refs and sequence. `ExecutionSink` validates/redacts append requests and participates in the domain transaction for state-changing completion/control/approval events. `ExecutionReader` reads current state at N plus event page through M ≤ N; it cannot claim historical projection; it cannot mutate gates, start work or acknowledge alerts globally.
 
 `internal/execution` derives control mode from persisted control events, checks active run/fence/captured subjects, validates numerator/denominator/basis/accounting revisions and emits bounded liveness. Domain service constructors inject these ports; runners expose enough lifecycle/control information to heartbeat during slow work and checkpoint safely. Explanations are deterministic factual templates with attributed evidence-backed proposals, not prompt or chain-of-thought storage. Existing operation IDs serve as execution run IDs; verifier runs remain separate entities.
+
+Current durable service records map to v2 approval/resolution/model/decision/profile/causality/attestation/scope/validity schemas. Process-private handles do not replace these records. Supervisor/resource ownership and fenced writes follow RECOVERY; serial project mutation is the initial revision model.
+
+## Required adapter ports (conceptual contracts, not implementation)
+
+| Port operation | Inputs | Output / refusal |
+| --- | --- | --- |
+| SourceAdapter.Detect | Sealed snapshot + bounded detection profile | Evidence-backed proposed facts/assertions separated; no runtime execution |
+| SourceAdapter.Parse | Snapshot manifest + pinned parser capability | Neutral Source IR with spans/status/unresolved nodes |
+| SourceAdapter.Extract | Source IR + operational profile | Application IR with resolved/unknown entrypoints/dependencies |
+| SourceAdapter.PrepareInstrumentation | Disposable source + approved capture profile | Pinned probe/closure capability manifest; no source-tree mutation |
+| TargetAdapter.ValidateCapabilities | v2 contracts + exact resolution + proposed target model | Supported operator/lowering checks or typed gaps |
+| TargetAdapter.Generate | Current approved unit/model + owned staging root + pinned inputs | Patch/build requirement artifacts, never acceptance verdict |
+| TargetAdapter.PrepareHarness | Exact build/environment + supported profile | Fixed runner specification and observable dimension capabilities |
+
+Observer/runner owns startup/capture/cleanup and verifier owns comparison; adapter generation cannot set PASS. Registry lookups resolve approved IDs/manifest/content, not latest versions. Schema v2 adapter manifests distinguish distribution tier from validation_maturity and exact implementation_ref; PLANNED cannot be RUNTIME_VALIDATED. Unsupported port capability returns a named blocker.

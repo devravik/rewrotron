@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/operations/archive.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "db_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "through_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "migration_hashes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "objects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "size_bytes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "retention_class": {
+            "enum": [
+              "APPROVAL",
+              "CONTRACT",
+              "VERIFICATION",
+              "EXPERIMENT",
+              "LESSON",
+              "TRACE",
+              "SNAPSHOT",
+              "HEARTBEAT",
+              "AUDIT",
+              "TEMPORARY",
+              "GLOBAL_KNOWLEDGE"
+            ]
+          },
+          "private": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "ref",
+          "size_bytes",
+          "retention_class",
+          "private"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "config_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "private_key_policy_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "closure_report_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "db_hash",
+    "through_sequence",
+    "migration_hashes",
+    "objects",
+    "config_ref",
+    "private_key_policy_ref",
+    "closure_report_ref"
+  ],
+  "additionalProperties": false
+}

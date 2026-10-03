@@ -1,9 +1,7 @@
-# Backlog and task identity
+# Deferred backlog
 
-The canonical backlog is the checkbox task list in [DEVELOPMENT-PLAN](DEVELOPMENT-PLAN.md). All RWT IDs there are this review's implementation queue; the original exploratory RWT-001–021 list is superseded and must not be used to infer task meaning. No external issue tracker has been configured or populated by this documentation change.
+The post-red-team [resolution matrix](RED-TEAM-RESOLUTION.md) records dispositions/remaining validation. [DEVELOPMENT-PLAN](DEVELOPMENT-PLAN.md) owns the current M0–M8 queue; [ROADMAP](ROADMAP.md) owns sequencing. Previous RWT phase definitions are superseded, with provenance aliases retained in the development plan. No listed decision or structural validation implies an implemented engine/adapter/client.
 
-First queue: RWT-001 build/domain baseline → RWT-002 persistence → RWT-003 artifacts/redaction → RWT-004 workspace/manifest → RWT-005 gates → RWT-006 CLI/detection/doctor. This delivers safe persisted source confirmation plus shared execution events/state, honest live inspection and human pause/continue before deep analysis. Transparency is a baseline engine requirement, not deferred desktop work.
+Fixed choices are canonical owner specifications and accepted ADRs, not duplicated here. Pending operational evidence: pinned SQLite/Go build and filesystem controls; licensed fixture/image/lock bytes; real capture controls and reset; exact feasible target availability; safe session continuity; actual client integration; measured performance; rehearsed write-aware rollback; release signing/security ownership. Each is assigned to the corresponding milestone and blocks the claim until supplied.
 
-Then characterization RWT-007–013, plan/publication/first slice RWT-014–016, application evidence RWT-017–022, optional learning/Skill and release RWT-023–025. Extensions RWT-026–027 follow verified reference support and demand selection.
-
-Open customer-specific work is recorded as engine findings/missions with evidence and required actions. Repository engineering tasks and customer migration missions are distinct queues; neither is completed by a conversational summary alone.
+Deferred capabilities: general streams/concurrency, wider neutral language facets/adapters, hostile-agent OS separation, active-history compaction, global tool/skill synthesis, optional embeddings/desktop and production infrastructure execution. An unavailable capability returns UNKNOWN/UNSUPPORTED or blocks scope, never a guessed substitute.

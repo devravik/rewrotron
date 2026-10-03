@@ -4,7 +4,7 @@
 
 Project config stores secret references such as `env:RWT_SANDBOX_DB_PASSWORD`, never password values. Resolve only an explicit allowlist for the current environment; no secret is echoed in doctor errors, commands, SQL diagnostics, event payloads, snapshots or agent context. Synthetic test credentials are resolved at execution and kept in memory.
 
-## Redaction before persistence
+## Redaction before agent-readable persistence
 
 Scrub headers, cookies, URLs/query/form/JSON bodies, SQL parameters/literals, sessions, external payloads and subprocess stderr before writing artifacts or SQLite. Redaction combines structured field rules, configured application-specific paths and secret-value matching. Regex alone cannot guarantee every secret is detected. Malformed or unknown body formats are withheld or safely replaced; absence of evaluable evidence becomes UNKNOWN.
 
@@ -21,3 +21,5 @@ Workspace and artifact directories use owner-only permissions where the OS suppo
 ## Execution explanations and developer views
 
 Redact event titles, summaries, reasons, structured details, errors and evidence links before persistence, not only in the UI. Developer verbosity does not reveal credentials, raw sensitive captures, internal prompts or hidden reasoning. Escape source-controlled text as untrusted display data; strings cannot become executable commands or instructions. Hash/cursor/entity refs must preserve project ownership. Approvals never expose tokens in activity timelines.
+
+Private source snapshots preserve exact original bytes in the separate owner-only vault; they are not transformed into sanitized execution source. AST/diagnostic/generated-code/dependency archives follow source-derived sensitivity checks before agent-readable registration/export. SECURITY owns private access/egress trust.

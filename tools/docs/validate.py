@@ -2,6 +2,7 @@
 """Validate repository documentation and undeployed contract artifacts offline."""
 from pathlib import Path
 import json
+import hashlib
 import re
 import sqlite3
 import sys
@@ -128,7 +129,7 @@ for filename, key, name_key in [('cli/commands.json', 'commands', 'command'),
             errors.append(f'{filename}: {exc}')
 
 link_count = 0
-for path in sorted([ROOT / 'README.md', ROOT / 'REWROTRON_PROJECT_PLAN.md',
+for path in sorted([ROOT / 'README.md', ROOT / 'AGENTS.md', ROOT / 'REWROTRON_PROJECT_PLAN.md',
                     *ROOT.glob('docs/**/*.md')]):
     content = re.sub(r'```[^\n]*\n[\s\S]*?```', '', path.read_text())
     for target in re.findall(r'(?<!!)\[[^\]]*\]\(([^\s)]+)(?:\s+[^)]*)?\)', content):
@@ -150,7 +151,9 @@ connection = sqlite3.connect(':memory:')
 connection.execute('PRAGMA foreign_keys=ON')
 try:
     connection.executescript(sql)
-    expected_tables = set(re.findall(r'CREATE TABLE (\w+)', sql))
+    revision_sql = (ROOT / 'migrations/0002_revision_contracts.sql').read_text()
+    connection.executescript(revision_sql)
+    expected_tables = set(re.findall(r'CREATE TABLE (\w+)', sql + revision_sql))
     actual_tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
     if not expected_tables.issubset(actual_tables):
         errors.append('Initial migration did not create its declared tables')
@@ -170,7 +173,7 @@ try:
     connection.execute('INSERT INTO events(event_id,project_id,event_type,entity_type,entity_id,payload_json,request_id,timestamp) VALUES(?,?,?,?,?,?,?,?)',
                        ('evt', 'fixture', 'GATE_CONFIRMED', 'confirmation', 'confirm', '{}', 'req', timestamp))
     connection.commit()
-    for table in ['source_detections', 'baselines', 'user_confirmations', 'events']:
+    for table in ['source_detections', 'baselines', 'user_confirmations', 'events', 'artifacts']:
         for statement in [f'UPDATE {table} SET project_id=project_id', f'DELETE FROM {table}']:
             try:
                 connection.execute(statement)
@@ -188,6 +191,53 @@ try:
         errors.append('Foreign key allowed an artifact without a project')
     except sqlite3.IntegrityError:
         pass
+    # Structural constraints for the revision; no Go/driver/process claims.
+    connection.execute('INSERT INTO projects(id,name,root_path,status,created_at,updated_at) VALUES(?,?,?,?,?,?)',
+                       ('other', 'Other', '/other', 'DETECTED', timestamp, timestamp))
+    connection.execute('INSERT INTO artifacts VALUES(?,?,?,?,?,?,?,?)',
+                       ('other-artifact', 'other', '2' * 64, 'other', 'application/json', 2, '{}', timestamp))
+    for table, values in [
+        ('approval_subjects', ('subject','fixture','SOURCE','3'*64,'artifact','2.0','rwt-cjson-1')),
+        ('source_snapshots', ('snapshot','fixture','3'*64,'artifact')),
+        ('decision_records', ('decision','fixture','artifact')),
+    ]:
+        placeholders = ','.join('?' for _ in values)
+        connection.execute(f'INSERT INTO {table} VALUES({placeholders})', values)
+        for statement in [f'UPDATE {table} SET project_id=project_id', f'DELETE FROM {table}']:
+            try:
+                connection.execute(statement)
+                errors.append(f'{table}: immutable record was writable')
+            except sqlite3.IntegrityError:
+                pass
+    try:
+        connection.execute('INSERT INTO decision_records VALUES(?,?,?)',
+                           ('bad-decision','fixture','other-artifact'))
+        errors.append('Decision allowed a cross-project artifact')
+    except sqlite3.IntegrityError:
+        pass
+    try:
+        connection.execute('INSERT INTO source_detections VALUES(?,?,?,?,?)',
+                           ('bad-detection','fixture','3'*64,'other-artifact',timestamp))
+        errors.append('Existing detection allowed a cross-project artifact')
+    except sqlite3.IntegrityError:
+        pass
+    for mission_id in ['mission-one', 'mission-two']:
+        try:
+            connection.execute("INSERT INTO missions(id,project_id,type,priority,status,context_json,fingerprint,created_at) VALUES(?,?,?,?,?,?,?,?)",
+                               (mission_id,'fixture','MIGRATE_UNIT',1,'QUEUED','{}','work',timestamp))
+            if mission_id == 'mission-two':
+                errors.append('Active work identity allowed a duplicate mission')
+        except sqlite3.IntegrityError:
+            if mission_id == 'mission-one':
+                errors.append('Valid mission could not be created')
+    connection.execute('INSERT INTO resource_claims VALUES(?,?,?,?,?,?)',
+                       ('fixture','project:mutation','mission-one','owner',1,timestamp))
+    try:
+        connection.execute('INSERT INTO resource_claims VALUES(?,?,?,?,?,?)',
+                           ('fixture','project:mutation','mission-one','other-owner',2,timestamp))
+        errors.append('Resource admitted two concurrent owners')
+    except sqlite3.IntegrityError:
+        pass
     if list(connection.execute('PRAGMA foreign_key_check')):
         errors.append('Foreign key check failed')
     connection.rollback()
@@ -201,11 +251,69 @@ except Exception as exc:
 finally:
     connection.close()
 
+# Golden vectors verify documented bytes/digests and shapes, not the future Go service.
+vector_count = 0
+for vector in json_files.get(ROOT / 'specs/examples/approval-hash-vectors.json', []):
+    vector_count += 1
+    if 'rejected_raw_json' in vector:
+        def unique_object(pairs):
+            result = {}
+            for key, value in pairs:
+                if key in result:
+                    raise ValueError('duplicate key')
+                result[key] = value
+            return result
+        def check_canonical_values(value):
+            if isinstance(value, float):
+                raise ValueError('floating point is not a subject value')
+            if isinstance(value, int) and not isinstance(value, bool) and not -(2**63) <= value < 2**63:
+                raise ValueError('integer out of range')
+            if isinstance(value, str):
+                value.encode('utf-8', errors='strict')
+            elif isinstance(value, dict):
+                for key, child in value.items():
+                    check_canonical_values(key)
+                    check_canonical_values(child)
+            elif isinstance(value, list):
+                for child in value:
+                    check_canonical_values(child)
+        try:
+            parsed = json.loads(vector['rejected_raw_json'], object_pairs_hook=unique_object)
+            check_canonical_values(parsed)
+            errors.append(f"Approval vector {vector['name']}: invalid input was accepted")
+        except (ValueError, UnicodeError):
+            pass
+        continue
+    subject = vector['subject']
+    actual = json.dumps(subject, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+    if actual != vector['canonical_utf8']:
+        errors.append(f"Approval vector {vector['name']}: canonical bytes differ")
+    if hashlib.sha256(actual.encode('utf-8')).hexdigest() != vector['sha256']:
+        errors.append(f"Approval vector {vector['name']}: digest differs")
+    if vector['approval_schema']:
+        try:
+            validator(BASE + 'project/approval-subject.schema.json').validate(subject)
+        except Exception as exc:
+            errors.append(f"Approval vector {vector['name']}: {exc}")
+if vector_count < 4:
+    errors.append('Missing approval hash golden vectors')
+
+# Documentation scan for known superseded promises. Scope is explicit and bounded.
+for path in [ROOT / 'AGENTS.md', ROOT / 'REWROTRON_PROJECT_PLAN.md', *ROOT.glob('docs/**/*.md')]:
+    if path.name in ['Rewrotron_Pre-Implementation_Red-Team_Review.md', 'RED-TEAM-RESOLUTION.md']:
+        continue
+    content = path.read_text()
+    for stale in ['Initial tested reference', 'Initial implemented maturity',
+                  'current full required PASS corpus', 'current state is projected at that watermark',
+                  "The plan's additive `decision_system`", 'Go 1.22+ is the constitutional minimum']:
+        if stale in content:
+            errors.append(f'{path.relative_to(ROOT)}: superseded claim {stale}')
+
 if errors:
     for error in errors:
         print('ERROR:', error, file=sys.stderr)
     sys.exit(1)
 print(f'PASS: {len(schemas)} schemas; {fixture_count} positive/negative fixtures; '
       f'{registry_count} command/tool entries; {link_count} local links; '
-      f'{len(expected_tables)} initial SQL tables and ownership/immutability/rollback checks.')
-print('Scope: documentation and initial contract artifacts only; no Go/race/framework/runtime tests executed.')
+      f'{len(expected_tables)} SQL tables across two migrations; {vector_count} approval vectors; ownership/immutability/rollback checks.')
+print('Scope: structural documentation/contracts, hash vectors and incremental DDL only; no Go/race/framework/runtime tests executed.')

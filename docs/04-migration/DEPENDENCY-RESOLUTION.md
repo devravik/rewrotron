@@ -42,7 +42,7 @@ Distinguish ACTIVE, DORMANT, DEAD and UNKNOWN code classifications from developm
 
 `BLOCKED` is a resolution status, not a sixth successful strategy and never a verification verdict. It records missing capabilities/evidence, affected/dependent units, alternatives and the exact human decision needed. A legacy bridge or user adapter is a new proposal requiring support and verification, not an automatic escape hatch. The agent cannot invent an implementation and declare equivalence. Compatible direct retention may also be proposed; a native replacement is represented as REIMPLEMENT rather than an undocumented strategy.
 
-Resolution statuses are `PROPOSED`, `PLANNED`, `IMPLEMENTED`, `VERIFIED`, `BLOCKED`, `SUPERSEDED`. PLANNED requires the exact decision in a Gate 2-confirmed plan; VERIFIED requires current characterization and dependent application cases. An unresolved dependency blocks its transitive dependent units. Independent scopes may proceed only under a current confirmed plan that visibly records any excluded scope and remaining blockers. A Gate 2 approval cannot make an unresolved in-scope dependency feasible.
+Immutable v2 dependency resolution contains selected strategy/provider/capability evidence and decision_ref. It has no mutable execution status or approval flag. The decision is PROPOSED until its ref is approved transitively by Gate 2; approved bytes never change. Separate progress.schema records PLANNED, GENERATING, BUILDING, VERIFYING, VERIFIED or BLOCKED keyed by decision/ref/plan. VERIFIED requires current characterization and affected application scope PASS. BLOCKED is a progress/feasibility reason, never a successful strategy or verdict. Independent scope may proceed only under a current plan exposing exclusions/blockers; human approval cannot make a technical incompatibility feasible.
 
 ## Capability coverage, compatibility and API differences
 
@@ -52,37 +52,11 @@ Answer separately: does the package/release exist; does it support the requested
 
 API differences compare the application's used symbols, signatures, types, exceptions, configuration, deprecations/removals and observable semantics between exact releases. List compatible, renamed, removed and unknown calls with their affected source spans, capability mappings and required adapters. Across languages, compare required capabilities and contracts rather than expecting symbol-to-symbol translation. Metadata alone cannot certify unchanged behavior.
 
-## Decision artifact example
+## Machine decision records
 
-This illustrative mapping has a missing required capability and therefore remains BLOCKED; it is not an approved or verified replacement.
+v1 combined decision/status examples are historical only. Current dependency-resolution.schema v2 has immutable strategy/capability/decision refs; project/decision.schema records typed action/alternative/evidence, and migration/progress.schema tracks implementation separately. REIMPLEMENT states required used capability subset explicitly; partial versus full scope is evidenced, not inferred from package size. Proprietary/native/license/platform/production-only dependencies require acquisition/availability and used-behavior evidence or remain BLOCKED.
 
-```yaml
-dependency_id: dep-search
-source:
-  ecosystem: composer
-  package: legacy/search-client
-  version: "1.8.2"
-  evidence_refs: ["sha256:<source-lock-digest>"]
-usage:
-  symbols: ["Legacy\\Search\\Client::query", "Legacy\\Search\\Client::stream"]
-  source_files: ["application/libraries/Search.php"]
-  affected_unit_ids: [search]
-  required_capabilities: [query, streaming]
-proposal:
-  strategy: REPLACEMENT
-  package: modern/search-client
-  version: "4.1.0"
-  adapter_required: true
-compatibility:
-  metadata: COMPATIBLE
-  used_api: PARTIAL
-  behavior: UNKNOWN
-  missing_capabilities: [streaming]
-decision: PENDING
-status: BLOCKED
-```
-
-The placeholder digest is explanatory. Machine fixtures use real-shaped digests and [dependency-resolution.schema.json](../../specs/migration/dependency-resolution.schema.json). Full graph/characterization artifacts extend this decision with transitive edges, license/constraints, used-API differences, risk, required actions, alternatives and evidence. Strategy, proposed provider and approved provider remain distinguishable in history.
+CLI decision propose/show and MCP decisions.propose/get accept or reject recommendations, select a strategy, supply an alternative, request evidence or propose a scope exception using action enum. These only propose. Gate 2 confirms frozen selected decisions; no progress change requests reapproval.
 
 ## User review and characterization
 

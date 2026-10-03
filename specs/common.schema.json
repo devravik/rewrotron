@@ -351,8 +351,26 @@
         "errors",
         "execution"
       ],
-      "additionalProperties": false,
-      "execution": "COMPLETE"
+      "additionalProperties": false
+    },
+    "artifact_policy": {
+      "type": "object",
+      "properties": {
+        "visibility": {
+          "enum": [
+            "PRIVATE_SOURCE",
+            "SANITIZED_EVIDENCE"
+          ]
+        },
+        "policy_ref": {
+          "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/artifact_ref"
+        }
+      },
+      "required": [
+        "visibility",
+        "policy_ref"
+      ],
+      "additionalProperties": false
     }
   }
 }

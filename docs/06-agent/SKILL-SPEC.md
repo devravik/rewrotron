@@ -7,7 +7,7 @@
 
 ## 1. Structure of a Rewrotron Skill
 
-The Rewrotron Skill teaches an LLM agent how to operate Rewrotron correctly. It is packaged in `skills/rewrotron/`:
+The Rewrotron Skill teaches an LLM agent how to operate Rewrotron correctly. Its planned packaging is `skills/rewrotron/`:
 
 ```text
 skills/rewrotron/
@@ -34,7 +34,7 @@ skills/rewrotron/
 ```yaml
 ---
 name: rewrotron
-description: Reconstructs legacy CodeIgniter 3 applications into modern Laravel 13 using behavior modeling and automated differential verification.
+description: Operates guarded Rewrotron services for evidence-bounded application reconstruction.
 version: 1.0.0
 author: Rewrotron Core Team
 ---
@@ -46,3 +46,5 @@ author: Rewrotron Core Team
 The Skill is a planned external orchestration package, not engine implementation. Its default flow uses the canonical CLI/MCP catalogs, waits for persisted gate approvals, claims fenced missions, distinguishes unsupported/UNKNOWN behavior, and completes only with verified current evidence. Reference documents load on demand; scripts invoke fixed domain commands and never provide a shell/SQL escape hatch.
 
 Record Skill version/content hash when used; a client without skill support can perform the same flow manually through CLI. Test with at least two client integrations, interrupted/resumed sessions and a blocked gate. No client brand is required by core services.
+
+No Skill/client integration is implemented or validated here. Pin exact consumed revisions, never use evolving live instructions as approved execution truth. CLI fallback supports all decision actions/gates.

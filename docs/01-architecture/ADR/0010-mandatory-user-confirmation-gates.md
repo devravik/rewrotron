@@ -1,28 +1,39 @@
-# ADR 0010: Mandatory Engine-Enforced User Confirmation Gates
+# ADR 0010: Durable exact-subject human gates
 
-- **Status:** Accepted
-- **Date:** 2026-10-03
-- **Deciders:** Rewrotron Core Architecture Team
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [CONFIRMATION-PROTOCOL](../../02-domain/CONFIRMATION-PROTOCOL.md). This ADR records the decision, not a duplicate field specification.
 
 ## Context
-When autonomous AI agents operate on legacy repositories, they often make premature assumptions: assuming a framework version without verification, proceeding with full-codebase generation without checking target preferences, or attempting destructive migrations. Relying solely on prompt instructions ("please ask the user") is fragile because LLMs can hallucinate confirmation or skip steps.
+
+Implicit hash construction/registry lookups and incoherent scans break approval identity.
+
+## Problem
+
+Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
 
 ## Decision
-Enforce three **Hard User Confirmation Gates** directly within the **Rewrotron Core Engine finite state machine**:
-1. **Gate 1 (Source Detection):** Detect language, framework, version, runtime, and database. Present to user with confidence scores. Block deep analysis until explicit user confirmation is persisted in `user_confirmations`. If source files change, invalidate the `configuration_hash`.
-2. **Gate 2 (Target & Migration Plan):** Propose target stack (language, framework, architecture style) and migration units. Block code generation until explicit user confirmation is persisted.
-3. **Gate 3 (Production Cutover):** Require explicit human confirmation before any production deployment or destructive migration.
 
-The engine returns `ERROR: USER_CONFIRMATION_REQUIRED` if any command attempts to bypass an unconfirmed gate. Agents CANNOT infer confirmation from silence or conversational context.
+Versioned canonical SOURCE/PLAN/RELEASE subjects bind sealed snapshot/exact resolution/adapter content/choices; reconstruct original bytes; explicit human receipts/token consumption.
 
-## Alternatives Considered
-- **Prompt-Only Guidelines:** Instructing agents in system prompts to ask the user. Rejected because stochastic LLMs frequently bypass prompt guidelines when given complex tasks.
-- **Single Confirmation at End:** Allowing full autonomous migration and asking only at the end. Rejected because operating on an incorrect initial source framework or version assumption invalidates all subsequent work.
+## Alternatives considered
+
+Registry-derived hash; mutable YAML approval; retained versioned canonical subject.
+
+## Why rejected
+
+Registry changes make old preimages irreconstructable and edited YAML cannot establish human intent.
 
 ## Consequences
-- **Positive:** Enforced approval subjects and tested refusal behavior; user maintains sovereignty over project baseline; eliminates catastrophic misunderstandings before expensive compute/token expenditure.
-- **Negative:** Requires an interactive confirmation step in CLI or explicit tool call via MCP.
 
-## Implementation clarification (2026-10-03)
+More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
 
-[ADR 0011](0011-development-baseline-and-contract-completion.md) defines the initial concrete package, hash, protocol, evidence and release baseline. This accepted design is not a claim that implementation/runtime validation has completed.
+## Machine-contract impact
+
+Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+
+## Migration/compatibility implications
+
+Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+
+## Acceptance experiment / falsification test
+
+X01/X02/X16. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.

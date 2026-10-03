@@ -12,7 +12,7 @@ Percentages must always carry numerator, denominator, scope hash, and evidence a
 
 Inventory includes ACTIVE, DORMANT, UNKNOWN and DEAD, plus entrypoint types and unsupported capabilities. Runtime absence does not remove an entrypoint from the denominator. A proposed scope exclusion has an ID, reason, risk, user decision and plan hash; it remains visible in reports and does not count as migrated behavior.
 
-A full application claim requires coverage of all agreed active behavior and disclosure of dormant/unknown components. A scoped migration can complete without the whole application being equivalent; the report names that scope. AUTH/permission failures, validation errors, business failures, repeated requests, and session continuity cases are required alongside happy paths.
+A whole-project contract-equivalence claim requires current PROJECT acceptance for agreed in-scope behavior and disclosure of dormant/unknown/excluded components; it never certifies unseen behavior. A scoped migration can complete without the whole application being equivalent; the report names that scope. AUTH/permission failures, validation errors, business failures, repeated requests, and session continuity cases are required alongside happy paths.
 
 Gate 3 requires 100% PASS for the confirmed required corpus, zero required UNKNOWN dimensions, no open prohibited mismatch, benchmark acceptance, current source/target/release hashes, an omission audit, and executable rollback/session evidence. “99% verified” alone never grants cutover readiness.
 

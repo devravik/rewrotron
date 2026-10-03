@@ -1,23 +1,39 @@
-# ADR 0008: Model Context Protocol (MCP) as Primary Agent Interface
+# ADR 0008: Pinned MCP stdio interface
 
-- **Status:** Accepted
-- **Date:** 2026-10-03
-- **Deciders:** Rewrotron Core Architecture Team
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [MCP-SPEC](../../06-agent/MCP-SPEC.md). This ADR records the decision, not a duplicate field specification.
 
 ## Context
-AI agents need to discover project state, request the next migration mission, inspect execution traces, run verification cases, and record diagnostic lessons without invoking clunky bash wrappers or scraping terminal text. The Model Context Protocol (MCP) is the emerging open standard for agent-to-tool connectivity.
+
+Transport existence does not prove client compatibility or worker survival.
+
+## Problem
+
+Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
 
 ## Decision
-Provide a first-class, dedicated MCP server binary (`cmd/rewrotron-mcp`) compliant with the pinned MCP revision 2025-11-25 (JSON-RPC over stdio initially; future Streamable HTTP is a separate transport decision). The MCP server exposes high-level domain operations (`project.get_snapshot`, `research.get_next_mission`, `behavior.get_case`, `verification.run_case`, `knowledge.record_lesson`) rather than low-level database queries or unrestricted bash execution.
 
-## Alternatives Considered
-- **Custom JSON-RPC Protocol:** Inventing an internal socket protocol. Rejected because modern agent clients already natively speak MCP.
-- **Exposing Raw SQL or Shell Execution:** Providing generic `execute_sql` or `exec_bash` tools. Strongly rejected due to severe safety risks and lack of domain semantics.
+MCP2025-11-25 stdio; Streamable HTTP deferred, legacy SSE not baseline. Long actions use supervisor; clients unverified until actual sessions.
+
+## Alternatives considered
+
+Legacy SSE; immediate remote Streamable HTTP; pinned stdio with explicit supervision.
+
+## Why rejected
+
+Remote transport requires additional authentication/origin/egress design; legacy SSE is not the pinned baseline.
 
 ## Consequences
-- **Positive:** Zero-friction integration with Claude Code, Cursor, Antigravity, and other MCP-native clients; structured JSON validation for all tool calls; strict capability security boundaries.
-- **Negative:** Requires running `rewrotron-mcp` as a subprocess or daemon during agent sessions.
 
-## Implementation clarification (2026-10-03)
+More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
 
-[ADR 0011](0011-development-baseline-and-contract-completion.md) defines the initial concrete package, hash, protocol, evidence and release baseline. This accepted design is not a claim that implementation/runtime validation has completed.
+## Machine-contract impact
+
+Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+
+## Migration/compatibility implications
+
+Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+
+## Acceptance experiment / falsification test
+
+X26/X31. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.

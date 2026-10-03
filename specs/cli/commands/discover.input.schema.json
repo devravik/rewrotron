@@ -3,7 +3,12 @@
   "$id": "https://rewrotron.dev/specs/cli/commands/discover.input.schema.json",
   "title": "discover.input.schema",
   "type": "object",
-  "properties": {},
+  "properties": {
+    "background": {
+      "type": "boolean",
+      "default": false
+    }
+  },
   "required": [],
   "additionalProperties": false
 }

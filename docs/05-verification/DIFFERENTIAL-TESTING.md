@@ -1,26 +1,21 @@
-# Differential replay algorithm
+# Differential replay and scoped acceptance
 
-## Preconditions
+**Owner:** Replay protocol and acceptance aggregation. [COMPATIBILITY-SPEC](COMPATIBILITY-SPEC.md) owns comparison semantics; [MIGRATION-UNITS](../04-migration/MIGRATION-UNITS.md) owns the three scopes.
 
-A run captures current Gate 1/2 validity, source and target hashes, case/contract/corpus/policy hashes, source/target adapter versions, sandbox image digests, DB schema and fixture hashes, locale, timezone, seed, and tool versions. Non-HTTP inventory remains visible even when a target adapter cannot execute it.
+## Independent environments
 
-## Execution sequence
+Source and target never share writable verification databases, Redis/session namespaces, files or effect endpoints. “Same MySQL initially” means preserved production schema/behavior, not one test database. Each side starts from independently restored equivalent fixture state and a recorded reset report. [DATABASE-COMPARISON](DATABASE-COMPARISON.md) defines multi-connection reset. Each workflow preserves its side's state across steps; each fresh scenario restores all dimensions.
 
-1. Validate the case and every artifact/reference before starting a process. Reject unsafe effects or unsupported required dimensions.
-2. Create independent source and target environments from the same logical fixture. They never share a writable DB, session store, filesystem, or outbound-effect sink.
-3. Restore all relevant state: DB rows and sequences, sessions, cache, files, queues, clocks/random providers where controllable. Verify restoration hashes. Restore failure yields UNKNOWN.
-4. Execute the same scenario. Preserve each side's cookie jar through its own workflow. Extract values such as CSRF tokens and generated IDs using explicit bindings; never replay a source-side token into the target.
-5. Capture request/response, redirect chain, status/exit code, committed DB state, session/flash, files/cache, and sink events. Automatic redirects are disabled unless a case declares the chain to follow. Each step has a 30-second default timeout, a maximum of 10 declared redirects, and 16 MiB capture limit; configured increases become policy inputs.
-6. Persist redacted artifacts and completeness statuses. Timeout/cancellation/truncation prevents complete assertions; preserve partial evidence without declaring PASS.
-7. Compare using [COMPATIBILITY-SPEC](COMPATIBILITY-SPEC.md). Store per-dimension results, aggregate verdict, captured hashes and diff artifact.
-8. Recheck drift and target fences before accepting the result as current. Append events and results atomically. Clean up processes, mounts and temporary state even on cancellation.
+Pin source snapshot, profiles, exact runtime/build, contract/corpus/policy, probes/comparators/runners and target tree. Raw HTTP targets/ordered headers/body refs preserve empty/repeated/query distinctions. Core parses large business numbers exactly; machine clients send immutable raw bytes refs or typed strings, not rounded JSON values. Match logical identities relationally across DB/response/links/effects and actor partitions.
 
-Workflows reset state before each complete scenario, not between steps. Cases can run concurrently only with independent environment/fixture instances. A DB rollback around a request is insufficient when the application commits, sends effects, or uses multiple connections.
+## Protocol
 
-## Repair coordination
+Verify readiness/fences/gates, reset both sides, check isolation controls and capture controls, execute bounded steps/guards/bindings, await declared async completion, collect attestations and state/effects, compare under approved policies, publish immutable per-case and scoped reports transactionally. Every trace uses the canonical causality envelope. Limit/truncation/missing mechanisms remain incomplete. SQL rollback alone is not a reset certificate.
 
-MISMATCH queues a repair mission with the contract, both traces, exact dimension differences, relevant symbols, and previous attempts. UNKNOWN queues an observation or review mission. No provider is invoked by the deterministic engine; external agents consume the mission through CLI/MCP.
+Known disagreement produces MISMATCH; insufficient/unavailable required evidence produces UNKNOWN; PASS requires all required assertions and dimensions. Intentional changes are approved comparison-policy obligations with explicit difference reporting, not a fourth verdict or unknown waiver. Run reports contain acceptance_scope/corpus/plan/target/profile identities. UNIT excludes unimplemented future dependents; implemented regressions check current affected components; PROJECT requires the full approved in-scope corpus. Aggregation cannot count duplicate case rows, old target results or excluded cases as current PASS.
 
-A repair stage records its hypothesis and target before hashes, validates paths and edits, runs build/static checks, then reruns the affected case and regression corpus. Maximum automatic attempts are three per mismatch/current context. A changed context requires a new fingerprint and cannot silently reset the recorded attempt history. Exhaustion creates a blocker with prior evidence and a concrete requested decision.
+## Oracle independence
 
-Regression impact can restrict early feedback, but a unit/project completion claim requires the full confirmed corpus. Comparator or case changes are proposals requiring a new policy/corpus and plan approval. Failed code patches are reverted only if their current hashes still match the applied patch; customer edits are never overwritten by rollback.
+Before acceptance, test negative targets missing a DB write, switching owner identity, duplicating effect, returning a wrong redirect, mishandling token lifecycle and suppressing a capture dimension. Approved normalizers must retain these failures. Expected behavior is reviewed against source observations, supplied critical cases and independent holdouts; it is not established solely by the generator's own tests. When observation cannot safely reach production-only/opaque/irreversible behavior, report a blocker or explicit unsupported/excluded scope.
+
+Current v2 reports populate every dimension with applicable/verdict/reason/evidence refs. Not-applicable has verdict=null and contract justification; applicable dimensions have only the three verdicts. PASS cannot contain an applicable UNKNOWN/MISMATCH or zero cases. Service checks additionally require the exact corpus scope and cannot accept an agent-selected not-applicable flag. The legacy v1 report dimension shape had an impossible `$ref` requirement; it is historical non-executable data, never a current report contract.

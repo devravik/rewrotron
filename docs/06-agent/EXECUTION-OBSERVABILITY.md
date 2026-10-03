@@ -1,6 +1,6 @@
 # Transparent execution, live state and user supervision
 
-**Status:** Normative core product requirement; implementation pending. Rewrotron has two central promises: preserve the application's observable behavior, and always show what it is doing and why. Transparency is required from the first long-running operation, not deferred to a desktop UI. [ADR 0013](../01-architecture/ADR/0013-transparent-execution.md) records this decision.
+**Status:** Normative core product requirement; implementation pending. Rewrotron has two central promises: preserve approved contract behavior within the declared evidence scope, and always show what it is doing and why. Transparency is required from the first long-running operation, not deferred to a desktop UI. [ADR 0013](../01-architecture/ADR/0013-transparent-execution.md) records this decision.
 
 ## User questions and canonical answers
 
@@ -36,7 +36,7 @@ Expose these stages in this display order. They are execution labels, not new pr
 | `OPTIMIZE` | Optional post-parity improvements with benchmark/regression evidence |
 | `FINALIZE` | Full-scope checks, benchmark, session/rollback evidence, Gate 3 and packaging |
 
-Every visit has a `stage_instance_id` and captured subjects. OBSERVE/MODEL can repeat; independent slices can be MIGRATING and VERIFYING concurrently; CONFIRM may recur at each gate. OPTIMIZE can be `NOT_APPLICABLE` when not selected. A completed stage instance does not mean every case passed or that a whole project is complete. Show latest/current/historical instances and reasons for reopened work; do not turn prior success into a current checkmark after drift.
+Every visit has a `stage_instance_id` and captured subjects. OBSERVE/MODEL can repeat; stage instances can overlap for inspection, while initial mutations are serialized per project; CONFIRM may recur at each gate. OPTIMIZE can be `NOT_APPLICABLE` when not selected. A completed stage instance does not mean every case passed or that a whole project is complete. Show latest/current/historical instances and reasons for reopened work; do not turn prior success into a current checkmark after drift.
 
 Stage/task display statuses are `PENDING`, `RUNNING`, `WAITING_USER`, `BLOCKED`, `PAUSED`, `COMPLETED`, `FAILED`, `CANCELLED`, `STALE`, `NOT_APPLICABLE`. They do not replace project, unit, mission, operation or verifier enums. Mission completion still requires engine-validated evidence. A finished verification action may have outcome MISMATCH or UNKNOWN; task outcome and verdict must remain visible even if execution finished successfully.
 
@@ -77,7 +77,7 @@ Each stage/entity offers Summary, Evidence, Decisions, Artifacts, Warnings and O
 
 ## Live execution state and project overview
 
-[state.schema.json](../../specs/execution/state.schema.json) defines a reconstructable projection read at a committed sequence watermark. It exposes control mode, lifecycle state, active runs/stage instances/tasks, focus, last actual activity, last heartbeat, progress metrics, discoveries/changes, blockers, required approvals, next action and relevant refs. Null task/reason/result fields explicitly mean no active task or no result yet; every active task requires a recorded rationale. An idle/paused/completed project is explained rather than assigned fictitious work.
+[state.schema.json](../../specs/execution/state.schema.json) defines the current projection read at state_sequence N; it does not reconstruct historical state. It exposes control mode, lifecycle state, active runs/stage instances/tasks, focus, last actual activity, last heartbeat, progress metrics, discoveries/changes, blockers, required approvals, next action and relevant refs. Null task/reason/result fields explicitly mean no active task or no result yet; every active task requires a recorded rationale. An idle/paused/completed project is explained rather than assigned fictitious work.
 
 `status` includes this projection alongside existing gate validity and coverage. For an older snapshot without the additive execution field, clients report “execution detail unavailable,” not invented progress. New services must populate it. The overview shows source → requested target, exact resolved environment, current subjects, scope, current work and counted routes/workflows/units/cases. “Waiting for nothing” is shown only after checking current blockers and required inputs. Independent work may continue while a dependent scope waits; the overview must show both.
 
@@ -118,7 +118,7 @@ Execution control modes are `RUNNING`, `PAUSE_REQUESTED`, `PAUSED`, `IDLE`, `COM
 
 Report PAUSED only when active work is safely stopped and checkpoints/resource cleanup are recorded. Show any task still stopping and why. A checkpointed operation may retain its existing RUNNING storage status while execution is paused; that status alone does not indicate liveness. Release worker leases coherently and preserve attempts/history; interrupted unsafe-to-resume operations are cancelled and replaced by fresh attempts. No new side effects are admitted after acknowledged pause. Read-only inspection and explicit approval review remain available.
 
-`continue` is a human command clearing the control pause after checking drift, gates, leases and readiness; a missing approval leaves affected work WAITING_USER/BLOCKED. `resume` remains recovery/reconciliation and must preserve a human pause. Restart does not clear it. Closing status watch or an MCP connection does not pause/cancel the engine. Cancelling an operation is distinct from pausing the project; neither deletes evidence nor makes a failed/unknown result pass. UI “Skip” can only propose a visible scope/plan change requiring the applicable gate; it cannot silently waive required cases.
+`continue` is a human command clearing the control pause after checking drift, gates, leases and readiness; a missing approval leaves affected work WAITING_USER/BLOCKED. `resume` remains recovery/reconciliation and must preserve a human pause. Restart does not clear it. Closing status watch affects only the observer. MCP disconnect leaves supervised work owned by its supervisor; foreground engine exit cancels owned work. Cancelling an operation is distinct from pausing the project; neither deletes evidence nor makes a failed/unknown result pass. UI “Skip” can only propose a visible scope/plan change requiring the applicable gate; it cannot silently waive required cases.
 
 Initial CLI pause/continue commands use the local human-control channel. MCP exposes read-only control state; no agent tool grants or clears human control. Future desktop controls must invoke authenticated local human services, not impersonate an agent actor. The local-host trust limit is the same as the existing confirmation protocol; a boolean client claim is not proof of human intent.
 
@@ -133,7 +133,7 @@ Verbosity is `simple`, `detailed`, or `developer`: plain-English summary; summar
 | `execution show --after-sequence N --limit N` | One state/timeline/change page; machine-readable with `--json` |
 | `pause`, `continue` | Persistent human execution control; explicit idempotent local command, no gate approval |
 | MCP `project.get_execution` | Same read-only state/timeline/change page; bounded polling/reconnect |
-| MCP execution resource | Same canonical state at a watermark; no required subscription or transport change |
+| MCP execution resource | Same current state labeled with state_sequence; no required subscription or transport change |
 | Future desktop UI | Same state/events/explanations and existing approval subjects; no new ledger |
 
 `status --watch --json`, watch with quiet/dry-run, and unrecognized verbosity are invalid arguments. Non-watch JSON remains exactly one existing CLI envelope. Machine clients poll `execution show --json` or MCP with cursors; no undocumented JSONL streaming exception. Approval/cursor/control details are specified in synchronized CLI/MCP schemas. Negotiated MCP progress notifications can mirror current call activity but are not the durable timeline or an authority source. No new LLM, hosted websocket service or desktop implementation is required for initial engine transparency.
@@ -152,8 +152,14 @@ Progress tests cover unknown/zero denominators, numerator bounds, accounting-man
 
 ## Audit and pagination clarification
 
-Inspection/audit events do not count as task activity, discoveries, heartbeat, progress or user unread work. Cursor pages filter typed execution events and advance across inspected non-execution ledger positions so audit-only traffic cannot create phantom progress or a polling feedback loop. A fixed through_sequence spans all pages in one window; current state is projected at that watermark, with as-of identity visible. after_sequence ≤ through_sequence is required, and historical reads never make old results current. When the window is exhausted, next_sequence equals through_sequence even if no execution events matched.
+Inspection/audit events do not count as task activity, discoveries, heartbeat, progress or user unread work. Cursor pages filter typed execution events and advance across inspected non-execution ledger positions so audit-only traffic cannot create phantom progress or a polling feedback loop. A fixed through_sequence spans all pages in one window; through_sequence M bounds only the event window; current state is independently labeled state_sequence N ≥ M, never historical as-of state. after_sequence ≤ through_sequence is required, and historical reads never make old results current. When the window is exhausted, next_sequence equals through_sequence even if no execution events matched.
 
 ## Terminal execution scope
 
 Control-mode COMPLETED means the current scheduled execution scope has no unfinished required work with current evidence; it is not deployment/cutover approval or a full-application equivalence claim. IDLE means no work is actively admitted, including waiting for input; FAILED names an actual unrecovered execution failure. Always display scope, outstanding approvals and last outcome. Preserve the separate required corpus/release guards even when all scheduled tasks have finished.
+
+## Current state/event-window contract v2
+
+page.schema v2 requires state_semantics=CURRENT and state_sequence=N. Read current rows and global committed N in one SQLite read transaction; state.latest_event_sequence equals page.state_sequence=N and is a read watermark, not a claim this project changed at N; through_sequence=M bounds events/changes with after ≤ M ≤ N. The state reflects N even when a caller supplies older M. Never label it state-at-M. Each later page may have a newer current N; the M event window remains fixed. Full historical projections/snapshots are deferred. Correlation uses the shared causality envelope; trace timestamps are not causation.
+
+Inspection auditing is coalesced to at most one summary per client/project/minute and excluded from unread work/activity. Heartbeats may be coalesced before persistence but committed ledger rows stay immutable. Liveness, activity, waiting, progress, retrying, blocked and stale are distinct labels. Event-store failure stops new work, records recoverable journal/owned cleanup evidence where possible and returns a structured failure; never report uncommitted success or retry an irreversible effect because logging failed. Quota/retention follow ARTIFACT-STORE; process ownership follows RECOVERY.

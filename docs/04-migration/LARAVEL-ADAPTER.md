@@ -1,10 +1,10 @@
 # Laravel 13 target adapter
 
-**Implementation:** Planned. **Initial implemented maturity:** EXPERIMENTAL. Path: `adapters/target/php/laravel13`. Laravel 13 requires PHP 8.3+, according to the [release policy](https://laravel.com/framework/docs/releases). Pin the runtime patch, framework patch, dependencies and Composer lock in every generated target.
+**Validation maturity:** SPECIFIED. **Distribution tier:** proposed EXPERIMENTAL after implementation; no runtime evidence exists. Path: `adapters/target/php/laravel13`. Laravel 13 requires PHP 8.3+, according to the [release policy](https://laravel.com/framework/docs/releases). Pin the runtime patch, framework patch, dependencies and Composer lock in every generated target.
 
 ## Inputs and capability validation
 
-Consume Behavior IR, data models and the confirmed target plan. Generation does not translate CI3 files. Supported rule/entrypoint/effect capabilities are declared in the adapter manifest. Unknown computations, drivers, middleware semantics, non-HTTP consumers or session formats block their unit rather than becoming fabricated implementations.
+Consume v2 executable Behavior IR contracts, data models, exact resolved environment, approved Target Implementation Model and plan. Generation does not translate CI3 files. Supported rule/entrypoint/effect capabilities are declared in the adapter manifest. Unknown computations, drivers, middleware semantics, non-HTTP consumers or session formats block their unit rather than becoming fabricated implementations.
 
 Generate a modular monolith by default: explicit routes, lean controllers, actions/services, Requests/Policies only when they preserve actual behavior, schema-aware DB access, views/assets and compatibility tests. Form Requests can otherwise change status/error formats; default middleware can change CSRF, redirects, rate behavior and sessions. Choose and test each deliberately.
 

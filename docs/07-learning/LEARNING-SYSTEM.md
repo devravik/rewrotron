@@ -1,80 +1,21 @@
-# LEARNING-SYSTEM.md — Long-Term Learning & Skill Evolution Specification
+# Evidence-based learning and reversible promotion
 
-> **Authority Level:** Mandatory Learning Contract  
-> **Status:** Authoritative Core Specification  
-> **Subsystems:** `internal/learning`, `internal/knowledge`, Skill Manager  
+**Owner:** Project/global separation, independence, promotion and retraction. Initial implementation records project observations/hypotheses/experiments/lessons only. Global synthesis/activation is P2 until independent benchmarks and privacy controls pass.
 
----
+Observation → hypothesis → repeated observation → validated pattern → generalized technique → skill candidate → benchmark → human-reviewed promotion. Every transition records input revisions, applicability, failures, evidence quality and authority. One LLM assertion is a hypothesis, never trusted global knowledge.
 
-## 1. Dual-Tier Learning Topology
+## Independence and applicability
 
-Rewrotron prevents "hallucinated knowledge" by strictly separating project-specific learning from global cross-project knowledge:
+At least three independent fixture/application contexts are a minimum, not sufficient. They must not share the same generated oracle/template/assertion derivation; identify author/oracle/tool/probe/profile dependencies and correlation groups. Include a holdout unavailable to the proposer and negative mutations changing owner, write/effect/token/reset/capture. All required supported cases pass; all designated semantic mutants are detected; no new required UNKNOWNs/capture gaps. Case counts alone cannot show independence or confidence. Report denominators and uncertainty rather than invented probability.
 
-```text
-┌────────────────────────────────────────────────────────┐
-│                   PROJECT LEARNING                     │
-│  Scope: Single customer migration (.rewrotron/project.db)│
-│  Entities: Observations, Mismatches, Repair Attempts,  │
-│            Project Lessons.                            │
-└───────────────────────────┬────────────────────────────┘
-                            │ (Formal Promotion Gate)
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│                    GLOBAL LEARNING                     │
-│  Scope: Multi-project reusable knowledge (~/.rewrotron/)│
-│  Entities: Validated Patterns, Framework Idioms,       │
-│            Global Skills, Stable Migration Rules.       │
-└────────────────────────────────────────────────────────┘
-```
+Pattern scope includes exact source/target versions, content/modification predicates, capabilities, environment/profile/corpus/policy and tool/skill/comparator revisions. A learned suggestion cannot choose user versions, alter approvals, establish compatibility, normalize a mismatch or bypass verification. Reproduce using pinned imported project-owned knowledge revisions, never live global registry state.
 
----
+## Tools and skills
 
-## 2. Knowledge Evolution Hierarchy
+Search exact metadata/tags/full-text and applicability before proposing a duplicate tool; embeddings are optional deferred optimization. Candidates have immutable source/digest/license/capability manifests, version, owner and EXPERIMENTAL status. Generated scripts run only via controlled sandbox ports; no raw agent shell API. Benchmarks measure capture coverage/denominators, unknown rate, mutation detection, false acceptance, runtime/resource costs and supported input breadth, not apparent mission success alone. Lower evidence quality blocks promotion even if more targets PASS. Twenty attempts/90% first-attempt success is diagnostic historical policy, not a sufficient stable gate; security/privacy/holdout evidence decides promotion.
 
-Learning progresses through a disciplined lifecycle:
+## Promotion/retraction
 
-```text
-1. OBSERVATION
-   └─ Raw trace of runtime execution or mismatch diff.
-        ↓
-2. LESSON
-   └─ Specific diagnostic conclusion learned from fixing a mismatch.
-        ↓
-3. PATTERN HYPOTHESIS
-   └─ Proposed generalization of the lesson (e.g. "CI3 Cart stores serialized arrays in DB").
-        ↓
-4. EXPERIMENT
-   └─ Empirical testing of the hypothesis across multiple test cases.
-        ↓
-5. VALIDATED PATTERN
-   └─ Confirmed heuristic that passed evidence thresholds.
-        ↓
-6. SKILL PROPOSAL
-   └─ Encapsulation of validated pattern into an updated Skill reference or script.
-        ↓
-7. SKILL VERSIONING (Experimental -> Stable -> Deprecated)
-```
+Global export is explicit opt-in with reviewed sanitized manifest and human authority; project/global DB transactions are not atomically coupled. Use durable promotion ID/outbox and idempotent global import with checksum/receipt; a crash must reconcile before reporting promotion. Append-only revisions list successor/retraction reason and applicability. Retraction follows [typed consumer graph](../02-domain/DOMAIN-MODEL.md) through all projects/artifacts/tools/skills/results that consumed the revision; mark current affected evidence stale and revalidate, preserve historical approvals. Contradictory patterns remain competing scoped hypotheses until evidence resolves them; a newest version is not automatically true.
 
----
-
-## 3. Evidence Thresholds for Promotion
-
-### 3.1 Project Lesson -> Global Knowledge
-A project lesson may be promoted to Global Knowledge **ONLY IF**:
-1. **Multi-Project Occurrence:** Observed and successfully resolved across at least three independent fixture/application contexts, including negative cases. Multiple units in one app alone are not evidence of cross-project generality.
-2. **Deterministic Verification:** The remediation pattern produced a 100% differential verification pass rate in all instances.
-3. **No Regressions:** Caused zero side-effect regressions across the global benchmark corpus.
-4. **Human / Architect Approval:** Explicit human approval of the sanitized export/pattern plus the automated regression gate. Automated validation alone does not authorize crossing project privacy boundaries.
-
-### 3.2 Experimental Skill -> Stable Skill
-A skill version progresses from `EXPERIMENTAL` to `STABLE` **ONLY IF**:
-1. It has been executed in at least 20 repair missions with $\ge 90\%$ first-attempt success rate.
-2. It has zero rollbacks in the experiment ledger.
-3. Execution time and token overhead fall within established bounds.
-
-
-## 4. Initial versus later implementation
-
-Initial learning records project lessons and failed repair fingerprints only. Pattern generalization, global search and skill synthesis are later RWT-023/024 work. A proposed skill cannot execute arbitrary code through MCP. Generated scripts require explicit capability metadata, safe runner contracts, synthetic evaluation and versioned approval.
-
-Promotion requires an opt-in reviewed manifest, customer-data removal, at least three independent contexts, 100% passing supported cases and no new required UNKNOWNs/regressions. First-attempt skill metrics are reported with attempt denominators; success rates cannot override verifier evidence. Stable skill thresholds remain minimum evidence requirements, not a substitute for security/privacy checks.
+Falsification: three correlated passing fixtures with one wrong oracle must not promote; a tool that hides PDO traces must lose evidence-quality acceptance; replay after registry update must use pinned bytes; retracted pattern must invalidate every current consumer. Global learning cannot be activated before these experiments.

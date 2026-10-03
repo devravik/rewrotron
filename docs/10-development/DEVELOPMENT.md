@@ -2,7 +2,7 @@
 
 ## Current repository
 
-The repository is a specification baseline. There is no `go.mod`, Makefile, Go implementation, container fixture corpus or engine binary yet. The initial SQL migration defines the store to build; it is not a deployed customer DB. Start with RWT-001 in [DEVELOPMENT-PLAN](../11-roadmap/DEVELOPMENT-PLAN.md).
+The repository is a specification baseline. There is no `go.mod`, Makefile, Go implementation, container fixture corpus or engine binary yet. The initial SQL migration defines the store to build; it is not a deployed customer DB. Start with M0 in [DEVELOPMENT-PLAN](../11-roadmap/DEVELOPMENT-PLAN.md).
 
 For documentation/schema checks now:
 
@@ -11,15 +11,15 @@ python3 -m pip install 'jsonschema>=4.10,<5'
 python3 tools/docs/validate.py
 ```
 
-The validator uses local schema IDs, checks fixtures/registries/links and executes the initial SQLite DDL. This does not establish Go driver, race, framework runtime or migration correctness.
+The validator uses local schema IDs, checks fixtures/registries/links and executes the incremental SQLite DDL and approval hash vectors. This does not establish Go driver, race, framework runtime or migration correctness.
 
 ## Planned implementation prerequisites
 
-Go 1.22+ is the constitutional minimum; RWT-001 selects and pins a currently supported stable toolchain satisfying all chosen dependency floors. A dependency requiring a later Go version raises the build baseline explicitly; do not silently use an incompatible minimum. Use `modernc.org/sqlite`, standard-library CLI parsing, and the selected Go PHP parser inside the adapter. Pin exact versions and checksums in `go.mod/go.sum` and a tool manifest.
+Go floor is 1.25.0 for the specified modernc.org/sqlite v1.46.2/libc v1.70.0 pin; M0 records the exact toolchain/module/checksums and verifies embedded SQLite 3.51.3. A dependency requiring a later Go version raises the build baseline explicitly; do not silently use an incompatible minimum. Use `modernc.org/sqlite`, standard-library CLI parsing, and the selected Go PHP parser inside the adapter. Pin exact versions and checksums in `go.mod/go.sum` and a tool manifest.
 
 Source PHP is detected/pinned per fixture/application. Target PHP is 8.3+ for Laravel 13; source and target runtimes are independent. Composer 2 and a container runtime/image cache are required for runtime fixture tasks. No cloud account or LLM subscription is needed. Go-only tests cannot require PHP/containers/network.
 
-## Make targets to create in RWT-001
+## Make targets to create in M0
 
 | Target | Command/behavior |
 | --- | --- |

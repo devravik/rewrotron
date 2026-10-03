@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/reuse-certificate.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "old_plan_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "new_plan_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "graph_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "kind": {
+      "enum": [
+        "CHARACTERIZATION",
+        "IMPLEMENTATION"
+      ]
+    },
+    "checked_edge_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "issuer": {
+      "const": "ENGINE"
+    },
+    "valid": {
+      "const": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "old_plan_hash",
+    "new_plan_hash",
+    "artifact_ref",
+    "graph_ref",
+    "kind",
+    "checked_edge_refs",
+    "evidence_refs",
+    "issuer",
+    "valid"
+  ],
+  "additionalProperties": false
+}

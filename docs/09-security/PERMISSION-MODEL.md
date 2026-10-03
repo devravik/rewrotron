@@ -18,3 +18,5 @@
 | Production writes/deploy/traffic changes | Not implemented | Gate 3 prepares a package/runbook only |
 
 Read-only means business state is not changed; an invocation can still append an audit event. `next` peeks without acquiring a lease. `research.claim_mission` is a mutation. Arbitrary code deletion, `config.enable_production` and raw SQL/shell tools are not public MCP operations.
+
+Typed decision propose/show (MCP decisions.propose/get) are Gate 1 operations only; actions include accepting/rejecting/selecting alternatives/requesting evidence/proposing exceptions. Gate 2 alone authorizes frozen selected decisions. These are mediated permission rules; hostile same-account filesystem/shell access is outside engine isolation, as defined by SECURITY.

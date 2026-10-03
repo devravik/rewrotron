@@ -30,3 +30,5 @@ Categories match `specs/common.schema.json`. Machine contracts never require par
 ## Execution error presentation
 
 The canonical execution view combines the existing code with stage/task/scope, concrete difference, evidence refs, recorded attempts, labeled hypothesis and next action. A task failure is separate from MISMATCH/UNKNOWN; paused, disconnected and stale-heartbeat states are not verification verdicts. `ERR_INVALID_ARGUMENT` covers invalid/future event cursors, watch/JSON or watch/quiet/dry-run combinations, and unknown verbosity. Reading developer details retains the same redaction/ownership rules. UI Skip proposes a scope/plan revision, never a silent PASS or exclusion.
+
+Version 2 reasons: ERR_CAPABILITY_UNSUPPORTED (mechanism/operator/supervisor missing), ERR_UNBOUND_VALUE (missing typed input), ERR_CONFIG_CONFLICT (competing intent), BACKUP_INCOMPLETE (unavailable closure), ERR_QUOTA_EXCEEDED (admission paused), ERR_SUBJECT_VERSION (retained subject cannot execute). Include stage/scope/ref/evidence/next action; unsupported in-scope behavior yields UNKNOWN, never PASS.

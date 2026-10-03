@@ -1,6 +1,6 @@
 # Documentation guide
 
-**Review baseline:** 2026-10-03. This repository contains specifications, schemas, and initial SQL migration definitions. It has no Go engine, binaries, runtime adapters, or executed migration corpus yet. Commands and package paths describe the implementation to build.
+**Review baseline:** 2026-10-03. This repository contains specifications, schemas, and incremental SQL migration definitions. It has no Go engine, binaries, runtime adapters, or executed migration corpus yet. Commands and package paths describe the implementation to build.
 
 Start with [PRODUCT](00-vision/PRODUCT.md), then [SYSTEM-DESIGN](01-architecture/SYSTEM-DESIGN.md), [PROJECT-LIFECYCLE](02-domain/PROJECT-LIFECYCLE.md), and [DEVELOPMENT-PLAN](11-roadmap/DEVELOPMENT-PLAN.md). The [audit](11-roadmap/DOCUMENTATION-AUDIT.md) records gaps and the [decision register](11-roadmap/DECISION-REGISTER.md) distinguishes specification decisions from validation work.
 
@@ -27,8 +27,14 @@ Start with [PRODUCT](00-vision/PRODUCT.md), then [SYSTEM-DESIGN](01-architecture
 | Contributor and release checks | [DEVELOPMENT](10-development/DEVELOPMENT.md) | [Testing](10-development/TESTING.md), [fixtures](10-development/FIXTURE-CORPUS.md), [cutover](10-development/CUTOVER-RUNBOOK.md) |
 | Development order | [DEVELOPMENT-PLAN](11-roadmap/DEVELOPMENT-PLAN.md) | [Milestones](11-roadmap/MILESTONES.md), [backlog](11-roadmap/BACKLOG.md) |
 
-The original [project exploration](../REWROTRON_PROJECT_PLAN.md) supplies product context and examples. Its phase names, historical backlog, and illustrative structures are not a second implementation contract. Each task in the development plan has an owner role, prerequisites, files, failure cases, verification, and completion evidence.
+The [project plan](../REWROTRON_PROJECT_PLAN.md) summarizes the current milestone sequence and references its owners; historical phases are superseded. Each task in the development plan has an owner role, prerequisites, files, failure cases, verification, and completion evidence.
 
 ## Reading examples correctly
 
 An example customer database, runtime, role, URL, or workflow is illustrative. It cannot become a detected baseline fact without evidence or an explicit user override. Framework support means a declared capability checked against a corpus, not that every possible application can be migrated automatically. `UNKNOWN` remains visible and prevents an equivalence claim for the affected scope.
+
+## Additional canonical owners after red-team revision
+
+CONFIRMATION-PROTOCOL owns subject serialization/human gates; PROJECT-LIFECYCLE owns state/readiness. IR-CONTRACTS owns neutral identity/versioning; BEHAVIOR-MODEL owns executable semantics and claim terminology. TARGET-ARCHITECTURE owns the Target Implementation Model; MIGRATION-UNITS owns acceptance scopes. DOMAIN-MODEL owns typed invalidation/reuse. ARTIFACT-STORE owns retention/quota/archive; RECOVERY owns process lifetime/publication/backup. LEARNING-SYSTEM owns promotion/independence/retraction. PERFORMANCE owns explicit statistical claims. These details are referenced, not redefined by overview documents/ADRs.
+
+[Red-team resolution matrix](11-roadmap/RED-TEAM-RESOLUTION.md) is an audit/disposition record, not a competing specification. Attached review is retained unchanged as external architectural input. All current runtime/adapter/client claims remain unvalidated until corresponding evidence is produced.

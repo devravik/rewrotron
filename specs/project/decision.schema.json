@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/decision.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "decision_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "action": {
+      "enum": [
+        "ACCEPT",
+        "REJECT",
+        "SELECT_STRATEGY",
+        "SUPPLY_ALTERNATIVE",
+        "REQUEST_EVIDENCE",
+        "APPROVE_EXCEPTION"
+      ]
+    },
+    "subject_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "strategy": {
+      "enum": [
+        "DIRECT_UPGRADE",
+        "ADAPTER",
+        "REPLACEMENT",
+        "REIMPLEMENT",
+        "RETAIN",
+        null
+      ]
+    },
+    "implementation_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "exception_scope_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "status": {
+      "const": "PROPOSED"
+    }
+  },
+  "required": [
+    "schema_version",
+    "decision_id",
+    "project_id",
+    "action",
+    "subject_ref",
+    "strategy",
+    "implementation_ref",
+    "exception_scope_ref",
+    "rationale",
+    "evidence_refs",
+    "status"
+  ],
+  "additionalProperties": false
+}

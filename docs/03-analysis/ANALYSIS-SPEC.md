@@ -1,29 +1,19 @@
-# Analysis contract
+# Analysis and coherent source acquisition
 
-**Status:** Normative. Analysis requires a valid Gate 1 baseline.
+**Owner:** Source snapshots and bounded analysis. [source-snapshot.schema.json](../../specs/project/source-snapshot.schema.json) records immutable identity; [CODE-CLASSIFICATION](CODE-CLASSIFICATION.md) owns omission obligations.
 
-## Outputs
+## Acquisition before Gate 1
 
-1. Complete source file inventory with bytes/hashes, syntax status and positions.
-2. Source IR symbols and typed dependency edges, including unresolved dynamic expressions.
-3. Application IR entrypoints, handlers, shared components, data models and workflow candidates resolved by the source adapter.
-4. Evidence-backed ACTIVE/DORMANT/DEAD/UNKNOWN classifications.
-5. Findings, missing inputs, capability limitations and scope completeness.
+Acquire via immutable VCS object export (including dirty/untracked content only under quiescence), filesystem snapshot, or quiesced copy. A live repeated scan is not an immutable snapshot: ABA changes and symlink swaps can evade it. If no consistent acquisition mechanism/quiescence is available, block snapshot publication. Operator quiescence is explicit recorded evidence, not assumed inactivity.
 
-Source parsing and framework interpretation are specified in [STATIC-ANALYSIS](STATIC-ANALYSIS.md) and [CI3-ADAPTER](../04-migration/CI3-ADAPTER.md). Generic graph logic must not include CI3 assumptions. Every output binds the confirmed source hash and adapter version.
+Define boundary including application/configuration/templates/assets/dependency/framework content, external generated sources and operational inputs; exclude only identified engine workspace/VCS/volatile output paths with reviewed rationale. Symlinks must be contained and acquisition must use race-resistant descriptor-relative access; ambiguous/escaping/swap paths fail. Record sorted POSIX paths, raw file SHA256, executable bit, symlink target and content-root hash. Metadata is not identity. Snapshot storage is private/owner-only, sealed read-only and verified before use; original source is never instrumented.
 
-## Safety and completeness
+Publish complete manifest/profile/closure evidence atomically with registered artifact identity and source snapshot row; never expose a partial snapshot as sealed. Detection/analysis/probes use the sealed bytes. Live-source drift is a separate monitored identity and triggers review/update, not mutation of existing baseline. Reopening verifies bytes, ownership and snapshot boundary. Rebase/update produces a successor snapshot with explicit changed manifest; typed validity determines reuse and new Gate 1 approval.
 
-No application code, Composer scripts, route config, includes or reflection executes during static analysis. Analysis limits, unreadable files and parsing failures are explicit findings. They cannot silently disappear from graph roots or justify omission. Only the algorithm in [CODE-CLASSIFICATION](CODE-CLASSIFICATION.md) grants DEAD eligibility.
+## Evidence and limits
 
-Inventory includes templates, assets, hook/bootstrap files, CLI scripts, cron/consumer candidates and supplied operational commands. Detection counts are preliminary; analyzed counts have exact definitions and provenance. Dynamic dependency observations add evidence but do not close all possible dispatch targets.
+Measure runtime/framework/dependencies/config profiles where safely possible; keep human assertions separate. Source version labels cannot establish vendor modifications or installed bytes. Parse status is PARSED/PARTIAL/UNSUPPORTED/FAILED per region. Dynamic dispatch/include/autoload/reflection/magic/eval/generated code, service locators/config/database-driven routing and production-only paths remain unresolved unless a supported safe mechanism records them. Runtime hits prove presence, not absence.
 
-## Publication and reruns
+Operational roots include HTTP/admin/webhooks, CLI, cron/timezones, queues/workers, plugins, feature flags and environment/config/data-controlled loading. The customer supplies/reviews a versioned operational inventory; omitted root categories prevent boundary closure. No static evaluator executes PHP/dependency scripts. Unknown/unsupported regions prevent affected DEAD proofs and behavior acceptance.
 
-Analysis operates on a frozen manifest/sandbox snapshot, stages IR artifacts, rechecks drift, then atomically publishes metadata and events. Interrupted or stale results remain historical partial artifacts and do not advance current project state. Identical hash/version inputs can reuse an existing immutable result; changed adapters or inputs create a new revision.
-
-Required fixtures include inheritance/traits, dynamic methods/includes, conditional route config, parser errors, controller subdirectories, shared helpers, dead strongly connected subgraphs, cron-only roots, view/asset dependencies, dirty/untracked files and symlinks. Expected graph/classifications are version-controlled synthetic fixtures.
-
-## Dependency usage evidence
-
-The source inventory preserves exact manifest/installed/locked versions and direct/transitive/development/optional roles. After Gate 1, symbol reachability, operational roots and runtime observations identify required capability subsets and affected behavior units. Declared, reachable, observed and required counts remain distinct; dynamic or unobserved usage cannot justify automatic omission. Target selection never overwrites source dependency facts. [DEPENDENCY-RESOLUTION](../04-migration/DEPENDENCY-RESOLUTION.md) owns recursive target constraints, API/capability mapping and user decisions.
+Acceptance must falsify coherent acquisition with source mutation/ABA/symlink swaps; reject unsafe acquisition. Fixtures include DB-driven route, cron-only helper, modified vendor, mixed versions, dynamic method/class/include, reflection/autoloader/eval, unavailable extension, flag profiles and generic source. Successful parsing is not coverage completeness.

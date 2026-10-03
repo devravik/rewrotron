@@ -94,14 +94,22 @@
       "input_schema": "https://rewrotron.dev/specs/cli/commands/verify.input.schema.json",
       "output_schema": "https://rewrotron.dev/specs/verification/report.schema.json",
       "gate": "GATE_2",
-      "mutating": true
+      "mutating": true,
+      "output_variants": [
+        "https://rewrotron.dev/specs/verification/report.schema.json",
+        "https://rewrotron.dev/specs/operations/result.schema.json"
+      ]
     },
     {
       "command": "benchmark",
       "input_schema": "https://rewrotron.dev/specs/cli/commands/benchmark.input.schema.json",
       "output_schema": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
       "gate": "GATE_2",
-      "mutating": true
+      "mutating": true,
+      "output_variants": [
+        "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+        "https://rewrotron.dev/specs/operations/result.schema.json"
+      ]
     },
     {
       "command": "status",
@@ -235,6 +243,21 @@
       "output_schema": "https://rewrotron.dev/specs/execution/state.schema.json",
       "gate": "HUMAN",
       "mutating": true
+    },
+    {
+      "command": "decision propose",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/decision-propose.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/decision.schema.json",
+      "gate": "GATE_1",
+      "mutating": true
+    },
+    {
+      "command": "decision show",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/decision-show.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/decision.schema.json",
+      "gate": "GATE_1",
+      "mutating": false
     }
-  ]
+  ],
+  "contract_version": "2.0"
 }

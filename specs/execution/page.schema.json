@@ -1,106 +1,224 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/execution/page.schema.json",
-  "title": "Bounded execution timeline and changes page",
-  "type": "object",
-  "properties": {
-    "schema_version": {
-      "const": "1.0"
-    },
-    "project_id": {
-      "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
-    },
-    "after_sequence": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "through_sequence": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "next_sequence": {
-      "type": "integer",
-      "minimum": 0
-    },
-    "has_more": {
-      "type": "boolean"
-    },
-    "state": {
-      "$ref": "https://rewrotron.dev/specs/execution/state.schema.json"
-    },
-    "events": {
-      "type": "array",
-      "items": {
-        "$ref": "https://rewrotron.dev/specs/execution/event.schema.json"
-      },
-      "maxItems": 500
-    },
-    "changes": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "kind": {
-            "enum": [
-              "DISCOVERED",
-              "COMPLETED",
-              "RESOLVED",
-              "BLOCKED",
-              "LESSON",
-              "INVALIDATED",
-              "REOPENED"
-            ]
-          },
-          "entity_type": {
-            "type": "string",
-            "minLength": 1
-          },
-          "entity_id": {
-            "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
-          },
-          "summary": {
-            "type": "string",
-            "minLength": 1
-          },
-          "event_id": {
-            "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
-          },
-          "sequence": {
-            "type": "integer",
-            "minimum": 1
-          },
-          "evidence_refs": {
-            "type": "array",
-            "items": {
-              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/artifact_ref"
-            },
-            "minItems": 0
-          }
+  "description": "Version 1 is readable historical data only. Current execution requires version 2 plus service invariants.",
+  "oneOf": [
+    {
+      "title": "Bounded execution timeline and changes page",
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
         },
-        "required": [
-          "kind",
-          "entity_type",
-          "entity_id",
-          "summary",
-          "event_id",
-          "sequence",
-          "evidence_refs"
-        ],
-        "additionalProperties": false
+        "project_id": {
+          "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+        },
+        "after_sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "through_sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "next_sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "state": {
+          "$ref": "https://rewrotron.dev/specs/execution/state.schema.json"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "https://rewrotron.dev/specs/execution/event.schema.json"
+          },
+          "maxItems": 500
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": [
+                  "DISCOVERED",
+                  "COMPLETED",
+                  "RESOLVED",
+                  "BLOCKED",
+                  "LESSON",
+                  "INVALIDATED",
+                  "REOPENED"
+                ]
+              },
+              "entity_type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "entity_id": {
+                "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+              },
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "event_id": {
+                "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/artifact_ref"
+                },
+                "minItems": 0
+              }
+            },
+            "required": [
+              "kind",
+              "entity_type",
+              "entity_id",
+              "summary",
+              "event_id",
+              "sequence",
+              "evidence_refs"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        }
       },
-      "minItems": 0
+      "required": [
+        "schema_version",
+        "project_id",
+        "after_sequence",
+        "through_sequence",
+        "next_sequence",
+        "has_more",
+        "state",
+        "events",
+        "changes"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "title": "Bounded execution timeline and changes page",
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.0"
+        },
+        "project_id": {
+          "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+        },
+        "after_sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "through_sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "next_sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "state": {
+          "$ref": "https://rewrotron.dev/specs/execution/state.schema.json"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "https://rewrotron.dev/specs/execution/event.schema.json"
+          },
+          "maxItems": 500
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "enum": [
+                  "DISCOVERED",
+                  "COMPLETED",
+                  "RESOLVED",
+                  "BLOCKED",
+                  "LESSON",
+                  "INVALIDATED",
+                  "REOPENED"
+                ]
+              },
+              "entity_type": {
+                "type": "string",
+                "minLength": 1
+              },
+              "entity_id": {
+                "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+              },
+              "summary": {
+                "type": "string",
+                "minLength": 1
+              },
+              "event_id": {
+                "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+              },
+              "sequence": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/artifact_ref"
+                },
+                "minItems": 0
+              }
+            },
+            "required": [
+              "kind",
+              "entity_type",
+              "entity_id",
+              "summary",
+              "event_id",
+              "sequence",
+              "evidence_refs"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "state_semantics": {
+          "const": "CURRENT"
+        },
+        "state_sequence": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "schema_version",
+        "project_id",
+        "after_sequence",
+        "through_sequence",
+        "next_sequence",
+        "has_more",
+        "state",
+        "events",
+        "changes",
+        "state_semantics",
+        "state_sequence"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "schema_version",
-    "project_id",
-    "after_sequence",
-    "through_sequence",
-    "next_sequence",
-    "has_more",
-    "state",
-    "events",
-    "changes"
-  ],
-  "additionalProperties": false
+  ]
 }

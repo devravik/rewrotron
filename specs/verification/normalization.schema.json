@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/verification/normalization.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "rule_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "value_type": {
+      "enum": [
+        "string",
+        "boolean",
+        "integer",
+        "decimal",
+        "null",
+        "timestamp",
+        "bytes",
+        "object",
+        "array"
+      ]
+    },
+    "variability": {
+      "enum": [
+        "CLOCK",
+        "GENERATED_ID",
+        "TOKEN",
+        "REPRESENTATION"
+      ]
+    },
+    "relation": {
+      "enum": [
+        "BIJECTIVE_ID",
+        "TOKEN_LIFECYCLE",
+        "CONTROLLED_CLOCK",
+        "CANONICAL_REPRESENTATION"
+      ]
+    },
+    "relation_group": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "lifecycle_contract_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "business_significance_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "decision_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "negative_mutation_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "rule_id",
+    "path",
+    "value_type",
+    "variability",
+    "relation",
+    "relation_group",
+    "lifecycle_contract_ref",
+    "business_significance_ref",
+    "decision_ref",
+    "negative_mutation_refs"
+  ],
+  "additionalProperties": false
+}

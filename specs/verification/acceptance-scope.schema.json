@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/verification/acceptance-scope.schema.json",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "enum": [
+        "UNIT",
+        "IMPLEMENTED_REGRESSION",
+        "PROJECT"
+      ]
+    },
+    "unit_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]+$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "case_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]+$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "corpus_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "scope_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "kind",
+    "unit_ids",
+    "case_ids",
+    "corpus_ref",
+    "scope_hash"
+  ],
+  "additionalProperties": false
+}

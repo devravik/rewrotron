@@ -1,0 +1,730 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/behavior/semantics.schema.json",
+  "$defs": {
+    "expression": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "literal"
+            },
+            "value_type": {
+              "const": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "value_type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "literal"
+            },
+            "value_type": {
+              "const": "boolean"
+            },
+            "value": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "op",
+            "value_type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "literal"
+            },
+            "value_type": {
+              "const": "integer"
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^(?:0|-?[1-9][0-9]*)$"
+            }
+          },
+          "required": [
+            "op",
+            "value_type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "literal"
+            },
+            "value_type": {
+              "const": "decimal"
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)\\.[0-9]+$"
+            }
+          },
+          "required": [
+            "op",
+            "value_type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "literal"
+            },
+            "value_type": {
+              "const": "null"
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "op",
+            "value_type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "literal"
+            },
+            "value_type": {
+              "const": "timestamp"
+            },
+            "value": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "op",
+            "value_type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "literal"
+            },
+            "value_type": {
+              "const": "bytes"
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "op",
+            "value_type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "ref"
+            },
+            "namespace": {
+              "enum": [
+                "input",
+                "actor",
+                "state",
+                "result",
+                "clock",
+                "binding"
+              ]
+            },
+            "pointer": {
+              "type": "string",
+              "pattern": "^(?:/.*)?$"
+            },
+            "value_type": {
+              "enum": [
+                "string",
+                "boolean",
+                "integer",
+                "decimal",
+                "null",
+                "timestamp",
+                "bytes",
+                "object",
+                "array"
+              ]
+            }
+          },
+          "required": [
+            "op",
+            "namespace",
+            "pointer",
+            "value_type"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "enum": [
+                "eq",
+                "lt",
+                "lte",
+                "in",
+                "add",
+                "sub",
+                "before",
+                "at_or_before"
+              ]
+            },
+            "left": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            },
+            "right": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            }
+          },
+          "required": [
+            "op",
+            "left",
+            "right"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "enum": [
+                "and",
+                "or"
+              ]
+            },
+            "args": {
+              "type": "array",
+              "items": {
+                "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+              },
+              "minItems": 2,
+              "maxItems": 100
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "enum": [
+                "not",
+                "exists",
+                "is_null",
+                "is_missing"
+              ]
+            },
+            "arg": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            }
+          },
+          "required": [
+            "op",
+            "arg"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "coerce"
+            },
+            "profile": {
+              "enum": [
+                "INTEGER_TO_DECIMAL",
+                "CANONICAL_STRING_TO_INTEGER"
+              ]
+            },
+            "arg": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            }
+          },
+          "required": [
+            "op",
+            "profile",
+            "arg"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "array"
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+              },
+              "maxItems": 100
+            }
+          },
+          "required": [
+            "op",
+            "items"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "op": {
+              "const": "object"
+            },
+            "fields": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+              }
+            }
+          },
+          "required": [
+            "op",
+            "fields"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "action": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "assert"
+            },
+            "predicate": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            },
+            "error_code": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "action",
+            "predicate",
+            "error_code"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "set_state"
+            },
+            "pointer": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            }
+          },
+          "required": [
+            "action",
+            "pointer",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "enum": [
+                "begin",
+                "commit",
+                "rollback"
+              ]
+            },
+            "connection_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            },
+            "transaction_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "required": [
+            "action",
+            "connection_id",
+            "transaction_id"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "db_read"
+            },
+            "connection_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            },
+            "catalog": {
+              "type": "string",
+              "minLength": 1
+            },
+            "table": {
+              "type": "string",
+              "minLength": 1
+            },
+            "where": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            },
+            "max_rows": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10000
+            },
+            "order_by": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "minItems": 0,
+              "uniqueItems": true
+            },
+            "bind": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "required": [
+            "action",
+            "connection_id",
+            "catalog",
+            "table",
+            "where",
+            "max_rows",
+            "order_by",
+            "bind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "db_write"
+            },
+            "connection_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            },
+            "catalog": {
+              "type": "string",
+              "minLength": 1
+            },
+            "table": {
+              "type": "string",
+              "minLength": 1
+            },
+            "mutation": {
+              "enum": [
+                "INSERT",
+                "UPDATE",
+                "DELETE"
+              ]
+            },
+            "where": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            },
+            "values": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+              }
+            },
+            "transaction_id": {
+              "oneOf": [
+                {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_-]+$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "action",
+            "connection_id",
+            "catalog",
+            "table",
+            "mutation",
+            "where",
+            "values",
+            "transaction_id"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "emit"
+            },
+            "effect_class": {
+              "enum": [
+                "PURE",
+                "READ_ONLY",
+                "LOCAL_WRITE",
+                "EXTERNAL_WRITE",
+                "IRREVERSIBLE"
+              ]
+            },
+            "destination_id": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            },
+            "payload": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            },
+            "idempotency_key": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            }
+          },
+          "required": [
+            "action",
+            "effect_class",
+            "destination_id",
+            "payload",
+            "idempotency_key"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "respond"
+            },
+            "status": {
+              "type": "integer",
+              "minimum": 100,
+              "maximum": 599
+            },
+            "body": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            }
+          },
+          "required": [
+            "action",
+            "status",
+            "body"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "error"
+            },
+            "code": {
+              "type": "string",
+              "minLength": 1
+            },
+            "message": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            }
+          },
+          "required": [
+            "action",
+            "code",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "completion": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "PROCESS_EXIT",
+            "HTTP_RESPONSE",
+            "SINK_ACK_QUIESCENCE"
+          ]
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        },
+        "expected_receipts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "quiescence_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "predicate": {
+          "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+        }
+      },
+      "required": [
+        "mode",
+        "timeout_ms",
+        "expected_receipts",
+        "quiescence_ms",
+        "predicate"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "type": "object",
+  "properties": {
+    "preconditions": {
+      "type": "array",
+      "items": {
+        "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "postconditions": {
+      "type": "array",
+      "items": {
+        "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "invariants": {
+      "type": "array",
+      "items": {
+        "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "branches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "branch_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "guard": {
+            "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+          },
+          "actions": {
+            "type": "array",
+            "items": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/action"
+            },
+            "minItems": 1,
+            "maxItems": 100
+          }
+        },
+        "required": [
+          "branch_id",
+          "guard",
+          "actions"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "maxItems": 100
+    },
+    "completion": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "PROCESS_EXIT",
+            "HTTP_RESPONSE",
+            "SINK_ACK_QUIESCENCE"
+          ]
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300000
+        },
+        "expected_receipts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "quiescence_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "predicate": {
+          "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+        }
+      },
+      "required": [
+        "mode",
+        "timeout_ms",
+        "expected_receipts",
+        "quiescence_ms",
+        "predicate"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "preconditions",
+    "postconditions",
+    "invariants",
+    "branches",
+    "completion"
+  ],
+  "additionalProperties": false
+}

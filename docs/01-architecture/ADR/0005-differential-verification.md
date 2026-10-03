@@ -1,28 +1,39 @@
-# ADR 0005: Automated Differential Verification with Normalization
+# ADR 0005: Independent differential verification
 
-- **Status:** Accepted
-- **Date:** 2026-10-03
-- **Deciders:** Rewrotron Core Architecture Team
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [DIFFERENTIAL-TESTING](../../05-verification/DIFFERENTIAL-TESTING.md). This ADR records the decision, not a duplicate field specification.
 
 ## Context
-Proving that a modernized target application behaves identically to the legacy source application requires empirical evidence. Unit tests alone are insufficient because developers or agents can write tests that pass against buggy code while failing to capture legacy edge cases.
+
+Finite samples, self-generated oracles and probe assertions can falsely accept wrong targets.
+
+## Problem
+
+Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
 
 ## Decision
-Implement automated **Differential Verification**: replay identical HTTP payloads and preconditions against both the Source Application and Target Application, capturing responses, database mutations, and session changes. Validate equivalence using a 3-tier policy:
-1. **Byte-Exact:** For deterministic status codes, redirect URLs, and static responses.
-2. **Canonical Semantic:** For JSON/HTML payloads where formatting or key order varies innocently.
-3. **Normalized Dynamic:** For timestamps, nonces, CSRF tokens, and generated UUIDs.
 
-Any unresolvable discrepancy is classified as `UNKNOWN` or `MISMATCH`.
+Independent environments, mechanism-derived attestations, relational policies and semantic mutants; PASS/MISMATCH/UNKNOWN only, no self-certified corpus completeness.
 
-## Alternatives Considered
-- **Target Unit Tests Only:** Writing tests only in Laravel. Rejected because it provides zero guarantee that legacy business logic was accurately ported.
-- **Manual QA Testing:** Too slow, expensive, and non-reproducible.
+## Alternatives considered
+
+Shared writable replay state; probe-declared COMPLETE; isolated state plus mechanism controls.
+
+## Why rejected
+
+Shared state contaminates replay and a probe assertion cannot establish uncaptured PDO/native paths.
 
 ## Consequences
-- **Positive:** Reproducible compatibility evidence for an explicit finite corpus and scope; catches silent side-effect bugs and missed database updates early.
-- **Negative:** Requires running both stacks simultaneously in isolated sandboxes and resetting test database state between runs.
 
-## Implementation clarification (2026-10-03)
+More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
 
-[ADR 0011](0011-development-baseline-and-contract-completion.md) defines the initial concrete package, hash, protocol, evidence and release baseline. This accepted design is not a claim that implementation/runtime validation has completed.
+## Machine-contract impact
+
+Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+
+## Migration/compatibility implications
+
+Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+
+## Acceptance experiment / falsification test
+
+X05/X06/X07/X08/X11/X20. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.

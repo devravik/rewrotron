@@ -1,39 +1,39 @@
-# ADR 0009: Three-Tier Intermediate Representation (Source IR, Application IR, Behavior IR)
+# ADR 0009: Three IRs and explicit target model
 
-- **Status:** Accepted
-- **Date:** 2026-10-03
-- **Deciders:** Rewrotron Core Architecture Team
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [TARGET-ARCHITECTURE](../../04-migration/TARGET-ARCHITECTURE.md). This ADR records the decision, not a duplicate field specification.
 
 ## Context
-Directly translating from a source framework AST (e.g. CodeIgniter 3) to a target framework (e.g. Laravel 13) couples the modernization engine to specific framework pairs ($N \times M$ translators). Furthermore, legacy syntax often obscures the true architectural structure of the application.
+
+Behavior does not specify target component ownership/lowering/build capabilities.
+
+## Problem
+
+Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
 
 ## Decision
-Introduce a **Three-Tier Intermediate Representation (IR)** pipeline that decouples source understanding from target generation:
 
-```text
-Source Code
-    ↓
-1. SOURCE IR (What the code is syntactically: ASTs, symbols, files, calls, declared routes)
-    ↓
-2. APPLICATION IR (What the application is structurally: controllers, services, models, workflows)
-    ↓
-3. BEHAVIOR IR (What the outside world observes: inputs, business rules, state transitions, side effects, outputs)
-    ↓
-Target Adapters (Laravel, Go, Rust, Python, TypeScript)
-```
+Source/Application/Behavior IR plus lightweight target-specific implementation model proposed before Gate 2 and activated after; progress separate.
 
-## Alternatives Considered
-- **Direct AST Translation:** Mapping PHP AST nodes directly to target framework AST nodes. Rejected because it couples frameworks ($N \times M$), carries forward legacy God classes, and prevents cross-language migration.
-- **Single Flat Behavior Model:** Attempting to infer observable behavior directly from raw AST without modeling application architecture. Rejected because structural concepts (like controllers, services, models, and workflows) provide critical context for synthesizing clean target code.
+## Alternatives considered
+
+Behavior IR directly to files; another universal source IR; target-specific ownership/lowering model.
+
+## Why rejected
+
+Direct generation hides architectural decisions; duplicating source semantics confuses source obligations and target choices.
 
 ## Consequences
-- **Positive:**
-  - $N$ source adapters + $M$ target adapters enable $N \times M$ migration combinations.
-  - Adding a target adapter reuses the common model; each claimed combination requires a tested supported-capability intersection.
-  - Clean separation of concerns: source adapters understand legacy quirks; target adapters generate clean modern idioms.
-- **Negative:**
-  - Requires maintaining transformations between Source IR, Application IR, and Behavior IR.
 
-## Implementation clarification (2026-10-03)
+More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
 
-[ADR 0011](0011-development-baseline-and-contract-completion.md) defines the initial concrete package, hash, protocol, evidence and release baseline. This accepted design is not a claim that implementation/runtime validation has completed.
+## Machine-contract impact
+
+Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+
+## Migration/compatibility implications
+
+Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+
+## Acceptance experiment / falsification test
+
+X17/X22/X40. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.

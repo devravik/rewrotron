@@ -1,28 +1,39 @@
-# ADR 0012: User-owned targets and capability-based dependency resolution
+# ADR 0012: User intent, exact resolution and frozen decisions
 
-- **Status:** Accepted specification decision; implementation pending
-- **Date:** 2026-10-03
-- **Basis:** Repository owner requested first-class target configuration and dependency resolution
-- **Related:** ADRs 0009, 0010 and 0011; no existing confirmation gate is removed
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [TARGET-SPECIFICATION](../../04-migration/TARGET-SPECIFICATION.md). This ADR records the decision, not a duplicate field specification.
 
 ## Context
 
-Selecting a framework alone leaves runtime, infrastructure, compatibility and dependency decisions to individual agents. Package-name mapping misses actual usage and cross-language native implementations. Mutable recommendations can drift from customer intent and stale target work can accidentally appear current after a version change.
+Wildcard intent cannot be execution environment; changing progress cannot rewrite approval.
+
+## Problem
+
+Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
 
 ## Decision
 
-Separate observed source facts, user target intent, immutable migration plans and executed results. Use root `rewrotron.yaml` as primary editable project intent, with optional exclusive `.rewrotron/target.yaml`. Preserve the prior project YAML input when no root file exists. Generated detection, recommendation, dependency, plan and approval views never overwrite intent or grant authority.
+Separate detected/asserted/requested/recommended/resolved/approved/executed/verified records. Decisions immutable, progress separate; typed validity and conservative reuse preserve unrelated source work.
 
-Capture a validated immutable target revision before planning. Gate 1 still protects deep source analysis; Gate 2 confirms the exact target revision, resolutions and plan together; Gate 3 confirms current release evidence. Approval stays in SQLite `user_confirmations`, not YAML. Explicit edits create successor intent requiring a new plan; recommendations cannot silently lower approved versions.
+## Alternatives considered
 
-Use neutral `internal/detection`, `internal/recommendations`, `internal/target` and `internal/dependency` services. Existing `internal/migration`, `internal/core` and `internal/knowledge` own planning, gate enforcement and learning respectively. Ecosystem parsing/API metadata remains behind adapter ports. Reuse the artifact store, verifier and approval ledger.
+Intent schema reused as resolution; combined changing decision/status; separate immutable choices and progress.
 
-Resolve dependencies by exact inventory, recursive constraints, actual usage and required capabilities. Strategies are DIRECT_UPGRADE, ADAPTER, REPLACEMENT, REIMPLEMENT and RETAIN; BLOCKED is an unresolved status. Metadata/API compatibility, capability coverage and behavioral verification are separate. Unknowns and dormant usage cannot be treated as dead baggage.
+## Why rejected
 
-Record input subjects and reverse dependency links so target changes invalidate affected planning/build/verification while preserving unrelated source work and immutable history. Existing artifact/link/event/finding tables store the first design; no SQL schema modification is made here. Shared target and decision schemas extend the undeployed contracts additively; old documents remain readable, but incomplete historical plans must be rebuilt before execution under these requirements.
+Wildcards re-resolve over time; status mutation changes approval bytes and causes reapproval loops.
 
 ## Consequences
 
-Users can review reproducible target and dependency decisions across sessions. Framework-neutral planners can support future languages without N×M package translators. Additional feasibility and characterization work is required, and unknown metadata may block dependent scope. Offline/local evidence and controlled acquisition keep SaaS and LLMs optional. Global resolution knowledge remains opt-in and evidence-scoped.
+More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
 
-The [target specification](../../04-migration/TARGET-SPECIFICATION.md) and [dependency resolution](../../04-migration/DEPENDENCY-RESOLUTION.md) own detailed rules. A future interactive `configure` command requires its own synchronized registry/schema work; this decision does not add an undocumented public command.
+## Machine-contract impact
+
+Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+
+## Migration/compatibility implications
+
+Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+
+## Acceptance experiment / falsification test
+
+X15/X16/X17/X18/X29. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.

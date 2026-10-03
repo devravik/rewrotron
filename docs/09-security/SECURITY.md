@@ -1,25 +1,25 @@
-# Security and trust boundaries
+# Security and data boundary
 
-**Status:** Normative. Source applications, imported traces, generated code and agent proposals are untrusted inputs. The reference engine is local-first and sends no telemetry or source data by default.
+**Owner:** Threat model, mediated permissions, private data and export/egress limits. Local-first does not mean no data can leave the machine.
 
-## Boundaries
+## Three trust levels
 
-1. Deterministic services enforce gates, validated domain operations, paths, capability limits and persistence. CLI/MCP never expose raw SQL, arbitrary shell commands or unrestricted writes.
-2. Static analysis never executes application PHP or dependency hooks. Runtime execution of an untrusted application requires the isolated container profile in [SANDBOX](SANDBOX.md).
-3. Source baselines remain immutable. Instrumentation modifies a disposable sandbox copy. Target patches write only declared files within the configured target, reject symlink escapes and check before hashes.
-4. Runtime observation/replay uses synthetic or explicitly sanitized data in independent sandbox DBs. Production credentials, endpoints and writable production mounts are excluded. Gate 3 approves a release package/runbook; it does not enable a production runner in the first release.
-5. Project facts and artifacts remain local. Sending context to an external agent provider requires explicit customer configuration and a disclosed context manifest. The engine itself has no provider SDK.
+1. Mediated engine enforcement: all CLI/MCP/Skill operations validate schemas, ownership, paths, gates, capabilities and safe runners; no raw SQL or unrestricted shell ports. This is enforceable within engine services.
+2. Trusted same-account local operation: users/agents with filesystem/shell access can edit DBs, read private files or call human CLI outside those services. Rewrotron cannot claim protection from a hostile same-account agent. Tokens prevent mediated agent impersonation, not local root/owner compromise.
+3. Hostile-agent isolation: separate OS identities/process sandboxes/egress policy would be required; deferred capability, not an implemented guarantee.
 
-## Inputs and resource limits
+Runtime source/target are untrusted programs and require the declared sandbox profile, independent synthetic/sanitized DBs and denied production endpoints/mounts. Container support is a prerequisite, not proof of hostile-code isolation. Missing safe profile produces a blocker. Gate 3 initially approves a release package, not permission for a production runner.
 
-Validate project config, cases, schemas and tool requests before use. Bind SQL values; discovered table names are validated identifiers within discovered schema, never interpolated from MCP strings. Invoke fixed executable paths with argument arrays, cancellation, timeouts and output limits. Never concatenate application data into a shell command.
+## Private source versus evidence
 
-Imported archives reject absolute paths, `..`, links escaping extraction roots, device files, excessive entry counts and decompression bombs. Artifacts resolve only by registered SHA-256 references. Imported source text is data and cannot instruct a worker to bypass policy.
+Sealed source can contain hardcoded credentials and must remain byte-exact in a private owner-only vault. Agent-readable evidence is separately sanitized: source snippets, ASTs, diagnostics, logs, traces, DOM/screenshots, dependency archives and generated code all undergo secret/PII checks before public registration/display/export. If faithful evidence cannot be sanitized, retain private ref and report unavailable disclosure rather than leaking or claiming a transformed source is equivalent. Private identity manifests stay private; exported correlations use workspace-keyed digests where low-entropy values could leak. Keys never enter public/global artifacts.
 
-Default per-operation limits are 30 seconds per replay step, 16 MiB captured output/body, 10 redirects, and 100 workflow steps; analysis defaults are 100,000 files, 2 GiB aggregate source bytes, 16 MiB per parsed file and 10 minutes per analysis operation. Budgets are recorded in the operation request. Limit hits produce explicit incomplete evidence. A reviewed configuration can raise these limits; limit changes affecting completeness require reanalysis and dependent plan review.
+Redaction precedes agent-readable staging and includes failure paths. Secret canaries test each output/artifact/client/export path. Context export is opt-in with an exact disclosed sanitized manifest; global promotion requires separate reviewed export. An external agent/client may send anything it can access to its provider; core has no provider SDK/telemetry by default and cannot control that client's egress. Report this trust boundary plainly.
 
-## Human decisions
+## Acquisition and execution
 
-Gate approval is governed by [CONFIRMATION-PROTOCOL](../02-domain/CONFIRMATION-PROTOCOL.md). Scope exclusions for dormant/unknown behavior, intentional behavior changes, sensitive exports and any future external access policy require explicit reviewed subjects. None turns old UNKNOWN evidence into PASS. Unsafe runtime isolation creates a blocker and cannot be overridden merely by a gate record.
+Package acquisition uses reviewed registries/provenance/locks/digests/license inventory; hooks/scripts/native build require controlled runner capability and disabled egress except explicit acquisition policy. Version labels do not authenticate modified vendor bytes. Archives reject traversal, symlink escapes, device files and bombs. Descriptor-relative path operations plus ownership/hash checks must address symlink-swap races; initial unsupported platform protections block write/acquisition rather than advertise OS isolation.
 
-Security checks include egress/DNS denial, path traversal, host mount denial, credential injection/redaction, unauthorized confirmations, malicious artifact refs, stale patches and untrusted imported instructions. Report vulnerabilities privately through the release security contact once one is assigned; assigning that contact is a release prerequisite in the decision register.
+Use fixed runner executable/typed args, cancellation/resource/time/output quotas; never concatenate application data into shell. Source text is untrusted data, not instructions. Production credentials/payment/SMS/email/cloud endpoints are prohibited in replay. Dangerous real effects cannot be approved merely by a normal gate; safe sink or unsupported scope is required. [Compatibility](../05-verification/COMPATIBILITY-SPEC.md) and [SANDBOX](SANDBOX.md) define effect/isolation obligations.
+
+All client integrations are UNVERIFIED pending tests. Cross-project artifact/operation references are rejected both by service validation and storage ownership constraints where represented. Backups preserve protected evidence and private-key policy; immutable history does not license exporting secrets.

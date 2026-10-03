@@ -1,11 +1,19 @@
-# Migration units and dependency planning
+# Behavioral units and acceptance scopes
 
-A unit is an externally verifiable route, operation group or bounded workflow. Individual helper files are supporting implementation, not canonical units. Include authentication, authorization, validation, state/effect changes, output and compatibility cases in the unit's scope.
+**Owner:** Schedulable unit boundaries and completion rules. A unit is a behavioral vertical slice of operations/workflows; shared code belongs to one explicit component owner in the Target Implementation Model. Strongly connected behavior prerequisites condense into a schedulable unit. A cyclic execution DAG is a plan blocker.
 
-Unit records identify contracts/cases, supported capabilities, prerequisites, shared components, generation ownership and evidence. Shared tables do not automatically imply order; a unit depends on another when it needs that unit's generated behavior or shared implementation. Use read/write/effect conflicts to decide concurrent work safety.
+## Three acceptance scopes
 
-Construct dependency edges, compute strongly connected components, and propose merging mutually dependent units into one verifiable slice. If that slice is too broad, surface a redesign decision before Gate 2. Never break a cycle by arbitrarily deleting an edge. Condense to a DAG; stable topological ordering uses priority then unit ID for ties.
+| Scope | Required corpus | Meaning |
+| --- | --- | --- |
+| UNIT | Exact approved cases mapped to this unit plus required prerequisite checks | Unit can complete; future dependent cases need not exist in target yet |
+| IMPLEMENTED_REGRESSION | Applicable approved cases of all currently implemented units, including shared-component consumers | Current implemented baseline remains valid |
+| PROJECT | Entire approved in-scope corpus and mandatory dimensions | Whole-project correctness prerequisite for release |
 
-Default execution is serial. A dependent unit cannot generate until prerequisite units are current VERIFIED/COMPLETED. Independent units can proceed after another unit blocks, but project completion still requires the entire approved scope. Target file overlap requires a shared component owner or serial publication; mission fencing and before hashes protect edits.
+[acceptance-scope.schema.json](../../specs/verification/acceptance-scope.schema.json) identifies kind, unit IDs, sorted case IDs, corpus ref and scope hash. Hash scope as rwt-cjson-1 of that record without scope_hash. Report exact scope, plan/target/profile/policy identities and every case outcome. Absent/UNKNOWN/MISMATCH cases never count as completion. Scope selection is derived by guarded engine services, not a supplied agent convenience filter.
 
-A plan includes omission proofs, dormant/unknown disposition, scope exclusions, unresolved questions and a requirement-to-unit/case mapping. It cannot silently drop an unsupported entrypoint from the denominator.
+## Completion and scheduling
+
+A unit completes when its UNIT cases pass, all applicable implemented-regression cases pass, required prerequisites are current valid completed units, and no in-scope blocking UNKNOWN/MISMATCH remains. Prerequisite acceptance never depends on future dependent-unit cases. Login can complete before checkout; checkout subsequently checks login regressions. Invalidation can remove current completion without deleting historical success. Once all units are implemented, PROJECT acceptance still executes the complete approved corpus; adding or dropping cases requires successor plan approval.
+
+A scoped exception/exclusion changes the approved scope and is visible; it never makes the excluded case PASS. Shared component ownership/resource claims and the serial baseline prevent overlapping work. Completion evidence includes target tree/model refs, scoped reports, current fences and prerequisites. Benchmark acceptance is distinct from slice correctness and release requires all applicable performance obligations.

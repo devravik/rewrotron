@@ -1,117 +1,410 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/behavior/workflow.schema.json",
-  "title": "workflow.schema",
-  "type": "object",
-  "properties": {
-    "workflow_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "steps": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "step_id": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "operation_id": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "request_case_id": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "extract": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "pattern": "^[a-z0-9_-]+$"
-                },
-                "source": {
-                  "type": "string",
-                  "enum": [
-                    "header",
-                    "json_pointer",
-                    "html_selector",
-                    "cookie"
-                  ]
-                },
-                "selector": {
+  "description": "Version 1 is readable historical data only. Current execution requires version 2 plus service invariants.",
+  "oneOf": [
+    {
+      "title": "workflow.schema",
+      "type": "object",
+      "properties": {
+        "workflow_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "step_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "operation_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "request_case_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "extract": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9_-]+$"
+                    },
+                    "source": {
+                      "type": "string",
+                      "enum": [
+                        "header",
+                        "json_pointer",
+                        "html_selector",
+                        "cookie"
+                      ]
+                    },
+                    "selector": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "source",
+                    "selector"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "bindings": {
+                "type": "object",
+                "properties": {},
+                "required": [],
+                "additionalProperties": {
                   "type": "string",
                   "minLength": 1
                 }
               },
-              "required": [
-                "name",
-                "source",
-                "selector"
-              ],
-              "additionalProperties": false
-            }
+              "max_repeats": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 100
+              }
+            },
+            "required": [
+              "step_id",
+              "operation_id",
+              "request_case_id",
+              "extract",
+              "bindings",
+              "max_repeats"
+            ],
+            "additionalProperties": false
           },
-          "bindings": {
-            "type": "object",
-            "properties": {},
-            "required": [],
-            "additionalProperties": {
-              "type": "string",
-              "minLength": 1
-            }
-          },
-          "max_repeats": {
-            "type": "integer",
-            "minimum": 1,
-            "maximum": 100
+          "minItems": 1,
+          "maxItems": 100
+        },
+        "fixture_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
           }
         },
-        "required": [
-          "step_id",
-          "operation_id",
-          "request_case_id",
-          "extract",
-          "bindings",
-          "max_repeats"
-        ],
-        "additionalProperties": false
+        "evidence_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          }
+        },
+        "open_questions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
       },
-      "minItems": 1,
-      "maxItems": 100
+      "required": [
+        "workflow_id",
+        "steps",
+        "fixture_refs",
+        "evidence_ids",
+        "open_questions"
+      ],
+      "additionalProperties": false
     },
-    "fixture_refs": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^sha256:[a-f0-9]{64}$"
-      }
-    },
-    "evidence_ids": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^[a-z0-9_-]+$"
-      }
-    },
-    "open_questions": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
-      }
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.0"
+        },
+        "workflow_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "profile_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "initial_state_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "actors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "actor_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "principal_fixture_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "actor_id",
+              "principal_fixture_ref"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "start_step_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "step_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "actor_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "operation_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "request_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "guard": {
+                "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+              },
+              "bindings": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                    },
+                    "selector": {
+                      "type": "string",
+                      "pattern": "^/(raw_target|headers|body_json)/"
+                    },
+                    "encoding": {
+                      "enum": [
+                        "PERCENT_ENCODED",
+                        "HEADER_VALUE",
+                        "JSON_VALUE"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "value",
+                    "selector",
+                    "encoding"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "transitions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "guard": {
+                      "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                    },
+                    "next_step_id": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-z0-9_-]+$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "terminal_id": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-z0-9_-]+$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "guard",
+                    "next_step_id",
+                    "terminal_id"
+                  ],
+                  "additionalProperties": false,
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "next_step_id": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9_-]+$"
+                        },
+                        "terminal_id": {
+                          "type": "null"
+                        }
+                      }
+                    },
+                    {
+                      "properties": {
+                        "next_step_id": {
+                          "type": "null"
+                        },
+                        "terminal_id": {
+                          "type": "string",
+                          "pattern": "^[a-z0-9_-]+$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "completion": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "enum": [
+                      "PROCESS_EXIT",
+                      "HTTP_RESPONSE",
+                      "SINK_ACK_QUIESCENCE"
+                    ]
+                  },
+                  "timeout_ms": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 300000
+                  },
+                  "expected_receipts": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "quiescence_ms": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "predicate": {
+                    "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                  }
+                },
+                "required": [
+                  "mode",
+                  "timeout_ms",
+                  "expected_receipts",
+                  "quiescence_ms",
+                  "predicate"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "step_id",
+              "actor_id",
+              "operation_id",
+              "request_ref",
+              "guard",
+              "bindings",
+              "transitions",
+              "completion"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "maxItems": 100
+        },
+        "terminals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "terminal_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "outcome": {
+                "enum": [
+                  "SUCCESS",
+                  "FAILURE",
+                  "UNSUPPORTED"
+                ]
+              },
+              "state_assertions": {
+                "type": "array",
+                "items": {
+                  "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "expected_effect_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "terminal_id",
+              "outcome",
+              "state_assertions",
+              "expected_effect_refs"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "max_executed_steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "schema_version",
+        "workflow_id",
+        "profile_ref",
+        "initial_state_ref",
+        "actors",
+        "start_step_id",
+        "steps",
+        "terminals",
+        "max_executed_steps",
+        "evidence_refs"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "workflow_id",
-    "steps",
-    "fixture_refs",
-    "evidence_ids",
-    "open_questions"
-  ],
-  "additionalProperties": false
+  ]
 }

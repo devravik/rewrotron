@@ -1,214 +1,35 @@
-# AGENTS.md — The Constitution of Rewrotron
+# AGENTS.md — Rewrotron constitution
 
-> **Authority Level:** Supreme Repository Directive  
-> **Target Audience:** All AI Coding Agents, Automated Assistants, and Human Contributors  
-> **Scope:** Entire `rewrotron` codebase, documentation, schemas, and tooling  
+## Authority and scope
 
----
+Applies to all source, documentation, schemas and tools. Authority: this file → [Product](docs/00-vision/PRODUCT.md) → [System design](docs/01-architecture/SYSTEM-DESIGN.md) and accepted ADRs → domain/behavior specifications → machine interfaces/schemas → storage/compatibility contracts → tests → implementation. Lower documents cannot redefine higher invariants. [Documentation index](docs/README.md) assigns topic owners; derivative documents reference those owners. Resolve an actual conflict explicitly before dependent work.
 
-## 1. Core Identity & Philosophy
+## Product invariants
 
-Rewrotron is a **vendor-agnostic, language/framework-agnostic legacy web application reconstruction and modernization engine**.
+Rewrotron reconstructs legacy application behavior in a user-selected target. Core is language, framework and vendor neutral. Source IR → Application IR → Behavior IR preserve provenance and uncertainty; the [Target Implementation Model](docs/04-migration/TARGET-ARCHITECTURE.md) records target choices. Behavioral vertical slices, not files, are migration units.
 
-Rewrotron understands **applications, not frameworks**. It is **NOT** a source-to-source code transpiler, simple file-by-file converter, or framework upgrade wizard. It reconstructs the **externally observable behavior** of a legacy application in a modern target stack, proves behavioral equivalence through automated differential verification, and deliberately omits demonstrably dead legacy baggage.
+Claims are bounded by the approved source/environment/operational profile, corpus, executable contracts, comparison policies and exact target resolution. Finite tests do not prove universal equivalence or corpus completeness. [Behavior terminology](docs/02-domain/BEHAVIOR-MODEL.md) owns these meanings. PASS / MISMATCH / UNKNOWN are verifier results; UNKNOWN never becomes PASS by agent assertion, waiver or missing capture. Intentional changes remain explicit approved policy decisions.
 
-### The Three-Tier Intermediate Representation (IR) Pipeline
+Source adapters own source conventions; target adapters own target conventions. No framework assumptions or provider SDKs/prompts belong in deterministic domain/analysis/verification. Core uses injected adapter/storage ports; implementations depend on these interfaces, avoiding circular imports. CLI, MCP, Skills and runners call the same guarded services. No unrestricted SQL/shell in agent interfaces. CLI JSON is the complete vendor-neutral fallback. [MCP](docs/06-agent/MCP-SPEC.md) owns the pinned stdio baseline and deferred transports.
 
-To avoid $N \times M$ translators between $N$ source frameworks and $M$ target frameworks, Rewrotron decouples source understanding from target generation via three distinct intermediate representations:
+## Authority over execution
 
-```text
-Source Codebase (Framework-specific or Generic)
-       ↓
-Source Adapter (Detect, Parse, Extract)
-       ↓
-[ SOURCE IR ] ── What the code is syntactically (ASTs, symbols, classes, files, calls)
-       ↓
-[ APPLICATION IR ] ── What the application is structurally (entrypoints, controllers, services, workflows, data models)
-       ↓
-[ BEHAVIOR IR ] ── What the outside world observes (inputs, preconditions, business rules, state transitions, side effects, outputs)
-       ↓
-Target Architecture & Migration Plan (Language, framework, and architectural style)
-       ↓
-Target Adapter (Generate idiomatic clean architecture)
-       ↓
-Modern Target Application (Laravel, Go, Rust, Python, TypeScript, etc.)
-       ↓
-Automated Differential Verification & Repair Loop
-```
+The engine owns state, acceptance, permissions and the three persistent human gates. Agents propose, never establish truth. [Confirmation protocol](docs/02-domain/CONFIRMATION-PROTOCOL.md) owns canonical subjects, explicit local human approval/token handling and invalidation. Silence, a display event, edited YAML and agent-declared actor identity do not approve anything. Gate 1 authorizes analysis/observation of a coherent snapshot; Gate 2 authorizes execution of an exact plan; Gate 3 approves a release package/runbook after whole-project acceptance and required performance/rollback evidence. Initial release does not deploy production.
 
----
+Detected facts, human assertions, requested target, recommendations, exact resolution, approved decisions, progress and verification are separate records. User intent overrides recommendations; infeasible choices block, never silently downgrade. Target/decision changes preserve history and invalidate affected work through [typed validity rules](docs/02-domain/DOMAIN-MODEL.md). Unit acceptance is scoped; future dependent cases are not prerequisites to completing their prerequisite unit.
 
-## 2. Mandatory User Confirmation Gates (Hard Engine Law)
+DEAD means DEAD under an approved closed boundary, not proof of never being used. Only [the omission evidence bundle](docs/03-analysis/CODE-CLASSIFICATION.md) included in Gate 2 permits automatic omission. DORMANT, UNKNOWN and unresolved dynamic paths are never automatically omitted.
 
-Rewrotron enforces a strict **Detect ➔ Show ➔ Confirm ➔ Plan ➔ Show ➔ Confirm ➔ Execute** lifecycle.
+All long operations expose committed stage/task/reason/outcome/blockers/next action. [Execution observability](docs/06-agent/EXECUTION-OBSERVABILITY.md) owns truthful progress and current-state/event-window semantics; [Recovery](docs/08-storage/RECOVERY.md) owns foreground/supervised process lifetimes. Do not claim background survival without a supervisor.
 
-The Rewrotron engine—**NOT just agent prompt text**—blocks progression behind three non-negotiable **User Confirmation Gates**:
+SQLite plus local artifacts is authoritative; cloud/vector services are optional. Large evidence is stored outside SQLite. Approval/release evidence cannot be silently collected. [Storage](docs/08-storage/SQLITE-SCHEMA.md) owns driver/version/filesystem policy. Verification uses independent environments and proven reset profiles. Irreversible external effects are never blindly replayed. [Security](docs/09-security/SECURITY.md) distinguishes mediated enforcement from same-account trust; it does not promise hostile-agent OS isolation.
 
-```text
-Source Repository
-       ↓
-Environment & Framework Detection
-       ↓
-═════════════════════════════════════════════════════════
- GATE 1: SOURCE DETECTION CONFIRMATION
- "We detected this application as X. Proceed?"
- User confirms or enters explicit overrides/corrections.
- Engine writes immutable baseline & configuration_hash.
-═════════════════════════════════════════════════════════
-       ↓
-Deep Analysis & Behavior Discovery (Application IR & Behavior IR)
-       ↓
-Target Selection & Migration Plan Synthesis
-       ↓
-═════════════════════════════════════════════════════════
- GATE 2: MIGRATION PLAN & TARGET ARCHITECTURE CONFIRMATION
- "We propose migrating these N units, omitting these M dead
-  components, targeting Language L / Framework F / Style S. Proceed?"
-═════════════════════════════════════════════════════════
-       ↓
-Vertical Slice Migration & Differential Verification
-       ↓
-═════════════════════════════════════════════════════════
- GATE 3: PRODUCTION CUTOVER CONFIRMATION
- "Verification passed at X%. Approve cutover / deployment?"
-═════════════════════════════════════════════════════════
-```
+Learning is evidence-based, scoped, versioned, retractable and advisory. Pin all consumed tool/skill/knowledge revisions. Global knowledge cannot approve targets or establish compatibility. [Learning](docs/07-learning/LEARNING-SYSTEM.md) owns promotion.
 
-### Constitutional Gate Invariants:
-1. **No Inference from Silence:** Agents MUST NOT infer confirmation from conversational context, silence, or assumed agreement. Confirmation MUST be a persisted database record in `user_confirmations` created by explicit user command or MCP confirmation tool.
-2. **Invalidation on Repository Drift:** If source repository files change materially after Gate 1, the `configuration_hash` is invalidated, and the engine MUST re-request user confirmation before proceeding.
-3. **User Overrides are Sovereign:** User corrections (e.g. "PHP runtime is 8.2, not 7.4", "PostgreSQL database is read-only") override machine-inferred detections and become permanent project baseline facts.
-4. **User-Owned Target Specification:** Rewrotron MUST detect the source environment before migration planning and persist detected facts separately from user configuration. It MUST present material source facts, recommended/requested/resolved target versions, dependency decisions, compatibility risks and required transformations before execution. Freeze the requested target revision before planning; Gate 2 confirms that exact specification and plan. User-confirmed choices take precedence over recommendations; agents MUST NOT silently alter confirmed versions. Target changes invalidate affected planning/build/verification and Gate 2/3 validity, preserve unrelated completed source work, and require a newly reviewed plan without resetting the project.
-5. **Capability-Based Dependency Decisions:** Dependency resolution MUST use exact source inventory, actual usage, recursive constraints and required behavioral capabilities. DIRECT_UPGRADE, ADAPTER, REPLACEMENT, REIMPLEMENT and RETAIN are proposed strategies; BLOCKED denotes unresolved dependent scope. Package metadata, API coverage or user acceptance alone MUST NOT be treated as behavioral equivalence. DORMANT/UNKNOWN usage cannot justify automatic omission.
+## Status and development rules
 
----
+The repository is specification-first. Planned CI3/Generic PHP source and Laravel target adapters are SPECIFIED, not runtime tested. Validation maturity: DESIGNED → SPECIFIED → STRUCTURALLY_VALIDATED → IMPLEMENTED → UNIT_TESTED → RUNTIME_VALIDATED → INTEGRATION_VALIDATED → RELEASE_VALIDATED. Each transition requires its named evidence; schema validation is not execution. Adapter distribution tiers EXPERIMENTAL/BETA/STABLE are separate and cannot imply maturity evidence. All client integrations are UNVERIFIED until exercised.
 
-## 3. The Hierarchy of Authority
+Before changes read this file, owning specifications, relevant ADRs, schemas and tests; inspect existing implementation without treating it as authority. Follow [Development](docs/10-development/DEVELOPMENT.md). Keep changes atomic; update public CLI/MCP contracts with signatures, and storage changes with incremental checksummed migrations and compatibility fixtures. Do not rewrite applied migrations. Go implementation must use the pinned toolchain, explicit constructors, structured errors, gofmt/goimports, documented exports and no global mutable state. Implementation work requires meaningful tests, `go test -race ./...` and configured lint checks; documentation-only work runs structural validation and states its limits.
 
-When reasoning, coding, refactoring, or resolving ambiguities, every agent MUST adhere strictly to the following authority ladder:
-
-```text
-1. AGENTS.md (This Constitution)
-      ↓
-2. Product & Vision Specifications (docs/00-vision/PRODUCT.md)
-      ↓
-3. Architecture Specifications & ADRs (docs/01-architecture/SYSTEM-DESIGN.md, ADRs)
-      ↓
-4. Domain & Behavior Specifications (docs/02-domain/BEHAVIOR-MODEL.md)
-      ↓
-5. Machine Interfaces & Schemas (specs/, docs/06-agent/CLI-SPEC.md, docs/06-agent/MCP-SPEC.md)
-      ↓
-6. Storage & Compatibility Contracts (docs/08-storage/SQLITE-SCHEMA.md, docs/05-verification/COMPATIBILITY-SPEC.md)
-      ↓
-7. Executable Test Suites & Verification Fixtures
-      ↓
-8. Existing Source Code Implementation
-```
-
-**Code must conform to the specifications. Specifications never bend to match ad-hoc code drifts.**
-
----
-
-## 4. Immutable Repository Rules ("Never" & "Always")
-
-### 4.1 Framework Neutrality & Core Package Boundaries
-- **NEVER** introduce framework-specific assumptions (e.g., CodeIgniter superglobals, Laravel Facades, Django ORM concepts) into `internal/core`, `internal/behavior`, or `internal/verification`.
-- **NEVER** introduce an LLM client, prompt template, or proprietary AI SDK into the `internal/core` or deterministic analysis/verification packages. Rewrotron Core is **100% vendor-neutral, deterministic, and runnable without an LLM**.
-- **NEVER** hardcode framework checks via `if framework == "codeigniter"` inside Core. All framework-specific inspection and generation MUST live inside `adapters/source/` and `adapters/target/` implementing standard Go interfaces (`SourceAdapter`, `TargetAdapter`).
-- **NEVER** expose raw SQL execution or unrestricted shell execution via MCP or agent interfaces.
-- **NEVER** make a vector database, cloud storage, or external SaaS service mandatory for baseline execution. Rewrotron is **local-first** (`sqlite3` + local filesystem artifact store).
-- **NEVER** perform full-file transpilation as the canonical migration strategy. Migration units are **behavioral vertical slices** (Routes, Workflows, Operations), NOT file-to-file mappings.
-- **ALWAYS** enforce strict unidirectional dependency flow:
-  ```text
-  cmd/ (CLI, MCP server) ──┐
-  skills/ (Agent Skill)  ──┼──→ internal/ (Domain, Behavior IR, Migration, Verification)
-  tools/ (Harnesses)     ──┘            │
-                                        ├──→ adapters/ (Source & Target Plugins)
-                                        └──→ storage/ (SQLite, Artifact Store)
-  ```
-
-### 4.2 Adapter Policies & Initial Reference Implementation
-- **Source Adapter Policy:** Rewrotron Core MUST remain framework-agnostic. Framework-specific behavior MUST exist only inside source adapters. Initial tested reference source adapter: **CodeIgniter 3.x** (with **Generic PHP** fallback). Additional source adapters MUST NOT require changes to the canonical Behavior IR unless the behavior cannot be represented by the existing model.
-- **Target Adapter Policy:** Rewrotron Core MUST remain target-framework agnostic. Target implementations MUST be generated through Target Adapters. Initial tested reference target adapter: **Laravel 13.x**. Additional target adapters (Go, Rust, Python, TypeScript) MUST consume the same canonical Behavior IR.
-- **Adapter Maturity Tiers:** All adapters must be explicitly categorized as `EXPERIMENTAL`, `BETA`, or `STABLE`.
-
-### 4.3 Code Modification & Verification Rules
-- **ALWAYS** make execution transparent: all long-running Rewrotron operations MUST emit structured execution events. No long-running operation may be opaque to the user. Every operation MUST expose its current stage, current task, evidence-backed reason, result, blockers, next action and required user input through the canonical execution state. Events, counts and percentages MUST reflect committed facts with defined scopes; private chain-of-thought MUST NOT be exposed. Clients consume the same events/state, and telemetry MUST NOT bypass approvals or verification.
-- **NEVER** bypass Gate 1, Gate 2, or Gate 3.
-- **NEVER** modify public CLI command signatures, flags, or output structures without updating `docs/06-agent/CLI-SPEC.md` and `specs/cli/`.
-- **NEVER** modify persistent database schemas without an incremental migration file in `migrations/`, updated docs in `docs/08-storage/SQLITE-SCHEMA.md`, and compatibility tests.
-- **NEVER** silently delete or omit source code classified as `DORMANT` or `UNKNOWN`. Only code proven `DEAD` with static unreachable evidence and zero runtime observation traces may be automatically omitted.
-- **NEVER** classify an unknown behavioral mismatch as a `PASS`. If behavioral difference cannot be proven benign via canonical normalization rules, the verdict MUST be `UNKNOWN` or `MISMATCH`.
-
----
-
-## 5. Coding Standards & Tooling Baseline
-
-### 5.1 Implementation Stack
-- **Core Engine & CLI:** Go (stable modern release, Go 1.22+). Standard library idioms preferred. Use structured errors (`errors.Is`, `errors.As`, fmt wrapping `%w`).
-- **Persistence:** SQLite (`modernc.org/sqlite` or `mattn/go-sqlite3` via database/sql abstraction) with WAL mode enabled.
-- **Interface Protocol:** Model Context Protocol (MCP) spec compliant over JSON-RPC (stdio/SSE) + JSON CLI.
-
-### 5.2 Formatting & Style
-- All Go code MUST be formatted using standard `gofmt` / `goimports`.
-- Zero compiler warnings, zero unhandled errors (`errcheck`), and strict linting via `golangci-lint`.
-- Every exported type, interface, function, and constant MUST have a concise, accurate doc comment.
-- No global mutable state. Dependency injection via explicit constructors (`New...`).
-
----
-
-## 6. Agent Development Workflow
-
-When assigned an engineering task within Rewrotron, every agent MUST follow this 12-step protocol:
-
-```text
- 1. Read AGENTS.md (Check constraints, IR boundaries, and Gate rules).
- 2. Read relevant domain/feature specification (docs/*).
- 3. Inspect existing implementation in internal/ and cmd/.
- 4. Search existing tests in testdata/ and internal/*_test.go.
- 5. Check ADRs in docs/01-architecture/ADR/ for architectural precedent.
- 6. Formulate the smallest atomic change required.
- 7. Write/update unit and integration tests covering the new behavior.
- 8. Implement the changes adhering to pure Go idioms.
- 9. Run the test suite: `go test -race ./...`.
-10. If schemas or contracts changed, update specs/ and docs/ in tandem.
-11. Check backward compatibility of the CLI JSON output and MCP tools.
-12. Produce a clear, concise implementation summary linking touched files.
-```
-
----
-
-## 7. Definition of Done (DoD)
-
-A task or pull request is complete ONLY when ALL of the following criteria are satisfied:
-
-1. **Specification Alignment:** Strictly adheres to `docs/*` and `specs/*`.
-2. **Framework Neutrality:** Core domain packages have zero imports or coupling to source or target framework packages.
-3. **Gate Integrity:** Lifecycles respect Gate 1 (Detection), Gate 2 (Plan), and Gate 3 (Cutover).
-4. **Deterministic Behavior:** Predictable across environments without flaky tests (`go test -race`).
-5. **Machine Contract Integrity:** CLI commands emit valid JSON matching `specs/cli/`. MCP handlers match `specs/mcp/`.
-6. **Documentation Parity:** Every architectural decision is recorded in an ADR under `docs/01-architecture/ADR/`.
-7. **Transparent Execution:** Long-running work has current inspectable events, reasons, measured progress/freshness, blockers and next actions; observability and pause/recovery behavior are covered by implementation verification.
-
----
-
-## 8. Authoritative Foundation Documents
-
-Before modifying any subsystem, agents MUST thoroughly review the foundation documents:
-
-| Subsystem | Authoritative Specification Document |
-| :--- | :--- |
-| **System Architecture & IR Pipeline** | [`docs/01-architecture/SYSTEM-DESIGN.md`](file:///media/System/rewrotron/docs/01-architecture/SYSTEM-DESIGN.md) |
-| **Three-Tier IR & Behavior Contracts** | [`docs/02-domain/BEHAVIOR-MODEL.md`](file:///media/System/rewrotron/docs/02-domain/BEHAVIOR-MODEL.md) |
-| **Target Intent & Configuration Authority** | [`docs/04-migration/TARGET-SPECIFICATION.md`](docs/04-migration/TARGET-SPECIFICATION.md) |
-| **Dependency Usage & Resolution** | [`docs/04-migration/DEPENDENCY-RESOLUTION.md`](docs/04-migration/DEPENDENCY-RESOLUTION.md) |
-| **User Confirmation Gates & Lifecycle** | [`docs/02-domain/PROJECT-LIFECYCLE.md`](file:///media/System/rewrotron/docs/02-domain/PROJECT-LIFECYCLE.md) |
-| **Equivalence & Normalization** | [`docs/05-verification/COMPATIBILITY-SPEC.md`](file:///media/System/rewrotron/docs/05-verification/COMPATIBILITY-SPEC.md) |
-| **Agent / Engine Boundary & Gates** | [`docs/06-agent/AGENT-MODEL.md`](file:///media/System/rewrotron/docs/06-agent/AGENT-MODEL.md) |
-| **Transparent Execution & Supervision** | [`docs/06-agent/EXECUTION-OBSERVABILITY.md`](docs/06-agent/EXECUTION-OBSERVABILITY.md) |
-| **CLI Machine Contract** | [`docs/06-agent/CLI-SPEC.md`](file:///media/System/rewrotron/docs/06-agent/CLI-SPEC.md) |
-| **MCP Tool Contracts** | [`docs/06-agent/MCP-SPEC.md`](file:///media/System/rewrotron/docs/06-agent/MCP-SPEC.md) |
-| **Authoritative Storage & Schema** | [`docs/08-storage/SQLITE-SCHEMA.md`](file:///media/System/rewrotron/docs/08-storage/SQLITE-SCHEMA.md) |
-
----
-*End of AGENTS.md — Guard this constitution rigorously.*
+Completion means alignment with owning specs, preserved neutrality/gates, machine-contract parity and evidence appropriate to the claimed maturity. The [current development plan](docs/11-roadmap/DEVELOPMENT-PLAN.md) sequences falsification before broad capabilities. Do not implement deferred capabilities by pretending they are supported.

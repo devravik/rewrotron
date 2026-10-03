@@ -7,6 +7,10 @@
     "case_id": {
       "type": "string",
       "pattern": "^[a-z0-9_-]+$"
+    },
+    "background": {
+      "type": "boolean",
+      "default": false
     }
   },
   "required": [

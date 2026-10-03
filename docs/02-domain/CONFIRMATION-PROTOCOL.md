@@ -1,64 +1,37 @@
-# Confirmation protocol, baseline identity, and drift
+# Confirmation protocol and canonical approval subjects
 
-**Status:** Normative specification. Applies to every CLI, MCP, worker, and direct service entrypoint. See [lifecycle](PROJECT-LIFECYCLE.md).
+**Owner:** All gate identities, preimages, human authorization and invalidation. Current subjects use schema version 2.0 and [approval-subject.schema.json](../../specs/project/approval-subject.schema.json). Old v1 artifacts remain readable historical evidence, never inferred current approvals.
 
-## Subjects approved by a human
+| Gate | Exact subject | Authorizes |
+| --- | --- | --- |
+| GATE_1_SOURCE_DETECTION | SOURCE subject/configuration_hash | Analysis, isolated observation, modeling and planning against sealed source |
+| GATE_2_PLAN_CONFIRMED | PLAN subject/plan_hash | Generation, controlled publication, repair and sandbox verification |
+| GATE_3_CUTOVER | RELEASE subject/release_hash | Approved release package/runbook; no initial production execution |
 
-| Gate | Subject | Required parent subjects | Permitted work |
-| --- | --- | --- | --- |
-| `GATE_1_SOURCE_DETECTION` | `configuration_hash` | Detection ID and source manifest hash | Deep static analysis, isolated observation, modeling, planning |
-| `GATE_2_PLAN_CONFIRMED` | `plan_hash` | Valid Gate 1, Behavior IR, corpus and policy hashes | Target bootstrap, generation, repair, sandbox verification |
-| `GATE_3_CUTOVER` | `release_hash` | Valid Gates 1/2, current complete verification and benchmark reports | Package the approved release and cutover runbook |
+## Hash preimage v2
 
-`user_confirmations` stores gate type, subject hash, configuration hash, actor, channel, action ID, reviewed payload artifact, overrides, and creation time. Gate records are append-only. Validity is computed by matching the current subject and parents; a status flag in YAML never grants authority. Gate 3 never grants access to production by itself.
+Subjects are immutable registered artifacts. SOURCE binds sealed snapshot, detection, separate human assertions and exact source/probe bindings. PLAN binds configuration_hash, snapshot, Behavior IR, corpus, policy, user intent, exact resolution, target model, immutable decision refs, validity graph, all adapter/runner/comparator bindings, consumed skill/tool/knowledge revisions, ordered units, dependency edges, omission proofs, exclusions and blockers. RELEASE binds configuration/plan, target tree, whole-project report, benchmark, runbook and rollback rehearsal. Schema-required null is distinct from absent; optional absent fields have no implicit hash default. All relevant choices must be explicit before hashing. Proposal refs are not confirmation refs: normalization and dependency decisions are approved transitively by the plan, avoiding circular hashes.
 
-## Exact hash construction
+`subject_hash = SHA256(rwt-cjson-1(subject))`, represented as 64 lowercase hex. Neither subject_hash, timestamps, actor, mutable progress, approval receipt nor registry lookups are part of this preimage. Nested refs hash exact artifact bytes; the same hash under another project does not confer ownership. Execution requires registered same-project/transitively authorized refs, size/hash/schema verification and available pinned implementations. A digest alone cannot prove bytes exist or are trusted.
 
-All digests are lowercase SHA-256 hex. Hash input is UTF-8 canonical JSON with recursively sorted object keys, no insignificant whitespace, no duplicate keys, and arrays in semantic order. Hash documents use integers, strings, booleans, and null; confidence floats and timestamps are excluded. Preserve file bytes, line endings, and Unicode; do not normalize code contents. The canonicalizer has cross-platform golden vectors.
+## rwt-cjson-1 serialization
 
-`source_manifest_hash` hashes a sorted array of `{path, sha256, executable, symlink_target}` records. Paths are relative POSIX paths sorted by UTF-8 bytes. Inventory includes application code, configuration, lockfiles, templates, public assets, and included framework/dependency files. Exclude only `.git/`, `.rewrotron/`, the explicitly identified workspace-owned `rewrotron.yaml` when source and workspace are co-located, and explicitly listed volatile output/cache/log directories. Show the engine configuration exclusion at Gate 1; never exclude legacy application configuration on this basis. The exclusions themselves are hashed, shown at Gate 1, and must not conceal code or configuration. A changed exclusion list invalidates Gate 1.
+UTF-8 JSON, no BOM or trailing newline, no whitespace outside strings. Recursively order object keys by their unnormalized UTF-8 byte sequence. Preserve Unicode code points; reject invalid surrogate code points, duplicate keys and non-finite/floating numbers. Values are objects, arrays, strings, signed 64-bit integers, booleans or null. Integers use shortest decimal, no leading zeros or negative zero. Strings escape quote/backslash and U+0000–001F using JSON short escapes for backspace/tab/newline/formfeed/carriage return and lowercase `\u00xx` otherwise; do not escape slash or non-ASCII. Arrays retain schema-defined semantic order.
 
-Use `lstat`; record in-root symlink targets and the resolved file content; reject escape symlinks, devices, unreadable files, or source paths overlapping the target directory. Report duplicate aliases consistently. Read each file with before/after metadata and recheck the manifest after the scan. If files changed while reading, return `ERR_SOURCE_DRIFT` and retain no partial baseline. A Git commit ID alone is insufficient: untracked and dirty files count.
+Set-valued refs/IDs sort lexicographically by UTF-8 bytes and reject duplicates before serialization. adapter_bindings sort `(role,adapter_id,version,manifest_ref,implementation_ref)`. Dependency edges sort `(prerequisite_id,dependent_id)`. ordered_units use deterministic topological order: among ready units highest priority then unit_id bytes; cycles block. Unit case_ids, contract_refs and capabilities are sets. Omission/exclusion/decision/revision refs are sets. A supplied noncanonical set/order is rejected, not silently reinterpreted during approval.
 
-`configuration_hash` hashes `{schema_version, source_manifest_hash, source_adapter_id, source_adapter_version, confirmed_facts, overrides, exclusions, environment_identity}`. Environment identity contains runtime version, DB engine/version, schema hash, collation/timezone, sanitized endpoint identifiers, and sandbox profile digest. Raw credentials and changing business rows are excluded. A DB schema change is material; ordinary fixture row changes create new fixture/case hashes instead.
+[approval-hash-vectors.json](../../specs/examples/approval-hash-vectors.json) contains preimages, canonical bytes and expected digests. Structural Python checks are not proof the eventual Go canonicalizer passes. Implementations must reproduce vectors, shuffled object key cases, non-ASCII/escape/null cases and rejected duplicate/float/invalid-order cases.
 
-`target_spec_hash` hashes `{target_config, migration_settings, override_provenance}` after strict intent validation. The target configuration contains requested constraints, never agent-selected alternatives. Planning captures an immutable revision before synthesis; human authority comes from Gate 2 on the resulting plan.
+## Reconstruction and upgrades
 
-`plan_hash` hashes `{configuration_hash, behavior_ir_hash, corpus_hash, policy_hash, target_config, decision_system, adapter_versions, ordered_units, dependency_edges, omissions, scope_exclusions, unresolved_items}`. `decision_system` captures the target specification hash and frozen specification artifact reference, exact resolved versions, dependency resolution, feasibility and reviewed recommendation decisions as immutable artifact references. These digests bind their full content transitively. New executable plans require this section; older documents without it remain historical/readable and must be rebuilt before approval. Preserve route precedence and workflow step order. Changing a target version, contract, fixture, normalization rule, scope, omission proof, or unit dependency invalidates Gate 2 and Gate 3.
+Load the original subject bytes and its complete immutable reference closure from SQLite/artifacts; validate using its retained schema/canonicalizer version. Never rebuild from the current adapter registry, latest locks or generated YAML. Store approved payload ref, schema/canonicalization version, hash and receipts. Upgrading engine/adapters does not rewrite historical subjects. A missing old executable/schema prevents executing/rechecking that subject; it does not alter what was approved. A successor execution plan names new versions and requires Gate 2. No migration may manufacture approvals for upgraded subjects.
 
-`release_hash` hashes `{configuration_hash, plan_hash, target_tree_hash, dependency_lock_hashes, verification_report_hash, benchmark_report_hash, cutover_runbook_hash, rollback_runbook_hash, session_strategy_hash}`. Any target patch or release evidence change invalidates Gate 3.
+## Human channel and tokens
 
-## Human action and MCP trust
+Confirmation is an append-only user_confirmations record, not inferred silence/conversation or a YAML flag. Local CLI `confirm source/plan/cutover` requires explicit exact subject hash and trusted human context. `approval issue` locally issues a short-lived, one-use token bound to project, gate, exact subject, human context and expiration; MCP confirmation tools consume it transactionally. Agents cannot issue tokens through MCP, supply their own human identity or turn DECIDED/APPROVAL_RECEIVED events into receipts. Same-account CLI use remains a trust boundary, not OS isolation. Dry-run never creates token/receipt.
 
-The actor identifier is derived from the local authenticated operating-system session or a trusted client identity, never from an agent-controlled input field. A local human can run a confirmation command with the exact reviewed subject hash. For MCP, confirmation requires a single-use approval token issued through a local human approval command. Token minting is not an MCP tool.
+Idempotent retries return the existing receipt; different payload under the same key conflicts. Confirmation, reviewed payload, receipt/event and current validity change commit atomically. Validate current parents, availability, feasibility and subjects immediately before commit. Explicit overrides are immutable human assertions alongside measured facts; contradictions with doctor measurements remain findings, not falsified detection.
 
-`rewrotron approval issue --gate source|plan|cutover --subject-hash <hash>` displays the current subject, requires an explicit terminal `approve <hash>`, and creates a 10-minute, project/gate/subject-bound random token. Noninteractive automation must supply the approval through the human confirmation CLI; it cannot mint tokens by passing `--yes`. Store only a token digest, expiry, actor and consumed time. The issuing command is intentionally a human-only operation; a client cannot establish that an agent is human merely by claiming an actor name.
+## Invalidation
 
-MCP confirmation tools consume the token and write the confirmation in one SQLite transaction after rechecking drift and parents. This enforces a separate human channel, not cryptographic proof of human intent on a host where an agent already has unrestricted terminal access. The trust boundary is the local user account and client integration; stronger remote authorization requires a separate design.
-
-## Request and transaction rules
-
-1. Detection creates an immutable proposal and displays `detection_id` and `source_manifest_hash`.
-2. Source confirmation references both. Overrides use a whitelist of factual keys: runtime version, framework/version, application root, DB engine/version/access, timezone/collation, and configured non-HTTP entrypoints. Unknown keys fail `ERR_INVALID_ARGUMENT`. Overrides preserve old values and provenance.
-3. A Gate 1 override changes the configuration subject. The human receives the merged facts and resulting hash before approval. MCP must first call `project.prepare_source_confirmation` to obtain that merged subject; it cannot introduce new overrides while consuming an approval token.
-4. Plan confirmation accepts only `plan_hash`, and cutover confirmation only `release_hash`. Changing preferences requires synthesizing and reviewing a new plan/release.
-5. Within `BEGIN IMMEDIATE`, validate parents, subject freshness and token, insert confirmation/event, and change state. Commit all or none.
-6. An idempotency key plus identical payload returns the existing result. A reused key with a different payload returns `ERR_IDEMPOTENCY_CONFLICT`. A consumed token is reusable only as part of the same successful idempotent request.
-
-## Drift and invalidation
-
-Recheck source and environment subjects before every expensive or state-changing operation, before accepting a worker result, and immediately before Gate 2/3 confirmation. Source changes return the project to `DETECTED`; old confirmations, IRs, plans, generated code, and reports remain historical and are marked stale through new events. No history is deleted.
-
-A new normalization policy or case corpus can keep Gate 1 valid while invalidating Gates 2/3. A target-only patch keeps Gate 2 valid when it implements the confirmed plan; it invalidates release verification and Gate 3. Unsupported/unreadable source changes fail closed. A mid-run drift aborts publication and queues re-detection; source generation and observation never mutate the baseline.
-
-## Required negative cases
-
-Missing approval, YAML `confirmed: true`, agent-supplied actor, stale manifest, mismatched plan hash, expired/wrong-project token, concurrent confirmation, repeated token use, dry-run, override mismatch, and crash before commit must never unlock a gate. A successful repeat request must return the original confirmation ID without adding duplicate records.
-
-## Target-only changes and resuming approved work
-
-Changing requested runtime/framework/infrastructure or a dependency strategy creates a new target/plan subject, invalidating Gates 2/3 while leaving unchanged Gate 1 and source characterization valid. Recompute the transitive affected artifact set; retain unrelated IR, route discovery and history. Worker results captured against an old subject cannot publish as current. Reused target work needs checked prerequisites and current evidence under the successor confirmed plan. Editing generated `approvals.yaml` or `plan.yaml` cannot perform this transition. A root intent-file edit is separate from legacy source drift as defined by the manifest exclusion above. See [TARGET-SPECIFICATION](../04-migration/TARGET-SPECIFICATION.md).
-
-## Execution approval presentation
-
-An APPROVAL_REQUIRED event/card exposes exact gate/subject, evidence and affected scope. APPROVAL_RECEIVED is recorded only in the transaction persisting the matching `user_confirmations` record; a display event cannot create approval. Stale cards fail current-subject checks. Alert receipt/dismissal, `requires_user`, progress and human pause/continue are not gate confirmations. The shared execution layer delegates approval authority to this protocol.
+Live customer drift prompts a successor coherent snapshot and Gate 1; previously sealed snapshot/history remain intact. Target intent, dependency strategy, corpus, comparator, normalization, lowering/ownership choice or consumed execution revision changes require successor PLAN/Gate 2 and invalidate Gate 3. Implementation-only code changes within approved choices retain Gate 2 but invalidate results/release. [DOMAIN-MODEL](DOMAIN-MODEL.md) owns typed selective reuse; unknown impact invalidates conservatively. Progress/heartbeats never change an approval hash. Gate 3 requires current whole-project PASS, no in-scope unresolved blocking UNKNOWN/MISMATCH, required accepted performance and rollback/session evidence. Percent progress is never readiness.

@@ -15,3 +15,5 @@ Before approval, perform a staging rehearsal of the supplied rollback commands a
 `report` assembles the release manifest and computes `release_hash` only when all required inputs/evidence exist. Missing commands, unproved session continuity, incomplete scope reconciliation or inconclusive required benchmarks prevent Gate 3. `confirm cutover` approves that subject; `cutover prepare` verifies it again before writing the package. A changed package/runbook requires a new approval.
 
 The migration report records approval time/actor, limitations, intentional changes, evidence references and package checksum. Its existence is not evidence that production deployment has occurred.
+
+The v2 RELEASE preimage references whole-project acceptance, exact target tree/plan, required benchmark, runbook and rollback rehearsal. Runbook/rehearsal closure includes session strategy, target writes, DB/queue/payment receipts, reconciliation ownership and irreversibility limits. Rehearsal must occur after representative target writes; an empty-data traffic switch is insufficient.

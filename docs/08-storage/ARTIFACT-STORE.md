@@ -1,23 +1,24 @@
-# Content-addressed artifact store
+# Artifact classes, quotas and retention
 
-Durable bytes live at `.rewrotron/artifacts/sha256/<first-two-hex>/<remaining-hex>`. Public references are `sha256:<64 lowercase hex>`. SQLite records digest, relative path, media type, size, creation time, redaction manifest and entity links. Human-friendly trace/report names are exported indexes, not canonical storage paths.
+**Owner:** Byte identity, availability, retention/admission and archive manifest. [RECOVERY](RECOVERY.md) owns coordinated DB/artifact backups. SQLite stores metadata, not huge payloads.
 
-## Write protocol
+Agent-readable sanitized bytes are content-addressed as sha256 refs. Private source/fixtures live in an owner-only private vault and are not automatically exported or exposed by artifact read. Hash/source/AST/diagnostic/DOM/screenshot/build output can itself be sensitive. Redaction and source-derived export policy follow [SECURITY](../09-security/SECURITY.md); do not redact source and then claim its behavior is unchanged.
 
-Redact before any staging write. Stream sanitized bytes to an owner-only temporary file within the store, compute digest and size, fsync, and atomically rename within the same filesystem. If that digest exists, verify its size/hash and reuse it. Sync the directory where supported. Then insert metadata/links/events in a SQLite transaction. If the DB commit fails, an unreferenced artifact is harmless and can be reconciled later.
+Write sanitized artifacts to owned temporary store paths, hash/size/fsync and atomically rename within one local filesystem. Verify an existing object before reuse. Commit registration/links/events after bytes; crash leaves reconcilable unreferenced objects. Readers accept registered refs only, validate ownership/digest/size, reject traversal/symlink/race escapes. Corrupt/unavailable protected bytes block reconstruction/readiness.
 
-Readers resolve only registered references, reject path traversal/symlink escapes, and validate hashes before using evidence. Corrupt or missing bytes produce `ERR_ARTIFACT_CORRUPT` and prevent a current pass/readiness claim. No raw artifact path supplied by an agent is opened directly.
+| Class | Retention / admission |
+| --- | --- |
+| Approval subjects/parent evidence, release evidence | Preserve complete immutable reconstructable closure indefinitely or in verified archive; never silent GC |
+| Current contracts/cases/policies/required verification | Protected while current and while referenced by approval/release |
+| Source snapshots/private fixtures | Protected while referenced; private archive policy and keys required |
+| Failed experiments/lessons | Retain compact summaries and required evidentiary refs; unprotected raw diagnostics expire under reviewed policy |
+| Raw traces/screenshots | Bounded capture/quota; protected selections retained, unprotected raw bytes default 30 days |
+| Heartbeats/inspection | Coalesced bounded summaries; committed ledger events are not rewritten/deleted in initial implementation |
+| Temporary/unreferenced bytes | Reconcile active attempts; eligible after 24-hour grace |
+| Global knowledge | Sanitized versioned evidence and consumer/retraction graph; separate opt-in global store |
 
-## Retention and privacy
+Initial declared workspace quota defaults: 50 GiB total artifacts/private snapshots, 2 GiB SQLite metadata, 2 GiB reserved host free space. Capture limits remain per profile. These are configurable admission limits, not measured scalability claims. Project setup shows limits; quota changes affecting capture/profile require updated evidence/plan. Protected bytes can exhaust quota: stop admission before capture/publication, checkpoint and report required space/archive action, never silently sample or delete required evidence. Unknown free space/unsupported filesystem blocks safe admission.
 
-Default retention preserves every artifact reachable from current or historical confirmations, baselines, locked contracts, plans, runs, repair evidence and reports. Age or a PASS verdict alone never authorizes collection. Temporary/unreferenced writes can be collected only after a documented reconciliation grace period (24 hours by default) and active operation checks.
+The initial scale target for future soak validation is 100,000 symbols, 10,000 cases and 100,000 execution events per active project. Actual supported scale is UNKNOWN until measured. Initial append-only event metadata is not compacted; long-lived work can require raising limits or archiving a closed workspace. Partitioned event epochs/online metadata compaction are explicitly deferred P2 with migration/restore requirements before claiming years of unbounded active history.
 
-Customer archive/deletion policy is a separate reviewed workspace lifecycle; no public `clean` command is part of the initial catalog. Export builds a reviewed manifest, sanitizes credentials/PII, excludes correlation keys and private fixtures, and verifies destination ownership. A reusable diagnostic report is smaller than a raw customer archive.
-
-Backups include SQLite, referenced artifacts, configuration and the private correlation key only when explicitly requested through a secure local backup policy. WAL-consistent backup and restore procedures are in [RECOVERY](RECOVERY.md).
-
-## Decision-system views
-
-Detection, source dependency inventory, recommendations, frozen target revisions, recursive resolution and feasibility are registered immutable artifacts. Human-readable `.rewrotron/{detection,recommendations,source-dependencies,dependencies,plan,approvals}.yaml` files are regenerable views. The optional `target.yaml` is user-owned input, never a generated recommendation view. `approvals.yaml` mirrors SQLite history and current subject validity; importing or editing it cannot create a confirmation.
-
-Store bytes before transactional metadata/events. A crash during YAML export is recovered by regenerating from committed references. Target-only changes preserve unaffected source artifacts and immutable history; old target evidence stays retained and visibly stale. [TARGET-SPECIFICATION](../04-migration/TARGET-SPECIFICATION.md) defines file precedence and ownership.
+Archive v2 manifest includes schema version, project, DB checksum, committed sequence, migration checksums and sorted object entries `{ref,size_bytes,retention_class,private}`. Validate closure, checksums and restore controls before moving original bytes. Resolver must verify locally restored archived objects before execution; archive pointers never imply available evidence. Refuse exports containing unauthorized private/sensitive closure. Quotas are enforced across DB/WAL/temp/snapshot/artifact growth, not only final objects.

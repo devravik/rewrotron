@@ -8,7 +8,7 @@ Implement JSON-RPC 2.0 initialization, version/capability negotiation, `notifica
 
 UTF-8 newline-delimited messages use stdout exclusively; logs go to stderr. Reject malformed JSON (`-32700`), invalid requests (`-32600`), unknown methods (`-32601`) and invalid parameters (`-32602`). Domain operation failures use tool results with `isError: true`, a text explanation and `structuredContent` containing the structured error catalog entry. Successful tool results contain typed `structuredContent` and a matching short text representation; do not wrap them in the CLI envelope.
 
-Limit one message to 16 MiB and allow cancellation through context. Heavy tools execute with persisted operation IDs and enforce the same gates/drift/fences as CLI. SDK dependency choice/pinning is validated in RWT-020; business services cannot depend on protocol types.
+Limit one message to 16 MiB and allow cancellation through context. Heavy tools execute with persisted operation IDs and enforce the same gates/drift/fences as CLI. SDK dependency choice/pinning is validated in the machine-interface milestone; business services cannot depend on protocol types.
 
 Primary specifications: [lifecycle](https://modelcontextprotocol.io/specification/2025-11-25/basic/lifecycle) and [transports](https://modelcontextprotocol.io/specification/2025-11-25/basic/transports). Streamable HTTP is deferred and requires its own authentication/origin/localhost policy. Legacy SSE is not the initial transport.
 
@@ -37,7 +37,7 @@ All tools require registered `project_id`. Workspace registration maps a configu
 Read-only resource templates are:
 
 - `rewrotron://project/{project_id}/snapshot` → snapshot JSON with additive shared execution state.
-- `rewrotron://project/{project_id}/execution` → canonical execution state at a committed watermark.
+- `rewrotron://project/{project_id}/execution` → current execution state labeled with state_sequence.
 - `rewrotron://project/{project_id}/coverage` → snapshot coverage object and scope hashes.
 - `rewrotron://project/{project_id}/case/{case_id}` → canonical case JSON.
 - `rewrotron://project/{project_id}/plan/{plan_id}` → canonical plan JSON.
@@ -56,14 +56,20 @@ Initialization/version mismatch, tool/resource listing, each input/output schema
 
 ## Target and dependency decision boundary
 
-`migration.plan` consumes the validated frozen user target. Existing target/style inputs are optional assertions of configuration; omitting them uses the validated project target. Conflicting assertions fail and cannot silently replace requested versions. The plan's additive `decision_system` section exposes exact resolution and registered recommendation/dependency/feasibility artifacts through existing resources. `project.confirm_plan` approves the exact target and decisions transitively through `plan_hash`; it retains the existing human-issued token requirements. No target approval tool or unrestricted configuration-write tool is introduced.
+`migration.plan` consumes the validated frozen user target. Existing target/style inputs are optional assertions of configuration; omitting them uses the validated project target. Conflicting assertions fail and cannot silently replace requested versions. The plan's v2 `subject` exposes exact resolution and registered recommendation/dependency/feasibility artifacts through existing resources. `project.confirm_plan` approves the exact target and decisions transitively through `plan_hash`; it retains the existing human-issued token requirements. No target approval tool or unrestricted configuration-write tool is introduced.
 
-Pending target edits invalidate affected approval/results and prevent stale worker publication while preserving unrelated source work. Agents can propose alternate resolutions but cannot make them approved configuration. A future configure/decision-edit API needs separately synchronized catalog/schema/permission fixtures. See [TARGET-SPECIFICATION](../04-migration/TARGET-SPECIFICATION.md) and [DEPENDENCY-RESOLUTION](../04-migration/DEPENDENCY-RESOLUTION.md).
+Pending target edits invalidate affected approval/results and prevent stale worker publication while preserving unrelated source work. Agents can propose alternate resolutions but cannot make them approved configuration. The typed decision proposal API below is included; an interactive configure renderer remains deferred. See [TARGET-SPECIFICATION](../04-migration/TARGET-SPECIFICATION.md) and [DEPENDENCY-RESOLUTION](../04-migration/DEPENDENCY-RESOLUTION.md).
 
 ## Live execution state, timeline and return-session changes
 
-`project.get_execution` accepts required project ID plus optional after_sequence, through_sequence and bounded limit (default 100, maximum 500). It returns `specs/execution/page.schema.json`: one consistent execution state, ordered typed events and scoped changes at a watermark. Missing through_sequence captures the current committed watermark; supplying it fixes the window across pages. Cursors are exclusive, global sequence gaps are valid, and next_sequence/has_more prevent silent loss. Reject after > through or through beyond the current ledger; validate project ownership. Reading does not claim a mission, approve a gate, clear pause or advance a shared last-seen marker.
+`project.get_execution` accepts required project ID plus optional after_sequence, through_sequence and bounded limit (default 100, maximum 500). It returns `specs/execution/page.schema.json`: current execution state at state_sequence N plus ordered events/changes bounded by through_sequence M ≤ N; no historical state reconstruction. Missing through_sequence captures the current committed watermark; supplying it fixes the window across pages. Cursors are exclusive, global sequence gaps are valid, and next_sequence/has_more prevent silent loss. Reject after > through or through beyond the current ledger; validate project ownership. Reading does not claim a mission, approve a gate, clear pause or advance a shared last-seen marker.
 
 Clients poll at bounded intervals (two seconds for an active view) and resume from their last fully rendered sequence. The execution resource provides the same canonical state; durable event pages are independent of optional negotiated progress notifications. No push subscription, hosted service, transport change or stdout framing exception is required. Source messages are untrusted display data; developer details retain all privacy rules.
 
 Initial `project.get_execution` is read-only; no public MCP pause/continue tool is added. Human local CLI `pause`/`continue` control the same projected state, and a future desktop must use authenticated local human services. `project.resume` reconciles without clearing human pause. Approval cards still consume existing human-issued exact-subject tokens through project confirmation tools; events cannot forge authorization. See [EXECUTION-OBSERVABILITY](EXECUTION-OBSERVABILITY.md).
+
+## Decision proposals and supervised operations
+
+`decisions.propose` uses the same registered-ref or contained decision import protocol as CLI and imports a project-owned decision_ref and idempotency key under Gate 1; its typed action supports ACCEPT/REJECT/SELECT_STRATEGY/SUPPLY_ALTERNATIVE/REQUEST_EVIDENCE/APPROVE_EXCEPTION. `decisions.get` reads an exact decision_id under Gate 1. These return decision.schema v2, always PROPOSED. Human local approval issue plus `project.confirm_plan` approves the exact immutable decision refs transitively. No MCP operation can approve its own proposal. Exceptions cannot bypass safety, capability or verdict guards. CLI decision propose/show has complete parity.
+
+Long tools use engine-owned supervision, not the stdio client's process lifetime. Missing supervisor returns ERR_CAPABILITY_UNSUPPORTED. A request can return an admitted operation result while execution continues; catalog output variants include operations/result for verify/benchmark. All results name captured subjects/current versus historical status. Raw payload refs/exact strings protect large numeric identities; end-to-end transport vectors must verify client behavior. Claude/Cursor/Codex/Aider/Hermes/custom client integrations are UNVERIFIED until actual sessions pass. Stdio protocol existence alone is not client certification.

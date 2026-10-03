@@ -14,7 +14,8 @@
         "COMPLETED",
         "FAILED",
         "CANCELLED",
-        "PREPARED"
+        "PREPARED",
+        "RUNNING"
       ]
     },
     "state": {
@@ -119,5 +120,6 @@
     "blockers",
     "summary"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "description": "RUNNING/PREPARED is admission/checkpoint, not completed work. Captured immutable evidence references remain project-qualified."
 }

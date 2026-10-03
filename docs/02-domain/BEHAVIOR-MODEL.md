@@ -1,121 +1,41 @@
-# Three-tier behavior model
+# Behavior model and bounded executable semantics
 
-**Status:** Canonical domain specification. [IR-CONTRACTS](IR-CONTRACTS.md) defines records and provenance; [specs](../../specs/README.md) defines executable validation.
+**Owner:** Behavior meanings, executable vocabulary and scenario semantics. [IR-CONTRACTS](IR-CONTRACTS.md) owns identities/provenance; schemas under specs/behavior define shape. Current executable contract/case/scenario records are v2; v1 DECLARATIVE open JSON is historical/descriptive and not an executable rule language.
 
-## Three distinct representations
+## Claim terminology
 
-| Tier | Describes | Producing responsibility | Cannot establish alone |
-| --- | --- | --- | --- |
-| Source IR | Files, syntax declarations, symbols, spans and typed call/include/reference edges | Source parser adapter | Framework dispatch or actual execution |
-| Application IR | Entrypoints, handlers, services, workflows, data models and dependencies | Source adapter interpretation plus neutral graph services | Complete business behavior |
-| Behavior IR | Operation rules, preconditions, concrete cases, state/effects, outputs and variability policies | Evidence-backed behavior services | All possible unseen input outcomes |
+| Term | Establishment |
+| --- | --- |
+| Observed equivalence | Named observations match under the approved profile/policy; no claim about unseen inputs |
+| Contract equivalence | All required assertions/cases in an identified acceptance scope pass with sufficient capture |
+| Semantic equivalence | Equivalent under explicitly named semantics and an applicable demonstrated comparator/proof method; not inferred universally from finite cases |
+| Unverified behavior | Specified/reachable behavior without current applicable verification |
+| Unknown behavior | Insufficient/conflicting evidence or missing semantics/capture |
+| Unsupported behavior | Named mechanism/operator/protocol lacks declared implementation capability |
+| Intentional change | Human-approved explicit policy/contract difference; separately displayed, never an accidental mismatch masked by a waiver |
 
-A source adapter interprets its framework before emitting neutral structure. The core does not infer CI3 loader semantics or Laravel middleware. Target adapters consume Behavior IR and discovered data models through a confirmed architecture plan.
+PASS/MISMATCH/UNKNOWN remain the three verdicts. UNSUPPORTED and BLOCKED are capability/readiness reasons, not extra successful verdicts. Unsupported in-scope behavior yields UNKNOWN and blocks scoped acceptance. Known violations yield MISMATCH even when other dimensions are UNKNOWN; either blocks. Successful cases do not establish corpus completeness.
 
-## Graph relationships
+## Interpreter vocabulary
 
-Entrypoints can reach several operations; operations can be shared across entrypoints/workflows. A workflow references a bounded ordered sequence of operation cases and explicit value bindings. Contracts govern operations, and concrete cases bind exact versions, fixtures, input values and assertion policies. This is a graph, not a forced one-route/one-contract tree.
+[semantics.schema.json](../../specs/behavior/semantics.schema.json) is a closed tagged language, never PHP, SQL, shell or arbitrary expressions. Limits: depth 32, at most 1,000 expression nodes per contract, 100 actions/branches/array elements and 100 executed scenario steps. Limit violations return ERR_CAPABILITY_UNSUPPORTED with node/operator/limit. No dynamic evaluator or unrestricted extension code.
 
-Entrypoints are HTTP, CLI, cron and event. HTTP dispatch requires method/path; other types require command/schedule/channel fields. Unsupported execution remains inventoried and unverified. Only explicit reviewed scope can exclude it from a migration claim.
+Values: UTF-8 string, boolean, exact integer/decimal represented as canonical decimal strings, null, RFC3339 timestamp instant, bytes by registered ref, typed object and ordered array. Absent reference is MISSING, distinct from null, empty string, zero and false. Reference namespaces are input, actor, state, result, clock and binding, with JSON Pointer and declared type. Wrong type or absent required binding produces UNKNOWN/ERR_UNBOUND_VALUE; it cannot quietly take an else branch. No implicit PHP/Python/JS truthiness/coercion.
 
-## Contract content
+Operators: literal/ref; eq with equal declared types (decimals compare exact numeric value); lt/lte for same numeric or string type (strings byte order); before/at_or_before for timestamp instants; in tests typed array membership; and/or/not require boolean operands; exists/is_missing/is_null inspect references; add/sub exact numeric same-type arithmetic; array/object construct values; coerce permits only INTEGER_TO_DECIMAL and CANONICAL_STRING_TO_INTEGER. Integer range is signed 64-bit for executable arithmetic; larger transport IDs remain exact strings and are not coerced. Decimal arithmetic preserves exact rational base-10 values with max 38 digits and 18 fractional digits; exceeding limits returns unsupported, never rounds. Unsupported operators fail schema validation; capability mismatch after valid parsing blocks execution.
 
-Every contract names operation/version, dispatch, inputs, evidenced rules, required capture dimensions, DB/session/external effects, response/outcome assertions, evidence IDs and open questions. Authentication, authorization, error behavior and supported input boundaries are part of the public contract. Rules are `DECLARATIVE`, `OBSERVED_ONLY` or `UNRESOLVED`; unsupported representations block target generation.
+An ordered branch chooses the first true boolean guard; last guard must be literal true unless exhaustive disjointness is established by a supported deterministic check. Unknown earlier guard yields UNKNOWN, not fall-through. Actions: assert, set_state, bounded db_read, db_write, begin/commit/rollback, emit, respond, error. DB actions are connection/catalog/table-qualified and translated only through discovered safe identifiers and typed ports, never raw user SQL. The initial evaluator supports one active transaction per connection; nested/distributed transactions are unsupported. begin/commit/rollback IDs must pair; error/exit outcomes define rollback behavior explicitly.
 
-Concrete executable cases supply fixture artifacts, principal/secret references, exact payloads and expected results. An input-only observation scenario supplies no claimed output. Source repetitions establish candidate assertions; three repeats do not prove all unobserved behavior.
+Preconditions run before actions, postconditions at the declared completion boundary, invariants before/after each state transition. Authorization uses explicit actor/state predicates, including negative wrong-principal cases; descriptive authorization text cannot substitute for a predicate. Business decisions involving time use controlled clock/reference predicates, never broad timestamp masking. Emit records effect class, destination, payload and idempotency relationship; the runner enforces safety independently.
 
-## Canonical example
+## Scenarios and async boundaries
 
-This synthetic contract is mirrored in [the machine example](../../specs/examples/behavior-contract.json) and validated by the documentation check. Evidence IDs and principal IDs reference synthetic fixture records. It illustrates a target-supported declarative rule, not a general expression evaluator.
+[workflow.schema.json](../../specs/behavior/workflow.schema.json) v2 identifies actors/principal fixtures, initial state, environment/profile, inputs, guarded steps, bindings, transition edges, terminal success/failure/unsupported states, expected effects and bounded execution. Each step names its actor, operation and immutable request. Bindings evaluate before request execution against the preceding committed observations; each names value expression, exact selector and PERCENT_ENCODED/HEADER_VALUE/JSON_VALUE encoding. A selector into raw_target names an explicit `{binding-name}` template marker, a header selector indexes its ordered record, and body_json selector is a JSON Pointer into a declared JSON body. Only declared sites may change; header CR/LF is rejected, percent encoding uses UTF-8 RFC3986 component escaping, and JSON_VALUE preserves typed exact scalar values. Conflicting selectors, undeclared markers, non-JSON body transformation or unavailable observations block. Persist effective request bytes separately; unbound base requests retain original bytes. Each step and transition list requires a final explicit fallback guard or deterministic exhaustiveness evidence. Exactly one next_step_id or terminal_id is non-null. IDs resolve, all planned paths are bounded, and a path exceeding max_executed_steps is unsupported, never successful truncation. The first subset permits an acyclic finite graph or explicitly unrolled paths; unbounded loops/concurrency/streams are rejected.
 
-```json
-{
-  "schema_version": "1.0",
-  "operation_id": "orders-read",
-  "version": "1.0.0",
-  "description": "Read an order owned by the authenticated principal",
-  "entrypoint": {
-    "type": "http",
-    "method": "GET",
-    "path": "/orders/42",
-    "content_types": []
-  },
-  "authentication": {
-    "required": true,
-    "principal_fixture_id": "customer-a"
-  },
-  "authorization": {
-    "rule_id": "owner-only"
-  },
-  "inputs": {
-    "parameters": []
-  },
-  "business_rules": [
-    {
-      "id": "owner-only",
-      "description": "Return the order only to its owner",
-      "representation": "DECLARATIVE",
-      "evidence_ids": [
-        "ev_owner"
-      ],
-      "data": {
-        "operator": "principal_equals_row_owner"
-      }
-    }
-  ],
-  "database_effects": {
-    "transactional": false,
-    "mutations": []
-  },
-  "session_effects": {
-    "mutations": []
-  },
-  "external_effects": {
-    "events": []
-  },
-  "response": {
-    "status": 200,
-    "headers": {
-      "content-type": "application/json"
-    },
-    "body": {
-      "type": "json",
-      "assertions": [
-        {
-          "json_pointer": "/order_id",
-          "equals": 42
-        }
-      ]
-    }
-  },
-  "evidence_ids": [
-    "ev_owner"
-  ],
-  "required_dimensions": [
-    "http",
-    "body",
-    "authentication",
-    "authorization",
-    "database",
-    "session",
-    "external"
-  ],
-  "open_questions": []
-}
-```
+Observation scenarios carry inputs only and reference a workflow/profile; they cannot assert invented legacy outcomes. Verification cases add reviewed assertions and source evidence. Separate role/account/inventory/payment/feature/time outcomes are explicit paths or separate cases, never flattened into one happy path. Each side maintains its own cookie jars and workflow state; actors cannot share a jar unintentionally.
 
-A failed ownership case is a separate concrete case governing the source's actual forbidden response. The engine must not invent Laravel's default 403/message if the source behaves differently.
+Completion modes: PROCESS_EXIT, HTTP_RESPONSE for demonstrably synchronous scope, or SINK_ACK_QUIESCENCE with expected receipt count, predicate, timeout and positive quiescence duration. Queue dispatch is not delivery; sink acceptance and worker acknowledgement are separate evidence. Timeout, late uncorrelated effect or missing receipt yields UNKNOWN/MISMATCH as appropriate. General eventual-consistency proofs and arbitrary distributed schedules are deferred.
 
-## Business-rule completeness and portability
+## Evidence obligations
 
-Free-text descriptions, SQL-like predicates and `{computed.total}` placeholders are explanatory; they do not automatically become executable programs. Each required computation must have structured, evidenced semantics that the adapter can implement or an explicitly accepted target proposal verified by cases. The core never evaluates contract strings as unrestricted SQL, PHP or shell.
-
-Preserve observable coercion, money/decimal arithmetic, nulls, ordering, validation/error text, principal/permission effects, transactions, timezone, file and integration behavior. Target clean architecture is an implementation choice constrained by these contracts. Adding a new adapter requires verifying its supported capability intersection against the same corpus.
-
-## Immutability and approval
-
-Changed contracts/cases, fixtures, normalization, intentional changes or scope create new immutable revisions and corpus/policy hashes. Gate 2 approves that exact plan subject; old results remain historical. Unknown required behavior/capture is never converted into PASS. See [compatibility](../05-verification/COMPATIBILITY-SPEC.md), [coverage](../05-verification/COVERAGE.md) and [confirmation protocol](CONFIRMATION-PROTOCOL.md).
-
-## Dependency boundaries
-
-Application IR dependency edges establish structure and usage; required capability contracts establish behavior. A package replacement or native implementation must preserve the evidenced input/output/state/error subset actually used by the application. Package metadata and matching APIs do not establish parity. Reuse existing cases and traces for dependency characterization and affected end-to-end workflows; unknown usage/capabilities remain explicit. [DEPENDENCY-RESOLUTION](../04-migration/DEPENDENCY-RESOLUTION.md) owns strategy and approval rules; these decisions do not add framework-specific fields to canonical Behavior IR.
+Every contract/branch/assertion links source evidence and open uncertainty. [Runtime observation](../03-analysis/RUNTIME-OBSERVATION.md) supplies mechanism attestations; [compatibility](../05-verification/COMPATIBILITY-SPEC.md) supplies relation-preserving comparisons. Fixtures, corpus partitions and comparator mutation tests require independent review, so one agent cannot create both a flawed oracle and its own certificate. Unsupported semantics stay explicit in Behavior IR and feasibility; they are not discarded during target lowering.

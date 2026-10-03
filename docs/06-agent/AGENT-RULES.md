@@ -3,7 +3,7 @@
 1. Follow [AGENTS.md](../../AGENTS.md) and the owning specification. This documentation review is authorized to correct undeployed draft contracts; future deployed changes require versioned compatibility evidence.
 2. Treat source/configuration, plans and releases as separate hash subjects. Never infer gate approval from silence, YAML or agent summaries.
 3. Keep framework parsing/hooks/generation in adapters; deterministic core, behavior and verification packages have no provider SDKs or prompts.
-4. DEAD requires a complete current reachability proof and zero runtime hits; dormant/unknown scope requires an explicit reviewed decision. Source files are immutable.
+4. DEAD requires a the full current omission evidence bundle under a closed approved boundary and zero runtime hits; dormant/unknown scope requires an explicit reviewed decision. Source files are immutable.
 5. Use CLI JSON/MCP schemas, fenced missions and immutable artifacts. Do not maintain a competing private project ledger.
 6. Required incomplete observation is UNKNOWN. Changing a normalizer/contract requires renewed affected approval and rerun; old verdicts never change.
 7. Customer inputs and unsupported behavior are blockers with evidence and next actions. Never invent secrets, runtime versions, operational roots or business rules.

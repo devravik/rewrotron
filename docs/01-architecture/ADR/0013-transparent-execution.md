@@ -1,26 +1,39 @@
-# ADR 0013: Transparent execution as a core product contract
+# ADR 0013: Transparent execution and owned processes
 
-- **Status:** Accepted specification decision; implementation pending
-- **Date:** 2026-10-03
-- **Basis:** Repository owner requires continuous user supervision of long-running work
-- **Related:** ADRs 0010–0012 and existing event, mission and recovery contracts
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [EXECUTION-OBSERVABILITY](../../06-agent/EXECUTION-OBSERVABILITY.md). This ADR records the decision, not a duplicate field specification.
 
 ## Context
 
-Behavioral reconstruction can take hours. A final result or opaque progress message does not explain discoveries, target changes, unresolved behavior or needed human decisions. Independent client logs can diverge from actual engine state, and guessed percentages can obscure failed verification or approval requirements.
+Current mutable rows cannot reconstruct old state; durable work needs a process owner.
+
+## Problem
+
+Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
 
 ## Decision
 
-Transparent execution and behavior preservation are central product promises. Every long-running operation emits typed sanitized events and exposes current stage/task, factual reason, result, blockers, next action and user needs. `internal/execution` owns shared projections/explanations/progress, with one SQLite event ledger and existing operation/mission/finding/artifact/confirmation records.
+Current state at N plus event window through M; foreground caller ownership or explicit local supervisor; resource ownership spans writes; heartbeats distinct from progress.
 
-Visible stages DETECT through FINALIZE are labels on repeatable/concurrent instances, not replacements for the durable lifecycle. OBSERVED/DECIDED/ACTION/RESULT distinguish facts, proposals, work and outcomes. Public explanations cite evidence and omit hidden reasoning. Percentages require persisted numerator/denominator/scope/basis; overall progress requires a versioned weighted work manifest and never substitutes for release gates.
+## Alternatives considered
 
-CLI/MCP/desktop clients read the same committed state and timeline with sequence cursors. Add optional execution state to project snapshots and typed execution read/control contracts. Human `status --watch` preserves existing non-watch JSON envelopes; machine clients poll cursor-based reads. Durable pause/continue is separate from reconciliation and approval. Existing three gates remain authoritative; an event or UI button cannot forge approval. Initial MCP control is read-only; local human commands own pause/continue.
+Full event sourcing/historical snapshots; current state plus event window; client-owned detached work.
 
-Existing events JSON payloads and artifact links store these records; no persistent table/column or initial DDL change is introduced. Long operations publish liveness at bounded intervals, acknowledge pause only at safe boundaries, and preserve history on drift/restart. Instrumentation is required in the first engine milestone; richer desktop rendering can follow without changing the event model.
+## Why rejected
+
+Historical projection adds persistence requirements not present; detached client work lacks durable owner/cleanup. Full historical projections remain deferred.
 
 ## Consequences
 
-Users can inspect current work, why it matters and what changed after returning, without relying on an agent conversation. Every producer must instrument real boundaries and handle event-store failure safely. Heartbeat, percentage, outcome and verification remain distinct. Replayable views improve diagnosis but do not restore external effects or prove equivalence. Live client/runtime validation remains an implementation deliverable.
+More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
 
-[EXECUTION-OBSERVABILITY](../../06-agent/EXECUTION-OBSERVABILITY.md) owns the detailed contract and required negative fixtures.
+## Machine-contract impact
+
+Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+
+## Migration/compatibility implications
+
+Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+
+## Acceptance experiment / falsification test
+
+X23/X26/X27. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.
