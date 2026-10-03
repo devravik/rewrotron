@@ -60,6 +60,44 @@ Open the same repository/working tree in the successor agent and send:
 
 Keep Git checkpoints and required repository artifacts available to the successor. Before engine state exists, the Skill uses Git and the development plan; it must not fabricate missions or approvals. Once applicable engine state exists, use its existing records as defined by the authoritative workflow. No separate STATUS/HANDOFF file or tracking system is introduced by these instructions.
 
+### Practical examples to copy
+
+These are prompts to send to your coding agent while it is working in the Rewrotron repository. They are not shell commands, a second task queue, or instructions to implement all the examples together. Named units remain subject to the current plan and prerequisite checks; if already complete, inspect their recorded evidence instead of rebuilding them.
+
+**Example 1 — Start the next M0 unit without remembering previous work**
+
+> Use rewrotron-implementation. Inspect Git status, recent checkpoints and the M0 section of docs/11-roadmap/DEVELOPMENT-PLAN.md. Determine what is already implemented and select the smallest remaining authorized M0 unit with satisfied prerequisites. Implement that one unit, run the required checks, and checkpoint the result. Report what is complete and which unit can follow; do not claim all of M0 is complete from this one change.
+
+**Example 2 — Work specifically on the SQLite migration foundation**
+
+> Use rewrotron-implementation for the next ready portion of the M0 SQLite initialization and migration foundation. Read docs/08-storage/SQLITE-SCHEMA.md, the relevant recovery rules, existing SQL migrations and storage tests/code. Confirm the pinned driver/toolchain requirements and prerequisites first. Select one bounded change, test its success and failure behavior against the contracts, and leave a checkpoint. Do not rewrite applied migrations or start runtime adapters.
+
+The storage owner is [SQLITE-SCHEMA](../08-storage/SQLITE-SCHEMA.md); [Recovery](../08-storage/RECOVERY.md) owns upgrade/recovery behavior. This example does not assert that storage is always the next ready unit.
+
+**Example 3 — Implement a bounded source-snapshot change**
+
+> Use rewrotron-implementation for a ready M0 source-snapshot acquisition unit. Check the current implementation and prerequisites, then follow the owning sections of docs/03-analysis/ANALYSIS-SPEC.md and the referenced snapshot contracts. Select the smallest missing supported behavior, include relevant X02 controls, validate it, and checkpoint. Do not execute the legacy application or broaden the snapshot boundary without an authoritative rule.
+
+Use this only when the [development plan](../11-roadmap/DEVELOPMENT-PLAN.md) and existing evidence establish that its prerequisites are ready. X02 is defined by [Testing](TESTING.md).
+
+**Example 4 — Repair a real failing test**
+
+First paste the exact command and its actual failure output below the prompt, keeping precision-sensitive diagnostics in native text:
+
+> Use rewrotron-implementation to investigate the attached failing test. Reproduce the failure and classify it using the Skill's failure triage. Check the owning specification before changing code or expectations. Fix the smallest confirmed cause, rerun the focused test and required validation, and checkpoint the evidence. If the failure exposes an unspecified rule, report the exact gap rather than inventing a fix.
+
+Do not manufacture a failure for this example or weaken a valid test to obtain a pass.
+
+**Example 5 — Continue in another agent or a fresh session**
+
+> Use rewrotron-implementation. This is a fresh session with no trusted prior conversation context. Inspect the same repository's Git checkpoints, unfinished changes, existing progress records and any applicable execution/mission state. Verify the last unit's recorded result where needed, then continue the next currently authorized unit with satisfied prerequisites. Preserve unrelated work and leave enough durable evidence for the next agent.
+
+This works by reading shared repository state, not by requiring a particular agent brand or forwarding an entire chat transcript.
+
+**Example 6 — Finish the current bounded unit before stopping**
+
+> Use rewrotron-implementation to bring only the current authorized unit to a safe stopping point. Run its applicable validation, record the actual results and unresolved work through the existing checkpoint mechanism, and create a Git checkpoint when consistent with the repository workflow. Identify the next authorized unit, but do not start it in this session. If unfinished work cannot safely be committed, report its exact working-tree state instead of claiming completion.
+
 ### What to expect at the checkpoint
 
 The Skill's completion report points to the authorized unit/owner, changed files, actual validation results, remaining blockers, Git checkpoint and next authorized unit. Its own procedure owns how to produce that evidence; this guide does not redefine it. A successful unit does not imply a complete milestone, working migration engine or tested client integration.
