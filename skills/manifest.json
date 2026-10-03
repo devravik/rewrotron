@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0",
+  "skills": [
+    {
+      "id": "operation.rewrotron",
+      "name": "rewrotron",
+      "version": "1.0.0",
+      "status": "STABLE",
+      "category": "operation",
+      "tags": [
+        "core",
+        "engine",
+        "orchestration",
+        "assessment",
+        "migration"
+      ],
+      "description": "Operates guarded Rewrotron services for evidence-bounded application reconstruction.",
+      "path": "skills/rewrotron",
+      "content_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ]
+}

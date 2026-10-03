@@ -1,13 +1,20 @@
 # SKILL-SPEC.md — Agent Skill Architecture & Packaging Specification
 
-> **Version:** 1.0  
-> **Status:** Agent Skill Reference Specification  
+> **Version:** 1.1
+> **Status:** Agent Skill Reference Specification
 
 ---
 
-## 1. Structure of a Rewrotron Skill
+## 1. Skill Packaging and Directory Layout
 
-The Rewrotron Skill teaches an LLM agent how to operate Rewrotron correctly. Its planned packaging is `skills/rewrotron/`:
+The repository distinguishes execution entrypoints from domain capability packages:
+
+* `.agents/skills/`: Agent CLI execution entrypoints discovered directly by coding agents (such as `.agents/skills/rewrotron-implementation/`).
+* `skills/`: Repository capability packages and engine operator skills, indexed by `skills/manifest.json`:
+  * `skills/rewrotron/`: Core engine operator skill.
+  * `skills/capabilities/<category>/<skill-name>/`: Scoped domain capabilities (e.g., `skills/capabilities/migration/ci3-controller-to-laravel/`).
+
+The planned packaging for the core engine operator is `skills/rewrotron/`:
 
 ```text
 skills/rewrotron/
@@ -27,7 +34,7 @@ skills/rewrotron/
 
 ---
 
-## 2. Frontmatter Contract
+## 2. Frontmatter and Capability Package Contract
 
 `SKILL.md` must declare standard frontmatter:
 
@@ -40,8 +47,84 @@ author: Rewrotron Core Team
 ---
 ```
 
+### Capability skill packages
 
-## 3. Portability and operating contract
+Specialized capability skills (such as migration, analysis, and verification packages) follow a modular structure:
+
+```text
+skills/capabilities/<category>/<skill-name>/
+├── SKILL.md                  # Concise entrypoint (< 100 lines) with frontmatter
+└── references/               # Deep cheat-sheets loaded only on demand
+    ├── mapping.md            # Syntax / AST transformation table
+    ├── edge-cases.md         # Framework idiosyncrasies and exceptions
+    └── verification.md       # Focused unit test and verification commands
+```
+
+Capability skills must declare extended frontmatter:
+
+```yaml
+---
+name: ci3-controller-to-laravel
+description: Transforms CI3 controllers, methods, and view loaders to Laravel 13 single-action or resource controllers.
+version: 1.0.0
+status: STABLE
+category: migration
+source_framework: codeigniter@3.*
+target_framework: laravel@13.*
+tags:
+  - controller
+  - http
+  - routing
+  - view-loader
+provenance:
+  lessons:
+    - les-01h8abc
+author: Rewrotron Core Team
+---
+```
+
+**Advisory invariants:** Capability skills are strictly advisory aids for target generation and repair. They cannot grant Gate 1, Gate 2, or Gate 3 approval, cannot override or alter deterministic verifier verdicts (PASS, MISMATCH, UNKNOWN), cannot turn UNKNOWN into PASS, cannot declare code DEAD, and cannot alter canonical machine contracts or schemas.
+
+---
+
+## 3. Skill Routing Manifest
+
+The repository maintains an authoritative routing manifest at `skills/manifest.json` indexing all registered skills:
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0",
+  "skills": [
+    {
+      "id": "operation.rewrotron",
+      "name": "rewrotron",
+      "version": "1.0.0",
+      "status": "STABLE",
+      "category": "operation",
+      "tags": ["core", "engine", "orchestration", "assessment", "migration"],
+      "description": "Operates guarded Rewrotron services for evidence-bounded application reconstruction.",
+      "path": "skills/rewrotron",
+      "content_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ]
+}
+```
+
+### Deterministic routing semantics
+
+1. When working on a specialized unit, an agent inspects the active unit domain, frameworks, and keywords.
+2. The agent queries `skills/manifest.json` (or CLI `skills search --query <domain>`).
+3. Only skills with `status IN ('STABLE')` are eligible for automatic routing (or `EXPERIMENTAL` when explicitly requested).
+4. The router matches trigger tags or framework predicates, selecting at most 1–2 matching capability skills.
+5. The agent loads only the selected `SKILL.md` (and specific `references/*.md` on demand).
+6. **Absence/malformation fallback:** If `skills/manifest.json` is absent, malformed, or unreadable, the agent falls back directly to canonical specifications in `docs/`. Absence or corruption of the manifest never blocks execution.
+
+See [SKILL-EVOLUTION](../07-learning/SKILL-EVOLUTION.md) for lifecycle states and promotion criteria, and [LEARNING-SYSTEM](../07-learning/LEARNING-SYSTEM.md) for multi-context validation rules.
+
+---
+
+## 4. Portability and operating contract
 
 The Skill is a planned external orchestration package, not engine implementation. Its default flow uses the canonical CLI/MCP catalogs, waits for explicit human assessment continuation decisions and persisted gate approvals, claims fenced missions, distinguishes unsupported/UNKNOWN behavior, and distinguishes assessment completion from implementation acceptance. An assessment-only run can complete with blocked/unknown feasibility; migration unit completion still requires scoped current verification. Reference documents load on demand; scripts invoke fixed domain commands and never provide a shell/SQL escape hatch.
 
