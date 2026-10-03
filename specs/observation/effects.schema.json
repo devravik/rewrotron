@@ -1,194 +1,407 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/observation/effects.schema.json",
-  "type": "object",
-  "properties": {
-    "schema_version": {
-      "const": "2.0"
-    },
-    "project_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "effects": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "effect_id": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "causality": {
-            "$ref": "https://rewrotron.dev/specs/observation/causality.schema.json"
-          },
-          "dimension": {
-            "enum": [
-              "DB_READ",
-              "DB_WRITE",
-              "TRANSACTION",
-              "SESSION",
-              "CACHE",
-              "FILE",
-              "QUEUE",
-              "EXTERNAL",
-              "ERROR"
-            ]
-          },
-          "effect_class": {
-            "enum": [
-              "PURE",
-              "READ_ONLY",
-              "LOCAL_WRITE",
-              "EXTERNAL_WRITE",
-              "IRREVERSIBLE"
-            ]
-          },
-          "resource_id": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "connection_id": {
-            "oneOf": [
-              {
-                "type": "string",
-                "pattern": "^[a-z0-9_-]+$"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "catalog": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "schema": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "table": {
-            "type": [
-              "string",
-              "null"
-            ]
-          },
-          "transaction_id": {
-            "oneOf": [
-              {
-                "type": "string",
-                "pattern": "^[a-z0-9_-]+$"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "before_ref": {
-            "oneOf": [
-              {
-                "type": "string",
-                "pattern": "^sha256:[a-f0-9]{64}$"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "after_ref": {
-            "oneOf": [
-              {
-                "type": "string",
-                "pattern": "^sha256:[a-f0-9]{64}$"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "payload_ref": {
-            "type": "string",
-            "pattern": "^sha256:[a-f0-9]{64}$"
-          },
-          "logical_identity_ref": {
-            "type": "string",
-            "pattern": "^sha256:[a-f0-9]{64}$"
-          },
-          "phase": {
-            "enum": [
-              "READ",
-              "REQUESTED",
-              "ACCEPTED",
-              "ACKNOWLEDGED",
-              "COMMITTED",
-              "ROLLED_BACK",
-              "FAILED"
-            ]
-          }
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.0"
         },
-        "required": [
-          "effect_id",
-          "causality",
-          "dimension",
-          "effect_class",
-          "resource_id",
-          "connection_id",
-          "catalog",
-          "schema",
-          "table",
-          "transaction_id",
-          "before_ref",
-          "after_ref",
-          "payload_ref",
-          "logical_identity_ref",
-          "phase"
-        ],
-        "additionalProperties": false,
-        "allOf": [
-          {
-            "if": {
-              "properties": {
-                "dimension": {
-                  "enum": [
-                    "DB_READ",
-                    "DB_WRITE",
-                    "TRANSACTION"
-                  ]
-                }
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "effect_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "causality": {
+                "$ref": "https://rewrotron.dev/specs/observation/causality.schema.json"
+              },
+              "dimension": {
+                "enum": [
+                  "DB_READ",
+                  "DB_WRITE",
+                  "TRANSACTION",
+                  "SESSION",
+                  "CACHE",
+                  "FILE",
+                  "QUEUE",
+                  "EXTERNAL",
+                  "ERROR"
+                ]
+              },
+              "effect_class": {
+                "enum": [
+                  "PURE",
+                  "READ_ONLY",
+                  "LOCAL_WRITE",
+                  "EXTERNAL_WRITE",
+                  "IRREVERSIBLE"
+                ]
+              },
+              "resource_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "connection_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_-]+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "catalog": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "table": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "transaction_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_-]+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "before_ref": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "after_ref": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "payload_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "logical_identity_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "phase": {
+                "enum": [
+                  "READ",
+                  "REQUESTED",
+                  "ACCEPTED",
+                  "ACKNOWLEDGED",
+                  "COMMITTED",
+                  "ROLLED_BACK",
+                  "FAILED"
+                ]
               }
             },
-            "then": {
-              "properties": {
-                "connection_id": {
-                  "type": "string",
-                  "pattern": "^[a-z0-9_-]+$"
+            "required": [
+              "effect_id",
+              "causality",
+              "dimension",
+              "effect_class",
+              "resource_id",
+              "connection_id",
+              "catalog",
+              "schema",
+              "table",
+              "transaction_id",
+              "before_ref",
+              "after_ref",
+              "payload_ref",
+              "logical_identity_ref",
+              "phase"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "dimension": {
+                      "enum": [
+                        "DB_READ",
+                        "DB_WRITE",
+                        "TRANSACTION"
+                      ]
+                    }
+                  }
                 },
-                "catalog": {
-                  "type": "string",
-                  "minLength": 1
+                "then": {
+                  "properties": {
+                    "connection_id": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9_-]+$"
+                    },
+                    "catalog": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
                 }
               }
-            }
-          }
-        ]
+            ]
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "identity_map_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
       },
-      "minItems": 0,
-      "uniqueItems": true
+      "required": [
+        "schema_version",
+        "project_id",
+        "effects",
+        "identity_map_ref"
+      ],
+      "additionalProperties": false
     },
-    "identity_map_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.1"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "effects": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "effect_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "causality": {
+                "$ref": "https://rewrotron.dev/specs/observation/causality.schema.json"
+              },
+              "dimension": {
+                "enum": [
+                  "DB_READ",
+                  "DB_WRITE",
+                  "TRANSACTION",
+                  "SESSION",
+                  "CACHE",
+                  "FILE",
+                  "QUEUE",
+                  "EXTERNAL",
+                  "ERROR"
+                ]
+              },
+              "effect_class": {
+                "enum": [
+                  "PURE",
+                  "READ_ONLY",
+                  "LOCAL_WRITE",
+                  "EXTERNAL_WRITE",
+                  "IRREVERSIBLE"
+                ]
+              },
+              "resource_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "connection_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_-]+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "catalog": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "schema": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "table": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "transaction_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_-]+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "before_ref": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "after_ref": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "payload_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "logical_identity_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "phase": {
+                "enum": [
+                  "READ",
+                  "REQUESTED",
+                  "ACCEPTED",
+                  "ACKNOWLEDGED",
+                  "COMMITTED",
+                  "ROLLED_BACK",
+                  "FAILED"
+                ]
+              },
+              "occurrence_ref": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^sha256:[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "effect_id",
+              "causality",
+              "dimension",
+              "effect_class",
+              "resource_id",
+              "connection_id",
+              "catalog",
+              "schema",
+              "table",
+              "transaction_id",
+              "before_ref",
+              "after_ref",
+              "payload_ref",
+              "logical_identity_ref",
+              "phase",
+              "occurrence_ref"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "dimension": {
+                      "enum": [
+                        "QUEUE",
+                        "EXTERNAL"
+                      ]
+                    }
+                  }
+                },
+                "then": {
+                  "properties": {
+                    "occurrence_ref": {
+                      "type": "string",
+                      "pattern": "^sha256:[a-f0-9]{64}$"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "local_identity_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "execution_witness_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "origin": {
+          "const": "ACTUAL_OBSERVED"
+        }
+      },
+      "required": [
+        "schema_version",
+        "project_id",
+        "effects",
+        "local_identity_ref",
+        "execution_witness_ref",
+        "origin"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "schema_version",
-    "project_id",
-    "effects",
-    "identity_map_ref"
   ],
-  "additionalProperties": false
+  "description": "Historical branches remain readable only. Current services require 2.1 and the owning specification semantic checks; no automatic evidence upgrade."
 }

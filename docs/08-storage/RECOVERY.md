@@ -27,3 +27,11 @@ Migrations are incremental, transactionally applied after preflight with monoton
 ## Required recovery tests
 
 Interrupt before/after artifact rename/metadata commit, every patch journal phase, fixture replay, lease renewal, sink acceptance before ack, event persistence and DB/artifact backup. Kill foreground owner, kill MCP client with surviving supervisor, restart paused supervisor and simulate PID reuse. Verify no duplicated effects, invented PASS, lost approval or overwritten customer edits.
+
+## Persistence failure and effect receipts
+
+On normal event/DB/artifact persistence failure, stop admission and cancel owned runners at a safe boundary. Use the preallocated private journal to record operation/attempt, last committed event sequence, durable receipt identity, failure and cleanup obligations; flush its checksum/sequence chain. This emergency journal is recovery input, not a second event authority or approval ledger. Status reports PERSISTENCE_UNAVAILABLE with last durable N and clearly labels emergency/uncommitted facts; it must not invent a committed blocked event or PASS.
+
+Controlled sinks durably record acceptance/business application before ACK, using reserved receipt capacity. If receipt persistence fails, do not ACK or blindly reissue the business effect. Reconcile actual sink application ID/receipt and attempt before any fresh replay; unknown acceptance remains UNKNOWN and blocks retry. If the emergency medium itself fails, emit bounded redacted stderr/IPC diagnostic, terminate owned processes where possible and mark the attempt untrusted on reopen from the durable admitted-operation record. Explain that the final failure detail could not be persisted; never claim guaranteed recovery from device loss.
+
+Restart acquires ownership, verifies journal checksums/sequence and retained receipt bytes, imports reconciled facts transactionally into the canonical store, records cleanup completion, validates reset and only then releases slots. Torn records/incomplete receipts leave UNKNOWN and require evidence/operator review, never automatic replay. Recovery retains original human pause/approval state; journal entries cannot authorize implementation. Unsupported filesystem reservation/fsync semantics block this execution profile.

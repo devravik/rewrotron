@@ -1,0 +1,534 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/observation/effect-payload.schema.json",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "origin": {
+          "enum": [
+            "ACTUAL_OBSERVED",
+            "MODEL_EXPECTED"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1
+        },
+        "kind": {
+          "const": "DB"
+        },
+        "connection_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "catalog": {
+          "type": "string"
+        },
+        "schema": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "table": {
+          "type": "string"
+        },
+        "operation": {
+          "enum": [
+            "READ",
+            "INSERT",
+            "UPDATE",
+            "DELETE"
+          ]
+        },
+        "transaction_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "before_rows": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        },
+        "after_rows": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        },
+        "generated_values": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+          }
+        }
+      },
+      "required": [
+        "schema_version",
+        "origin",
+        "evidence_refs",
+        "kind",
+        "connection_id",
+        "catalog",
+        "schema",
+        "table",
+        "operation",
+        "transaction_id",
+        "before_rows",
+        "after_rows",
+        "generated_values"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "origin": {
+          "enum": [
+            "ACTUAL_OBSERVED",
+            "MODEL_EXPECTED"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1
+        },
+        "kind": {
+          "const": "TRANSACTION"
+        },
+        "connection_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "transaction_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "operation": {
+          "enum": [
+            "BEGIN",
+            "COMMIT",
+            "ROLLBACK"
+          ]
+        },
+        "isolation": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "origin",
+        "evidence_refs",
+        "kind",
+        "connection_id",
+        "transaction_id",
+        "operation",
+        "isolation"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "origin": {
+          "enum": [
+            "ACTUAL_OBSERVED",
+            "MODEL_EXPECTED"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1
+        },
+        "kind": {
+          "const": "SESSION"
+        },
+        "operation": {
+          "enum": [
+            "CREATE",
+            "ROTATE",
+            "UPDATE",
+            "INVALIDATE"
+          ]
+        },
+        "previous_local_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "current_local_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "principal_local_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "values": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+          }
+        },
+        "previous_usable": {
+          "oneOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "origin",
+        "evidence_refs",
+        "kind",
+        "operation",
+        "previous_local_id",
+        "current_local_id",
+        "principal_local_id",
+        "values",
+        "previous_usable"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "origin": {
+          "enum": [
+            "ACTUAL_OBSERVED",
+            "MODEL_EXPECTED"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1
+        },
+        "kind": {
+          "const": "CACHE"
+        },
+        "operation": {
+          "enum": [
+            "GET",
+            "SET",
+            "DELETE",
+            "EXPIRE",
+            "LOCK",
+            "UNLOCK"
+          ]
+        },
+        "namespace": {
+          "type": "string"
+        },
+        "key": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        },
+        "value": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        },
+        "ttl_ms": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "origin",
+        "evidence_refs",
+        "kind",
+        "operation",
+        "namespace",
+        "key",
+        "value",
+        "ttl_ms"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "origin": {
+          "enum": [
+            "ACTUAL_OBSERVED",
+            "MODEL_EXPECTED"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1
+        },
+        "kind": {
+          "const": "FILE"
+        },
+        "operation": {
+          "enum": [
+            "READ",
+            "CREATE",
+            "WRITE",
+            "RENAME",
+            "DELETE",
+            "STAT"
+          ]
+        },
+        "path": {
+          "type": "string"
+        },
+        "destination_path": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "before_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "after_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "filesystem_profile_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "origin",
+        "evidence_refs",
+        "kind",
+        "operation",
+        "path",
+        "destination_path",
+        "before_ref",
+        "after_ref",
+        "filesystem_profile_ref"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "origin": {
+          "enum": [
+            "ACTUAL_OBSERVED",
+            "MODEL_EXPECTED"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1
+        },
+        "kind": {
+          "const": "DELIVERY"
+        },
+        "destination_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "protocol": {
+          "enum": [
+            "SINK",
+            "HTTP",
+            "SMTP",
+            "QUEUE"
+          ]
+        },
+        "business_key": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        },
+        "body": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "pattern": "^[!#$%&'*+.^_`|~0-9A-Za-z-]+$"
+              },
+              "value": {
+                "type": "string",
+                "pattern": "^[^\\r\\n]*$"
+              }
+            },
+            "required": [
+              "name",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0
+        },
+        "scheduled_at": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "origin",
+        "evidence_refs",
+        "kind",
+        "destination_id",
+        "protocol",
+        "business_key",
+        "body",
+        "headers",
+        "scheduled_at"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "origin": {
+          "enum": [
+            "ACTUAL_OBSERVED",
+            "MODEL_EXPECTED"
+          ]
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1
+        },
+        "kind": {
+          "const": "ERROR"
+        },
+        "code": {
+          "type": "string"
+        },
+        "message": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        },
+        "application_error": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "schema_version",
+        "origin",
+        "evidence_refs",
+        "kind",
+        "code",
+        "message",
+        "application_error"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

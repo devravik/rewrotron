@@ -1,0 +1,180 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/consumption-coverage.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "scope_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "discovery_method_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "analysis_revision_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "inputs_examined": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0
+    },
+    "roots_examined": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]+$"
+      },
+      "minItems": 0
+    },
+    "categories": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "enum": [
+              "SOURCE",
+              "ENVIRONMENT",
+              "ADAPTER",
+              "CONTRACT",
+              "RESOLUTION",
+              "DEPENDENCY",
+              "COMPONENT",
+              "POLICY",
+              "KNOWLEDGE",
+              "SKILL",
+              "TOOL"
+            ]
+          },
+          "status": {
+            "enum": [
+              "CLOSED",
+              "IRRELEVANT",
+              "PARTIAL",
+              "UNKNOWN"
+            ]
+          },
+          "input_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "minItems": 0
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "category",
+          "status",
+          "input_refs",
+          "evidence_refs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "unresolved_candidates": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0
+    },
+    "excluded_mechanisms": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0
+    },
+    "closure_control_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0
+    },
+    "status": {
+      "enum": [
+        "SUFFICIENT",
+        "INSUFFICIENT"
+      ]
+    },
+    "issuer": {
+      "const": "ENGINE"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "scope_ref",
+    "discovery_method_ref",
+    "analysis_revision_ref",
+    "inputs_examined",
+    "roots_examined",
+    "categories",
+    "unresolved_candidates",
+    "excluded_mechanisms",
+    "closure_control_refs",
+    "status",
+    "issuer"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "SUFFICIENT"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "unresolved_candidates": {
+            "maxItems": 0
+          },
+          "excluded_mechanisms": {
+            "maxItems": 0
+          },
+          "closure_control_refs": {
+            "minItems": 1
+          },
+          "categories": {
+            "items": {
+              "properties": {
+                "status": {
+                  "enum": [
+                    "CLOSED",
+                    "IRRELEVANT"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

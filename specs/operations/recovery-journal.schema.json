@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/operations/recovery-journal.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "operation_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "attempt_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "last_committed_event_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "phase": {
+      "enum": [
+        "RESERVED",
+        "MEASUREMENT_STARTED",
+        "EFFECT_REQUESTED",
+        "RECEIPT_DURABLE",
+        "PERSISTENCE_FAILED",
+        "CLEANUP_PENDING",
+        "RECONCILED"
+      ]
+    },
+    "effect_attempt_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "receipt_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "reservation_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "reason_code": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "previous_record_hash": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "operation_id",
+    "attempt_id",
+    "sequence",
+    "last_committed_event_sequence",
+    "phase",
+    "effect_attempt_id",
+    "receipt_ref",
+    "reservation_bytes",
+    "reason_code",
+    "previous_record_hash"
+  ],
+  "additionalProperties": false
+}

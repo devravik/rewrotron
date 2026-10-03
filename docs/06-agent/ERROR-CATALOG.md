@@ -37,3 +37,14 @@ Version 2 reasons: ERR_UNSUPPORTED_CAPABILITY (mechanism/operator/supervisor mis
 A persisted useful assessment with BLOCKED/UNKNOWN migration feasibility is successful report completion, not ERR_UNSUPPORTED_CAPABILITY solely because migration is infeasible. Acquisition errors are reported as classified findings where possible; inability to persist the report remains an operation error. A stale selection/changed chosen scope must be reviewed before planning, never silently substituted.
 
 ERR_UNSUPPORTED_CAPABILITY is the single public capability-refusal code across CLI/MCP/domain owners. Unsupported operator, profile, supervisor or pinned implementation details are typed diagnostic reasons; they do not create alternate spellings or a successful verification verdict. Historical spelling in the retained review is quoted input, not an interface alias.
+
+## Review-2 refusal reasons
+
+| Code | Exit | Automatic retry | Meaning / required action |
+| --- | --- | --- | --- |
+| ERR_STALE_EXECUTION | 1 | No | Loaded build/process/endpoint witness mismatches; terminate/reconcile and qualify fresh execution |
+| ERR_INVALID_COMPARISON | 1 | No | Same-side or incompatible scenario/occurrence evidence; supply actual distinct SOURCE/TARGET captures |
+| ERR_TYPE | 1 | No | Schema-qualified evaluation value type mismatch; affected assertion UNKNOWN, never implicit coercion |
+| ERR_PERSISTENCE_UNAVAILABLE | 1 | No | Canonical store unavailable; report last committed sequence and clearly labeled emergency diagnostics, reconcile before retry |
+
+PERSISTENCE_UNAVAILABLE is an emergency diagnostic state, not a committed execution enum or verifier verdict. Known semantic violations still produce MISMATCH under valid capture; setup/admission refusal is not a mutation kill. Unsupported profile/provider/encoding/horizon continues to use ERR_UNSUPPORTED_CAPABILITY with a specific reason.

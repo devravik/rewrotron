@@ -1,0 +1,858 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "context_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "side": {
+      "enum": [
+        "SOURCE",
+        "TARGET",
+        "SHADOW"
+      ]
+    },
+    "projection_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "phase": {
+      "enum": [
+        "FIXTURE",
+        "PRE_OPERATION",
+        "POST_OPERATION",
+        "COMPLETION",
+        "SIMULATION"
+      ]
+    },
+    "origin": {
+      "enum": [
+        "FIXTURE_PREPARED",
+        "MODEL_EXPECTED",
+        "ACTUAL_OBSERVED"
+      ]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1
+    },
+    "namespaces": {
+      "type": "object",
+      "properties": {
+        "input": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "request_ref": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "method": {
+                  "type": "string"
+                },
+                "raw_target": {
+                  "type": "string"
+                },
+                "headers": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string",
+                        "pattern": "^[!#$%&'*+.^_`|~0-9A-Za-z-]+$"
+                      },
+                      "value": {
+                        "type": "string",
+                        "pattern": "^[^\\r\\n]*$"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 0
+                },
+                "query": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "string"
+                      },
+                      "value": {
+                        "oneOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "key",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 0
+                },
+                "body": {
+                  "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+                }
+              },
+              "required": [
+                "request_ref",
+                "method",
+                "raw_target",
+                "headers",
+                "query",
+                "body"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "actor": {
+          "type": "object",
+          "properties": {
+            "fixture_actor_ref": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "actual_principal": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "authentication": {
+                      "enum": [
+                        "AUTHENTICATED",
+                        "ANONYMOUS"
+                      ]
+                    },
+                    "subject_local_id": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-z0-9_-]+$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "session_local_id": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "pattern": "^[a-z0-9_-]+$"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "roles": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "minItems": 0
+                    },
+                    "capture_channel_ref": {
+                      "type": "string",
+                      "pattern": "^sha256:[a-f0-9]{64}$"
+                    },
+                    "evidence_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^sha256:[a-f0-9]{64}$"
+                      },
+                      "minItems": 1
+                    }
+                  },
+                  "required": [
+                    "authentication",
+                    "subject_local_id",
+                    "session_local_id",
+                    "roles",
+                    "capture_channel_ref",
+                    "evidence_refs"
+                  ],
+                  "additionalProperties": false,
+                  "allOf": [
+                    {
+                      "if": {
+                        "properties": {
+                          "authentication": {
+                            "const": "AUTHENTICATED"
+                          }
+                        }
+                      },
+                      "then": {
+                        "properties": {
+                          "subject_local_id": {
+                            "type": "string",
+                            "pattern": "^[a-z0-9_-]+$"
+                          }
+                        }
+                      },
+                      "else": {
+                        "properties": {
+                          "subject_local_id": {
+                            "type": "null"
+                          },
+                          "roles": {
+                            "maxItems": 0
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "const": "missing"
+                    },
+                    "reason_code": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "reason_code"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "required": [
+            "fixture_actor_ref",
+            "actual_principal"
+          ],
+          "additionalProperties": false
+        },
+        "state": {
+          "type": "object",
+          "properties": {
+            "db": {
+              "oneOf": [
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "connection_id": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9_-]+$"
+                      },
+                      "catalog": {
+                        "type": "string"
+                      },
+                      "schema": {
+                        "oneOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "table": {
+                        "type": "string"
+                      },
+                      "rows": {
+                        "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+                      }
+                    },
+                    "required": [
+                      "connection_id",
+                      "catalog",
+                      "schema",
+                      "table",
+                      "rows"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "minItems": 0
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "const": "missing"
+                    },
+                    "reason_code": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "reason_code"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            },
+            "sessions": {
+              "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+            },
+            "cache": {
+              "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+            },
+            "files": {
+              "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+            },
+            "queues": {
+              "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+            }
+          },
+          "required": [
+            "db",
+            "sessions",
+            "cache",
+            "files",
+            "queues"
+          ],
+          "additionalProperties": false
+        },
+        "result": {
+          "oneOf": [
+            {
+              "$ref": "https://rewrotron.dev/specs/behavior/response.schema.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "binding": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+          }
+        },
+        "row": {
+          "oneOf": [
+            {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "clock": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        }
+      },
+      "required": [
+        "input",
+        "actor",
+        "state",
+        "result",
+        "binding",
+        "row",
+        "clock"
+      ],
+      "additionalProperties": false
+    },
+    "occurrence_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "context_id",
+    "project_id",
+    "side",
+    "occurrence_id",
+    "projection_ref",
+    "phase",
+    "origin",
+    "evidence_refs",
+    "namespaces"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "SIMULATION"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "origin": {
+            "const": "MODEL_EXPECTED"
+          },
+          "side": {
+            "const": "SHADOW"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "side": {
+            "enum": [
+              "SOURCE",
+              "TARGET"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "FIXTURE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "origin": {
+            "const": "FIXTURE_PREPARED"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "enum": [
+              "PRE_OPERATION",
+              "POST_OPERATION",
+              "COMPLETION"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "origin": {
+            "const": "ACTUAL_OBSERVED"
+          },
+          "occurrence_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "phase": {
+            "const": "PRE_OPERATION"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "namespaces": {
+            "properties": {
+              "result": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "value": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "string"
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "boolean"
+            },
+            "value": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "integer"
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^(0|-?[1-9][0-9]*)$"
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "decimal"
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^-?(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "timestamp"
+            },
+            "value": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "bytes"
+            },
+            "value": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "null"
+            },
+            "value": {
+              "type": "null"
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "object"
+            },
+            "value": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+              }
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "array"
+            },
+            "value": {
+              "type": "array",
+              "items": {
+                "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+              },
+              "minItems": 0
+            }
+          },
+          "required": [
+            "type",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "missing"
+            },
+            "reason_code": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "type",
+            "reason_code"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "state": {
+      "type": "object",
+      "properties": {
+        "db": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "connection_id": {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_-]+$"
+                  },
+                  "catalog": {
+                    "type": "string"
+                  },
+                  "schema": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "table": {
+                    "type": "string"
+                  },
+                  "rows": {
+                    "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+                  }
+                },
+                "required": [
+                  "connection_id",
+                  "catalog",
+                  "schema",
+                  "table",
+                  "rows"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 0
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "missing"
+                },
+                "reason_code": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "type",
+                "reason_code"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "sessions": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        },
+        "cache": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        },
+        "files": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        },
+        "queues": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        }
+      },
+      "required": [
+        "db",
+        "sessions",
+        "cache",
+        "files",
+        "queues"
+      ],
+      "additionalProperties": false
+    },
+    "principal": {
+      "type": "object",
+      "properties": {
+        "authentication": {
+          "enum": [
+            "AUTHENTICATED",
+            "ANONYMOUS"
+          ]
+        },
+        "subject_local_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "session_local_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 0
+        },
+        "capture_channel_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "authentication",
+        "subject_local_id",
+        "session_local_id",
+        "roles",
+        "capture_channel_ref",
+        "evidence_refs"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "authentication": {
+                "const": "AUTHENTICATED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "subject_local_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "subject_local_id": {
+                "type": "null"
+              },
+              "roles": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

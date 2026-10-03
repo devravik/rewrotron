@@ -1,39 +1,39 @@
-# ADR 0012: User intent, exact resolution and frozen decisions
+# ADR 0012: Immutable intent and positive reuse coverage
 
-**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [TARGET-SPECIFICATION](../../04-migration/TARGET-SPECIFICATION.md). This ADR records the decision, not a duplicate field specification.
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03 against review-2. [Canonical owner](../../02-domain/DOMAIN-MODEL.md) contains normative field/service details.
 
 ## Context
 
-Wildcard intent cannot be execution environment; changing progress cannot rewrite approval.
+Intent, resolution, immutable decisions and mutable progress already have separate lifecycles.
 
 ## Problem
 
-Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
+An incomplete graph cannot prove independence; ambiguous shared-consumer wording can deadlock future units.
 
 ## Decision
 
-Separate detected/asserted/requested/recommended/assessed/human-selected/resolved/approved/executed/verified records. Assessment completion and human work selection are not implementation approval; [PROJECT-LIFECYCLE](../../02-domain/PROJECT-LIFECYCLE.md) owns the checkpoint. Decisions immutable, progress separate; typed validity and conservative reuse preserve unrelated source work.
+Keep immutable decisions and shared assessment. Require positive consumption coverage for reuse; reverify currently implemented consumers, record future pending obligations. Provider interprets opaque exact release labels; user intent remains sovereign.
 
 ## Alternatives considered
 
-Intent schema reused as resolution; combined changing decision/status; separate immutable choices and progress.
+Trust absent edges; invalidate every artifact always; positive coverage with conservative fallback.
 
 ## Why rejected
 
-Wildcards re-resolve over time; status mutation changes approval bytes and causes reapproval loops.
+Absence is not independence; unconditional restart discards demonstrably unrelated work. Coverage allows bounded selective reuse without weakening acceptance.
 
 ## Consequences
 
-More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
+Unknown/unexamined prerequisites invalidate relevant categories. No successor-plan reuse of old PASS; verification reruns.
 
 ## Machine-contract impact
 
-Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants. New assessment report/view/selection/planning-basis artifacts use existing immutable storage. Plan envelope 2.1 adds checkpoint refs, hashed through unchanged PLAN subject v2 decision_refs; old subjects/vectors remain reconstructable, not current executable authorization.
+consumption-coverage 1.0, validity/reuse 2.1, resolution 2.1, detection 2.0 without current gate_status. Existing artifacts/typed links remain storage owners.
 
 ## Migration/compatibility implications
 
-Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed. Old plan wrappers remain historical-readable; current execution requires a checkpoint-linked successor plan and its explicit Gate 2 approval. A separate assessment pipeline and implicit continuation were rejected because they duplicate analysis and conflate information with authorization.
+Older coverage-free records are historical-only for current selective reuse. Progress updates do not mutate decisions or plan hash; shared assessment stays one workflow.
 
 ## Acceptance experiment / falsification test
 
-X15/X16/X17/X18/X29 and X41–X55 (especially selective assessment reuse and token rejection). Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.
+X17/X29/X35/X73/X75 and X41–X55: drop a consumed edge, change target, preserve unaffected facts only with coverage, and avoid future-consumer deadlock.

@@ -1,356 +1,781 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/verification/performance-policy.schema.json",
-  "type": "object",
-  "properties": {
-    "schema_version": {
-      "const": "1.0"
-    },
-    "policy_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "project_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "applicable": {
-      "type": "boolean"
-    },
-    "claim": {
-      "enum": [
-        "IMPROVEMENT",
-        "NON_INFERIORITY",
-        "APPROVED_BUDGET",
-        null
-      ]
-    },
-    "workload_ref": {
-      "oneOf": [
-        {
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "policy_id": {
           "type": "string",
-          "pattern": "^sha256:[a-f0-9]{64}$"
+          "pattern": "^[a-z0-9_-]+$"
         },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "environment_ref": {
-      "oneOf": [
-        {
+        "project_id": {
           "type": "string",
-          "pattern": "^sha256:[a-f0-9]{64}$"
+          "pattern": "^[a-z0-9_-]+$"
         },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "method_ref": {
-      "oneOf": [
-        {
-          "type": "string",
-          "pattern": "^sha256:[a-f0-9]{64}$"
+        "applicable": {
+          "type": "boolean"
         },
-        {
-          "type": "null"
-        }
-      ]
-    },
-    "measurement_profile": {
-      "enum": [
-        "RWT_PAIRED_BOOTSTRAP_1",
-        null
-      ]
-    },
-    "required_metrics": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "metric_id": {
-            "enum": [
-              "P50",
-              "P95",
-              "P99",
-              "CPU",
-              "RSS_MEMORY",
-              "DB_QUERY_COUNT",
-              "DB_LATENCY",
-              "EXTERNAL_LATENCY",
-              "RESPONSE_SIZE",
-              "STARTUP_COLD",
-              "STARTUP_WARM"
-            ]
-          },
-          "unit": {
-            "enum": [
-              "ms",
-              "bytes",
-              "count",
-              "cpu_seconds"
-            ]
-          },
-          "limit_kind": {
-            "enum": [
-              "STRICT_IMPROVEMENT",
-              "RELATIVE_NON_INFERIORITY",
-              "ABSOLUTE_BUDGET"
-            ]
-          },
-          "limit": {
-            "type": "number",
-            "exclusiveMinimum": 0
-          },
-          "minimum_successes_per_trial": {
-            "type": "integer",
-            "minimum": 1
-          }
+        "claim": {
+          "enum": [
+            "IMPROVEMENT",
+            "NON_INFERIORITY",
+            "APPROVED_BUDGET",
+            null
+          ]
         },
-        "required": [
-          "metric_id",
-          "unit",
-          "limit_kind",
-          "limit",
-          "minimum_successes_per_trial"
-        ],
-        "additionalProperties": false,
-        "allOf": [
-          {
-            "if": {
-              "properties": {
-                "limit_kind": {
-                  "const": "STRICT_IMPROVEMENT"
-                }
-              },
-              "required": [
-                "limit_kind"
-              ]
+        "workload_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
             },
-            "then": {
-              "properties": {
-                "limit": {
-                  "const": 1
-                }
-              }
+            {
+              "type": "null"
             }
-          },
-          {
-            "if": {
-              "properties": {
-                "limit_kind": {
-                  "const": "RELATIVE_NON_INFERIORITY"
-                }
-              },
-              "required": [
-                "limit_kind"
-              ]
+          ]
+        },
+        "environment_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
             },
-            "then": {
-              "properties": {
-                "limit": {
-                  "exclusiveMinimum": 1
-                }
-              }
+            {
+              "type": "null"
             }
-          },
-          {
-            "if": {
-              "properties": {
-                "metric_id": {
-                  "enum": [
-                    "P50",
-                    "P95",
-                    "CPU",
-                    "RSS_MEMORY"
+          ]
+        },
+        "method_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "measurement_profile": {
+          "enum": [
+            "RWT_PAIRED_BOOTSTRAP_1",
+            null
+          ]
+        },
+        "required_metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "metric_id": {
+                "enum": [
+                  "P50",
+                  "P95",
+                  "P99",
+                  "CPU",
+                  "RSS_MEMORY",
+                  "DB_QUERY_COUNT",
+                  "DB_LATENCY",
+                  "EXTERNAL_LATENCY",
+                  "RESPONSE_SIZE",
+                  "STARTUP_COLD",
+                  "STARTUP_WARM"
+                ]
+              },
+              "unit": {
+                "enum": [
+                  "ms",
+                  "bytes",
+                  "count",
+                  "cpu_seconds"
+                ]
+              },
+              "limit_kind": {
+                "enum": [
+                  "STRICT_IMPROVEMENT",
+                  "RELATIVE_NON_INFERIORITY",
+                  "ABSOLUTE_BUDGET"
+                ]
+              },
+              "limit": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "minimum_successes_per_trial": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "metric_id",
+              "unit",
+              "limit_kind",
+              "limit",
+              "minimum_successes_per_trial"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "limit_kind": {
+                      "const": "STRICT_IMPROVEMENT"
+                    }
+                  },
+                  "required": [
+                    "limit_kind"
                   ]
+                },
+                "then": {
+                  "properties": {
+                    "limit": {
+                      "const": 1
+                    }
+                  }
                 }
               },
-              "required": [
-                "metric_id"
-              ]
-            },
-            "then": {
-              "properties": {
-                "minimum_successes_per_trial": {
-                  "minimum": 500
-                }
-              }
-            }
-          },
-          {
-            "if": {
-              "properties": {
-                "metric_id": {
-                  "const": "P99"
+              {
+                "if": {
+                  "properties": {
+                    "limit_kind": {
+                      "const": "RELATIVE_NON_INFERIORITY"
+                    }
+                  },
+                  "required": [
+                    "limit_kind"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "limit": {
+                      "exclusiveMinimum": 1
+                    }
+                  }
                 }
               },
-              "required": [
-                "metric_id"
-              ]
-            },
-            "then": {
-              "properties": {
-                "minimum_successes_per_trial": {
-                  "minimum": 10000
+              {
+                "if": {
+                  "properties": {
+                    "metric_id": {
+                      "enum": [
+                        "P50",
+                        "P95",
+                        "CPU",
+                        "RSS_MEMORY"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "metric_id"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "minimum_successes_per_trial": {
+                      "minimum": 500
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "metric_id": {
+                      "const": "P99"
+                    }
+                  },
+                  "required": [
+                    "metric_id"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "minimum_successes_per_trial": {
+                      "minimum": 10000
+                    }
+                  }
                 }
               }
-            }
-          }
-        ]
-      },
-      "minItems": 0,
-      "uniqueItems": true
-    },
-    "max_error_rate": {
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1
-    },
-    "rationale": {
-      "type": "string",
-      "minLength": 1
-    },
-    "evidence_refs": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^sha256:[a-f0-9]{64}$"
-      },
-      "minItems": 1,
-      "uniqueItems": true
-    }
-  },
-  "required": [
-    "schema_version",
-    "policy_id",
-    "project_id",
-    "applicable",
-    "claim",
-    "workload_ref",
-    "environment_ref",
-    "method_ref",
-    "measurement_profile",
-    "required_metrics",
-    "max_error_rate",
-    "rationale",
-    "evidence_refs"
-  ],
-  "additionalProperties": false,
-  "allOf": [
-    {
-      "if": {
-        "properties": {
-          "applicable": {
-            "const": true
-          }
-        },
-        "required": [
-          "applicable"
-        ]
-      },
-      "then": {
-        "properties": {
-          "claim": {
-            "enum": [
-              "IMPROVEMENT",
-              "NON_INFERIORITY",
-              "APPROVED_BUDGET"
             ]
           },
-          "workload_ref": {
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "max_error_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
             "type": "string",
             "pattern": "^sha256:[a-f0-9]{64}$"
           },
-          "environment_ref": {
-            "type": "string",
-            "pattern": "^sha256:[a-f0-9]{64}$"
-          },
-          "method_ref": {
-            "type": "string",
-            "pattern": "^sha256:[a-f0-9]{64}$"
-          },
-          "measurement_profile": {
-            "const": "RWT_PAIRED_BOOTSTRAP_1"
-          },
-          "required_metrics": {
-            "minItems": 1
-          }
+          "minItems": 1,
+          "uniqueItems": true
         }
       },
-      "else": {
-        "properties": {
-          "claim": {
-            "type": "null"
+      "required": [
+        "schema_version",
+        "policy_id",
+        "project_id",
+        "applicable",
+        "claim",
+        "workload_ref",
+        "environment_ref",
+        "method_ref",
+        "measurement_profile",
+        "required_metrics",
+        "max_error_rate",
+        "rationale",
+        "evidence_refs"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "applicable": {
+                "const": true
+              }
+            },
+            "required": [
+              "applicable"
+            ]
           },
-          "workload_ref": {
-            "type": "null"
+          "then": {
+            "properties": {
+              "claim": {
+                "enum": [
+                  "IMPROVEMENT",
+                  "NON_INFERIORITY",
+                  "APPROVED_BUDGET"
+                ]
+              },
+              "workload_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "environment_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "method_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "measurement_profile": {
+                "const": "RWT_PAIRED_BOOTSTRAP_1"
+              },
+              "required_metrics": {
+                "minItems": 1
+              }
+            }
           },
-          "environment_ref": {
-            "type": "null"
-          },
-          "method_ref": {
-            "type": "null"
-          },
-          "measurement_profile": {
-            "type": "null"
-          },
-          "required_metrics": {
-            "maxItems": 0
-          }
-        }
-      }
-    },
-    {
-      "if": {
-        "properties": {
-          "claim": {
-            "const": "IMPROVEMENT"
+          "else": {
+            "properties": {
+              "claim": {
+                "type": "null"
+              },
+              "workload_ref": {
+                "type": "null"
+              },
+              "environment_ref": {
+                "type": "null"
+              },
+              "method_ref": {
+                "type": "null"
+              },
+              "measurement_profile": {
+                "type": "null"
+              },
+              "required_metrics": {
+                "maxItems": 0
+              }
+            }
           }
         },
-        "required": [
-          "claim"
-        ]
-      },
-      "then": {
-        "properties": {
-          "required_metrics": {
-            "items": {
-              "properties": {
-                "limit_kind": {
-                  "const": "STRICT_IMPROVEMENT"
+        {
+          "if": {
+            "properties": {
+              "claim": {
+                "const": "IMPROVEMENT"
+              }
+            },
+            "required": [
+              "claim"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_metrics": {
+                "items": {
+                  "properties": {
+                    "limit_kind": {
+                      "const": "STRICT_IMPROVEMENT"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "claim": {
+                "const": "NON_INFERIORITY"
+              }
+            },
+            "required": [
+              "claim"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_metrics": {
+                "items": {
+                  "properties": {
+                    "limit_kind": {
+                      "const": "RELATIVE_NON_INFERIORITY"
+                    }
+                  }
                 }
               }
             }
           }
         }
-      }
+      ]
     },
     {
-      "if": {
-        "properties": {
-          "claim": {
-            "const": "NON_INFERIORITY"
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.1"
+        },
+        "policy_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "applicable": {
+          "type": "boolean"
+        },
+        "claim": {
+          "enum": [
+            "IMPROVEMENT",
+            "NON_INFERIORITY",
+            "APPROVED_BUDGET",
+            null
+          ]
+        },
+        "workload_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "environment_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "method_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "measurement_profile": {
+          "enum": [
+            "RWT_PAIRED_BOOTSTRAP_1",
+            null
+          ]
+        },
+        "required_metrics": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "metric_id": {
+                "enum": [
+                  "P50",
+                  "P95",
+                  "P99",
+                  "CPU",
+                  "RSS_MEMORY",
+                  "DB_QUERY_COUNT",
+                  "DB_LATENCY",
+                  "EXTERNAL_LATENCY",
+                  "RESPONSE_SIZE",
+                  "STARTUP_COLD",
+                  "STARTUP_WARM"
+                ]
+              },
+              "unit": {
+                "enum": [
+                  "ms",
+                  "bytes",
+                  "count",
+                  "cpu_seconds"
+                ]
+              },
+              "limit_kind": {
+                "enum": [
+                  "STRICT_IMPROVEMENT",
+                  "RELATIVE_NON_INFERIORITY",
+                  "ABSOLUTE_BUDGET"
+                ]
+              },
+              "limit": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "minimum_successes_per_trial": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "metric_id",
+              "unit",
+              "limit_kind",
+              "limit",
+              "minimum_successes_per_trial"
+            ],
+            "additionalProperties": false,
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "limit_kind": {
+                      "const": "STRICT_IMPROVEMENT"
+                    }
+                  },
+                  "required": [
+                    "limit_kind"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "limit": {
+                      "const": 1
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "limit_kind": {
+                      "const": "RELATIVE_NON_INFERIORITY"
+                    }
+                  },
+                  "required": [
+                    "limit_kind"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "limit": {
+                      "exclusiveMinimum": 1
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "metric_id": {
+                      "enum": [
+                        "P50",
+                        "P95",
+                        "CPU",
+                        "RSS_MEMORY"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "metric_id"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "minimum_successes_per_trial": {
+                      "minimum": 500
+                    }
+                  }
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "metric_id": {
+                      "const": "P99"
+                    }
+                  },
+                  "required": [
+                    "metric_id"
+                  ]
+                },
+                "then": {
+                  "properties": {
+                    "minimum_successes_per_trial": {
+                      "minimum": 10000
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "max_error_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "paired_trials": {
+          "oneOf": [
+            {
+              "type": "integer",
+              "minimum": 10,
+              "maximum": 20
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "stopping_rule": {
+          "enum": [
+            "FIXED_N",
+            null
+          ]
+        },
+        "operational_slo_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "policy_id",
+        "project_id",
+        "applicable",
+        "claim",
+        "workload_ref",
+        "environment_ref",
+        "method_ref",
+        "measurement_profile",
+        "required_metrics",
+        "max_error_rate",
+        "rationale",
+        "evidence_refs",
+        "paired_trials",
+        "stopping_rule",
+        "operational_slo_ref"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "applicable": {
+                "const": true
+              }
+            },
+            "required": [
+              "applicable"
+            ]
+          },
+          "then": {
+            "properties": {
+              "claim": {
+                "enum": [
+                  "IMPROVEMENT",
+                  "NON_INFERIORITY",
+                  "APPROVED_BUDGET"
+                ]
+              },
+              "workload_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "environment_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "method_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "measurement_profile": {
+                "const": "RWT_PAIRED_BOOTSTRAP_1"
+              },
+              "required_metrics": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "claim": {
+                "type": "null"
+              },
+              "workload_ref": {
+                "type": "null"
+              },
+              "environment_ref": {
+                "type": "null"
+              },
+              "method_ref": {
+                "type": "null"
+              },
+              "measurement_profile": {
+                "type": "null"
+              },
+              "required_metrics": {
+                "maxItems": 0
+              }
+            }
           }
         },
-        "required": [
-          "claim"
-        ]
-      },
-      "then": {
-        "properties": {
-          "required_metrics": {
-            "items": {
-              "properties": {
-                "limit_kind": {
-                  "const": "RELATIVE_NON_INFERIORITY"
+        {
+          "if": {
+            "properties": {
+              "claim": {
+                "const": "IMPROVEMENT"
+              }
+            },
+            "required": [
+              "claim"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_metrics": {
+                "items": {
+                  "properties": {
+                    "limit_kind": {
+                      "const": "STRICT_IMPROVEMENT"
+                    }
+                  }
                 }
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "claim": {
+                "const": "NON_INFERIORITY"
+              }
+            },
+            "required": [
+              "claim"
+            ]
+          },
+          "then": {
+            "properties": {
+              "required_metrics": {
+                "items": {
+                  "properties": {
+                    "limit_kind": {
+                      "const": "RELATIVE_NON_INFERIORITY"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "applicable": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "paired_trials": {
+                "type": "integer",
+                "minimum": 10,
+                "maximum": 20
+              },
+              "stopping_rule": {
+                "const": "FIXED_N"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "paired_trials": {
+                "type": "null"
+              },
+              "stopping_rule": {
+                "type": "null"
+              },
+              "operational_slo_ref": {
+                "type": "null"
+              }
+            }
+          }
         }
-      }
+      ]
     }
-  ]
+  ],
+  "description": "Historical branches remain readable only. Current services require 1.1 and the owning specification semantic checks; no automatic evidence upgrade."
 }

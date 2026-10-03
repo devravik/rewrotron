@@ -1,100 +1,212 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/project/validity-graph.schema.json",
-  "type": "object",
-  "properties": {
-    "schema_version": {
-      "const": "2.0"
-    },
-    "graph_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "project_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "edges": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "from_ref": {
-            "type": "string",
-            "pattern": "^sha256:[a-f0-9]{64}$"
-          },
-          "to_ref": {
-            "type": "string",
-            "pattern": "^sha256:[a-f0-9]{64}$"
-          },
-          "kind": {
-            "enum": [
-              "SOURCE_IR",
-              "SOURCE_CONTRACT",
-              "ENVIRONMENT_OBSERVATION",
-              "ADAPTER_EXTRACTION",
-              "DEPENDENCY_IMPLEMENTATION",
-              "COMPONENT_UNIT",
-              "NORMALIZATION_RESULT",
-              "KNOWLEDGE_ARTIFACT",
-              "SKILL_RESULT",
-              "TOOL_EVIDENCE",
-              "INPUT_ASSESSMENT_FINDING",
-              "FINDING_ASSESSMENT_REPORT",
-              "ASSESSMENT_SELECTION",
-              "SELECTION_PLAN",
-              "IMPLEMENTATION_QUALIFICATION",
-              "EXECUTION_RESULT",
-              "PERFORMANCE_RESULT"
-            ]
-          },
-          "predicate": {
-            "enum": [
-              "SAME_CONTENT",
-              "SAME_PROFILE",
-              "SAME_CAPABILITY",
-              "SAME_RULES",
-              "SAME_FENCE"
-            ]
-          },
-          "witness_refs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "pattern": "^sha256:[a-f0-9]{64}$"
-            },
-            "minItems": 1,
-            "uniqueItems": true
-          }
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.0"
         },
-        "required": [
-          "from_ref",
-          "to_ref",
-          "kind",
-          "predicate",
-          "witness_refs"
-        ],
-        "additionalProperties": false
+        "graph_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "to_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "kind": {
+                "enum": [
+                  "SOURCE_IR",
+                  "SOURCE_CONTRACT",
+                  "ENVIRONMENT_OBSERVATION",
+                  "ADAPTER_EXTRACTION",
+                  "DEPENDENCY_IMPLEMENTATION",
+                  "COMPONENT_UNIT",
+                  "NORMALIZATION_RESULT",
+                  "KNOWLEDGE_ARTIFACT",
+                  "SKILL_RESULT",
+                  "TOOL_EVIDENCE",
+                  "INPUT_ASSESSMENT_FINDING",
+                  "FINDING_ASSESSMENT_REPORT",
+                  "ASSESSMENT_SELECTION",
+                  "SELECTION_PLAN",
+                  "IMPLEMENTATION_QUALIFICATION",
+                  "EXECUTION_RESULT",
+                  "PERFORMANCE_RESULT"
+                ]
+              },
+              "predicate": {
+                "enum": [
+                  "SAME_CONTENT",
+                  "SAME_PROFILE",
+                  "SAME_CAPABILITY",
+                  "SAME_RULES",
+                  "SAME_FENCE"
+                ]
+              },
+              "witness_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "from_ref",
+              "to_ref",
+              "kind",
+              "predicate",
+              "witness_refs"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "unknown_impact_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
       },
-      "minItems": 0,
-      "uniqueItems": true
+      "required": [
+        "schema_version",
+        "graph_id",
+        "project_id",
+        "edges",
+        "unknown_impact_refs"
+      ],
+      "additionalProperties": false
     },
-    "unknown_impact_refs": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^sha256:[a-f0-9]{64}$"
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.1"
+        },
+        "graph_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "edges": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "to_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "kind": {
+                "enum": [
+                  "SOURCE_IR",
+                  "SOURCE_CONTRACT",
+                  "ENVIRONMENT_OBSERVATION",
+                  "ADAPTER_EXTRACTION",
+                  "DEPENDENCY_IMPLEMENTATION",
+                  "COMPONENT_UNIT",
+                  "NORMALIZATION_RESULT",
+                  "KNOWLEDGE_ARTIFACT",
+                  "SKILL_RESULT",
+                  "TOOL_EVIDENCE",
+                  "INPUT_ASSESSMENT_FINDING",
+                  "FINDING_ASSESSMENT_REPORT",
+                  "ASSESSMENT_SELECTION",
+                  "SELECTION_PLAN",
+                  "IMPLEMENTATION_QUALIFICATION",
+                  "EXECUTION_RESULT",
+                  "PERFORMANCE_RESULT"
+                ]
+              },
+              "predicate": {
+                "enum": [
+                  "SAME_CONTENT",
+                  "SAME_PROFILE",
+                  "SAME_CAPABILITY",
+                  "SAME_RULES",
+                  "SAME_FENCE"
+                ]
+              },
+              "witness_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "from_ref",
+              "to_ref",
+              "kind",
+              "predicate",
+              "witness_refs"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "unknown_impact_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "consumption_coverage_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 0
+        }
       },
-      "minItems": 0,
-      "uniqueItems": true
+      "required": [
+        "schema_version",
+        "graph_id",
+        "project_id",
+        "edges",
+        "unknown_impact_refs",
+        "consumption_coverage_refs"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "schema_version",
-    "graph_id",
-    "project_id",
-    "edges",
-    "unknown_impact_refs"
   ],
-  "additionalProperties": false
+  "description": "Historical branches remain readable only. Current services require 2.1 and the owning specification semantic checks; no automatic evidence upgrade."
 }

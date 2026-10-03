@@ -8,7 +8,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Objective:** Persist a coherent source snapshot and exact approval closure, then reconstruct the same hash after restart and registry/schema changes; publish an assessment without implementation authority.
 
-**Prerequisites:** None.
+**Prerequisites:** Current canonical schemas and owner decisions; qualified filesystem/build required before runtime claims. Documentation resolves architecture, not actual SQLite/WAL/restore qualification.
 
 **Inputs:** Synthetic immutable source tree, current versioned schemas and historical vectors, pinned local filesystem/build profile.
 
@@ -18,7 +18,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Implementation scope:** Go bootstrap/ports; exact driver/toolchain manifest; artifact/privacy/admission; snapshot acquisition; explicit human receipts; current execution/event-window service; assessment report publication over available canonical records and trusted human selection (no second analyzer).
 
-**Tests:** X01 hash/restart/registry; X02 snapshot ABA/symlink; X25 ownership/leases; X28 storage/backup; X30 quota; X57 unavailable attestation; X58 pinned execution closure; X41/X43/X45/X46/X51/X53/X55 assessment stop/non-mutation/history/no authority.
+**Tests:** X62 source-only record publication; X68/X69 profile/admission records; X73 coverage/reuse; X74 reserved recovery; X75 opaque release structure; X01 hash/restart/registry; X02 snapshot ABA/symlink; X25 ownership/leases; X28 storage/backup; X30 quota; X57 unavailable attestation; X58 pinned execution closure; X41/X43/X45/X46/X51/X53/X55 assessment stop/non-mutation/history/no authority.
 
 **Acceptance criteria:** Reconstruct identical approved subjects from retained bytes after restart; reject stale/forged/missing approval and unsafe snapshot; preserve failure evidence; report completion is separate from migration feasibility and never creates Gate 2/implementation work.
 
@@ -32,7 +32,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Objective:** Execute a two-actor stateful scenario against independent environments and reject missing-write, wrong-principal and duplicate-effect mutants while allowing useful assessment-only completion.
 
-**Prerequisites:** M0.
+**Prerequisites:** M0; explicit model/checker separation and side-local identity contracts (review-2 P0), plus context/principal/branch/response/witness/coverage/admission/filesystem/effect/emergency contracts and structural fixtures. Runtime controls execute inside M1, not as a claim made by this documentation.
 
 **Inputs:** One synthetic stateful application, independently reviewed two-actor bounded scenario and explicit mutant targets.
 
@@ -40,13 +40,13 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Owned specs:** BEHAVIOR-MODEL, RUNTIME-OBSERVATION, TARGET-ARCHITECTURE, MIGRATION-UNITS, DIFFERENTIAL-TESTING, RECOVERY.
 
-**Implementation scope:** Small rule interpreter; minimal fixture source/target adapters; login→create operation with authorization failure; independent DBs and sink; foreground/supervisor ownership; current status; report partial state before planning and require explicit human continuation before fixture target planning.
+**Implementation scope:** Small shadow-model interpreter and read-only assertion evaluator with separate capabilities; minimal fixture source/target adapters; login→create operation with authorization failure; independent DBs and sink; foreground/supervisor ownership; current status; report partial state before planning and require explicit human continuation before fixture target planning.
 
-**Tests:** X03 unsupported operator; X04 branch/state; X05 missing DB write; X06 wrong principal; X07 duplicate effect; X08 incomplete capture; X26 disconnect; X27 event failure; X56 row/binding/terminal semantics; X57 capture derivation; X58 capability qualification; X42/X44/X47/X52/X54 blocked-but-useful assessment, production safety, shared-record reuse and classification.
+**Tests:** X61–X67/X72/X77/X80 checker isolation, source identity, contexts, branch/occurrence pairing, stale build, cookies, effects, actual principal and source-vs-source; X74 emergency interruption; X03 unsupported operator; X04 branch/state; X05 missing DB write; X06 wrong principal; X07 duplicate effect; X08 incomplete capture; X26 disconnect; X27 event failure; X56 row/binding/terminal semantics; X57 capture derivation; X58 capability qualification; X42/X44/X47/X52/X54 blocked-but-useful assessment, production safety, shared-record reuse and classification.
 
 **Acceptance criteria:** Good target passes UNIT+implemented regression; each wrong mutant fails for intended reason; login completes before create; incomplete capture yields UNKNOWN; interruption recovers without duplicate effects; repeat without LLM; the same fixture can stop successfully at assessment with blocked planning and later reuse valid shared findings after human continuation/Gate 2.
 
-**Evidence required:** 17 premise checks listed below, exact pinned corpus/policy/subject/trace/reset/target identities, mutation kill report, repeated deterministic runs.
+**Evidence required:** 17 premise checks and four decisive boundary controls listed below, exact pinned corpus/policy/subject/trace/reset/target identities, mutation kill report, repeated deterministic runs.
 
 **Blockers:** Any false acceptance, unclosed required dimension, nonreconstructable hash, deadlocked units or unowned process.
 
@@ -66,7 +66,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Implementation scope:** CI3/Generic PHP subset parser/dispatch adapter, independent container profile, operational boundary and supported connection/worker probes.
 
-**Tests:** X09 dynamic dispatch/cron; X10 vendor/flags; X11 PDO/native; X12 async email; X13 unavailable extension; X14 DB reset; X42/X44/X48/X51/X54 assessment with runtime blockers, selective source drift and retrievable findings.
+**Tests:** X68 filesystem qualification; X69 credential admission; X70 service effects; X76 classification; X09 dynamic dispatch/cron; X10 vendor/flags; X11 PDO/native; X12 async email; X13 unavailable extension; X14 DB reset; X42/X44/X48/X51/X54 assessment with runtime blockers, selective source drift and retrievable findings.
 
 **Acceptance criteria:** Unresolved roots remain UNKNOWN; no false DEAD; direct PDO control prevents false COMPLETE; asynchronous receipt correlated; safe reset/egress verified; missing runtime/dependency evidence produces a useful classified report rather than forced plan completion.
 
@@ -90,7 +90,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Implementation scope:** Recursive used-capability feasibility, action-enum decision CLI/MCP-neutral service, target model ownership/lowering, typed invalidation/reuse; assessed-state delta and hashed selection/basis closure.
 
-**Tests:** X15 wildcards; X16 reject/alternative; X17 progress hash stability; X18 dependency graph; X29 selective target drift; X58 profile qualification; X59 performance policy identity; X49/X50/X55 target/dependency assessment invalidation and assessment-token rejection.
+**Tests:** X73 positive consumption coverage; X75 provider release interpretation; X15 wildcards; X16 reject/alternative; X17 progress hash stability; X18 dependency graph; X29 selective target drift; X58 profile qualification; X59 performance policy identity; X49/X50/X55 target/dependency assessment invalidation and assessment-token rejection.
 
 **Acceptance criteria:** User version retained or blocked; no unresolved in-scope target gaps; exact pinned adapter/model/decision refs reconstruct; changing progress leaves hash unchanged; assessment/continuation alone cannot generate implementation work; plan explains changed/reused findings and matches exact selected scope.
 
@@ -162,7 +162,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Implementation scope:** Full corpus replay, paired measurement/statistical decision, session/data rollback rehearsal, package/restore/native scope metadata.
 
-**Tests:** X33 noisy performance; X59 recomputed approved estimands; X34 rollback after writes; X35 whole-project scope; X28 restore; X36 native distribution.
+**Tests:** X78 fixed stopping and operational windows; X33 noisy performance; X59 recomputed approved estimands; X34 rollback after writes; X35 whole-project scope; X28 restore; X36 native distribution.
 
 **Acceptance criteria:** All required current cases/dimensions accepted; required metrics accepted under declared claim; rollback reconciles target writes or release blocks; Gate 3 exact subject.
 
@@ -186,7 +186,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Implementation scope:** Typed global record/migration prerequisites followed by optional global import/outbox, exact/full-text search, tool/skill candidate evaluation and controlled activation.
 
-**Tests:** X37 correlated oracle; X38 degraded tool; X39 retraction/privacy.
+**Tests:** X79 detached consumers/reopen; X37 correlated oracle; X38 degraded tool; X39 retraction/privacy.
 
 **Acceptance criteria:** Wrong correlated pattern rejected; capture degradation cannot improve acceptance; every consumer pin/retraction discoverable; opt-in sanitized export only.
 
@@ -235,3 +235,27 @@ STRUCTURALLY_VALIDATED requires offline schema/vector/DDL checks. IMPLEMENTED re
 ## Assessment checkpoint coverage across milestones
 
 Assessment has no parallel engine, phase queue or extra lifecycle enum. M0 specifies/persists report and human decision projections over synthetic available records; M1 proves the same stateful shared workflow can stop without a feasible plan and resume after explicit selection/approval while preserving the early wrong-target falsification. M2 obtains real partial/static/runtime assessment evidence. M3 derives exact executable selected-work plans and deltas. M5 exercises interface parity. TESTING X41–X55 is the canonical fifteen-test checklist; these are planned tests, not executed runtime evidence. Neither runtime availability nor plan completion is a prerequisite to publishing an honest scoped assessment. Supporting these checkpoint tests must not defer M1 behind broad adapters or a separate assessment subsystem.
+
+## Review-2 dependency and admission contract
+
+```text
+Canonical contracts + structural negative fixtures
+  → M0: persistence/approval/snapshot/assessment/current-state foundation
+  → M1: isolated measured execution + read-only verifier falsification
+  → M2: real source/profile/service capture qualification
+  → M3: exact selected target/decisions/model + coverage-based reuse
+  → M4: reference generation and currently implemented regressions
+  → M5: CLI and actual client sessions
+  → M6: whole-project corpus + fixed-N statistics/SLO + release package
+  → optional M7 consumer/retraction learning; M8 broader capabilities
+```
+
+Foundation may start with Go bootstrap, pinned SQLite, immutable artifact registration, canonical serialization/hash, coherent snapshot acquisition, assessment persistence, event/current-state projection and structural contracts. Verifier implementation requires the two P0 contracts now owned by BEHAVIOR-MODEL and RUNTIME-OBSERVATION: no model/checker effects in measured state; source-only identity requires no pair/case. Neither is a claim of executed controls.
+
+Before M1/reference generation, consume EVALUATION-CONTEXT, principal fixtures, branch pairing, typed response/session, execution witnesses, filesystem/admission, coverage and typed effects, plus ARTIFACT-STORE/RECOVERY reservations. M0 checks their storage/shape; M1 proves only the synthetic admitted subset; M2 qualifies customer/runtime filesystem and credential behavior. Do not move arbitrary legacy admission support into M1.
+
+Four mandatory M1 controls supplement the existing seventeen: checker cannot mutate measured stores; source evidence publishes before a target exists; stale/wrong executable provenance is rejected; established branch divergence is a meaningful MISMATCH. Good control must PASS first; wrong-target semantic failures require valid startup/capture. No infrastructure failure counts as a semantic kill. M0 proves durable bounded records, not a working verifier. M1 proves the named narrow fixture's falsification behavior, not broad application reconstruction, corpus completeness, arbitrary PHP, browser support, concurrency, live payments or production cutover.
+
+General concurrency/long-delay behavior (including X71 beyond the refusal control), broader adapters, global synthesis, desktop/vector search, hosted integrations and production execution stay deferred. M7 must design consumer/retraction schemas before activation; it is not a foundation prerequisite.
+
+Target generation additionally requires current Target Implementation Model 2.1 provider bindings per TARGET-ARCHITECTURE. Current report/trace/context ref validation follows the machine branch registry; historical variants are not fallback execution contracts.

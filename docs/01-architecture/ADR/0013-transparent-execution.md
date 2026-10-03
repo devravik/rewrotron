@@ -1,39 +1,39 @@
-# ADR 0013: Transparent execution and owned processes
+# ADR 0013: Owned execution and emergency persistence
 
-**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [EXECUTION-OBSERVABILITY](../../06-agent/EXECUTION-OBSERVABILITY.md). This ADR records the decision, not a duplicate field specification.
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03 against review-2. [Canonical owner](../../08-storage/RECOVERY.md) contains normative field/service details.
 
 ## Context
 
-Current mutable rows cannot reconstruct old state; durable work needs a process owner.
+Long work needs an engine owner and truthful current-state/event-window reporting.
 
 ## Problem
 
-Unverified assumptions can produce false acceptance or nonreproducible work; the owning contract must distinguish evidence and current authority.
+Disk exhaustion can prevent both an effect receipt and the event explaining its loss; heartbeat can conceal retries without progress.
 
 ## Decision
 
-Current state at N plus event window through M; foreground caller ownership or explicit local supervisor; resource ownership spans writes; heartbeats distinct from progress.
+Keep foreground versus explicit supervisor ownership and state N/window M. Reserve bounded artifact/receipt budgets and a preallocated private recovery journal before effects. Stop on persistence failure and reconcile before retry.
 
 ## Alternatives considered
 
-Full event sourcing/historical snapshots; current state plus event window; client-owned detached work.
+Best-effort stderr only; independent second event authority; reserved journal as reconciled safety input.
 
 ## Why rejected
 
-Historical projection adds persistence requirements not present; detached client work lacks durable owner/cleanup. Full historical projections remain deferred.
+Stderr alone loses receipts; a second authority conflicts with SQLite and cannot approve work. Device failure remains an explicit limitation even with reservations.
 
 ## Consequences
 
-More explicit immutable refs and required negative tests; unsupported inputs block rather than fabricate support. Old evidence remains readable and historical. No runtime maturity is asserted.
+Emergency facts are marked uncommitted. Missing receipt stays UNKNOWN, no blind retry/PASS. Startup tests reservation durability and ownership.
 
 ## Machine-contract impact
 
-Relevant v2 schemas/catalogs and migration 0002 represent subjects, exact resolution, semantics/scenarios, scope, causality, decisions/process/resources or current-state windows as applicable. Existing v1 artifact shapes are read-only history; envelope/protocol versions remain separately pinned. Topic owner defines precise fields and service invariants.
+recovery-journal 1.0; existing event/state/catalog schemas carry canonical status/errors. RECOVERY fixes slot/sequence/reconciliation; no new SQL authority or rewritten migration.
 
 ## Migration/compatibility implications
 
-Do not rewrite migration 0001 or existing approvals. Apply checksummed 0002 after ownership/duplicate preflight; require successor approval for changed execution choices. Legacy parsing never silently creates current acceptance. No deployed engine predecessor is claimed.
+Existing committed sequences remain unchanged. Journal import creates ordinary canonical events only after reconciliation; old N is never fabricated current state.
 
 ## Acceptance experiment / falsification test
 
-X23/X26/X27. Record actual command/profile/versions and expected semantic failure before claiming validation; schema-valid positive records alone do not establish this decision works.
+X26/X27/X74: disconnect client, exhaust WAL/artifact/receipt slots, crash before ack; preserve pause/approval, distinguish emergency facts, and reconcile without duplicate effects.

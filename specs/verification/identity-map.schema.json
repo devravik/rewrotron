@@ -1,173 +1,374 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/verification/identity-map.schema.json",
-  "type": "object",
-  "properties": {
-    "schema_version": {
-      "const": "2.0"
-    },
-    "project_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "case_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "workflow_instance_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "policy_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "bindings": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "binding_id": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "relation_group": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "actor_id": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "connection_id": {
-            "oneOf": [
-              {
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.0"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "workflow_instance_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "policy_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "bindings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "binding_id": {
                 "type": "string",
                 "pattern": "^[a-z0-9_-]+$"
               },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "logical_key": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "source_value": {
-            "oneOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "value_type": {
-                    "const": "string"
-                  },
-                  "value": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "value_type",
-                  "value"
-                ],
-                "additionalProperties": false
+              "relation_group": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
               },
-              {
-                "type": "object",
-                "properties": {
-                  "value_type": {
-                    "const": "integer"
-                  },
-                  "value": {
-                    "type": "string",
-                    "pattern": "^(?:0|-?[1-9][0-9]*)$"
-                  }
-                },
-                "required": [
-                  "value_type",
-                  "value"
-                ],
-                "additionalProperties": false
-              }
-            ]
-          },
-          "target_value": {
-            "oneOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "value_type": {
-                    "const": "string"
-                  },
-                  "value": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "value_type",
-                  "value"
-                ],
-                "additionalProperties": false
+              "actor_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
               },
-              {
-                "type": "object",
-                "properties": {
-                  "value_type": {
-                    "const": "integer"
-                  },
-                  "value": {
+              "connection_id": {
+                "oneOf": [
+                  {
                     "type": "string",
-                    "pattern": "^(?:0|-?[1-9][0-9]*)$"
+                    "pattern": "^[a-z0-9_-]+$"
+                  },
+                  {
+                    "type": "null"
                   }
+                ]
+              },
+              "logical_key": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "source_value": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "value_type": {
+                        "const": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "value_type",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "value_type": {
+                        "const": "integer"
+                      },
+                      "value": {
+                        "type": "string",
+                        "pattern": "^(?:0|-?[1-9][0-9]*)$"
+                      }
+                    },
+                    "required": [
+                      "value_type",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "target_value": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "value_type": {
+                        "const": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "value_type",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "value_type": {
+                        "const": "integer"
+                      },
+                      "value": {
+                        "type": "string",
+                        "pattern": "^(?:0|-?[1-9][0-9]*)$"
+                      }
+                    },
+                    "required": [
+                      "value_type",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
                 },
-                "required": [
-                  "value_type",
-                  "value"
-                ],
-                "additionalProperties": false
+                "uniqueItems": true
               }
-            ]
-          },
-          "evidence_refs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "pattern": "^sha256:[a-f0-9]{64}$"
             },
-            "uniqueItems": true
-          }
+            "required": [
+              "binding_id",
+              "relation_group",
+              "actor_id",
+              "connection_id",
+              "logical_key",
+              "source_value",
+              "target_value",
+              "evidence_refs"
+            ],
+            "additionalProperties": false
+          },
+          "uniqueItems": true
         },
-        "required": [
-          "binding_id",
-          "relation_group",
-          "actor_id",
-          "connection_id",
-          "logical_key",
-          "source_value",
-          "target_value",
-          "evidence_refs"
-        ],
-        "additionalProperties": false
+        "relationship_assertion_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "uniqueItems": true
+        }
       },
-      "uniqueItems": true
+      "required": [
+        "schema_version",
+        "project_id",
+        "case_id",
+        "workflow_instance_id",
+        "policy_ref",
+        "bindings",
+        "relationship_assertion_refs"
+      ],
+      "additionalProperties": false
     },
-    "relationship_assertion_refs": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^sha256:[a-f0-9]{64}$"
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.1"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "case_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "workflow_instance_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "policy_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "bindings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "binding_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "relation_group": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "actor_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "connection_id": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-z0-9_-]+$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "logical_key": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "source_value": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "value_type": {
+                        "const": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "value_type",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "value_type": {
+                        "const": "integer"
+                      },
+                      "value": {
+                        "type": "string",
+                        "pattern": "^(?:0|-?[1-9][0-9]*)$"
+                      }
+                    },
+                    "required": [
+                      "value_type",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "target_value": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "value_type": {
+                        "const": "string"
+                      },
+                      "value": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "value_type",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "value_type": {
+                        "const": "integer"
+                      },
+                      "value": {
+                        "type": "string",
+                        "pattern": "^(?:0|-?[1-9][0-9]*)$"
+                      }
+                    },
+                    "required": [
+                      "value_type",
+                      "value"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "uniqueItems": true
+              },
+              "source_local_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "target_local_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              }
+            },
+            "required": [
+              "binding_id",
+              "relation_group",
+              "actor_id",
+              "connection_id",
+              "logical_key",
+              "source_value",
+              "target_value",
+              "evidence_refs",
+              "source_local_id",
+              "target_local_id"
+            ],
+            "additionalProperties": false
+          },
+          "uniqueItems": true
+        },
+        "relationship_assertion_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "uniqueItems": true
+        },
+        "source_local_identity_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "target_local_identity_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "occurrence_pairing_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
       },
-      "uniqueItems": true
+      "required": [
+        "schema_version",
+        "project_id",
+        "case_id",
+        "workflow_instance_id",
+        "policy_ref",
+        "bindings",
+        "relationship_assertion_refs",
+        "source_local_identity_ref",
+        "target_local_identity_ref",
+        "occurrence_pairing_ref"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "schema_version",
-    "project_id",
-    "case_id",
-    "workflow_instance_id",
-    "policy_ref",
-    "bindings",
-    "relationship_assertion_refs"
   ],
-  "additionalProperties": false
+  "description": "Historical branches remain readable only. Current services require 2.1 and the owning specification semantic checks; no automatic evidence upgrade."
 }

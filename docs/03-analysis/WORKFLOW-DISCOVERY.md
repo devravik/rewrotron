@@ -11,3 +11,5 @@ Cases cover authenticated and unauthenticated paths, permitted/forbidden roles, 
 Discovered workflows contribute edges to the application graph and migration unit dependencies. A heuristic result enters a confirmed corpus only after its assertions and safe execution are evidenced. Missing session mutation capture produces UNKNOWN, even if every response is HTTP 200.
 
 Current executable representation is workflow.schema v2 under BEHAVIOR-MODEL. Source-derived scenarios carry evidence; unbounded/unsupported transitions remain explicit, never flattened.
+
+Use BEHAVIOR-MODEL bounded scenarios and DIFFERENTIAL-TESTING logical occurrences/first-divergence policy. Discovery captures side-local outcomes before cases/targets exist; it never manufactures paired identity or forces a happy branch. Identical requests in different occurrences retain distinct identities.

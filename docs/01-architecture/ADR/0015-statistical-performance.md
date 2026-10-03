@@ -1,39 +1,39 @@
-# ADR 0015: Explicit statistical performance claims
+# ADR 0015: Fixed-N statistical claims and separate SLO windows
 
-**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [PERFORMANCE](../../05-verification/PERFORMANCE.md). This ADR records the decision, not a duplicate field specification.
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03 against review-2. [Canonical owner](../../05-verification/PERFORMANCE.md) contains normative field/service details.
 
 ## Context
 
-Strict equality under noise can remain inconclusive; arbitrary allowances weaken claims.
+Mean trial quantiles and noisy equality need explicit approved claims.
 
 ## Problem
 
-An approved plan did not unambiguously freeze performance claim/method/limits. Ratio of means versus mean of ratios and pooled versus trial quantiles can change verdicts on the same data; equality should not be treated as proven regression.
+Stopping at the first favorable look biases acceptance; mean p99 can hide bad operational windows.
 
 ## Decision
 
-Bind an immutable typed performance policy in Gate 2, including evidenced not-applicable scope. Specify paired-trial estimands, bootstrap endpoints/error controls and deterministic outcome mapping in PERFORMANCE. Positive approved non-inferiority margins allow evidence-supported equality; strict improvement stays strict. Bounded measurement budgets prevent endless retries.
+Bind fixed N before measurement, retain every attempt/sample and recompute the specified paired bootstrap. Evaluate requested bounded per-window SLO independently. Equality can meet an approved positive non-inferiority margin, never strict improvement.
 
 ## Alternatives considered
 
-Always strict improvement; automatic tolerance; explicit customer-approved statistical claim.
+Unspecified adaptive stopping; general sequential method now; fixed N and separate bounded-window obligation.
 
 ## Why rejected
 
-Equal noisy systems may remain inconclusive under improvement; automatic tolerance silently changes the promised budget.
+Adaptive favorable looks inflate acceptance; qualified sequential statistics are unnecessary for M6 and remain deferred. A mean quantile is not an every-window SLO.
 
 ## Consequences
 
-Implementation has an explicit narrow admission boundary and additional falsification evidence obligations. Missing qualification or required capture blocks the affected claim; historical bytes stay retained. Documentation validation does not establish runtime maturity.
+Missing trials/control evidence is INCONCLUSIVE; known window breach fails SLO even if statistical claim accepts. No universal production SLO guarantee.
 
 ## Machine-contract impact
 
-Performance-policy 1.0 names exact claim/profile/workload/environment/method/metrics/bounds; benchmark 2.1 references it. Native units and sample minimums are typed. Services verify PLAN closure and recompute statistics/outcome from raw samples; a producer CI/object or mutable budget is not authority.
+Performance-policy 1.1 pins paired_trials/stopping_rule/operational_slo_ref; operational-slo 1.0; benchmark 2.2 records separate window result and raw refs.
 
 ## Migration/compatibility implications
 
-Old benchmark shapes remain history, not current acceptance. Policy changes need successor plan approval and invalidate affected benchmarks/releases; progress does not mutate policy. No new SQL table or reinterpretation of old measurements.
+Old benchmark/policy branches remain readable, never current acceptance. Changing claim/method/N/SLO requires successor plan approval; progress never rewrites policy.
 
 ## Acceptance experiment / falsification test
 
-X33/X59: equal noisy values within approved margin can pass budget; strict equality cannot prove improvement. Zero denominator, insufficient p99, missing counters, omitted errors, pooled-quantile substitution and changed post-approval policy cannot pass. Known slowdown must fail against its declared limit.
+X33/X59/X78: equal noisy data under approved margin, early favorable looks, burst-tail windows, missing counters/errors and post-approval N changes are recomputed for the intended result.

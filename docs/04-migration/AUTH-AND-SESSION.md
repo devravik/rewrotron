@@ -15,3 +15,7 @@ A bridge must validate source session integrity, expiry, principal/permissions, 
 Required cases: valid source session reaches target as same principal, expired/tampered/missing sessions fail, a session cannot switch users, fixation token rotates, flash survives the required number of requests, logout invalidates access on both sides according to the chosen strategy, and rollback restores the declared session behavior. Cookie names may be opaque values but flags/domain/path cannot be blanket masked.
 
 This capability is a release requirement, not automatically solved by adding Laravel middleware. Customer-specific driver formats and secrets are inputs in [PROJECT-INPUTS](../10-development/PROJECT-INPUTS.md).
+
+## Fixture identity versus authenticated identity
+
+principal-fixture 1.0 names intended actor/subject/credential ref and approved initial session/DB relation; it contains no authentication verdict. Actual principal is a separate trusted capture in evaluation-context.actor.actual_principal, including side-local subject/session identity, authentication status, roles and evidence channel. A swapped jar must establish B rather than inheriting A's fixture label. Unknown principal cannot satisfy an authorization predicate. Response/session lowering is defined in BEHAVIOR-MODEL and response.schema, including separate repeated cookies, attributes, rotation, invalidation and replay of old tokens. Hashing/codec capability must be qualified and pinned; unsupported credential/session format blocks that scope.

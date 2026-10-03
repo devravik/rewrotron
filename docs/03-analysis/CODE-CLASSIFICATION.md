@@ -1,6 +1,6 @@
 # Conservative code classification and omission proof
 
-**Owner:** ACTIVE / DORMANT / DEAD / UNKNOWN. ACTIVE has current runtime/reachability evidence; DORMANT has a known reachable path not exercised; UNKNOWN has unresolved parsing/dispatch/environment/root uncertainty. DEAD means no reachable evidence under approved analysis boundary B, never “proven never used.”
+**Owner:** ACTIVE / DORMANT / DEAD / UNKNOWN. Classification is mutually exclusive, evaluated in this order: ACTIVE if current trusted runtime evidence establishes execution (remaining uncertainty stays attached to the record); UNKNOWN if not observed and relevant parsing/dispatch/environment/root uncertainty remains; DORMANT if not observed, resolution is sufficient and a known reachable path exists; DEAD only if neither observed nor reachable and the entire omission bundle below is satisfied; otherwise UNKNOWN. Static reachability alone is never ACTIVE. Counts use exactly one state per candidate and identify the graph/profile/corpus revision. DEAD means no reachable evidence under approved analysis boundary B, never “proven never used.”
 
 Automatic omission requires one immutable proof bundle included in the approved Gate 2 plan:
 

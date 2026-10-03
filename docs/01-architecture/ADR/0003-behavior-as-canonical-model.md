@@ -1,39 +1,39 @@
-# ADR 0003: Executable behavior as canonical obligation
+# ADR 0003: Executable behavior with isolated model execution
 
-**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [BEHAVIOR-MODEL](../../02-domain/BEHAVIOR-MODEL.md). This ADR records the decision, not a duplicate field specification.
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03 against review-2. [Canonical owner](../../02-domain/BEHAVIOR-MODEL.md) contains normative field/service details.
 
 ## Context
 
-Prose/open JSON cannot establish executable business rules or unseen behavior.
+Effectful models and real applications can both insert rows; shared state would manufacture parity.
 
 ## Problem
 
-A valid-looking contract cannot express which candidate row an UPDATE selects or bind the generated ID of an INSERT. Undefined short circuit, missing-value and terminal-transaction rules let two evaluators disagree while both claim parity.
+Namespaces, expected state and fixture labels lacked phase/provenance; headers and session continuity lacked executable obligations.
 
 ## Decision
 
-Keep the bounded closed vocabulary and explicit branches. Specify typed row context, optional write-result binding, single-assignment bindings, pointer/null/decimal rules, terminal transaction handling and positive async boundaries in BEHAVIOR-MODEL. Evaluator and target must qualify the exact consumed schema/operator bytes; unsupported semantics yield a named blocker/UNKNOWN, not an else branch or an implicit commit.
+Use the BEHAVIOR-MODEL role matrix and EVALUATION-CONTEXT ABI. Shadow actions never touch measured stores; checker contexts are actual-only. Typed response/session lowering is a bounded qualified capability.
 
 ## Alternatives considered
 
-Prose/open JSON evaluator; unrestricted DSL; small closed typed vocabulary.
+One interpreter with writable fixture handles; generation-only prose; isolated shadow simulation plus read-only checking.
 
 ## Why rejected
 
-Prose has no deterministic interpreter and unrestricted evaluation adds unsafe unbounded semantics.
+Shared handles can supply omitted target effects; prose hides response/session obligations. A general language is unnecessary for the narrow fixture.
 
 ## Consequences
 
-Implementation has an explicit narrow admission boundary and additional falsification evidence obligations. Missing qualification or required capture blocks the affected claim; historical bytes stay retained. Documentation validation does not establish runtime maturity.
+Extra role/context controls are required before M1. Unsupported operators/providers remain UNKNOWN/blocked. Actual principal cannot derive from actor labels.
 
 ## Machine-contract impact
 
-Add row reference namespace and optional db_write.bind to semantics.schema; require positive SINK_ACK_QUIESCENCE duration in semantics/workflow schemas. Qualified data models identify every DB action. Service type/context/bound/transaction checks remain mandatory beyond JSON shape; no new SQL table is needed.
+evaluation-context/principal-fixture/initial-state/response 1.0; additive pinned semantics response/session actions; existing artifact storage, no SQL rewrite.
 
 ## Migration/compatibility implications
 
-Retain old artifact bytes and their pinned interpreter/schema closure; additive fields do not retroactively change old approvals. Changed evaluator/schema execution choices require successor qualification and applicable approval. Descriptive v1 rules remain nonexecutable.
+Schema bytes and rwt-model-roles-1 qualification are pinned. Historical closures are retained; new capability consumption needs successor qualification/approval.
 
 ## Acceptance experiment / falsification test
 
-X03–X08/X56: insert a row, bind its actual ID into response and dependent effects, then mutate predicate/principal/write/identity. Test wrong type, overflow, missing value, short circuit, invalid pointer, duplicate binding and terminal open transaction. Reject for the expected semantic reason, not unrelated boot failure.
+X61/X63/X67/X77 plus X03/X56: absent target INSERT stays absent; poisoned expected owner cannot pass; redirects/cookies/session lifecycle are measured.

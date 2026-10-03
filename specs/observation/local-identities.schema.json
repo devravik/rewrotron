@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/observation/local-identities.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "side": {
+      "enum": [
+        "SOURCE",
+        "TARGET"
+      ]
+    },
+    "observation_attempt_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "logical_workflow_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "execution_witness_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "origin": {
+      "const": "ACTUAL_OBSERVED"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "local_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "kind": {
+            "enum": [
+              "ENTITY",
+              "PRINCIPAL",
+              "SESSION",
+              "TOKEN",
+              "EFFECT"
+            ]
+          },
+          "domain": {
+            "type": "string"
+          },
+          "actor_id": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "resource_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "const": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "type",
+                  "value"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "const": "integer"
+                  },
+                  "value": {
+                    "type": "string",
+                    "pattern": "^(0|-?[1-9][0-9]*)$"
+                  }
+                },
+                "required": [
+                  "type",
+                  "value"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "relationship_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "minItems": 0
+          },
+          "capture_channel_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "local_id",
+          "kind",
+          "domain",
+          "actor_id",
+          "resource_id",
+          "value",
+          "relationship_refs",
+          "capture_channel_ref",
+          "evidence_refs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "capture_evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "side",
+    "observation_attempt_id",
+    "logical_workflow_id",
+    "execution_witness_ref",
+    "origin",
+    "entries",
+    "capture_evidence_refs"
+  ],
+  "additionalProperties": false
+}

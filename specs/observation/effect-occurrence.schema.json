@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/observation/effect-occurrence.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "side": {
+      "enum": [
+        "SOURCE",
+        "TARGET"
+      ]
+    },
+    "origin": {
+      "const": "ACTUAL_OBSERVED"
+    },
+    "logical_effect_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "step_occurrence_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "business_key": {
+      "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+    },
+    "destination_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "attempt_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "attempt_number": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "retry_of": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "receipt_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "ack_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "business_application_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "application_outcome": {
+      "enum": [
+        "APPLIED",
+        "DEDUPLICATED",
+        "REJECTED",
+        "NOT_KNOWN"
+      ]
+    },
+    "phase": {
+      "enum": [
+        "REQUESTED",
+        "ACCEPTED",
+        "ACKNOWLEDGED",
+        "FAILED"
+      ]
+    },
+    "payload_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "local_identity_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "side",
+    "origin",
+    "logical_effect_id",
+    "step_occurrence_ref",
+    "business_key",
+    "destination_id",
+    "attempt_id",
+    "attempt_number",
+    "retry_of",
+    "receipt_id",
+    "ack_id",
+    "business_application_id",
+    "application_outcome",
+    "phase",
+    "payload_ref",
+    "local_identity_ref",
+    "evidence_refs"
+  ],
+  "additionalProperties": false
+}

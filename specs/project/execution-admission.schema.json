@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/execution-admission.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "original_manifest_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "outcome": {
+      "enum": [
+        "ADMITTED_ORIGINAL",
+        "ADMITTED_VARIANT",
+        "REFUSED",
+        "STATIC_ONLY"
+      ]
+    },
+    "variant_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "credential_status": {
+      "enum": [
+        "SYNTHETIC_OR_ABSENT",
+        "REVOKED",
+        "LIVE_OR_UNKNOWN"
+      ]
+    },
+    "policy_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0
+    },
+    "variant_credential_status": {
+      "enum": [
+        "SYNTHETIC_OR_ABSENT",
+        "REVOKED",
+        "LIVE_OR_UNKNOWN",
+        null
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "original_manifest_ref",
+    "outcome",
+    "variant_ref",
+    "credential_status",
+    "policy_ref",
+    "evidence_refs",
+    "limitations",
+    "variant_credential_status"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "ADMITTED_VARIANT"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "variant_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "variant_credential_status": {
+            "enum": [
+              "SYNTHETIC_OR_ABSENT",
+              "REVOKED"
+            ]
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "variant_ref": {
+            "type": "null"
+          },
+          "variant_credential_status": {
+            "type": "null"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "outcome": {
+            "const": "ADMITTED_ORIGINAL"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "credential_status": {
+            "enum": [
+              "SYNTHETIC_OR_ABSENT",
+              "REVOKED"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/observation/step-occurrence.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "side": {
+      "enum": [
+        "SOURCE",
+        "TARGET"
+      ]
+    },
+    "logical_workflow_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "step_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "visit": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "physical_occurrence_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "execution_witness_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "pre_context_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "post_context_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "guard_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "guard_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "outcome": {
+            "enum": [
+              "TRUE",
+              "FALSE",
+              "UNKNOWN"
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "guard_id",
+          "outcome",
+          "evidence_refs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "selected_next_step_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "terminal_id": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "COMPLETED",
+        "UNKNOWN",
+        "INFRASTRUCTURE_FAILURE"
+      ]
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "side",
+    "logical_workflow_id",
+    "step_id",
+    "visit",
+    "physical_occurrence_id",
+    "execution_witness_ref",
+    "pre_context_ref",
+    "post_context_ref",
+    "guard_results",
+    "selected_next_step_id",
+    "terminal_id",
+    "outcome",
+    "evidence_refs"
+  ],
+  "additionalProperties": false
+}

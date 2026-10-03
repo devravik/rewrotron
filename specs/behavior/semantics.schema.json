@@ -561,6 +561,123 @@
             },
             "body": {
               "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            },
+            "headers": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "pattern": "^[!#$%&'*+.^_`|~0-9A-Za-z-]+$",
+                    "not": {
+                      "pattern": "^[Ss][Ee][Tt]-[Cc][Oo][Oo][Kk][Ii][Ee]$"
+                    }
+                  },
+                  "value": {
+                    "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                  }
+                },
+                "required": [
+                  "name",
+                  "value"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 0
+            },
+            "cookies": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                  },
+                  "domain": {
+                    "oneOf": [
+                      {
+                        "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "path": {
+                    "oneOf": [
+                      {
+                        "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "max_age": {
+                    "oneOf": [
+                      {
+                        "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "expires": {
+                    "oneOf": [
+                      {
+                        "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "same_site": {
+                    "oneOf": [
+                      {
+                        "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "secure": {
+                    "type": "boolean"
+                  },
+                  "http_only": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "name",
+                  "value",
+                  "domain",
+                  "path",
+                  "max_age",
+                  "expires",
+                  "same_site",
+                  "secure",
+                  "http_only"
+                ],
+                "additionalProperties": false
+              },
+              "minItems": 0
+            },
+            "redirect_location": {
+              "oneOf": [
+                {
+                  "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                },
+                {
+                  "type": "null"
+                }
+              ]
             }
           },
           "required": [
@@ -588,6 +705,50 @@
             "action",
             "code",
             "message"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "action": {
+              "const": "session"
+            },
+            "operation": {
+              "enum": [
+                "CREATE",
+                "ROTATE",
+                "UPDATE",
+                "INVALIDATE"
+              ]
+            },
+            "principal": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            },
+            "previous_identity": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            },
+            "current_identity": {
+              "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+            },
+            "values": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+              }
+            },
+            "invalidate_previous": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "action",
+            "operation",
+            "principal",
+            "previous_identity",
+            "current_identity",
+            "values",
+            "invalidate_previous"
           ],
           "additionalProperties": false
         }
@@ -774,5 +935,5 @@
     "completion"
   ],
   "additionalProperties": false,
-  "description": "Closed bounded executable vocabulary. Additive row/write-bind support requires explicit pinned evaluator and adapter capability qualification; old artifacts are unchanged, never retroactively reinterpreted."
+  "description": "Bounded HTTP/session model vocabulary; exact schema bytes and capability rwt-model-roles-1 are pinned. Effect actions never execute against measured stores."
 }

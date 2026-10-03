@@ -10,7 +10,7 @@
 4. On a separate plan request, validate selected assessed work and current finding validity, record changes since assessment, complete applicable executable contracts/corpus and exact runtime/dependency/capability resolution and immutable performance policy, then create Target Implementation Model and ordered plan subject. In-scope blockers prevent execution, not assessment completion. Confirm Gate 2.
 5. Claim ready unit and project mutation/resource ownership; stage adapter implementation using pinned inputs and revisions. Build in resolved environment.
 6. Publish through before-hash/fence/journal checks; verify independent source/target fixtures and UNIT plus implemented regressions. Complete only scoped evidence; continue dependent units.
-7. Diagnose MISMATCH/UNKNOWN separately. Repairs are bounded proposals, never comparator relaxation to hide faults. Every changed shared component reverifies consumers.
+7. Diagnose MISMATCH/UNKNOWN separately. Repairs are bounded proposals, never comparator relaxation to hide faults. Every changed shared component reverifies currently implemented consumers in the active scope; future consumers inherit pending obligations.
 8. Execute PROJECT corpus, required performance claim and release/rollback rehearsals; freeze release subject, confirm Gate 3 and package.
 
 No execution chooses a lower user runtime or resolves latest after approval. A changed target/code/corpus/policy follows typed invalidation. Historic artifacts remain retained; reuse requires engine-validated certificates where allowed. Missing pinned bytes/capability blocks execution. Foreground/supervised lifetimes and crash reconciliation follow [RECOVERY](../08-storage/RECOVERY.md).

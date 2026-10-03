@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/behavior/initial-state.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "origin": {
+      "const": "FIXTURE_PREPARED"
+    },
+    "principal_fixture_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0
+    },
+    "state": {
+      "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/state"
+    },
+    "profile_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "restore_recipe_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "origin",
+    "principal_fixture_refs",
+    "state",
+    "profile_ref",
+    "restore_recipe_ref",
+    "evidence_refs"
+  ],
+  "additionalProperties": false
+}

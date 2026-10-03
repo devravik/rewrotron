@@ -1,39 +1,39 @@
-# ADR 0010: Durable exact-subject human gates
+# ADR 0010: Durable exact-subject gates and execution boundary
 
-**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [CONFIRMATION-PROTOCOL](../../02-domain/CONFIRMATION-PROTOCOL.md). This ADR records the decision, not a duplicate field specification.
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03 against review-2. [Canonical owner](../../02-domain/CONFIRMATION-PROTOCOL.md) contains normative field/service details.
 
 ## Context
 
-Implicit hash construction/registry lookups and incoherent scans break approval identity.
+Approvals reconstruct retained bytes and must name relevant execution choices.
 
 ## Problem
 
-Pinning adapters without core interpreter/schema bytes lets the same approved rule execute with different semantics after upgrade. A mutable performance choice or assessment report can also be mistaken for implementation authority.
+Byte-only snapshots and secret substitutions can change behavior without changing a reported original tree.
 
 ## Decision
 
-Keep canonical SOURCE/PLAN/RELEASE subjects and exact local human gates. SOURCE and PLAN bind the core execution manifest via the existing RUNNER role. PLAN binds immutable assessment selection/basis and performance policy through decision_refs. Reconstruct retained bytes, independently check current execution prerequisites, and require successor approval for changed choices.
+Keep SOURCE/PLAN/RELEASE canonical preimage 2.0. SOURCE binds snapshot 2.1 filesystem/admission/variant closure. PLAN binds exact execution/schema/target/decision/performance closure. Witnesses qualify actual later executions. Shared assessment is never approval.
 
 ## Alternatives considered
 
-Registry-derived hash; mutable YAML approval; retained versioned canonical subject. Version-label-only engine pins versus exact executable/build/schema closure.
+Hash mutable registries; hash bytes alone; retained exact subjects with relevant profile and variant references.
 
 ## Why rejected
 
-Registry changes make old preimages irreconstructable and edited YAML cannot establish human intent. Version labels alone cannot distinguish changed interpreter/schema bytes, so they cannot preserve the semantics of an old approval.
+Registries drift; content-only identity misses relevant filesystem/credential variants. Expected future execution witnesses cannot exist at approval time.
 
 ## Consequences
 
-Implementation has an explicit narrow admission boundary and additional falsification evidence obligations. Missing qualification or required capture blocks the affected claim; historical bytes stay retained. Documentation validation does not establish runtime maturity.
+Relevant profile/admission changes require successor review; original private bytes and old approvals remain reconstructable.
 
 ## Machine-contract impact
 
-Execution-manifest 1.0 pins engine/build/dependency/schema/canonicalization/qualification bytes. Approval-subject 2.0 preimage remains unchanged; semantic checks require exact core binding and typed policy/assessment refs. Plan envelope 2.1 retains checkpoint references. New vector exercises existing binding fields; previous nine vectors remain unchanged.
+Snapshot 2.1 plus filesystem-profile/execution-admission/execution-variant 1.0 via existing snapshot_ref. Approval-subject 2.0 hash fields and all existing vectors remain unchanged.
 
 ## Migration/compatibility implications
 
-Historical subjects remain reconstructable under retained schema/canonicalizer bytes; missing old executable blocks execution, not history. Never fetch/run an imported historical binary automatically or manufacture new receipts. Migrations 0001/0002 are untouched.
+No rewriting migrations 0001/0002 or historical approval bytes. Changed transitive refs produce new subjects; historical execution closure is not silently reinterpreted.
 
 ## Acceptance experiment / falsification test
 
-X01/X02/X16/X55/X58/X59: reconstruct after restart/registry upgrade; replace core/schema bytes with the same version names; change performance policy or substitute assessment hash for plan token. Changed execution must block or require the applicable successor gate; original approved hash stays identical.
+X01/X02/X55/X58/X68/X69: reconstruct old hashes after schema change, reject metadata/variant drift and assessment-as-token.

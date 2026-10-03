@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/verification/operational-slo.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "workload_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "window_ms": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "minimum_requests_per_window": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "latency_percentile": {
+      "enum": [
+        0.5,
+        0.95,
+        0.99
+      ]
+    },
+    "maximum_latency_ms": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+    },
+    "maximum_error_fraction": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "scope": {
+      "const": "EVERY_COMPLETE_MEASURED_WINDOW"
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "workload_ref",
+    "window_ms",
+    "minimum_requests_per_window",
+    "latency_percentile",
+    "maximum_latency_ms",
+    "maximum_error_fraction",
+    "scope",
+    "evidence_refs"
+  ],
+  "additionalProperties": false
+}

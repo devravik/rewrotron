@@ -22,3 +22,14 @@ This file owns names; linked specifications own exact semantics/fields. Do not r
 | Pattern / skill / tool revision / promotion / consumer / retraction | [LEARNING-SYSTEM](../07-learning/LEARNING-SYSTEM.md) |
 
 Validation maturity is defined by [AGENTS](../../AGENTS.md): DESIGNED, SPECIFIED, STRUCTURALLY_VALIDATED, IMPLEMENTED, UNIT_TESTED, RUNTIME_VALIDATED, INTEGRATION_VALIDATED, RELEASE_VALIDATED. Adapter distribution tier is separate from maturity. All named client integrations remain UNVERIFIED until actual tests.
+
+| Review-2 term | Canonical meaning owner |
+| --- | --- |
+| Fixture / expected model / shadow simulation / actual observation | [BEHAVIOR-MODEL](../02-domain/BEHAVIOR-MODEL.md) |
+| Evaluation context / typed projection / actual principal | [EVALUATION-CONTEXT](../02-domain/EVALUATION-CONTEXT.md) |
+| Side-local identity / execution witness | [RUNTIME-OBSERVATION](../03-analysis/RUNTIME-OBSERVATION.md) |
+| Pairwise correspondence / logical occurrence / first divergence | [DIFFERENTIAL-TESTING](../05-verification/DIFFERENTIAL-TESTING.md) |
+| Consumption coverage | [DOMAIN-MODEL](../02-domain/DOMAIN-MODEL.md) |
+| Filesystem semantic profile | [ANALYSIS-SPEC](../03-analysis/ANALYSIS-SPEC.md) |
+| Execution admission / credential-safe variant | [SECURITY](../09-security/SECURITY.md) |
+| Business application / delivery attempt / receipt | [COMPATIBILITY-SPEC](../05-verification/COMPATIBILITY-SPEC.md) |

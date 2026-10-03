@@ -1,66 +1,145 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/project/source-snapshot.schema.json",
-  "type": "object",
-  "properties": {
-    "schema_version": {
-      "const": "2.0"
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.0"
+        },
+        "snapshot_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "acquisition": {
+          "enum": [
+            "IMMUTABLE_VCS_EXPORT",
+            "FILESYSTEM_SNAPSHOT",
+            "QUIESCED_COPY"
+          ]
+        },
+        "manifest_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "environment_profile_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "operational_profile_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "closure_evidence_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "content_root_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "private_location_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "publication_state": {
+          "const": "SEALED"
+        }
+      },
+      "required": [
+        "schema_version",
+        "snapshot_id",
+        "project_id",
+        "acquisition",
+        "manifest_ref",
+        "environment_profile_ref",
+        "operational_profile_ref",
+        "closure_evidence_ref",
+        "content_root_hash",
+        "private_location_id",
+        "publication_state"
+      ],
+      "additionalProperties": false
     },
-    "snapshot_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "project_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "acquisition": {
-      "enum": [
-        "IMMUTABLE_VCS_EXPORT",
-        "FILESYSTEM_SNAPSHOT",
-        "QUIESCED_COPY"
-      ]
-    },
-    "manifest_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "environment_profile_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "operational_profile_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "closure_evidence_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "content_root_hash": {
-      "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
-    },
-    "private_location_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "publication_state": {
-      "const": "SEALED"
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.1"
+        },
+        "snapshot_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "acquisition": {
+          "enum": [
+            "IMMUTABLE_VCS_EXPORT",
+            "FILESYSTEM_SNAPSHOT",
+            "QUIESCED_COPY"
+          ]
+        },
+        "manifest_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "environment_profile_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "operational_profile_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "closure_evidence_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "content_root_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "private_location_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "publication_state": {
+          "const": "SEALED"
+        },
+        "filesystem_profile_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "execution_admission_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "snapshot_id",
+        "project_id",
+        "acquisition",
+        "manifest_ref",
+        "environment_profile_ref",
+        "operational_profile_ref",
+        "closure_evidence_ref",
+        "content_root_hash",
+        "private_location_id",
+        "publication_state",
+        "filesystem_profile_ref",
+        "execution_admission_ref"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "schema_version",
-    "snapshot_id",
-    "project_id",
-    "acquisition",
-    "manifest_ref",
-    "environment_profile_ref",
-    "operational_profile_ref",
-    "closure_evidence_ref",
-    "content_root_hash",
-    "private_location_id",
-    "publication_state"
   ],
-  "additionalProperties": false
+  "description": "Historical branches remain readable only. Current services require 2.1 and the owning specification semantic checks; no automatic evidence upgrade."
 }

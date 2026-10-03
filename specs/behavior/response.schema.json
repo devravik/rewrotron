@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/behavior/response.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "status": {
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 599
+    },
+    "headers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[!#$%&'*+.^_`|~0-9A-Za-z-]+$"
+          },
+          "value": {
+            "type": "string",
+            "pattern": "^[^\\r\\n]*$"
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "cookies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+          },
+          "domain": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "path": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "max_age": {
+            "oneOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "expires": {
+            "oneOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "same_site": {
+            "enum": [
+              "Strict",
+              "Lax",
+              "None",
+              null
+            ]
+          },
+          "secure": {
+            "type": "boolean"
+          },
+          "http_only": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "domain",
+          "path",
+          "max_age",
+          "expires",
+          "same_site",
+          "secure",
+          "http_only"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "body": {
+      "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+    },
+    "session": {
+      "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+    },
+    "principal": {
+      "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+    },
+    "effect_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0
+    },
+    "application_error": {
+      "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+    }
+  },
+  "required": [
+    "schema_version",
+    "status",
+    "headers",
+    "cookies",
+    "body",
+    "session",
+    "principal",
+    "effect_refs",
+    "application_error"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^[!#$%&'*+.^_`|~0-9A-Za-z-]+$"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[^\\r\\n]*$"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "cookie": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "$ref": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value"
+        },
+        "domain": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "path": {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "max_age": {
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expires": {
+          "oneOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "same_site": {
+          "enum": [
+            "Strict",
+            "Lax",
+            "None",
+            null
+          ]
+        },
+        "secure": {
+          "type": "boolean"
+        },
+        "http_only": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "domain",
+        "path",
+        "max_age",
+        "expires",
+        "same_site",
+        "secure",
+        "http_only"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

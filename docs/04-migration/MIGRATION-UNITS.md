@@ -17,3 +17,7 @@
 A unit completes when its UNIT cases pass, all applicable implemented-regression cases pass, required prerequisites are current valid completed units, and no in-scope blocking UNKNOWN/MISMATCH remains. Prerequisite acceptance never depends on future dependent-unit cases. Login can complete before checkout; checkout subsequently checks login regressions. Invalidation can remove current completion without deleting historical success. Once all units are implemented, PROJECT acceptance still executes the complete approved corpus; adding or dropping cases requires successor plan approval.
 
 A scoped exception/exclusion changes the approved scope and is visible; it never makes the excluded case PASS. Shared component ownership/resource claims and the serial baseline prevent overlapping work. Completion evidence includes target tree/model refs, scoped reports, current fences and prerequisites. Benchmark acceptance is distinct from slice correctness and release requires all applicable performance obligations.
+
+## Shared-component maintenance
+
+An owner change carries a pending regression obligation for every mapped consumer. Check all currently implemented consumers in the active scope now; future consumers discharge their obligation at implementation. No future case is required for owner completion. Consumption coverage must justify the mapped set; missing/incomplete consumer coverage invalidates conservatively rather than treating an empty list as sufficient. Acceptance scope identifies corpus/current target and implemented-unit revision.

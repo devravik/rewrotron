@@ -1,161 +1,371 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/migration/target-model.schema.json",
-  "type": "object",
-  "properties": {
-    "schema_version": {
-      "const": "2.0"
-    },
-    "model_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "revision": {
-      "type": "integer",
-      "minimum": 1
-    },
-    "project_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "behavior_ir_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "resolved_environment_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "components": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "component_id": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "owner_unit_id": {
-            "type": "string",
-            "pattern": "^[a-z0-9_-]+$"
-          },
-          "consumer_unit_ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "pattern": "^[a-z0-9_-]+$"
-            },
-            "minItems": 0,
-            "uniqueItems": true
-          },
-          "paths": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "minLength": 1
-            },
-            "minItems": 0,
-            "uniqueItems": true
-          },
-          "contract_refs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "pattern": "^sha256:[a-f0-9]{64}$"
-            },
-            "minItems": 1,
-            "uniqueItems": true
-          },
-          "lowering_choice": {
-            "type": "string",
-            "minLength": 1
-          },
-          "required_capabilities": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "minLength": 1
-            },
-            "minItems": 0,
-            "uniqueItems": true
-          },
-          "constraint_refs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "pattern": "^sha256:[a-f0-9]{64}$"
-            },
-            "minItems": 0,
-            "uniqueItems": true
-          }
+  "description": "Current target model 2.1 binds qualified provider lowerings; 2.0 remains historical.",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.0"
         },
-        "required": [
-          "component_id",
-          "owner_unit_id",
-          "consumer_unit_ids",
-          "paths",
-          "contract_refs",
-          "lowering_choice",
-          "required_capabilities",
-          "constraint_refs"
-        ],
-        "additionalProperties": false
-      },
-      "minItems": 1,
-      "uniqueItems": true
-    },
-    "capability_gaps": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "code": {
-            "type": "string",
-            "minLength": 1
-          },
-          "component_ids": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "pattern": "^[a-z0-9_-]+$"
-            },
-            "minItems": 1,
-            "uniqueItems": true
-          },
-          "evidence_refs": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "pattern": "^sha256:[a-f0-9]{64}$"
-            },
-            "minItems": 1,
-            "uniqueItems": true
-          },
-          "blocking": {
-            "type": "boolean"
-          }
+        "model_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
         },
-        "required": [
-          "code",
-          "component_ids",
-          "evidence_refs",
-          "blocking"
-        ],
-        "additionalProperties": false
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "behavior_ir_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "resolved_environment_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "component_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "owner_unit_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "consumer_unit_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_-]+$"
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "contract_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "lowering_choice": {
+                "type": "string",
+                "minLength": 1
+              },
+              "required_capabilities": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "constraint_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "component_id",
+              "owner_unit_id",
+              "consumer_unit_ids",
+              "paths",
+              "contract_refs",
+              "lowering_choice",
+              "required_capabilities",
+              "constraint_refs"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "capability_gaps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "component_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_-]+$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "blocking": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "code",
+              "component_ids",
+              "evidence_refs",
+              "blocking"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
       },
-      "minItems": 0,
-      "uniqueItems": true
+      "required": [
+        "schema_version",
+        "model_id",
+        "revision",
+        "project_id",
+        "behavior_ir_ref",
+        "resolved_environment_ref",
+        "components",
+        "capability_gaps"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.1"
+        },
+        "model_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "behavior_ir_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "resolved_environment_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "component_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "owner_unit_id": {
+                "type": "string",
+                "pattern": "^[a-z0-9_-]+$"
+              },
+              "consumer_unit_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_-]+$"
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "paths": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "contract_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "lowering_choice": {
+                "type": "string",
+                "minLength": 1
+              },
+              "required_capabilities": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "constraint_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 0,
+                "uniqueItems": true
+              },
+              "lowering_bindings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "capability_id": {
+                      "type": "string",
+                      "pattern": "^[a-z0-9_-]+$"
+                    },
+                    "provider_manifest_ref": {
+                      "type": "string",
+                      "pattern": "^sha256:[a-f0-9]{64}$"
+                    },
+                    "qualification_ref": {
+                      "type": "string",
+                      "pattern": "^sha256:[a-f0-9]{64}$"
+                    },
+                    "obligation_refs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "pattern": "^sha256:[a-f0-9]{64}$"
+                      },
+                      "minItems": 1
+                    },
+                    "input_shape_ref": {
+                      "type": "string",
+                      "pattern": "^sha256:[a-f0-9]{64}$"
+                    },
+                    "output_shape_ref": {
+                      "type": "string",
+                      "pattern": "^sha256:[a-f0-9]{64}$"
+                    }
+                  },
+                  "required": [
+                    "capability_id",
+                    "provider_manifest_ref",
+                    "qualification_ref",
+                    "obligation_refs",
+                    "input_shape_ref",
+                    "output_shape_ref"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "component_id",
+              "owner_unit_id",
+              "consumer_unit_ids",
+              "paths",
+              "contract_refs",
+              "lowering_choice",
+              "required_capabilities",
+              "constraint_refs",
+              "lowering_bindings"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "capability_gaps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "component_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_-]+$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "evidence_refs": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "blocking": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "code",
+              "component_ids",
+              "evidence_refs",
+              "blocking"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "schema_version",
+        "model_id",
+        "revision",
+        "project_id",
+        "behavior_ir_ref",
+        "resolved_environment_ref",
+        "components",
+        "capability_gaps"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "schema_version",
-    "model_id",
-    "revision",
-    "project_id",
-    "behavior_ir_ref",
-    "resolved_environment_ref",
-    "components",
-    "capability_gaps"
-  ],
-  "additionalProperties": false
+  ]
 }

@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/observation/execution-witness.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "side": {
+      "enum": [
+        "SOURCE",
+        "TARGET"
+      ]
+    },
+    "attempt_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "source_snapshot_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "execution_variant_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "plan_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "target_model_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "tree_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "generated_manifest_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "build_artifact_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "loaded_artifact_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "launch": {
+      "type": "object",
+      "properties": {
+        "host_boot_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "process_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "process_start_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "container_id": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "host_boot_id",
+        "process_id",
+        "process_start_id",
+        "container_id"
+      ],
+      "additionalProperties": false
+    },
+    "environment_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "reset_report_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "instrumentation_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1
+    },
+    "endpoint_binding_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "control_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1
+    },
+    "issuer": {
+      "const": "ENGINE_RUNNER"
+    },
+    "role_isolation_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "side",
+    "attempt_id",
+    "source_snapshot_ref",
+    "execution_variant_ref",
+    "plan_ref",
+    "target_model_ref",
+    "tree_ref",
+    "generated_manifest_ref",
+    "build_artifact_ref",
+    "loaded_artifact_ref",
+    "launch",
+    "environment_ref",
+    "reset_report_ref",
+    "instrumentation_refs",
+    "endpoint_binding_ref",
+    "control_refs",
+    "issuer",
+    "role_isolation_ref"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "side": {
+            "const": "SOURCE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "source_snapshot_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "plan_ref": {
+            "type": "null"
+          },
+          "target_model_ref": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "source_snapshot_ref": {
+            "type": "null"
+          },
+          "execution_variant_ref": {
+            "type": "null"
+          },
+          "plan_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "target_model_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "generated_manifest_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        }
+      }
+    }
+  ]
+}

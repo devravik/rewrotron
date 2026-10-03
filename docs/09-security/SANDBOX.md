@@ -27,3 +27,9 @@ The doctor command verifies container availability, image cache, network denial,
 | IRREVERSIBLE | Never blind replay; approved faithful simulator/retained boundary only | Real payments/transactions/SMS/cloud actions are prohibited |
 
 A mock cannot fall through. Async sink acceptance, acknowledgement, retries and duplicate delivery are distinct recorded events linked by causality; expected terminal predicate/quiescence bounds completion. If no safe sandbox or faithful comparison exists, keep UNKNOWN/UNSUPPORTED and disclose scope. Container guarantees require executed control tests; same-account hostile-agent OS isolation is not claimed.
+
+## Admission and whole-service containment
+
+SECURITY execution admission is mandatory before launching credential-bearing customer bytes. REFUSED/STATIC_ONLY does not enter any execution container; ADMITTED_VARIANT launches only the reviewed synthetic/revoked variant and records its distinct execution witness. Gate approval never makes live credentials permissible. The original private vault is never mounted by default merely because it exists.
+
+The effect matrix applies to application, DB server/routines, workers, broker/cache, native helpers, filesystem services, model simulator and sinks. Model simulator has only shadow stores and cannot reach measured endpoints. Driver fixture-write capability is revoked at measured start; evaluator/comparator has read-only capture access. Network/mount/probe controls exercise server-side calls and alternate connections, not only HTTP application traffic. Sink deduplication/receipts are real measured protocol evidence; simulator-generated expectations cannot count as application emissions.

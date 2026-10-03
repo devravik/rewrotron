@@ -43,3 +43,5 @@ PHP parsing, CI3 hook semantics, Laravel middleware, and framework template gene
 No second artifact store or normalization implementation is introduced. `internal/storage/artifacts` owns durable bytes; `internal/verification` owns comparison. `internal/observer` invokes a shared redactor before persistence. Enforce the import graph with an architecture check in RWT-001 and fixtures in RWT-007/008.
 
 Assessment reporting/selection is a checkpoint projection coordinated by the existing services, not an `internal/assessment` analyzer or parallel adapter pipeline. [PROJECT-LIFECYCLE](../02-domain/PROJECT-LIFECYCLE.md) owns its completion and continuation contract.
+
+The existing neutral behavior/observer/verification services use role-specific ports under SYSTEM-DESIGN/SERVICE-CONTRACTS: fixture driver, shadow simulator, application runner, observer, assertion evaluator and comparator. These do not require a new package per role. Writable measured-store capabilities never enter simulator/evaluator/comparator constructors; execution witness qualification tests that boundary.

@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/verification/occurrence-pairing.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "scenario_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "logical_workflow_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "policy": {
+      "const": "STOP_AT_FIRST_DIVERGENCE"
+    },
+    "pairs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "visit": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "source_occurrence_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "target_occurrence_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "outcome": {
+            "enum": [
+              "ALIGNED",
+              "DIVERGED",
+              "UNKNOWN"
+            ]
+          }
+        },
+        "required": [
+          "step_id",
+          "visit",
+          "source_occurrence_ref",
+          "target_occurrence_ref",
+          "outcome"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "first_divergence": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "source_occurrence_ref": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "target_occurrence_ref": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "reason": {
+              "enum": [
+                "BRANCH",
+                "EARLY_TERMINAL",
+                "UNEXPECTED_BRANCH",
+                "UNKNOWN_GUARD"
+              ]
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "minItems": 1
+            }
+          },
+          "required": [
+            "source_occurrence_ref",
+            "target_occurrence_ref",
+            "reason",
+            "evidence_refs"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "unmatched_source_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0
+    },
+    "unmatched_target_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0
+    },
+    "cleanup_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "case_id",
+    "scenario_ref",
+    "logical_workflow_id",
+    "policy",
+    "pairs",
+    "first_divergence",
+    "unmatched_source_refs",
+    "unmatched_target_refs",
+    "cleanup_refs"
+  ],
+  "additionalProperties": false
+}

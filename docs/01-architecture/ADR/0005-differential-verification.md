@@ -1,39 +1,39 @@
-# ADR 0005: Independent differential verification
+# ADR 0005: Independent capture and downstream correspondence
 
-**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03. Detailed contract owner: [DIFFERENTIAL-TESTING](../../05-verification/DIFFERENTIAL-TESTING.md). This ADR records the decision, not a duplicate field specification.
+**Status:** Accepted specification decision; implementation pending. Revised 2026-10-03 against review-2. [Canonical owner](../../05-verification/DIFFERENTIAL-TESTING.md) contains normative field/service details.
 
 ## Context
 
-Finite samples, self-generated oracles and probe assertions can falsely accept wrong targets.
+Discovery exists before any target/case and independent replay can diverge.
 
 ## Problem
 
-The prior attestation shape required installed instrumentation and tests even for UNAVAILABLE, while COMPLETE could contain PARTIAL mechanisms. Unqualified data models could select the wrong orders table across databases. Either permits fabricated evidence or blocks honest assessment.
+Mandatory paired identity blocks source capture; stale builds and positional step matching can falsely pass.
 
 ## Decision
 
-Use independent owned/reset environments and derive observation completeness from actual mechanism/control closure. Current attestations distinguish unavailable evidence from closed coverage; current data models are connection/catalog/schema-qualified. Relation-preserving comparisons, independent oracle review and mutants determine scoped acceptance. Assessment may complete with unavailable capture; verification cannot pass it.
+Publish side-local identities/context/effects first. Derive pairwise bijection and occurrence alignment afterward. STOP_AT_FIRST_DIVERGENCE preserves known MISMATCH. Actual process/build/endpoint witnesses and mechanism controls qualify every side.
 
 ## Alternatives considered
 
-Shared writable replay state; probe-declared COMPLETE; isolated state plus mechanism controls.
+Placeholder paired target values; compare arrays by position; trust claimed tree; explicit source-local capture plus witnessed pairing.
 
 ## Why rejected
 
-Shared state contaminates replay and a probe assertion cannot establish uncaptured PDO/native paths.
+Placeholders invent future evidence, positions misalign branches, and a tree hash does not identify loaded code.
 
 ## Consequences
 
-Implementation has an explicit narrow admission boundary and additional falsification evidence obligations. Missing qualification or required capture blocks the affected claim; historical bytes stay retained. Documentation validation does not establish runtime maturity.
+Read-only comparison needs independent reset, server-process capture, typed actual effects and trusted principal evidence; incomplete capture remains UNKNOWN.
 
 ## Machine-contract impact
 
-Attestation 2.1 supports absent instrumentation/control refs for UNAVAILABLE but requires pinned controls for CLOSED and all CLOSED for COMPLETE. Data-model 2.0 adds qualified identity/server evidence and typed destination relationships. Service validates causal/profile/control currentness and column arity; historical branches cannot satisfy current acceptance.
+Trace/effects/report/identity-map 2.1; execution-witness/local-identities/step-occurrence/occurrence-pairing/effect-payload/effect-occurrence 1.0. Attestation 2.1 and qualified data-model 2.0 remain required.
 
 ## Migration/compatibility implications
 
-Old 2.0 attestations and unversioned models remain history. Re-extract/qualify rather than silently upgrade their meaning. No shared writable replay, no fabricated no-effect observation, no SQL migration rewrite.
+Old captures stay immutable history; no target values are inserted later. Old reports cannot become current by schema conversion.
 
 ## Acceptance experiment / falsification test
 
-X05–X08/X11/X14/X20/X57: remove a write, use another database with the same table, bypass the framework with PDO and submit COMPLETE without control closure. Known wrong effects must mismatch; missing capture must UNKNOWN. Unavailable observation must still be representable in a completed assessment.
+X62/X64/X65/X66/X70/X72/X80: publish before target, diverge branches, repeat requests, serve stale code, miss trigger effects and compare two SOURCE sides; expected infrastructure failures never count as semantic kills.

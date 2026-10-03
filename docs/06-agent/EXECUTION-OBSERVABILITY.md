@@ -167,3 +167,9 @@ Inspection auditing is coalesced to at most one summary per client/project/minut
 ## Assessment outcome versus migration readiness
 
 Use the existing ANALYZE/OBSERVE/MODEL display stages for shared evidence gathering and FINALIZE for assessment report publication; an assessment checkpoint is not another analysis stage or projects.status enum. TASK_COMPLETED/ACTION_COMPLETED names the assessment artifact, captured inputs and report completion reason. Outcome reports distinguish COMPLETED assessment from BLOCKED/UNKNOWN migration feasibility and current STALE/UNKNOWN findings. A completed report leaves execution waiting for explicit human decision, or completes an assessment-only operation; it does not automatically enqueue PLAN/MIGRATE. Status shows available report, examined scope/evidence limits, feasibility, missing evidence, current validity and next options. No percentage implies plan readiness. Historical as_of_sequence is a captured report watermark, not a historical mutable-state projection.
+
+## Activity and emergency visibility
+
+Always distinguish retrying without progress, waiting on a process, waiting on evidence and cleanup incomplete in task reason/blockers/next_action. Existing events/current projection carry these factual states; no second timeline is introduced. Heartbeat never advances completed work.
+
+If persistence fails, RECOVERY's reserved journal may preserve an emergency record. CLI/MCP must return a storage error plus last durable sequence and redacted emergency diagnostic; they cannot report an emergency fact as a committed event or reconstruct historical mutable state. When IPC/journal also fails, transport/stderr failure and the last admitted durable operation are the available evidence. Reconnect must reconcile before displaying current completion.

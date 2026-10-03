@@ -1,0 +1,280 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/filesystem-profile.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "content_manifest_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "properties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "property": {
+            "enum": [
+              "PERMISSIONS",
+              "EXECUTABLE",
+              "MTIME",
+              "OWNERSHIP",
+              "HARDLINKS",
+              "SYMLINKS",
+              "CASE_SENSITIVITY",
+              "PATH_RESOLUTION",
+              "WORKING_DIRECTORY",
+              "DIRECTORY_ORDER"
+            ]
+          },
+          "treatment": {
+            "enum": [
+              "REQUIRED",
+              "VIRTUALIZED",
+              "IRRELEVANT",
+              "UNSUPPORTED"
+            ]
+          },
+          "captured_state_ref": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "mechanism_ref": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "minItems": 1
+          }
+        },
+        "required": [
+          "property",
+          "treatment",
+          "captured_state_ref",
+          "mechanism_ref",
+          "evidence_refs"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "treatment": {
+                  "enum": [
+                    "REQUIRED",
+                    "VIRTUALIZED"
+                  ]
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "captured_state_ref": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                },
+                "mechanism_ref": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minItems": 10,
+      "maxItems": 10,
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "property": {
+                "const": "PERMISSIONS"
+              }
+            },
+            "required": [
+              "property"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "property": {
+                "const": "EXECUTABLE"
+              }
+            },
+            "required": [
+              "property"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "property": {
+                "const": "MTIME"
+              }
+            },
+            "required": [
+              "property"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "property": {
+                "const": "OWNERSHIP"
+              }
+            },
+            "required": [
+              "property"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "property": {
+                "const": "HARDLINKS"
+              }
+            },
+            "required": [
+              "property"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "property": {
+                "const": "SYMLINKS"
+              }
+            },
+            "required": [
+              "property"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "property": {
+                "const": "CASE_SENSITIVITY"
+              }
+            },
+            "required": [
+              "property"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "property": {
+                "const": "PATH_RESOLUTION"
+              }
+            },
+            "required": [
+              "property"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "property": {
+                "const": "WORKING_DIRECTORY"
+              }
+            },
+            "required": [
+              "property"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        },
+        {
+          "contains": {
+            "properties": {
+              "property": {
+                "const": "DIRECTORY_ORDER"
+              }
+            },
+            "required": [
+              "property"
+            ]
+          },
+          "minContains": 1,
+          "maxContains": 1
+        }
+      ]
+    },
+    "control_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "content_manifest_ref",
+    "properties",
+    "control_refs",
+    "limitations"
+  ],
+  "additionalProperties": false
+}
