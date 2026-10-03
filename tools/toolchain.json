@@ -1,0 +1,14 @@
+{
+  "scope": "M0 bootstrap serialization tooling; not an engine execution qualification",
+  "go": {
+    "version": "go1.25.0",
+    "module": "golang.org/toolchain",
+    "validated_distribution": "v0.0.1-go1.25.0.linux-amd64",
+    "distribution_sum": "h1:wVC9wx2XOcP5gHiN8ZzfyTfjlrDLSS7Hu1wjI01n68U="
+  },
+  "golangci_lint": {
+    "module": "github.com/golangci/golangci-lint/v2",
+    "version": "v2.5.0",
+    "module_sum": "h1:BDRg4ASm4J1y/DSRY6zwJ5tr5Yy8ZqbZ79XrCeFxaQo="
+  }
+}
