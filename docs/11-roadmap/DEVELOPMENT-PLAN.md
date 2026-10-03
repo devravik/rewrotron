@@ -132,7 +132,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Inputs:** Persisted missions/incidents and guarded engine services.
 
-**Outputs:** Bounded repair evidence, full CLI lifecycle and pinned stdio MCP integration results.
+**Outputs:** Bounded repair evidence, full CLI lifecycle and pinned stdio MCP integration results; tested CLI-only first-assessment and named-client setup instructions with complete operator Skill resource/revision paths.
 
 **Owned specs:** MISSION-PROTOCOL, AGENT-MODEL, CLI-SPEC, MCP-SPEC, SKILL-SPEC.
 
@@ -140,9 +140,9 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Tests:** X24 stale/idempotent work; X26 disconnect; X31 numeric transport/client parity; X60 offline schema bundles; X32 same-account trust; X46/X51/X52/X55 checkpoint/interface parity and no implicit implementation.
 
-**Acceptance criteria:** Client switch resumes same project without conversation; human decisions available via CLI; no approval bypass; supervisor survives client disconnect; at least two actual clients before integration claim; CLI-only assessment/selection/plan approval works, and MCP cannot turn a report or agent proposal into continuation/approval.
+**Acceptance criteria:** Client switch resumes same project without conversation; human decisions available via CLI; no approval bypass; supervisor survives client disconnect; at least two actual clients before integration claim; CLI-only assessment/selection/plan approval works, and MCP cannot turn a report or agent proposal into continuation/approval. The first-assessment guide must run through supported scope registration and Gate 1 to a retrievable report, and both CLI-only and tested-client instructions must name actual build/resource/Skill paths without inventing catalog operations.
 
-**Evidence required:** Machine protocol/recovery/permission logs, named tested client versions, isolated mutation evidence.
+**Evidence required:** Machine protocol/recovery/permission logs, named tested client versions, isolated mutation evidence; executed [installation guide](../10-development/INSTALLATION.md) onboarding steps against M5 build artifacts, exact guarded work-scope registration/ref, source confirmation and persisted report with no Gate 2/target writes. Client instructions record executable/arguments/discovery paths and fallback; M6 validates final distributed artifacts.
 
 **Blockers:** Unowned supervisor, missing client handshake/framing/permission support.
 
@@ -156,19 +156,19 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Inputs:** All approved reference units, PROJECT corpus, explicit performance claim/budget and rollback plan.
 
-**Outputs:** Current project report, benchmark evidence, rehearsed release subject and Gate 3 package.
+**Outputs:** Current project report, benchmark evidence, rehearsed release subject and Gate 3 package; separately, authenticated Linux amd64 product archive/installer, complete resource/operator Skill bundle, SBOM/notices, release metadata and installation/upgrade/uninstall instructions under RELEASE.
 
 **Owned specs:** COVERAGE, PERFORMANCE, CUTOVER-RUNBOOK, RELEASE, PROJECT-LIFECYCLE.
 
-**Implementation scope:** Full corpus replay, paired measurement/statistical decision, session/data rollback rehearsal, package/restore/native scope metadata.
+**Implementation scope:** Full corpus replay, paired measurement/statistical decision, session/data rollback rehearsal, package/restore/native scope metadata; repeatable product packaging/publication from pinned revision, verified manual/user-local installer routes, safe version activation and preserving uninstall. [RELEASE](../10-development/RELEASE.md) owns installation rules; no new milestone or approval workflow. Product packaging is separate from the customer Gate 3 package.
 
-**Tests:** X78 fixed stopping and operational windows; X33 noisy performance; X59 recomputed approved estimands; X34 rollback after writes; X35 whole-project scope; X28 restore; X36 native distribution.
+**Tests:** X78 fixed stopping and operational windows; X33 noisy performance; X59 recomputed approved estimands; X34 rollback after writes; X35 whole-project scope; X28 restore; X36-A–H native installation/authenticity/interruption/PATH/offline/upgrade/uninstall/packaged-onboarding/reproducibility controls, retaining existing native driver/path/process tests.
 
-**Acceptance criteria:** All required current cases/dimensions accepted; required metrics accepted under declared claim; rollback reconciles target writes or release blocks; Gate 3 exact subject.
+**Acceptance criteria:** All required current cases/dimensions accepted; required metrics accepted under declared claim; rollback reconciles target writes or release blocks; Gate 3 exact subject. Product publication additionally requires the exact archive/installer to pass X36, independently authenticated release metadata, reproducible unsigned payloads, and the M5 walkthrough to work with installed resources; failed or unsupported platform/client claims cannot be published.
 
-**Evidence required:** Raw paired trials, confidence/budget artifacts, staging rehearsal and restoration/release closure.
+**Evidence required:** Raw paired trials, confidence/budget artifacts, staging rehearsal and restoration/release closure; native fresh-install/removal inventories, upgrade/backup checks, release asset/build digests/signatures/SBOM and the actually tested platform/client matrix.
 
-**Blockers:** INCONCLUSIVE required performance, unproved session/data reconciliation, missing license/signing/security owner.
+**Blockers:** INCONCLUSIVE required performance, unproved session/data reconciliation, missing license/signing/security owner; unspecified release hosting/trusted signature-verifier instructions or unavailable guarded scope registration in the published walkthrough; failed X36 installation/retention/reproducibility controls.
 
 **Explicit non-goals:** No engine production deployment; no rollback guarantee from preserved schema alone.
 
