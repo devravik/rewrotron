@@ -117,6 +117,12 @@
         "pattern": "^sha256:[a-f0-9]{64}$"
       },
       "minItems": 1
+    },
+    "elapsed_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9223372036854775807,
+      "description": "Observed monotonic elapsed milliseconds, rounded up for sub-millisecond activity, since dispatch of the referenced initiating step occurrence. Optional for historical/untimed captures; absent is unavailable, not zero. B4 timed completion requires qualified same-clock anchor evidence and this value."
     }
   },
   "required": [

@@ -771,7 +771,8 @@
         },
         "expected_receipts": {
           "type": "integer",
-          "minimum": 0
+          "minimum": 0,
+          "description": "Minimum distinct causally acknowledged logical effects, deduplicated by side/initiating occurrence/logical ID/destination; physical retry receipts do not add to the count. Business cardinality is separately checked."
         },
         "quiescence_ms": {
           "type": "integer",
@@ -807,9 +808,20 @@
                 "minimum": 1
               }
             }
+          },
+          "else": {
+            "properties": {
+              "expected_receipts": {
+                "const": 0
+              },
+              "quiescence_ms": {
+                "const": 0
+              }
+            }
           }
         }
-      ]
+      ],
+      "description": "BEHAVIOR-MODEL owns fixed deadline, minimum acknowledged logical-effect count, predicate and activity-reset quiescence. Service checks quiescence_ms <= timeout_ms."
     }
   },
   "type": "object",
@@ -870,61 +882,7 @@
       "maxItems": 100
     },
     "completion": {
-      "type": "object",
-      "properties": {
-        "mode": {
-          "enum": [
-            "PROCESS_EXIT",
-            "HTTP_RESPONSE",
-            "SINK_ACK_QUIESCENCE"
-          ]
-        },
-        "timeout_ms": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 300000
-        },
-        "expected_receipts": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "quiescence_ms": {
-          "type": "integer",
-          "minimum": 0
-        },
-        "predicate": {
-          "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
-        }
-      },
-      "required": [
-        "mode",
-        "timeout_ms",
-        "expected_receipts",
-        "quiescence_ms",
-        "predicate"
-      ],
-      "additionalProperties": false,
-      "allOf": [
-        {
-          "if": {
-            "properties": {
-              "mode": {
-                "const": "SINK_ACK_QUIESCENCE"
-              }
-            },
-            "required": [
-              "mode"
-            ]
-          },
-          "then": {
-            "properties": {
-              "quiescence_ms": {
-                "minimum": 1
-              }
-            }
-          }
-        }
-      ]
+      "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/completion"
     }
   },
   "required": [

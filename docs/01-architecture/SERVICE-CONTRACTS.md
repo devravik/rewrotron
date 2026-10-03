@@ -12,7 +12,7 @@ Every mutation receives project ID, operation/request ID, idempotency key, expec
 | --- | --- |
 | Project | ID, workspace root, source root, optional target root, parsed intent config, current state/revision, current configuration/plan hashes, adapter IDs/versions |
 | Workspace | Project record, SQLite path, artifact/import/output roots, private correlation-key reference and close/lock ownership |
-| SourceManifest | Sorted path/content/executable/symlink records, exclusions, completeness, content hash and scan tool/version |
+| SourceManifest | Immutable [source-manifest 1.0](../../specs/project/source-manifest.schema.json): canonical path/kind/content/size/symlink entries, exclusions, COMPLETE and exact scanner ref; [ANALYSIS-SPEC](../03-analysis/ANALYSIS-SPEC.md) owns root preimage/publication checks. Executable metadata is a separate filesystem-profile input. |
 | CaptureInput | Project ID, format/media type, bounded bytes/stream, configured sensitive field/value refs, capture dimension and limits |
 | RedactedCapture | Sanitized bytes/stream, media type, redaction manifest, withheld dimensions, keyed correlation outcomes; no raw persisted payload |
 | SandboxProfile | Source/target runtime/image digests, quotas, approved volumes, internal destinations/sinks, DB engine/schema/settings, reset strategy and profile hash |

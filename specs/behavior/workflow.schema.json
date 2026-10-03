@@ -185,7 +185,12 @@
                 "pattern": "^sha256:[a-f0-9]{64}$"
               },
               "guard": {
-                "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
+                "const": {
+                  "op": "literal",
+                  "value_type": "boolean",
+                  "value": true
+                },
+                "description": "Reserved true in the bounded v2 subset; conditional routing belongs to ordered transitions. False/nonliteral is unsupported before dispatch."
               },
               "bindings": {
                 "type": "object",
@@ -281,61 +286,7 @@
                 "uniqueItems": true
               },
               "completion": {
-                "type": "object",
-                "properties": {
-                  "mode": {
-                    "enum": [
-                      "PROCESS_EXIT",
-                      "HTTP_RESPONSE",
-                      "SINK_ACK_QUIESCENCE"
-                    ]
-                  },
-                  "timeout_ms": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "maximum": 300000
-                  },
-                  "expected_receipts": {
-                    "type": "integer",
-                    "minimum": 0
-                  },
-                  "quiescence_ms": {
-                    "type": "integer",
-                    "minimum": 0
-                  },
-                  "predicate": {
-                    "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression"
-                  }
-                },
-                "required": [
-                  "mode",
-                  "timeout_ms",
-                  "expected_receipts",
-                  "quiescence_ms",
-                  "predicate"
-                ],
-                "additionalProperties": false,
-                "allOf": [
-                  {
-                    "if": {
-                      "properties": {
-                        "mode": {
-                          "const": "SINK_ACK_QUIESCENCE"
-                        }
-                      },
-                      "required": [
-                        "mode"
-                      ]
-                    },
-                    "then": {
-                      "properties": {
-                        "quiescence_ms": {
-                          "minimum": 1
-                        }
-                      }
-                    }
-                  }
-                ]
+                "$ref": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/completion"
               }
             },
             "required": [

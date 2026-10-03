@@ -133,7 +133,8 @@
     },
     "completion_ref": {
       "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "Registered semantics.schema.json#/$defs/completion: profile default and timeout ceiling. Explicit step completion must fit this ceiling and qualified capture capabilities; BEHAVIOR-MODEL owns semantics."
     }
   },
   "required": [

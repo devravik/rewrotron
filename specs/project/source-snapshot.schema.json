@@ -89,7 +89,8 @@
         },
         "manifest_ref": {
           "type": "string",
-          "pattern": "^sha256:[a-f0-9]{64}$"
+          "pattern": "^sha256:[a-f0-9]{64}$",
+          "description": "Registered source-manifest 1.0 canonical bytes; service verifies type and immutable closure."
         },
         "environment_profile_ref": {
           "type": "string",
@@ -105,7 +106,8 @@
         },
         "content_root_hash": {
           "type": "string",
-          "pattern": "^[a-f0-9]{64}$"
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA256(rwt-cjson-1({identity: rwt-source-root-1, entries: manifest.entries})); ANALYSIS-SPEC owns admission. Distinct from complete manifest_ref."
         },
         "private_location_id": {
           "type": "string",

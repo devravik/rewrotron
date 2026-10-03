@@ -1,0 +1,1987 @@
+{
+  "source_root_hash": [
+    {
+      "name": "empty-tree",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "ACCEPT",
+      "preimage": {
+        "identity": "rwt-source-root-1",
+        "entries": []
+      },
+      "canonical_utf8": "{\"entries\":[],\"identity\":\"rwt-source-root-1\"}",
+      "sha256": "e0b785ba15b07861419ba1e08d5ddc57917a33105c9b2bf1c1d1bcdc5c9a576d",
+      "manifest_sha256": "2102e07de4a521306c2cbd553135658ac01cc621b6b0ebd7267b035cd39a9fde",
+      "fixture_bytes_utf8": {}
+    },
+    {
+      "name": "raw-file",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "ACCEPT",
+      "preimage": {
+        "identity": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ]
+      },
+      "canonical_utf8": "{\"entries\":[{\"kind\":\"FILE\",\"path\":\"main.txt\",\"sha256\":\"5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03\",\"size_bytes\":6}],\"identity\":\"rwt-source-root-1\"}",
+      "sha256": "8193cfc677c178c903b08e67c00c1dfb5365f06ab294391353b3f5888a5beaa2",
+      "manifest_sha256": "bcca4c018f6afb38ac54e6483bb9b611d5203b1dc8a9abb8bc4166bd2f3d4fc7",
+      "fixture_bytes_utf8": {
+        "main.txt": "hello\n"
+      }
+    },
+    {
+      "name": "scanner-change-same-root",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "expected_admission": "ACCEPT",
+      "preimage": {
+        "identity": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ]
+      },
+      "canonical_utf8": "{\"entries\":[{\"kind\":\"FILE\",\"path\":\"main.txt\",\"sha256\":\"5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03\",\"size_bytes\":6}],\"identity\":\"rwt-source-root-1\"}",
+      "sha256": "8193cfc677c178c903b08e67c00c1dfb5365f06ab294391353b3f5888a5beaa2",
+      "manifest_sha256": "739c4edabe965a18fa85adf4239d05e7b01f506a4fd2e56d945709304b30d0b0",
+      "fixture_bytes_utf8": {
+        "main.txt": "hello\n"
+      }
+    },
+    {
+      "name": "exclusion-change-same-root",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ],
+        "exclusions": [
+          {
+            "path": "volatile",
+            "reason": "reviewed output"
+          }
+        ],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "ACCEPT",
+      "preimage": {
+        "identity": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ]
+      },
+      "canonical_utf8": "{\"entries\":[{\"kind\":\"FILE\",\"path\":\"main.txt\",\"sha256\":\"5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03\",\"size_bytes\":6}],\"identity\":\"rwt-source-root-1\"}",
+      "sha256": "8193cfc677c178c903b08e67c00c1dfb5365f06ab294391353b3f5888a5beaa2",
+      "manifest_sha256": "42f6ccaf1a0e5a08ef6899292b020cc0203d72c41f8d9b5272208b89c77e69e6",
+      "fixture_bytes_utf8": {
+        "main.txt": "hello\n"
+      }
+    },
+    {
+      "name": "directory-and-literal-symlink",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "data",
+            "kind": "DIRECTORY"
+          },
+          {
+            "path": "data/é.txt",
+            "kind": "FILE",
+            "sha256": "edd3a863872a04239eb29ad4bc12fc892b3d4ae57cc7e786a3697816f8e141c2",
+            "size_bytes": 3
+          },
+          {
+            "path": "link",
+            "kind": "SYMLINK",
+            "target": "data/é.txt"
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "ACCEPT",
+      "preimage": {
+        "identity": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "data",
+            "kind": "DIRECTORY"
+          },
+          {
+            "path": "data/é.txt",
+            "kind": "FILE",
+            "sha256": "edd3a863872a04239eb29ad4bc12fc892b3d4ae57cc7e786a3697816f8e141c2",
+            "size_bytes": 3
+          },
+          {
+            "path": "link",
+            "kind": "SYMLINK",
+            "target": "data/é.txt"
+          }
+        ]
+      },
+      "canonical_utf8": "{\"entries\":[{\"kind\":\"DIRECTORY\",\"path\":\"data\"},{\"kind\":\"FILE\",\"path\":\"data/é.txt\",\"sha256\":\"edd3a863872a04239eb29ad4bc12fc892b3d4ae57cc7e786a3697816f8e141c2\",\"size_bytes\":3},{\"kind\":\"SYMLINK\",\"path\":\"link\",\"target\":\"data/é.txt\"}],\"identity\":\"rwt-source-root-1\"}",
+      "sha256": "31c191be8f336293af77d48231021984865877b65112181e10e509e456187ef8",
+      "manifest_sha256": "71a30ae856cd3c6d2942611bd119c61235e79ad663e97ab7b8d33a16a66cb83c",
+      "fixture_bytes_utf8": {
+        "data/é.txt": "é\n"
+      }
+    },
+    {
+      "name": "rename-changes-root",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "other.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "ACCEPT",
+      "preimage": {
+        "identity": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "other.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ]
+      },
+      "canonical_utf8": "{\"entries\":[{\"kind\":\"FILE\",\"path\":\"other.txt\",\"sha256\":\"5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03\",\"size_bytes\":6}],\"identity\":\"rwt-source-root-1\"}",
+      "sha256": "63df45dafe8606dbb6c271be0d67dd9ee6b47aa37611e36b1e0f58b96de84f11",
+      "manifest_sha256": "8e0cde7060de3fd2e3f228876a24943d83204f2718c6746f858a61e963f6a439",
+      "fixture_bytes_utf8": {
+        "other.txt": "hello\n"
+      }
+    },
+    {
+      "name": "content-change-changes-root",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "3b09aeb6f5f5336beb205d7f720371bc927cd46c21922e334d47ba264acb5ba4",
+            "size_bytes": 6
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "ACCEPT",
+      "preimage": {
+        "identity": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "3b09aeb6f5f5336beb205d7f720371bc927cd46c21922e334d47ba264acb5ba4",
+            "size_bytes": 6
+          }
+        ]
+      },
+      "canonical_utf8": "{\"entries\":[{\"kind\":\"FILE\",\"path\":\"main.txt\",\"sha256\":\"3b09aeb6f5f5336beb205d7f720371bc927cd46c21922e334d47ba264acb5ba4\",\"size_bytes\":6}],\"identity\":\"rwt-source-root-1\"}",
+      "sha256": "98c4b7d1eaabd08c328d744dcbea49cb8dcb850de6fe23add5e3612a33d14051",
+      "manifest_sha256": "f46d454dfdd9c1d341c52ca8f449bdd1ed615b5c1c22a7279813550dd545e297",
+      "fixture_bytes_utf8": {
+        "main.txt": "HELLO\n"
+      }
+    },
+    {
+      "name": "same-path-different-content",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          },
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "size_bytes": 6
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "REJECT",
+      "reason": "duplicate path"
+    },
+    {
+      "name": "unsorted-paths",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "z",
+            "kind": "DIRECTORY"
+          },
+          {
+            "path": "a",
+            "kind": "DIRECTORY"
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "REJECT",
+      "reason": "noncanonical path order"
+    },
+    {
+      "name": "absent-parent",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "missing/main.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "REJECT",
+      "reason": "missing DIRECTORY parent"
+    },
+    {
+      "name": "file-as-parent",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          },
+          {
+            "path": "main.txt/child",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "REJECT",
+      "reason": "parent is not DIRECTORY"
+    },
+    {
+      "name": "escaped-name",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "quote\"\n.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "ACCEPT",
+      "preimage": {
+        "identity": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "quote\"\n.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ]
+      },
+      "canonical_utf8": "{\"entries\":[{\"kind\":\"FILE\",\"path\":\"quote\\\"\\n.txt\",\"sha256\":\"5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03\",\"size_bytes\":6}],\"identity\":\"rwt-source-root-1\"}",
+      "sha256": "bc646ae30d75ac3973020eb730dbfdd7753b022134b1580d03dcebd7301d48ea",
+      "manifest_sha256": "a915c79e514b6931998cf35cfb4f755eb0aa3f3c57be7df338025ba96378fe8c",
+      "fixture_bytes_utf8": {
+        "quote\"\n.txt": "hello\n"
+      }
+    },
+    {
+      "name": "mutated-bytes-old-root",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "REJECT",
+      "fixture_bytes_utf8": {
+        "main.txt": "HELLO\n"
+      },
+      "reason": "Captured bytes no longer match declared file digest; sealed publication forbidden"
+    },
+    {
+      "name": "complete-manifest-digest-is-not-content-root",
+      "manifest": {
+        "schema_version": "1.0",
+        "identity_algorithm": "rwt-source-root-1",
+        "entries": [
+          {
+            "path": "main.txt",
+            "kind": "FILE",
+            "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+            "size_bytes": 6
+          }
+        ],
+        "exclusions": [],
+        "completeness": "COMPLETE",
+        "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "expected_admission": "REJECT",
+      "fixture_bytes_utf8": {
+        "main.txt": "hello\n"
+      },
+      "claimed_root_hash": "bcca4c018f6afb38ac54e6483bb9b611d5203b1dc8a9abb8bc4166bd2f3d4fc7",
+      "reason": "Correct full-manifest digest is the wrong root preimage"
+    }
+  ],
+  "json_numbers": [
+    {
+      "raw_token": "1",
+      "expected": {
+        "type": "integer",
+        "value": "1"
+      }
+    },
+    {
+      "raw_token": "1.0",
+      "expected": {
+        "type": "decimal",
+        "value": "1"
+      }
+    },
+    {
+      "raw_token": "1e0",
+      "expected": {
+        "type": "decimal",
+        "value": "1"
+      }
+    },
+    {
+      "raw_token": "1E+0",
+      "expected": {
+        "type": "decimal",
+        "value": "1"
+      }
+    },
+    {
+      "raw_token": "-0",
+      "expected": {
+        "type": "integer",
+        "value": "0"
+      }
+    },
+    {
+      "raw_token": "-0.0",
+      "expected": {
+        "type": "decimal",
+        "value": "0"
+      }
+    },
+    {
+      "raw_token": "100.00",
+      "expected": {
+        "type": "decimal",
+        "value": "100"
+      }
+    },
+    {
+      "raw_token": "1e-2",
+      "expected": {
+        "type": "decimal",
+        "value": "0.01"
+      }
+    },
+    {
+      "raw_token": "-12.3400e+1",
+      "expected": {
+        "type": "decimal",
+        "value": "-123.4"
+      }
+    },
+    {
+      "raw_token": "9007199254740993",
+      "expected": {
+        "type": "integer",
+        "value": "9007199254740993"
+      }
+    },
+    {
+      "raw_token": "9007199254740993.0",
+      "expected": {
+        "type": "decimal",
+        "value": "9007199254740993"
+      }
+    },
+    {
+      "raw_token": "0.000000000000000001",
+      "expected": {
+        "type": "decimal",
+        "value": "0.000000000000000001"
+      }
+    },
+    {
+      "raw_token": "1e37",
+      "expected": {
+        "type": "decimal",
+        "value": "10000000000000000000000000000000000000"
+      }
+    },
+    {
+      "raw_token": "9223372036854775808",
+      "expected": {
+        "type": "integer",
+        "value": "9223372036854775808"
+      }
+    },
+    {
+      "raw_token": "1e38",
+      "expected": {
+        "type": "missing",
+        "reason_code": "ERR_UNSUPPORTED_CAPABILITY"
+      }
+    },
+    {
+      "raw_token": "1e-19",
+      "expected": {
+        "type": "missing",
+        "reason_code": "ERR_UNSUPPORTED_CAPABILITY"
+      }
+    },
+    {
+      "raw_token": "01",
+      "expected": {
+        "type": "missing",
+        "reason_code": "ERR_UNSUPPORTED_CAPABILITY"
+      }
+    },
+    {
+      "raw_token": "+1",
+      "expected": {
+        "type": "missing",
+        "reason_code": "ERR_UNSUPPORTED_CAPABILITY"
+      }
+    },
+    {
+      "raw_token": "NaN",
+      "expected": {
+        "type": "missing",
+        "reason_code": "ERR_UNSUPPORTED_CAPABILITY"
+      }
+    },
+    {
+      "raw_token": "1.",
+      "expected": {
+        "type": "missing",
+        "reason_code": "ERR_UNSUPPORTED_CAPABILITY"
+      }
+    }
+  ],
+  "async_completion": [
+    {
+      "name": "single-ack",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 5,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 5
+          }
+        },
+        {
+          "at_ms": 10,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": "k1",
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 10
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 1,
+        "completion_at_ms": 30,
+        "verdict": "PASS",
+        "reason": "Actual accepted+ACK, then 20ms quiet; business cardinality checked separately."
+      },
+      "test": "X07/X72",
+      "failure_class": "NONE"
+    },
+    {
+      "name": "receipt-without-ack",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 5,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 5
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 0,
+        "completion_at_ms": null,
+        "verdict": "UNKNOWN",
+        "reason": "Physical acceptance without worker ACK cannot complete before deadline."
+      },
+      "test": "X07/X72",
+      "failure_class": "INFRASTRUCTURE"
+    },
+    {
+      "name": "accepted-before-ack-deduplicated-retry",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 5,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 5
+          }
+        },
+        {
+          "at_ms": 20,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a2",
+            "attempt_number": 2,
+            "retry_of": "a1",
+            "receipt_id": null,
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "NOT_KNOWN",
+            "phase": "REQUESTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 20
+          }
+        },
+        {
+          "at_ms": 25,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a2",
+            "attempt_number": 2,
+            "retry_of": "a1",
+            "receipt_id": "r2",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "DEDUPLICATED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 25
+          }
+        },
+        {
+          "at_ms": 30,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a2",
+            "attempt_number": 2,
+            "retry_of": "a1",
+            "receipt_id": "r2",
+            "ack_id": "k2",
+            "business_application_id": "b1",
+            "application_outcome": "DEDUPLICATED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 30
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 1,
+        "completion_at_ms": 50,
+        "verdict": "PASS",
+        "reason": "Two receipts for one applied business effect and one acknowledged logical effect."
+      },
+      "test": "X07/X72",
+      "failure_class": "NONE"
+    },
+    {
+      "name": "retry-cannot-satisfy-threshold-two",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 2,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 5,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 5
+          }
+        },
+        {
+          "at_ms": 10,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": "k1",
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 10
+          }
+        },
+        {
+          "at_ms": 15,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a2",
+            "attempt_number": 2,
+            "retry_of": "a1",
+            "receipt_id": "r2",
+            "ack_id": "k2",
+            "business_application_id": "b1",
+            "application_outcome": "DEDUPLICATED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 15
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 1,
+        "completion_at_ms": null,
+        "verdict": "UNKNOWN",
+        "reason": "Retries cannot raise logical count to two."
+      },
+      "test": "X07/X72",
+      "failure_class": "INFRASTRUCTURE"
+    },
+    {
+      "name": "duplicate-business-application",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 5,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 5
+          }
+        },
+        {
+          "at_ms": 10,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": "k1",
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 10
+          }
+        },
+        {
+          "at_ms": 15,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a2",
+            "attempt_number": 2,
+            "retry_of": "a1",
+            "receipt_id": "r2",
+            "ack_id": null,
+            "business_application_id": "b2",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 15
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 1,
+        "completion_at_ms": null,
+        "verdict": "MISMATCH",
+        "reason": "Second APPLIED business application violates one-effect obligation even though minimum met."
+      },
+      "test": "X07/X72",
+      "failure_class": "SEMANTIC"
+    },
+    {
+      "name": "activity-at-timer-boundary",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 5,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 5
+          }
+        },
+        {
+          "at_ms": 10,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": "k1",
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 10
+          }
+        },
+        {
+          "at_ms": 30,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a2",
+            "attempt_number": 2,
+            "retry_of": "a1",
+            "receipt_id": "r2",
+            "ack_id": "k2",
+            "business_application_id": "b1",
+            "application_outcome": "DEDUPLICATED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 30
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 1,
+        "completion_at_ms": 50,
+        "verdict": "PASS",
+        "reason": "Activity processed before the timer at 30ms; quiet interval restarts."
+      },
+      "test": "X07/X72",
+      "failure_class": "NONE"
+    },
+    {
+      "name": "deadline-equality",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 75,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 75
+          }
+        },
+        {
+          "at_ms": 80,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": "k1",
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 80
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 1,
+        "completion_at_ms": 100,
+        "verdict": "PASS",
+        "reason": "20ms quiet expires exactly at fixed 100ms deadline."
+      },
+      "test": "X07/X72",
+      "failure_class": "NONE"
+    },
+    {
+      "name": "insufficient-time-after-ack",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 80,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 80
+          }
+        },
+        {
+          "at_ms": 81,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": "k1",
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 81
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 1,
+        "completion_at_ms": null,
+        "verdict": "UNKNOWN",
+        "reason": "Would quiesce at 101ms; fixed deadline cannot be extended."
+      },
+      "test": "X07/X72",
+      "failure_class": "INFRASTRUCTURE"
+    },
+    {
+      "name": "incomplete-capture",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": false,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 5,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 5
+          }
+        },
+        {
+          "at_ms": 10,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": "k1",
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 10
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 1,
+        "completion_at_ms": null,
+        "verdict": "UNKNOWN",
+        "reason": "A count alone cannot replace capture."
+      },
+      "test": "X07/X72",
+      "failure_class": "INFRASTRUCTURE"
+    },
+    {
+      "name": "pending-queue",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": null,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 5,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 5
+          }
+        },
+        {
+          "at_ms": 10,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": "k1",
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 10
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 1,
+        "completion_at_ms": null,
+        "verdict": "UNKNOWN",
+        "reason": "In-window queued work prevents eligibility."
+      },
+      "test": "X07/X72",
+      "failure_class": "INFRASTRUCTURE"
+    },
+    {
+      "name": "quiescence-exceeds-deadline",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 101,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "expected_admission": "REJECT",
+      "reason": "Cross-field service constraint, not expressible by basic JSON Schema.",
+      "test": "X07/X72",
+      "failure_class": "INFRASTRUCTURE"
+    },
+    {
+      "name": "two-reviewed-effects-exceed-minimum",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 5,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 5
+          }
+        },
+        {
+          "at_ms": 10,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": "k1",
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 10
+          }
+        },
+        {
+          "at_ms": 12,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m2",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-2"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a2",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r2",
+            "ack_id": null,
+            "business_application_id": "b2",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 12
+          }
+        },
+        {
+          "at_ms": 15,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m2",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-2"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a2",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r2",
+            "ack_id": "k2",
+            "business_application_id": "b2",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 15
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 2,
+        "completion_at_ms": 35,
+        "verdict": "PASS",
+        "reason": "Both distinct business effects are reviewed obligations; minimum one is met by count two, not rejected by equality."
+      },
+      "test": "X07/X72",
+      "failure_class": "NONE",
+      "approved_business_effect_count": 2
+    },
+    {
+      "name": "missing-delivery-timing",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": 0
+      },
+      "events": [
+        {
+          "at_ms": 5,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ]
+          }
+        },
+        {
+          "at_ms": 10,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": "k1",
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ]
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 1,
+        "completion_at_ms": null,
+        "verdict": "UNKNOWN",
+        "reason": "Receipt and ACK exist but missing elapsed_ms cannot establish timed completion."
+      },
+      "test": "X07/X72",
+      "failure_class": "INFRASTRUCTURE"
+    },
+    {
+      "name": "initiating-response-still-unavailable",
+      "completion": {
+        "mode": "SINK_ACK_QUIESCENCE",
+        "timeout_ms": 100,
+        "expected_receipts": 1,
+        "quiescence_ms": 20,
+        "predicate": {
+          "op": "literal",
+          "value_type": "boolean",
+          "value": true
+        }
+      },
+      "controls": {
+        "capture_sufficient": true,
+        "predicate_true_from_ms": 0,
+        "queue_empty_from_ms": 0,
+        "invocation_completed_from_ms": null
+      },
+      "events": [
+        {
+          "at_ms": 5,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": null,
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACCEPTED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 5
+          }
+        },
+        {
+          "at_ms": 10,
+          "actual_effect": {
+            "schema_version": "1.0",
+            "project_id": "fixture",
+            "side": "TARGET",
+            "origin": "ACTUAL_OBSERVED",
+            "logical_effect_id": "m1",
+            "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "business_key": {
+              "type": "string",
+              "value": "order-1"
+            },
+            "destination_id": "sink",
+            "attempt_id": "a1",
+            "attempt_number": 1,
+            "retry_of": null,
+            "receipt_id": "r1",
+            "ack_id": "k1",
+            "business_application_id": "b1",
+            "application_outcome": "APPLIED",
+            "phase": "ACKNOWLEDGED",
+            "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "evidence_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "elapsed_ms": 10
+          }
+        }
+      ],
+      "expected": {
+        "acknowledged_logical_count": 1,
+        "completion_at_ms": null,
+        "verdict": "UNKNOWN",
+        "reason": "ACK alone cannot complete a still-running/unobserved initiating invocation."
+      },
+      "test": "X07/X72",
+      "failure_class": "INFRASTRUCTURE"
+    }
+  ],
+  "step_guard": {
+    "positive_fixture": "blocker-literal-true-step",
+    "negative_fixtures": [
+      "blocker-false-step",
+      "blocker-computed-step",
+      "blocker-absent-step-guard"
+    ],
+    "control_fixture": "blocker-false-transition-falls-through",
+    "expected_rejection": "False/nonliteral: ERR_UNSUPPORTED_CAPABILITY; missing: ERR_INVALID_CONTRACT. Before dispatch; no measured effect."
+  },
+  "numeric_comparison": [
+    {
+      "left": {
+        "type": "integer",
+        "value": "1"
+      },
+      "right": {
+        "type": "decimal",
+        "value": "1"
+      },
+      "expected": "UNKNOWN",
+      "reason": "ERR_TYPE; no implicit cross-type equality"
+    },
+    {
+      "left": {
+        "type": "decimal",
+        "value": "1"
+      },
+      "right": {
+        "type": "decimal",
+        "value": "1"
+      },
+      "expected_equal": true,
+      "reason": "Canonical projections of 1.0 and 1e0"
+    }
+  ]
+}

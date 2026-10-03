@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+  "description": "Immutable content manifest 1.0; ANALYSIS-SPEC owns rwt-source-root-1, sorted unique paths, parents, byte verification and publication. Filesystem metadata is separate.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "identity_algorithm": {
+      "const": "rwt-source-root-1"
+    },
+    "entries": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(?:(?!\\.{1,2}(?:/|$))[^/\\\\\\u0000]+/)*(?!\\.{1,2}$)[^/\\\\\\u0000]+$"
+              },
+              "kind": {
+                "const": "FILE"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "size_bytes": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 9223372036854775807
+              }
+            },
+            "required": [
+              "path",
+              "kind",
+              "sha256",
+              "size_bytes"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(?:(?!\\.{1,2}(?:/|$))[^/\\\\\\u0000]+/)*(?!\\.{1,2}$)[^/\\\\\\u0000]+$"
+              },
+              "kind": {
+                "const": "DIRECTORY"
+              }
+            },
+            "required": [
+              "path",
+              "kind"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(?:(?!\\.{1,2}(?:/|$))[^/\\\\\\u0000]+/)*(?!\\.{1,2}$)[^/\\\\\\u0000]+$"
+              },
+              "kind": {
+                "const": "SYMLINK"
+              },
+              "target": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^\u0000]+$"
+              }
+            },
+            "required": [
+              "path",
+              "kind",
+              "target"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "uniqueItems": true
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^(?:(?!\\.{1,2}(?:/|$))[^/\\\\\\u0000]+/)*(?!\\.{1,2}$)[^/\\\\\\u0000]+$"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "path",
+          "reason"
+        ],
+        "additionalProperties": false
+      },
+      "uniqueItems": true,
+      "description": "Strict unique path byte order; entire omitted subtrees, no overlap with included entries. Service checks ordering/overlap."
+    },
+    "completeness": {
+      "const": "COMPLETE"
+    },
+    "scanner_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "identity_algorithm",
+    "entries",
+    "exclusions",
+    "completeness",
+    "scanner_ref"
+  ],
+  "additionalProperties": false
+}

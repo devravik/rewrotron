@@ -13847,5 +13847,1155 @@
       "origin": "ACTUAL_OBSERVED"
     },
     "valid": true
+  },
+  {
+    "name": "blocker-manifest-file",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "main.txt",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-manifest-empty",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-manifest-unknown-node",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "main.txt",
+          "kind": "DEVICE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-negative-size",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "main.txt",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": -1
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-oversize",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "main.txt",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 9223372036854775808
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-metadata-in-content",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "main.txt",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6,
+          "executable": true
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-bad-digest",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "main.txt",
+          "kind": "FILE",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-path-0",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "/main",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-path-1",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "main/",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-path-2",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "a//b",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-path-3",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "a/../b",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-path-4",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "./main",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-path-5",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "a\\b",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-path-6",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "a/./b",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-path-7",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "..",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-path-8",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "a/..",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "COMPLETE",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-manifest-partial-not-sealable",
+    "schema": "https://rewrotron.dev/specs/project/source-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "identity_algorithm": "rwt-source-root-1",
+      "entries": [
+        {
+          "path": "main.txt",
+          "kind": "FILE",
+          "sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03",
+          "size_bytes": 6
+        }
+      ],
+      "exclusions": [],
+      "completeness": "PARTIAL",
+      "scanner_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-literal-true-step",
+    "schema": "https://rewrotron.dev/specs/behavior/workflow.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "workflow_id": "checkout",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "initial_state_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actors": [
+        {
+          "actor_id": "a",
+          "principal_fixture_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "start_step_id": "login",
+      "steps": [
+        {
+          "step_id": "login",
+          "actor_id": "a",
+          "operation_id": "login",
+          "request_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          },
+          "bindings": {},
+          "transitions": [
+            {
+              "guard": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "next_step_id": null,
+              "terminal_id": "done"
+            }
+          ],
+          "completion": {
+            "mode": "HTTP_RESPONSE",
+            "timeout_ms": 30000,
+            "expected_receipts": 0,
+            "quiescence_ms": 0,
+            "predicate": {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          }
+        }
+      ],
+      "terminals": [
+        {
+          "terminal_id": "done",
+          "outcome": "SUCCESS",
+          "state_assertions": [
+            {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          ],
+          "expected_effect_refs": []
+        }
+      ],
+      "max_executed_steps": 2,
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-false-step",
+    "schema": "https://rewrotron.dev/specs/behavior/workflow.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "workflow_id": "checkout",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "initial_state_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actors": [
+        {
+          "actor_id": "a",
+          "principal_fixture_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "start_step_id": "login",
+      "steps": [
+        {
+          "step_id": "login",
+          "actor_id": "a",
+          "operation_id": "login",
+          "request_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": false
+          },
+          "bindings": {},
+          "transitions": [
+            {
+              "guard": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "next_step_id": null,
+              "terminal_id": "done"
+            }
+          ],
+          "completion": {
+            "mode": "HTTP_RESPONSE",
+            "timeout_ms": 30000,
+            "expected_receipts": 0,
+            "quiescence_ms": 0,
+            "predicate": {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          }
+        }
+      ],
+      "terminals": [
+        {
+          "terminal_id": "done",
+          "outcome": "SUCCESS",
+          "state_assertions": [
+            {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          ],
+          "expected_effect_refs": []
+        }
+      ],
+      "max_executed_steps": 2,
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-computed-step",
+    "schema": "https://rewrotron.dev/specs/behavior/workflow.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "workflow_id": "checkout",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "initial_state_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actors": [
+        {
+          "actor_id": "a",
+          "principal_fixture_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "start_step_id": "login",
+      "steps": [
+        {
+          "step_id": "login",
+          "actor_id": "a",
+          "operation_id": "login",
+          "request_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "guard": {
+            "op": "not",
+            "arg": {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": false
+            }
+          },
+          "bindings": {},
+          "transitions": [
+            {
+              "guard": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "next_step_id": null,
+              "terminal_id": "done"
+            }
+          ],
+          "completion": {
+            "mode": "HTTP_RESPONSE",
+            "timeout_ms": 30000,
+            "expected_receipts": 0,
+            "quiescence_ms": 0,
+            "predicate": {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          }
+        }
+      ],
+      "terminals": [
+        {
+          "terminal_id": "done",
+          "outcome": "SUCCESS",
+          "state_assertions": [
+            {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          ],
+          "expected_effect_refs": []
+        }
+      ],
+      "max_executed_steps": 2,
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-absent-step-guard",
+    "schema": "https://rewrotron.dev/specs/behavior/workflow.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "workflow_id": "checkout",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "initial_state_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actors": [
+        {
+          "actor_id": "a",
+          "principal_fixture_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "start_step_id": "login",
+      "steps": [
+        {
+          "step_id": "login",
+          "actor_id": "a",
+          "operation_id": "login",
+          "request_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "bindings": {},
+          "transitions": [
+            {
+              "guard": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "next_step_id": null,
+              "terminal_id": "done"
+            }
+          ],
+          "completion": {
+            "mode": "HTTP_RESPONSE",
+            "timeout_ms": 30000,
+            "expected_receipts": 0,
+            "quiescence_ms": 0,
+            "predicate": {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          }
+        }
+      ],
+      "terminals": [
+        {
+          "terminal_id": "done",
+          "outcome": "SUCCESS",
+          "state_assertions": [
+            {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          ],
+          "expected_effect_refs": []
+        }
+      ],
+      "max_executed_steps": 2,
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-false-transition-falls-through",
+    "schema": "https://rewrotron.dev/specs/behavior/workflow.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "workflow_id": "checkout",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "initial_state_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actors": [
+        {
+          "actor_id": "a",
+          "principal_fixture_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "start_step_id": "login",
+      "steps": [
+        {
+          "step_id": "login",
+          "actor_id": "a",
+          "operation_id": "login",
+          "request_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          },
+          "bindings": {},
+          "transitions": [
+            {
+              "guard": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": false
+              },
+              "next_step_id": null,
+              "terminal_id": "done"
+            },
+            {
+              "guard": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "next_step_id": null,
+              "terminal_id": "done"
+            }
+          ],
+          "completion": {
+            "mode": "HTTP_RESPONSE",
+            "timeout_ms": 30000,
+            "expected_receipts": 0,
+            "quiescence_ms": 0,
+            "predicate": {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          }
+        }
+      ],
+      "terminals": [
+        {
+          "terminal_id": "done",
+          "outcome": "SUCCESS",
+          "state_assertions": [
+            {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          ],
+          "expected_effect_refs": []
+        }
+      ],
+      "max_executed_steps": 2,
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-async-completion",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/completion",
+    "instance": {
+      "mode": "SINK_ACK_QUIESCENCE",
+      "timeout_ms": 100,
+      "expected_receipts": 1,
+      "quiescence_ms": 20,
+      "predicate": {
+        "op": "literal",
+        "value_type": "boolean",
+        "value": true
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-async-zero-threshold",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/completion",
+    "instance": {
+      "mode": "SINK_ACK_QUIESCENCE",
+      "timeout_ms": 100,
+      "expected_receipts": 0,
+      "quiescence_ms": 20,
+      "predicate": {
+        "op": "literal",
+        "value_type": "boolean",
+        "value": true
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-HTTP_RESPONSE-completion",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/completion",
+    "instance": {
+      "mode": "HTTP_RESPONSE",
+      "timeout_ms": 100,
+      "expected_receipts": 0,
+      "quiescence_ms": 0,
+      "predicate": {
+        "op": "literal",
+        "value_type": "boolean",
+        "value": true
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-HTTP_RESPONSE-nonzero-receipts",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/completion",
+    "instance": {
+      "mode": "HTTP_RESPONSE",
+      "timeout_ms": 100,
+      "expected_receipts": 1,
+      "quiescence_ms": 0,
+      "predicate": {
+        "op": "literal",
+        "value_type": "boolean",
+        "value": true
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-HTTP_RESPONSE-nonzero-quiescence",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/completion",
+    "instance": {
+      "mode": "HTTP_RESPONSE",
+      "timeout_ms": 100,
+      "expected_receipts": 0,
+      "quiescence_ms": 20,
+      "predicate": {
+        "op": "literal",
+        "value_type": "boolean",
+        "value": true
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-PROCESS_EXIT-completion",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/completion",
+    "instance": {
+      "mode": "PROCESS_EXIT",
+      "timeout_ms": 100,
+      "expected_receipts": 0,
+      "quiescence_ms": 0,
+      "predicate": {
+        "op": "literal",
+        "value_type": "boolean",
+        "value": true
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-PROCESS_EXIT-nonzero-receipts",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/completion",
+    "instance": {
+      "mode": "PROCESS_EXIT",
+      "timeout_ms": 100,
+      "expected_receipts": 1,
+      "quiescence_ms": 0,
+      "predicate": {
+        "op": "literal",
+        "value_type": "boolean",
+        "value": true
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-PROCESS_EXIT-nonzero-quiescence",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/completion",
+    "instance": {
+      "mode": "PROCESS_EXIT",
+      "timeout_ms": 100,
+      "expected_receipts": 0,
+      "quiescence_ms": 20,
+      "predicate": {
+        "op": "literal",
+        "value_type": "boolean",
+        "value": true
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-async-zero-quiescence",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/completion",
+    "instance": {
+      "mode": "SINK_ACK_QUIESCENCE",
+      "timeout_ms": 100,
+      "expected_receipts": 1,
+      "quiescence_ms": 0,
+      "predicate": {
+        "op": "literal",
+        "value_type": "boolean",
+        "value": true
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-workflow-invalid-completion",
+    "schema": "https://rewrotron.dev/specs/behavior/workflow.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "workflow_id": "checkout",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "initial_state_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actors": [
+        {
+          "actor_id": "a",
+          "principal_fixture_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "start_step_id": "login",
+      "steps": [
+        {
+          "step_id": "login",
+          "actor_id": "a",
+          "operation_id": "login",
+          "request_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          },
+          "bindings": {},
+          "transitions": [
+            {
+              "guard": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "next_step_id": null,
+              "terminal_id": "done"
+            }
+          ],
+          "completion": {
+            "mode": "HTTP_RESPONSE",
+            "timeout_ms": 100,
+            "expected_receipts": 1,
+            "quiescence_ms": 20,
+            "predicate": {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          }
+        }
+      ],
+      "terminals": [
+        {
+          "terminal_id": "done",
+          "outcome": "SUCCESS",
+          "state_assertions": [
+            {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          ],
+          "expected_effect_refs": []
+        }
+      ],
+      "max_executed_steps": 2,
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-decimal-integral",
+    "schema": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value",
+    "instance": {
+      "type": "decimal",
+      "value": "1"
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-decimal-fraction",
+    "schema": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value",
+    "instance": {
+      "type": "decimal",
+      "value": "-0.001"
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-integer-large",
+    "schema": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value",
+    "instance": {
+      "type": "integer",
+      "value": "9007199254740993"
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-decimal-exponent",
+    "schema": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value",
+    "instance": {
+      "type": "decimal",
+      "value": "1e0"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-decimal-trailing-zero",
+    "schema": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value",
+    "instance": {
+      "type": "decimal",
+      "value": "1.00"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-decimal-negative-zero",
+    "schema": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value",
+    "instance": {
+      "type": "decimal",
+      "value": "-0"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-integer-negative-zero",
+    "schema": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value",
+    "instance": {
+      "type": "integer",
+      "value": "-0"
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-computed-guard-expression-valid",
+    "schema": "https://rewrotron.dev/specs/behavior/semantics.schema.json#/$defs/expression",
+    "instance": {
+      "op": "not",
+      "arg": {
+        "op": "literal",
+        "value_type": "boolean",
+        "value": false
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-computed-transition-valid",
+    "schema": "https://rewrotron.dev/specs/behavior/workflow.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "workflow_id": "checkout",
+      "profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "initial_state_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "actors": [
+        {
+          "actor_id": "a",
+          "principal_fixture_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ],
+      "start_step_id": "login",
+      "steps": [
+        {
+          "step_id": "login",
+          "actor_id": "a",
+          "operation_id": "login",
+          "request_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "guard": {
+            "op": "literal",
+            "value_type": "boolean",
+            "value": true
+          },
+          "bindings": {},
+          "transitions": [
+            {
+              "guard": {
+                "op": "not",
+                "arg": {
+                  "op": "literal",
+                  "value_type": "boolean",
+                  "value": false
+                }
+              },
+              "next_step_id": null,
+              "terminal_id": "done"
+            },
+            {
+              "guard": {
+                "op": "literal",
+                "value_type": "boolean",
+                "value": true
+              },
+              "next_step_id": null,
+              "terminal_id": "done"
+            }
+          ],
+          "completion": {
+            "mode": "HTTP_RESPONSE",
+            "timeout_ms": 30000,
+            "expected_receipts": 0,
+            "quiescence_ms": 0,
+            "predicate": {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          }
+        }
+      ],
+      "terminals": [
+        {
+          "terminal_id": "done",
+          "outcome": "SUCCESS",
+          "state_assertions": [
+            {
+              "op": "literal",
+              "value_type": "boolean",
+              "value": true
+            }
+          ],
+          "expected_effect_refs": []
+        }
+      ],
+      "max_executed_steps": 2,
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-decimal-native-number-invalid",
+    "schema": "https://rewrotron.dev/specs/behavior/evaluation-context.schema.json#/$defs/value",
+    "instance": {
+      "type": "decimal",
+      "value": 1.0
+    },
+    "valid": false
+  },
+  {
+    "name": "blocker-delivery-monotonic-time",
+    "schema": "https://rewrotron.dev/specs/observation/effect-occurrence.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "side": "TARGET",
+      "origin": "ACTUAL_OBSERVED",
+      "logical_effect_id": "m1",
+      "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "business_key": {
+        "type": "string",
+        "value": "order-1"
+      },
+      "destination_id": "sink",
+      "attempt_id": "a1",
+      "attempt_number": 1,
+      "retry_of": null,
+      "receipt_id": "r1",
+      "ack_id": null,
+      "business_application_id": "b1",
+      "application_outcome": "APPLIED",
+      "phase": "ACCEPTED",
+      "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "elapsed_ms": 5
+    },
+    "valid": true
+  },
+  {
+    "name": "blocker-delivery-negative-time",
+    "schema": "https://rewrotron.dev/specs/observation/effect-occurrence.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "side": "TARGET",
+      "origin": "ACTUAL_OBSERVED",
+      "logical_effect_id": "m1",
+      "step_occurrence_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "business_key": {
+        "type": "string",
+        "value": "order-1"
+      },
+      "destination_id": "sink",
+      "attempt_id": "a1",
+      "attempt_number": 1,
+      "retry_of": null,
+      "receipt_id": "r1",
+      "ack_id": null,
+      "business_application_id": "b1",
+      "application_outcome": "APPLIED",
+      "phase": "ACCEPTED",
+      "payload_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "local_identity_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "elapsed_ms": -1
+    },
+    "valid": false
   }
 ]

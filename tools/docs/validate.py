@@ -3,6 +3,7 @@
 from pathlib import Path
 import json
 import hashlib
+from decimal import Decimal
 import re
 import sqlite3
 import sys
@@ -298,6 +299,126 @@ for vector in json_files.get(ROOT / 'specs/examples/approval-hash-vectors.json',
 if vector_count < 4:
     errors.append('Missing approval hash golden vectors')
 
+# B1–B4 document vectors: byte/digest checks and fixture shape checks only.
+# In particular, this does not execute an async runner, simulator or comparator.
+blocker_vectors = json_files.get(ROOT / 'specs/examples/contract-blocker-vectors.json', {})
+blocker_vector_count = 0
+for vector in blocker_vectors.get('source_root_hash', []):
+    blocker_vector_count += 1
+    try:
+        manifest = vector['manifest']
+        validator(BASE + 'project/source-manifest.schema.json').validate(manifest)
+        paths = [entry['path'] for entry in manifest['entries']]
+        by_path = {entry['path']: entry for entry in manifest['entries']}
+        valid_order = paths == sorted(set(paths), key=lambda p: p.encode('utf-8'))
+        valid_parents = all(
+            all(by_path.get('/'.join(path.split('/')[:i]), {}).get('kind') == 'DIRECTORY'
+                for i in range(1, len(path.split('/')))) for path in paths)
+        excluded = [item['path'] for item in manifest['exclusions']]
+        valid_exclusions = (excluded == sorted(set(excluded), key=lambda p: p.encode('utf-8'))
+                            and not any(path == e or path.startswith(e + '/')
+                                        for path in paths for e in excluded))
+        admitted = valid_order and valid_parents and valid_exclusions
+        if admitted:
+            for entry in manifest['entries']:
+                if entry['kind'] != 'FILE':
+                    continue
+                raw = vector['fixture_bytes_utf8'][entry['path']].encode('utf-8')
+                if len(raw) != entry['size_bytes'] or hashlib.sha256(raw).hexdigest() != entry['sha256']:
+                    admitted = False
+        if admitted and 'claimed_root_hash' in vector:
+            preimage = {'identity': 'rwt-source-root-1', 'entries': manifest['entries']}
+            encoded = json.dumps(preimage, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+            admitted = hashlib.sha256(encoded.encode('utf-8')).hexdigest() == vector['claimed_root_hash']
+        if admitted != (vector['expected_admission'] == 'ACCEPT'):
+            raise ValueError('manifest order/parent golden expectation differs')
+        if admitted:
+            preimage = {'identity': 'rwt-source-root-1', 'entries': manifest['entries']}
+            encoded = json.dumps(preimage, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+            complete = json.dumps(manifest, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
+            if preimage != vector['preimage'] or encoded != vector['canonical_utf8']:
+                raise ValueError('root preimage/canonical bytes differ')
+            if hashlib.sha256(encoded.encode('utf-8')).hexdigest() != vector['sha256']:
+                raise ValueError('content root digest differs')
+            if hashlib.sha256(complete.encode('utf-8')).hexdigest() != vector['manifest_sha256']:
+                raise ValueError('complete manifest digest differs')
+    except Exception as exc:
+        errors.append(f"Source-root vector {vector['name']}: {exc}")
+
+number_grammar = re.compile(r'-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?(?:[eE][+-]?[0-9]+)?\Z')
+for vector in blocker_vectors.get('json_numbers', []):
+    blocker_vector_count += 1
+    try:
+        token, expected = vector['raw_token'], vector['expected']
+        validator(BASE + 'behavior/evaluation-context.schema.json#/$defs/value').validate(expected)
+        grammatical = bool(number_grammar.fullmatch(token))
+        tag = 'decimal' if any(c in token for c in '.eE') else 'integer'
+        within_bounds = grammatical
+        if grammatical and tag == 'decimal':
+            # Independently inspect exact golden value and limits; no host float decoding.
+            spelling = format(Decimal(token), 'f')
+            if '.' in spelling:
+                spelling = spelling.rstrip('0').rstrip('.')
+            coefficient = spelling.lstrip('-').replace('.', '').lstrip('0') or '0'
+            scale = len(spelling.split('.')[1]) if '.' in spelling else 0
+            within_bounds = len(coefficient) <= 38 and scale <= 18
+        if expected['type'] == 'missing':
+            if within_bounds:
+                raise ValueError('rejected numeric token has neither grammar nor bound violation')
+        elif not within_bounds or expected['type'] != tag or Decimal(expected['value']) != Decimal(token):
+            raise ValueError('golden tag/value disagrees with lexical type or exact value')
+    except Exception as exc:
+        errors.append(f"JSON-number vector {vector['raw_token']}: {exc}")
+
+for vector in blocker_vectors.get('async_completion', []):
+    blocker_vector_count += 1
+    try:
+        completion = vector['completion']
+        validator(BASE + 'behavior/semantics.schema.json#/$defs/completion').validate(completion)
+        if vector.get('expected_admission') == 'REJECT':
+            if completion['quiescence_ms'] <= completion['timeout_ms']:
+                raise ValueError('cross-field rejection lacks its declared violation')
+            continue
+        last_time = -1
+        for event in vector['events']:
+            if not last_time <= event['at_ms'] <= completion['timeout_ms']:
+                raise ValueError('event timeline is not ordered/in-window')
+            last_time = event['at_ms']
+            validator(BASE + 'observation/effect-occurrence.schema.json').validate(event['actual_effect'])
+            offset = event['actual_effect'].get('elapsed_ms')
+            if offset is not None and offset != event['at_ms']:
+                raise ValueError('golden event and observed monotonic offset disagree')
+            if offset is None and vector['expected']['verdict'] == 'PASS':
+                raise ValueError('positive timed-completion golden lacks delivery timing')
+        expected = vector['expected']
+        if expected['verdict'] not in ['PASS', 'MISMATCH', 'UNKNOWN']:
+            raise ValueError('invalid declared verdict')
+        at = expected['completion_at_ms']
+        if at is not None and not completion['quiescence_ms'] <= at <= completion['timeout_ms']:
+            raise ValueError('declared completion is outside admitted window')
+        if expected['verdict'] == 'PASS' and (at is None or expected['acknowledged_logical_count'] < completion['expected_receipts']):
+            raise ValueError('positive golden omits completion/threshold')
+        # Expected counter, timer and verdict behavior remain runtime test obligations.
+    except Exception as exc:
+        errors.append(f"Async-completion vector {vector['name']}: {exc}")
+
+fixture_names = {fixture['name'] for fixture in json_files.get(fixture_file, [])}
+guard_vectors = blocker_vectors.get('step_guard', {})
+for name in [guard_vectors.get('positive_fixture'), guard_vectors.get('control_fixture'),
+             *guard_vectors.get('negative_fixtures', [])]:
+    if name not in fixture_names:
+        errors.append(f'Missing step-guard vector fixture: {name}')
+for vector in blocker_vectors.get('numeric_comparison', []):
+    try:
+        for side in ['left', 'right']:
+            validator(BASE + 'behavior/evaluation-context.schema.json#/$defs/value').validate(vector[side])
+        if vector['left']['type'] != vector['right']['type'] and vector.get('expected') != 'UNKNOWN':
+            raise ValueError('cross-type golden expects implicit equality')
+    except Exception as exc:
+        errors.append(f'Numeric comparison vector: {exc}')
+if blocker_vector_count < 30:
+    errors.append('Missing B1–B4 contract vectors')
+
 # Documentation scan for known superseded promises. Scope is explicit and bounded.
 for path in [ROOT / 'AGENTS.md', ROOT / 'REWROTRON_PROJECT_PLAN.md', *ROOT.glob('docs/**/*.md')]:
     if path.name in ['Rewrotron_Pre-Implementation_Red-Team_Review.md', 'RED-TEAM-RESOLUTION.md']:
@@ -315,5 +436,6 @@ if errors:
     sys.exit(1)
 print(f'PASS: {len(schemas)} schemas; {fixture_count} positive/negative fixtures; '
       f'{registry_count} command/tool entries; {link_count} local links; '
-      f'{len(expected_tables)} SQL tables across two migrations; {vector_count} approval vectors; ownership/immutability/rollback checks.')
+      f'{len(expected_tables)} SQL tables across two migrations; {vector_count} approval vectors; '
+      f'{blocker_vector_count} B1–B4 vectors; ownership/immutability/rollback checks.')
 print('Scope: structural documentation/contracts, hash vectors and incremental DDL only; no Go/race/framework/runtime tests executed.')
