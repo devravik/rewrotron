@@ -140,6 +140,7 @@ For implementation work, read [AGENTS.md](AGENTS.md), then select the currently 
 | Remember the product's purpose and limits | [Product contract](docs/00-vision/PRODUCT.md) |
 | Understand the architecture | [System design](docs/01-architecture/SYSTEM-DESIGN.md) |
 | Understand assessment, continuation, and approvals | [Project lifecycle](docs/02-domain/PROJECT-LIFECYCLE.md) and [confirmation protocol](docs/02-domain/CONFIRMATION-PROTOCOL.md) |
+| Ask a coding agent to build or resume Rewrotron | [Implementation Skill usage and copyable prompts](docs/10-development/CONTRIBUTING.md#4-using-the-implementation-skill) |
 | Understand planned installation and first assessment | [Installation guide](docs/10-development/INSTALLATION.md) and [release contract](docs/10-development/RELEASE.md) |
 | Prepare a legacy application | [Customer inputs](docs/10-development/PROJECT-INPUTS.md) |
 | Understand target choices and dependency handling | [Target specification](docs/04-migration/TARGET-SPECIFICATION.md) and [dependency resolution](docs/04-migration/DEPENDENCY-RESOLUTION.md) |
