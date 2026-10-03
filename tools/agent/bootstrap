@@ -1,0 +1,281 @@
+#!/usr/bin/env python3
+"""Rewrotron Agent Capability Bootstrap and Environment Detection Tool.
+
+Discovers, verifies, and configures optional efficiency capabilities (pxpipe, RTK,
+code graph, session handoff) across supported coding agents (agy, Codex, OpenCode, Hermes).
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+MANIFEST_PATH = ROOT / "tools" / "agent" / "capabilities.json"
+
+
+def load_manifest() -> dict:
+    if not MANIFEST_PATH.exists():
+        sys.exit(f"Error: Manifest not found at {MANIFEST_PATH}")
+    with open(MANIFEST_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def detect_current_agent() -> str:
+    env = os.environ
+    if any(k in env for k in ("ANTIGRAVITY_AGENT", "AGY_VERSION", "GEMINI_CLI")):
+        return "agy"
+    if any(k in env for k in ("CODEX_SESSION", "CODEX_CLI", "CODEX_THREAD_ID")):
+        return "codex"
+    if any(k in env for k in ("OPENCODE_SESSION", "OPENCODE")):
+        return "opencode"
+    if any(k in env for k in ("HERMES_AGENT", "HERMES")):
+        return "hermes"
+
+    # Fallback to inspecting common agent binaries on PATH
+    if shutil.which("agy"):
+        return "agy (detected on PATH)"
+    if shutil.which("codex"):
+        return "codex (detected on PATH)"
+    if shutil.which("opencode"):
+        return "opencode (detected on PATH)"
+    if shutil.which("hermes"):
+        return "hermes (detected on PATH)"
+
+    return "generic / unknown"
+
+
+def detect_capability(cap_id: str, cap_meta: dict) -> dict:
+    detection_cmd = cap_meta.get("detection_command", "")
+    binary = detection_cmd.split()[0] if detection_cmd else cap_id
+    executable_path = shutil.which(binary)
+
+    result = {
+        "id": cap_id,
+        "capability": cap_meta.get("capability", cap_id),
+        "name": cap_meta.get("name", cap_id),
+        "required": cap_meta.get("required", False),
+        "installed": False,
+        "version": None,
+        "executable_path": executable_path,
+        "configured": False,
+        "details": "",
+    }
+
+    if executable_path:
+        result["installed"] = True
+        try:
+            res = subprocess.run(
+                detection_cmd,
+                shell=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                timeout=5,
+            )
+            raw_out = (res.stdout or res.stderr).strip().split("\n")[0]
+            result["version"] = raw_out if raw_out else "available"
+        except Exception:
+            result["version"] = "available (version probe timed out)"
+
+    # Specific configuration checks per capability
+    if cap_id == "pxpipe":
+        ca_bundle = Path.home() / ".pxpipe" / "warp-ca-bundle.pem"
+        result["configured"] = ca_bundle.exists()
+        result["details"] = (
+            "Proxy / CA bundle configured"
+            if result["configured"]
+            else "Proxy available, CA bundle uninitialized"
+        )
+    elif cap_id == "session_handoff":
+        result["configured"] = (ROOT / ".git").exists()
+        result["details"] = (
+            "Git repository active" if result["configured"] else "Not a git worktree"
+        )
+    elif cap_id == "rtk":
+        result["configured"] = result["installed"]
+        result["details"] = (
+            "RTK output filter active" if result["installed"] else "Not installed"
+        )
+    elif cap_id == "code_graph":
+        result["configured"] = result["installed"]
+        result["details"] = (
+            "Code graph indexer active" if result["installed"] else "Not installed"
+        )
+
+    return result
+
+
+def cmd_status(manifest: dict, as_json: bool = False) -> int:
+    agent = detect_current_agent()
+    capabilities = manifest.get("capabilities", {})
+    results = {}
+
+    for cap_id, meta in capabilities.items():
+        results[cap_id] = detect_capability(cap_id, meta)
+
+    if as_json:
+        out = {
+            "agent": agent,
+            "manifest_version": manifest.get("version", "1.0.0"),
+            "capabilities": results,
+        }
+        print(json.dumps(out, indent=2))
+        return 0
+
+    print("=" * 64)
+    print("Rewrotron Capability Bootstrap Status")
+    print(f"Active Agent Environment: {agent}")
+    print("=" * 64)
+    print(f"{'CAPABILITY':<18} {'STATUS':<15} {'VERSION / DETAILS':<30}")
+    print("-" * 64)
+
+    for cap_id, r in results.items():
+        status = "CONFIGURED" if r["configured"] else ("INSTALLED" if r["installed"] else "NOT_INSTALLED")
+        ver_info = r["version"] or r["details"] or "none"
+        if len(ver_info) > 30:
+            ver_info = ver_info[:27] + "..."
+        print(f"{cap_id:<18} {status:<15} {ver_info:<30}")
+
+    print("-" * 64)
+    print("All capabilities are optional aids. Absence never blocks Rewrotron execution.")
+    return 0
+
+
+def cmd_check(manifest: dict, as_json: bool = False) -> int:
+    capabilities = manifest.get("capabilities", {})
+    all_ok = True
+    summary = {}
+
+    for cap_id, meta in capabilities.items():
+        res = detect_capability(cap_id, meta)
+        summary[cap_id] = {
+            "installed": res["installed"],
+            "configured": res["configured"],
+            "required": meta.get("required", False),
+        }
+        if meta.get("required", False) and not res["installed"]:
+            all_ok = False
+
+    if as_json:
+        print(json.dumps({"ok": all_ok, "summary": summary}, indent=2))
+    else:
+        for cap_id, s in summary.items():
+            state = "OK" if s["installed"] else "OPTIONAL_MISSING"
+            print(f"[{state}] {cap_id} (required: {s['required']})")
+
+    return 0 if all_ok else 1
+
+
+def cmd_install(manifest: dict, cap_id: str, approved: bool) -> int:
+    capabilities = manifest.get("capabilities", {})
+    if cap_id not in capabilities:
+        print(f"Error: Capability '{cap_id}' is not in the approved allowlist.", file=sys.stderr)
+        print(f"Approved capabilities: {', '.join(capabilities.keys())}", file=sys.stderr)
+        return 1
+
+    meta = capabilities[cap_id]
+    det = detect_capability(cap_id, meta)
+    if det["installed"]:
+        print(f"Capability '{cap_id}' is already installed ({det['version']}).")
+        return 0
+
+    print("Capability Installation Review:")
+    print(f"  Name:        {meta.get('name')}")
+    print(f"  Purpose:     {meta.get('purpose')}")
+    print(f"  Source URL:  {meta.get('source_url')}")
+    print(f"  Mechanism:   {meta.get('installation_mechanism')}")
+    print(f"  Security:    {meta.get('security_approval_requirement')}")
+    print()
+
+    if not approved:
+        print("SECURITY RULE: Automated installation requires explicit operator approval.")
+        print(f"To approve and proceed, run:\n  tools/agent/bootstrap install {cap_id} --approve")
+        print("\nOr install manually using the documented mechanism above.")
+        return 2
+
+    # Approved execution path
+    mechanism = meta.get("installation_mechanism", "")
+    if cap_id == "pxpipe":
+        if not shutil.which("npm"):
+            print("Error: npm is not available in PATH to install pxpipe.", file=sys.stderr)
+            return 1
+        print("Executing approved installation: npm install -g pxpipe-proxy...")
+        res = subprocess.run(["npm", "install", "-g", "pxpipe-proxy"], check=False)
+        return res.returncode
+    else:
+        print(f"Automated installer not configured for '{cap_id}'.")
+        print(f"Please install using: {mechanism}")
+        return 1
+
+
+def cmd_configure(manifest: dict, cap_id: str) -> int:
+    capabilities = manifest.get("capabilities", {})
+    if cap_id not in capabilities:
+        print(f"Error: Capability '{cap_id}' not in allowlist.", file=sys.stderr)
+        return 1
+
+    meta = capabilities[cap_id]
+    det = detect_capability(cap_id, meta)
+    if not det["installed"]:
+        print(f"Capability '{cap_id}' is not installed. Run 'bootstrap install {cap_id}' first.")
+        return 1
+
+    if cap_id == "pxpipe":
+        # Check or initialize pxpipe warp CA bundle without running a daemon
+        ca_dir = Path.home() / ".pxpipe"
+        ca_dir.mkdir(parents=True, exist_ok=True)
+        print(f"pxpipe state directory confirmed at {ca_dir}")
+        print("pxpipe is configured. Run through existing operator proxy or 'pxpipe warp' externally.")
+        return 0
+    elif cap_id == "session_handoff":
+        print("session_handoff uses repository Git checkpoints. Configuration verified.")
+        return 0
+    else:
+        print(f"Capability '{cap_id}' configuration state verified: {det['details']}")
+        return 0
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Rewrotron Agent Capability Bootstrap")
+    parser.add_argument(
+        "command",
+        nargs="?",
+        default="status",
+        choices=["status", "check", "install", "configure"],
+        help="Command to run (default: status)",
+    )
+    parser.add_argument("capability", nargs="?", help="Capability name for install/configure")
+    parser.add_argument("--json", action="store_true", help="Output pure JSON")
+    parser.add_argument(
+        "--approve",
+        action="store_true",
+        help="Explicitly approve capability installation",
+    )
+
+    args = parser.parse_args()
+    manifest = load_manifest()
+
+    if args.command == "status":
+        return cmd_status(manifest, as_json=args.json)
+    elif args.command == "check":
+        return cmd_check(manifest, as_json=args.json)
+    elif args.command == "install":
+        if not args.capability:
+            sys.exit("Error: 'install' requires a capability name.")
+        return cmd_install(manifest, args.capability, args.approve)
+    elif args.command == "configure":
+        if not args.capability:
+            sys.exit("Error: 'configure' requires a capability name.")
+        return cmd_configure(manifest, args.capability)
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

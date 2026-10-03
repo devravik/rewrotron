@@ -1,0 +1,86 @@
+{
+  "version": "1.0.0",
+  "scope": "Repository-local agent efficiency capabilities manifest. All capabilities are optional aids; none establish project authority or modify Rewrotron specifications.",
+  "capabilities": {
+    "pxpipe": {
+      "capability": "context_compression",
+      "name": "pxpipe",
+      "purpose": "Renders bulky Tier-1 context (system prompts, tool definitions, older history) to compact PNG pages for supported vision models, reducing request tokens.",
+      "required": false,
+      "detection_command": "pxpipe --version",
+      "minimum_version": "0.14.0",
+      "configuration_state": "Service loopback endpoint http://127.0.0.1:47821 or intercepting proxy active; local CA bundle present at ~/.pxpipe/warp-ca-bundle.pem",
+      "supported_agents": [
+        "agy",
+        "codex",
+        "opencode",
+        "hermes"
+      ],
+      "installation_mechanism": "npm install -g pxpipe-proxy (or project-local npm install pxpipe-proxy)",
+      "source_url": "https://github.com/teamchong/pxpipe",
+      "changes_global_user_config": false,
+      "project_local_possible": true,
+      "security_approval_requirement": "Local loopback proxy with dynamic self-signed CA bundle for TLS termination; requires explicit user approval before automated installation."
+    },
+    "rtk": {
+      "capability": "terminal_output_optimizer",
+      "name": "rtk",
+      "purpose": "Suppresses redundant command boilerplate and compacts CLI output (locate → narrow → inspect) to minimize token consumption while preserving exit codes and error diagnostics.",
+      "required": false,
+      "detection_command": "rtk --version",
+      "minimum_version": "unverified",
+      "configuration_state": "Binary in PATH or wrapper alias configured in agent shell",
+      "supported_agents": [
+        "codex",
+        "agy",
+        "opencode",
+        "hermes"
+      ],
+      "installation_mechanism": "Package manager or direct binary release; see documentation",
+      "source_url": "https://github.com/rtk-org/rtk (unverified upstream)",
+      "changes_global_user_config": false,
+      "project_local_possible": true,
+      "security_approval_requirement": "Binary execution wrapper; requires explicit user review and approval before automated installation."
+    },
+    "code_graph": {
+      "capability": "code_graph",
+      "name": "code-review-graph",
+      "purpose": "Analyzes code impact, symbol caller/callee graphs, and dependency relationships to narrow file and test reading surface prior to edits. Index only; never source of truth.",
+      "required": false,
+      "detection_command": "code-review-graph --version",
+      "minimum_version": "unverified",
+      "configuration_state": "Local repository graph index or CLI binary in PATH",
+      "supported_agents": [
+        "codex",
+        "agy",
+        "opencode",
+        "hermes"
+      ],
+      "installation_mechanism": "Project-local npm/python package or system binary",
+      "source_url": "https://github.com/code-review-graph/code-review-graph (unverified upstream)",
+      "changes_global_user_config": false,
+      "project_local_possible": true,
+      "security_approval_requirement": "Static analysis indexing tool; read-only repository access; requires explicit user approval before automated installation."
+    },
+    "session_handoff": {
+      "capability": "session_handoff",
+      "name": "session_handoff",
+      "purpose": "Standardizes compact pointer-based handoffs (unit, files, tests, blockers, checkpoint commit, next unit) across sessions using native Git history and repository artifacts without external databases.",
+      "required": false,
+      "detection_command": "git --version",
+      "minimum_version": "2.0.0",
+      "configuration_state": "Clean git working tree or staged checkpoint in repository",
+      "supported_agents": [
+        "codex",
+        "agy",
+        "opencode",
+        "hermes"
+      ],
+      "installation_mechanism": "Native git (built-in; already present)",
+      "source_url": "https://git-scm.com",
+      "changes_global_user_config": false,
+      "project_local_possible": true,
+      "security_approval_requirement": "Built-in repository version control; no third-party installation needed."
+    }
+  }
+}
