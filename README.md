@@ -8,7 +8,9 @@ Rewrotron is a vendor-neutral legacy web application reconstruction engine being
 
 ```text
 Source adapters → Source IR → Application IR → Behavior IR
-    → exact target resolution + approved target model/plan → target adapters → differential verification/repair
+    → assessment report → explicit human selected-work/continuation decision
+    → exact target resolution + executable plan → explicit approval
+    → target adapters → differential verification/repair
 ```
 
 Core services remain framework/LLM-independent. Migration units are routes, operations or workflows. Initial reference work targets CodeIgniter 3.1.x → Laravel 13/PHP 8.3+, with preserved schemas and independent sandbox databases. Generic PHP begins with inventory/extraction; additional languages and frameworks are roadmap candidates.
@@ -43,3 +45,5 @@ This checks documentation links, schemas/references, contract examples, registri
 [Apache-2.0](LICENSE).
 
 The [red-team resolution report](docs/11-roadmap/RED-TEAM-RESOLUTION.md) maps findings to canonical owners, dispositions and remaining experiments. No finite corpus implies universal equivalence.
+
+Assessment is a successful stopping checkpoint in the [shared workflow](docs/02-domain/PROJECT-LIFECYCLE.md). Its report may expose blocked/unknown migration feasibility; it is neither an executable plan nor implementation approval. Optional continuation revalidates persisted evidence and requires separate work selection, planning and Gate 2 approval. These capabilities are SPECIFIED, not implemented.

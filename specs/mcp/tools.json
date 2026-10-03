@@ -256,7 +256,23 @@
       "gate": "GATE_1",
       "readOnlyHint": true,
       "side_effects": "audit_only"
+    },
+    {
+      "name": "assessment.run",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/assessment.run.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_1",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "assessment.get",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/assessment.get.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/reports/assessment-view.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": true,
+      "side_effects": "audit_only"
     }
   ],
-  "contract_version": "2.0"
+  "contract_version": "2.1"
 }

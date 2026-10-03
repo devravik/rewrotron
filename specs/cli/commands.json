@@ -257,7 +257,28 @@
       "output_schema": "https://rewrotron.dev/specs/project/decision.schema.json",
       "gate": "GATE_1",
       "mutating": false
+    },
+    {
+      "command": "assess",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/assess.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_1",
+      "mutating": true
+    },
+    {
+      "command": "assessment show",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/assessment-show.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/reports/assessment-view.schema.json",
+      "gate": "NONE",
+      "mutating": false
+    },
+    {
+      "command": "assessment decide",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/assessment-decide.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+      "gate": "HUMAN",
+      "mutating": true
     }
   ],
-  "contract_version": "2.0"
+  "contract_version": "2.1"
 }

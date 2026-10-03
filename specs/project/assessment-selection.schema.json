@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "selection_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "assessment_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "action": {
+      "enum": [
+        "STOP",
+        "REQUEST_EVIDENCE",
+        "CHANGE_TARGET",
+        "CHANGE_SCOPE",
+        "SELECT_WORK",
+        "ACCEPT_RECOMMENDATIONS",
+        "REJECT_RECOMMENDATIONS",
+        "CONTINUE_PLANNING"
+      ]
+    },
+    "selected_scope_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "target_intent_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "finding_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]+$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "decision_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "requested_evidence": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 1
+    },
+    "implementation_authorized": {
+      "const": false
+    },
+    "human_action": {
+      "type": "object",
+      "properties": {
+        "actor_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "channel": {
+          "const": "CLI"
+        },
+        "action_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "recorded_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "actor_id",
+        "channel",
+        "action_id",
+        "recorded_at"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "selection_id",
+    "project_id",
+    "assessment_ref",
+    "action",
+    "selected_scope_ref",
+    "target_intent_ref",
+    "finding_ids",
+    "decision_refs",
+    "requested_evidence",
+    "rationale",
+    "implementation_authorized",
+    "human_action"
+  ],
+  "additionalProperties": false,
+  "description": "Engine-created immutable explicit human progression decision. Trusted actor fields are not caller-controlled; this is never a gate receipt.",
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "action": {
+            "const": "CONTINUE_PLANNING"
+          }
+        },
+        "required": [
+          "action"
+        ]
+      },
+      "then": {
+        "properties": {
+          "selected_scope_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "target_intent_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "action": {
+            "enum": [
+              "SELECT_WORK",
+              "CHANGE_SCOPE"
+            ]
+          }
+        },
+        "required": [
+          "action"
+        ]
+      },
+      "then": {
+        "properties": {
+          "selected_scope_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "selected_scope_ref"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "action": {
+            "const": "CHANGE_TARGET"
+          }
+        },
+        "required": [
+          "action"
+        ]
+      },
+      "then": {
+        "properties": {
+          "target_intent_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "target_intent_ref"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "action": {
+            "enum": [
+              "ACCEPT_RECOMMENDATIONS",
+              "REJECT_RECOMMENDATIONS"
+            ]
+          }
+        },
+        "required": [
+          "action"
+        ]
+      },
+      "then": {
+        "properties": {
+          "finding_ids": {
+            "minItems": 1
+          }
+        },
+        "required": [
+          "finding_ids"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "action": {
+            "const": "REQUEST_EVIDENCE"
+          }
+        },
+        "required": [
+          "action"
+        ]
+      },
+      "then": {
+        "properties": {
+          "requested_evidence": {
+            "minItems": 1
+          }
+        },
+        "required": [
+          "requested_evidence"
+        ]
+      }
+    }
+  ]
+}

@@ -5,6 +5,7 @@ This file owns names; linked specifications own exact semantics/fields. Do not r
 | Term | Canonical meaning owner |
 | --- | --- |
 | Observed / contract / semantic equivalence; unverified / unknown / unsupported; intentional change | [BEHAVIOR-MODEL](../02-domain/BEHAVIOR-MODEL.md) |
+| Assessment checkpoint / report completion / migration feasibility / human continuation / planning basis | [PROJECT-LIFECYCLE](../02-domain/PROJECT-LIFECYCLE.md) |
 | Source / Application / Behavior IR; evidence / provenance | [IR-CONTRACTS](../02-domain/IR-CONTRACTS.md) |
 | Target intent / resolution / recommendation / feasibility | [TARGET-SPECIFICATION](../04-migration/TARGET-SPECIFICATION.md) |
 | Target Implementation Model / component ownership | [TARGET-ARCHITECTURE](../04-migration/TARGET-ARCHITECTURE.md) |

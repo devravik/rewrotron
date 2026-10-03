@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/mcp/tools/assessment.run.input.schema.json",
+  "type": "object",
+  "properties": {
+    "scope_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "observation": {
+      "enum": [
+        "AVAILABLE_ONLY",
+        "SAFE_RUNTIME"
+      ],
+      "default": "AVAILABLE_ONLY"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  },
+  "required": [
+    "scope_ref",
+    "project_id",
+    "idempotency_key"
+  ],
+  "additionalProperties": false
+}

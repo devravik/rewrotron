@@ -353,6 +353,16 @@
     },
     "execution": {
       "$ref": "https://rewrotron.dev/specs/execution/state.schema.json"
+    },
+    "assessment": {
+      "oneOf": [
+        {
+          "$ref": "https://rewrotron.dev/specs/reports/assessment-view.schema.json"
+        },
+        {
+          "type": "null"
+        }
+      ]
     }
   },
   "required": [

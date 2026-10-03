@@ -12,15 +12,15 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Inputs:** Synthetic immutable source tree, schemas v2, local filesystem profile.
 
-**Outputs:** Guarded CLI JSON, sealed source artifacts, project DB with migrations 0001/0002, canonical subject service.
+**Outputs:** Guarded CLI JSON, sealed source artifacts, project DB with migrations 0001/0002, canonical subject service, persisted assessment projection/selection records.
 
 **Owned specs:** CONFIRMATION-PROTOCOL, ANALYSIS-SPEC, SQLITE-SCHEMA, ARTIFACT-STORE, CLI-SPEC.
 
-**Implementation scope:** Go bootstrap/ports; exact driver/toolchain manifest; artifact/privacy/admission; snapshot acquisition; explicit human receipts; current execution/event-window service.
+**Implementation scope:** Go bootstrap/ports; exact driver/toolchain manifest; artifact/privacy/admission; snapshot acquisition; explicit human receipts; current execution/event-window service; assessment report publication over available canonical records and trusted human selection (no second analyzer).
 
-**Tests:** X01 hash/restart/registry; X02 snapshot ABA/symlink; X25 ownership/leases; X28 storage/backup; X30 quota.
+**Tests:** X01 hash/restart/registry; X02 snapshot ABA/symlink; X25 ownership/leases; X28 storage/backup; X30 quota; X41/X43/X45/X46/X51/X53/X55 assessment stop/non-mutation/history/no authority.
 
-**Acceptance criteria:** Reconstruct identical approved subjects from retained bytes after restart; reject stale/forged/missing approval and unsafe snapshot; preserve failure evidence.
+**Acceptance criteria:** Reconstruct identical approved subjects from retained bytes after restart; reject stale/forged/missing approval and unsafe snapshot; preserve failure evidence; report completion is separate from migration feasibility and never creates Gate 2/implementation work.
 
 **Evidence required:** Version/checksum manifest, exact command outputs, SQL/Go race results and subject vectors.
 
@@ -36,15 +36,15 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Inputs:** One synthetic stateful application, independently reviewed two-actor bounded scenario and explicit mutant targets.
 
-**Outputs:** Source/Application/Behavior IR subset, exact resolution, small target model, scoped verifier/recovery evidence.
+**Outputs:** Source/Application/Behavior IR subset, exact resolution, small target model, assessment checkpoint/selected-work planning basis, scoped verifier/recovery evidence.
 
 **Owned specs:** BEHAVIOR-MODEL, RUNTIME-OBSERVATION, TARGET-ARCHITECTURE, MIGRATION-UNITS, DIFFERENTIAL-TESTING, RECOVERY.
 
-**Implementation scope:** Small rule interpreter; minimal fixture source/target adapters; login→create operation with authorization failure; independent DBs and sink; foreground/supervisor ownership; current status.
+**Implementation scope:** Small rule interpreter; minimal fixture source/target adapters; login→create operation with authorization failure; independent DBs and sink; foreground/supervisor ownership; current status; report partial state before planning and require explicit human continuation before fixture target planning.
 
-**Tests:** X03 unsupported operator; X04 branch/state; X05 missing DB write; X06 wrong principal; X07 duplicate effect; X08 incomplete capture; X26 disconnect; X27 event failure.
+**Tests:** X03 unsupported operator; X04 branch/state; X05 missing DB write; X06 wrong principal; X07 duplicate effect; X08 incomplete capture; X26 disconnect; X27 event failure; X42/X44/X47/X52/X54 blocked-but-useful assessment, production safety, shared-record reuse and classification.
 
-**Acceptance criteria:** Good target passes UNIT+implemented regression; each wrong mutant fails for intended reason; login completes before create; incomplete capture yields UNKNOWN; interruption recovers without duplicate effects; repeat without LLM.
+**Acceptance criteria:** Good target passes UNIT+implemented regression; each wrong mutant fails for intended reason; login completes before create; incomplete capture yields UNKNOWN; interruption recovers without duplicate effects; repeat without LLM; the same fixture can stop successfully at assessment with blocked planning and later reuse valid shared findings after human continuation/Gate 2.
 
 **Evidence required:** 17 premise checks listed below, exact pinned corpus/policy/subject/trace/reset/target identities, mutation kill report, repeated deterministic runs.
 
@@ -60,15 +60,15 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Inputs:** Pinned licensed CI3/PHP7.4/MySQL/Redis fixture with custom auth, ≥50 routes, cron/payment sink/uploads/legacy dependencies.
 
-**Outputs:** Modified-vendor-aware Source/Application IR, mechanism attestations, source traces and bounded reviewed corpus.
+**Outputs:** Modified-vendor-aware Source/Application IR, mechanism attestations, source traces, bounded reviewed corpus and provenance-backed assessment (blocked/unknown feasibility is allowed).
 
 **Owned specs:** ANALYSIS-SPEC, CODE-CLASSIFICATION, RUNTIME-OBSERVATION, WORKFLOW-DISCOVERY, AUTH-AND-SESSION.
 
 **Implementation scope:** CI3/Generic PHP subset parser/dispatch adapter, independent container profile, operational boundary and supported connection/worker probes.
 
-**Tests:** X09 dynamic dispatch/cron; X10 vendor/flags; X11 PDO/native; X12 async email; X13 unavailable extension; X14 DB reset.
+**Tests:** X09 dynamic dispatch/cron; X10 vendor/flags; X11 PDO/native; X12 async email; X13 unavailable extension; X14 DB reset; X42/X44/X48/X51/X54 assessment with runtime blockers, selective source drift and retrievable findings.
 
-**Acceptance criteria:** Unresolved roots remain UNKNOWN; no false DEAD; direct PDO control prevents false COMPLETE; asynchronous receipt correlated; safe reset/egress verified.
+**Acceptance criteria:** Unresolved roots remain UNKNOWN; no false DEAD; direct PDO control prevents false COMPLETE; asynchronous receipt correlated; safe reset/egress verified; missing runtime/dependency evidence produces a useful classified report rather than forced plan completion.
 
 **Evidence required:** Licensed fixture/source/image/lock digests; instrumented control comparison; reviewed role/state/critical workflow partitions.
 
@@ -82,17 +82,17 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Prerequisites:** M2.
 
-**Inputs:** User target intent, source usage/capability graph, approved behavior candidates.
+**Inputs:** Persisted assessment, explicit human selected-work/CONTINUE_PLANNING record, current user target intent, source usage/capability graph, approved behavior candidates.
 
-**Outputs:** Exact resolved PHP/Laravel/service/build artifacts, immutable decisions/model/plan, Gate 2 receipt.
+**Outputs:** Exact resolved PHP/Laravel/service/build artifacts, immutable decisions/model/assessment planning basis/plan envelope 2.1, Gate 2 receipt.
 
 **Owned specs:** TARGET-SPECIFICATION, DEPENDENCY-RESOLUTION, TARGET-ARCHITECTURE, CONFIRMATION-PROTOCOL.
 
-**Implementation scope:** Recursive used-capability feasibility, action-enum decision CLI/MCP-neutral service, target model ownership/lowering, typed invalidation/reuse.
+**Implementation scope:** Recursive used-capability feasibility, action-enum decision CLI/MCP-neutral service, target model ownership/lowering, typed invalidation/reuse; assessed-state delta and hashed selection/basis closure.
 
-**Tests:** X15 wildcards; X16 reject/alternative; X17 progress hash stability; X18 dependency graph; X29 selective target drift.
+**Tests:** X15 wildcards; X16 reject/alternative; X17 progress hash stability; X18 dependency graph; X29 selective target drift; X49/X50/X55 target/dependency assessment invalidation and assessment-token rejection.
 
-**Acceptance criteria:** User version retained or blocked; no unresolved in-scope target gaps; exact pinned adapter/model/decision refs reconstruct; changing progress leaves hash unchanged.
+**Acceptance criteria:** User version retained or blocked; no unresolved in-scope target gaps; exact pinned adapter/model/decision refs reconstruct; changing progress leaves hash unchanged; assessment/continuation alone cannot generate implementation work; plan explains changed/reused findings and matches exact selected scope.
 
 **Evidence required:** Feasibility/API/behavior distinctions, license/acquisition manifests, vectors and human reviewed exact plan.
 
@@ -138,9 +138,9 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Implementation scope:** Incident budgets, reviewed patches, CLI/MCP adapters; optional orchestration using fixed capabilities, no provider core coupling.
 
-**Tests:** X24 stale/idempotent work; X26 disconnect; X31 numeric transport/client parity; X32 same-account trust.
+**Tests:** X24 stale/idempotent work; X26 disconnect; X31 numeric transport/client parity; X32 same-account trust; X46/X51/X52/X55 checkpoint/interface parity and no implicit implementation.
 
-**Acceptance criteria:** Client switch resumes same project without conversation; human decisions available via CLI; no approval bypass; supervisor survives client disconnect; at least two actual clients before integration claim.
+**Acceptance criteria:** Client switch resumes same project without conversation; human decisions available via CLI; no approval bypass; supervisor survives client disconnect; at least two actual clients before integration claim; CLI-only assessment/selection/plan approval works, and MCP cannot turn a report or agent proposal into continuation/approval.
 
 **Evidence required:** Machine protocol/recovery/permission logs, named tested client versions, isolated mutation evidence.
 
@@ -231,3 +231,7 @@ RWT-001/002/003/004/005/006 map to M0. RWT-007/008/009/010/011 map to M2 after t
 ## Claim gates and implementation restraint
 
 STRUCTURALLY_VALIDATED requires offline schema/vector/DDL checks. IMPLEMENTED requires actual source/build evidence; UNIT_TESTED, RUNTIME_VALIDATED, INTEGRATION_VALIDATED and RELEASE_VALIDATED each need named tests/profile/results. No schema-only maturity transition. Production execution, broad autonomy, global synthesis, desktop/vector search and adapter portfolios cannot precede M1 falsification. If M1 accepts a wrong target, stop expansion and fix the contract/verifier before continuing.
+
+## Assessment checkpoint coverage across milestones
+
+Assessment has no parallel engine, phase queue or extra lifecycle enum. M0 specifies/persists report and human decision projections over synthetic available records; M1 proves the same stateful shared workflow can stop without a feasible plan and resume after explicit selection/approval while preserving the early wrong-target falsification. M2 obtains real partial/static/runtime assessment evidence. M3 derives exact executable selected-work plans and deltas. M5 exercises interface parity. TESTING X41–X55 is the canonical fifteen-test checklist; these are planned tests, not executed runtime evidence. Neither runtime availability nor plan completion is a prerequisite to publishing an honest scoped assessment. Supporting these checkpoint tests must not defer M1 behind broad adapters or a separate assessment subsystem.

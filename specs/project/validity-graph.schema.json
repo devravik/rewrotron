@@ -38,7 +38,11 @@
               "NORMALIZATION_RESULT",
               "KNOWLEDGE_ARTIFACT",
               "SKILL_RESULT",
-              "TOOL_EVIDENCE"
+              "TOOL_EVIDENCE",
+              "INPUT_ASSESSMENT_FINDING",
+              "FINDING_ASSESSMENT_REPORT",
+              "ASSESSMENT_SELECTION",
+              "SELECTION_PLAN"
             ]
           },
           "predicate": {

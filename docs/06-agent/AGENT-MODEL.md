@@ -11,7 +11,7 @@ The three approvals are exact subjects described in [CONFIRMATION-PROTOCOL](../0
 1. Detect and present the source proposal and uncertainties.
 2. Wait for explicit persisted Gate 1 approval; report required missing inputs.
 3. Analyze and observe safely, then materialize evidenced contracts/cases.
-4. Propose a capability-checked plan and present omissions/exclusions/blockers.
+4. Persist/present a provenance-backed assessment, including blocked/unknown feasibility. Stop for assessment-only use; wait for explicit human selected work/continuation before a separate capability-checked plan request.
 5. Wait for Gate 2, then peek and claim ready missions.
 6. Generate/repair target slices; invoke the engine verifier and inspect every required dimension.
 7. Complete only with current fenced evidence; UNKNOWN creates observation/review work.
@@ -31,3 +31,5 @@ An agent works through mission → reason/action → evidence/result → engine-
 ## Reproducibility and trust
 
 Current generation requires v2 executable contracts and the approved Target Implementation Model; arbitrary prose is not interpreted truth. Pins include source snapshot, exact resolution, adapters/comparators, tools/skills/knowledge and acceptance scope. Another client resumes through persisted subjects/missions/evidence without conversation history. Same-account users can bypass mediated access externally; SECURITY owns that limitation. An unavailable LLM does not prevent deterministic fixture replay/acceptance, but unsupported interpretation/generation remains BLOCKED rather than invented.
+
+Assessment completion and selection are never implementation authority. Agents reuse shared persisted analysis/evidence through the typed graph, not prior conversation or a second analyzer. They may request missing evidence or propose recommendations; the human checkpoint decision and Gate 2 remain distinct. See [PROJECT-LIFECYCLE](../02-domain/PROJECT-LIFECYCLE.md).

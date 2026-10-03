@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/migration/plan.schema.json",
-  "description": "Version 1 is readable historical data only. Current execution requires version 2 plus service invariants.",
+  "description": "Versions 1.0 and 2.0 remain readable history. Current executable envelopes require 2.1, an explicit assessment continuation selection and planning-basis refs bound through v2 PLAN subject decision_refs; cross-record equality/validity requires service checks.",
   "oneOf": [
     {
       "title": "plan.schema",
@@ -241,6 +241,52 @@
         "project_id",
         "plan_hash",
         "subject"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "2.1"
+        },
+        "plan_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "plan_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "subject": {
+          "$ref": "https://rewrotron.dev/specs/project/approval-subject.schema.json#/$defs/plan"
+        },
+        "assessment_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "selection_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "planning_basis_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "plan_id",
+        "project_id",
+        "plan_hash",
+        "subject",
+        "assessment_ref",
+        "selection_ref",
+        "planning_basis_ref"
       ],
       "additionalProperties": false
     }

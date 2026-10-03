@@ -10,7 +10,7 @@ Discovery inventories HTTP, CLI, cron, jobs, callbacks, files and stateful workf
 
 ## Control and reproducibility
 
-Detect → show → explicit persisted Gate 1 → analyze/observe/model → resolve requested target and plan → show → explicit Gate 2 → staged migration/isolated verification/repair → scoped acceptance → performance evidence → explicit Gate 3 release package. [Lifecycle](../02-domain/PROJECT-LIFECYCLE.md) owns transitions. No production runner is implied.
+Detect → show → explicit persisted Gate 1 → shared analyze/observe/model → assessment report → explicit user decision → resolve selected work into an executable plan → show → explicit Gate 2 → staged migration/isolated verification/repair → scoped acceptance → performance evidence → explicit Gate 3 release package. [Lifecycle](../02-domain/PROJECT-LIFECYCLE.md) owns transitions. No production runner is implied.
 
 Facts, assertions, recommendations, intent, exact resolution and approvals remain distinct. User versions are never downgraded by an agent. Unknown dependencies or missing runtime capabilities block affected scope before generation. Decisions and consumed revisions are immutable; progress is separate. [Target specification](../04-migration/TARGET-SPECIFICATION.md) owns configuration.
 
@@ -19,3 +19,5 @@ The engine works deterministically without an LLM for supported analysis/replay/
 ## Product acceptance
 
 The first meaningful experiment must reject plausible wrong reconstructions: missing writes, wrong principal, duplicate effects and incomplete capture. A read-only route is a smoke test only. The [roadmap](../11-roadmap/ROADMAP.md) gates wider implementation on falsification evidence. No adapter/client/release claim precedes its runtime/integration/release evidence.
+
+Assessment-only use stops successfully at the [shared assessment checkpoint](../02-domain/PROJECT-LIFECYCLE.md), including when feasibility is BLOCKED/UNKNOWN or runtime evidence is unavailable. Reports preserve provenance, static-only limitations and uncertainty. Later continuation reuses only currently valid findings; completing or reviewing a report never authorizes implementation.

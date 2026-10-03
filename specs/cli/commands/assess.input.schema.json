@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/assess.input.schema.json",
+  "type": "object",
+  "properties": {
+    "scope_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "observation": {
+      "enum": [
+        "AVAILABLE_ONLY",
+        "SAFE_RUNTIME"
+      ],
+      "default": "AVAILABLE_ONLY"
+    },
+    "background": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "scope_ref"
+  ],
+  "additionalProperties": false
+}

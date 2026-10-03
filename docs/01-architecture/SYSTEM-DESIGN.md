@@ -4,13 +4,14 @@
 
 ## Canonical pipeline
 
-```
-Coherent sealed source + environment/operational profiles
- → Source IR → Application IR → Behavior IR + evidence/uncertainty
- → executable contracts + bounded scenarios
- → requested target → exact feasibility/resolution
- → immutable proposed Target Implementation Model + plan subject
- → Gate 2 activation → staged implementation
+```text
+Coherent sealed source + environment/operational profiles + requested intent/scope
+ → shared Source IR → Application IR → Behavior IR + evidence/uncertainty
+ → Assessment Report (partial evidence permitted; successful stopping point)
+ → explicit human work/continuation decision
+ → currently valid contracts + bounded scenarios + exact feasibility/resolution
+ → immutable proposed Target Implementation Model + executable plan subject
+ → explicit Gate 2 approval → staged implementation
  → isolated differential verification → scoped acceptance/repair
  → performance evidence → release package subject → Gate 3
 ```
@@ -34,3 +35,5 @@ Initial mutation/publication is serialized per project. Atomic mission deduplica
 [Migration units](../04-migration/MIGRATION-UNITS.md) distinguishes UNIT, IMPLEMENTED_REGRESSION and PROJECT acceptance; only whole-project acceptance supports release readiness. Verification requires independent source/target state, reset evidence, mechanism-derived completeness and a tested comparator. Unsafe effects, unsupported rule operators and unclosed observation mechanisms block or return UNKNOWN, never empty PASS.
 
 The first supported subset is bounded HTTP/stateful scenarios and explicit synchronous/acknowledged fixture effects. General streams, arbitrary distributed concurrency, hostile local-agent isolation, production deployment, global synthesis and broad adapter portfolios are deferred capabilities, not hidden assumptions. [ROADMAP](../11-roadmap/ROADMAP.md) sequences expansion.
+
+Assessment is a projection/checkpoint of the existing domain services, not an alternative analysis engine. [PROJECT-LIFECYCLE](../02-domain/PROJECT-LIFECYCLE.md) owns report completion, human selection and optional continuation. Partial/unsupported behavior can be reported before executable semantics or feasibility are ready; downstream execution guards are unchanged.

@@ -27,7 +27,7 @@ Secret refs use `env:NAME`. Mock endpoint/provider fixtures must define request 
 
 ## Blocking decision format
 
-A finding includes `finding_id`, code, severity, affected IDs, evidence IDs and message; the persistence record adds required action and status. A review response names the exact finding and subject revision. If it changes baseline facts, re-confirm Gate 1; target/scope/corpus/policy changes require Gate 2; release/runbook changes require Gate 3. Scope exclusions remain visible in every report.
+A finding includes `finding_id`, code, severity, affected IDs, evidence IDs and message; the persistence record adds required action and status. A review response names the exact finding and subject revision. If it changes baseline facts, re-confirm Gate 1; target/scope/corpus/policy changes invalidate affected planning/approval; Gate 2 is needed for renewed implementation, not for continued assessment. Release/runbook changes require Gate 3 for release execution. Scope exclusions remain visible in every report.
 
 The development plan can eliminate missing engineering contracts; it cannot supply undocumented customer behavior or demonstrate a runtime that has not been executed.
 
@@ -37,3 +37,5 @@ The development plan can eliminate missing engineering contracts; it cannot supp
 An agent prepares `.rewrotron/import/patches/<patch_id>/manifest.json` matching `specs/migration/patch.schema.json`, with new bytes in that directory under the same relative target file paths. `patch stage` / `migration.stage_patch` resolves only this project-owned import directory, validates paths/before-after hashes, reads bounded bytes, rejects customer secrets/symlinks and registers content artifacts. Existing content refs must belong to the same project. The engine returns a registered patch artifact ref; `patch apply` invokes the same fenced publication path as adapter generation.
 
 The manifest names an active ready unit and live fencing token. It cannot write outside the configured target, grant approvals or change contract/verifier policy. Missing token/lease, unsupported paths or mismatched before hashes fail before mutation. Reverification and mission completion evidence remain mandatory after application.
+
+Assessment can begin with incomplete dependency/runtime/behavior/target inputs after coherent snapshot/source review. Missing evidence is reported with limits; the user need not supply an executable plan or complete target resolution to obtain a useful assessment. Critical workflows, constraints and known business requirements define the assessed scope. Continuation needs explicit human selected work; plan inputs must then satisfy selected-scope feasibility/contract guards. A report never supplies missing customer facts or authorizes implementation. See [PROJECT-LIFECYCLE](../02-domain/PROJECT-LIFECYCLE.md).

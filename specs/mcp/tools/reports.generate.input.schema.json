@@ -18,6 +18,18 @@
     "idempotency_key": {
       "type": "string",
       "pattern": "^[a-z0-9_-]+$"
+    },
+    "kind": {
+      "enum": [
+        "auto",
+        "assessment",
+        "migration"
+      ],
+      "default": "auto"
+    },
+    "assessment_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
     }
   },
   "required": [
@@ -25,5 +37,25 @@
     "project_id",
     "idempotency_key"
   ],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "description": "Rendering only: auto chooses assessed-state report before a plan, migration report after a plan; before Gate 1 only a detection summary. It does not acquire evidence or start/approve planning. An explicit assessment_ref retrieves that historical report.",
+  "allOf": [
+    {
+      "if": {
+        "required": [
+          "assessment_ref"
+        ]
+      },
+      "then": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "auto",
+              "assessment"
+            ]
+          }
+        }
+      }
+    }
+  ]
 }

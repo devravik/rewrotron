@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/reports/assessment-view.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "report_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "report": {
+      "$ref": "https://rewrotron.dev/specs/reports/assessment-report.schema.json"
+    },
+    "is_latest_report": {
+      "type": "boolean"
+    },
+    "current_state_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "validity": {
+      "enum": [
+        "VALID",
+        "STALE",
+        "UNKNOWN"
+      ]
+    },
+    "current_validity_graph_ref": {
+      "oneOf": [
+        {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "finding_validity": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "analysis_record_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "validity": {
+            "enum": [
+              "VALID",
+              "STALE",
+              "UNKNOWN"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "witness_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "minItems": 0,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "finding_id",
+          "analysis_record_ref",
+          "validity",
+          "reason",
+          "witness_refs"
+        ],
+        "additionalProperties": false,
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "validity": {
+                  "const": "VALID"
+                }
+              },
+              "required": [
+                "validity"
+              ]
+            },
+            "then": {
+              "properties": {
+                "witness_refs": {
+                  "minItems": 1
+                }
+              }
+            }
+          }
+        ]
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "report_ref",
+    "report",
+    "is_latest_report",
+    "current_state_sequence",
+    "validity",
+    "current_validity_graph_ref",
+    "finding_validity"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "validity": {
+            "const": "VALID"
+          }
+        },
+        "required": [
+          "validity"
+        ]
+      },
+      "then": {
+        "properties": {
+          "current_validity_graph_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "finding_validity": {
+            "items": {
+              "properties": {
+                "validity": {
+                  "const": "VALID"
+                }
+              },
+              "required": [
+                "validity"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ]
+}

@@ -318,3 +318,105 @@ Final executed commands: `python3 tools/docs/validate.py` and `git diff --check`
 Structural-check host: Python 3.12.3, Python sqlite3 engine 3.45.1; in-memory DDL checks do not validate the specified future modernc/SQLite build, WAL/filesystem/runtime or supervisor behavior.
 
 Unchanged input review SHA-256: `1b4ca30d5f310213402bdf49dcd48efdde06c864c8347cea50de11b3d152bcc2`. Unchanged migration 0001 SHA-256: `b57b0f81f11a5eaef742ed64adb1b03b255966e23969c60970b14ae3b39d796c`.
+
+## Assessment checkpoint follow-up — 2026-10-03
+
+This follow-up implements requirement 41 in the specifications, not in a running engine. The preceding file counts/validation results describe the earlier red-team revision and remain historical. [PROJECT-LIFECYCLE](../02-domain/PROJECT-LIFECYCLE.md) is the sole assessment checkpoint owner; [DEVELOPMENT-PLAN](DEVELOPMENT-PLAN.md) remains the sole implementation queue.
+
+### Requirement dispositions
+
+| Requirement group | Decision / resolution | Owner | Status |
+| --- | --- | --- | --- |
+| One workflow / successful assessment-only stop | Shared analysis services and records; checkpoint can terminate without an executable plan, target publication or implementation missions | PROJECT-LIFECYCLE; SYSTEM-DESIGN | RESOLVED in specification |
+| Useful report with blocked/unknown migration | Independent COMPLETED assessment and bounded feasibility; incomplete/static-only evidence is classified with provenance and limits | PROJECT-LIFECYCLE; assessment-report schema | RESOLVED in specification |
+| Report contents and current versus history | Immutable assessed-state projection plus a separate current validity view; effort only where supported | PROJECT-LIFECYCLE; report/view schemas | RESOLVED in specification |
+| Explicit user decision / independent approval | Local human selection before a separate plan request; no MCP selection/approval minting; Gate 2 still authorizes implementation | CONFIRMATION-PROTOCOL; CLI/MCP specs | RESOLVED in specification |
+| Optional continuation and selective reuse | Original analysis IDs plus typed predicates/witnesses; stale only affected findings; preserve historical evidence | DOMAIN-MODEL; validity graph/planning basis | RESOLVED in specification |
+| Derived executable plan / changes since assessment | Plan envelope 2.1 binds selection and basis via unchanged v2 approval subject decision_refs; acyclic immutable closure | MIGRATION-ENGINE; plan schema | RESOLVED in specification |
+| No executable-corpus prerequisite for scope | Shared work-scope artifact records snapshot/workflow/constraint/business inputs before acceptance cases exist | PROJECT-LIFECYCLE; work-scope schema | RESOLVED in specification |
+| Fifteen required acceptance tests | X41–X55 specify non-mutation, non-authorization, shared records, blocked retrieval, classification, drift and reuse | TESTING; M0/M1/M2/M3/M5 | RESOLVED as planned experiments; runtime pending |
+
+No requirement was rejected or assigned to a separate assessment engine. New schema refs use existing immutable artifacts/events/indexes; neither SQL migration was changed. Existing ADRs 0011/0012 were updated instead of creating competing decisions. M1 remains the early wrong-target falsification milestone.
+
+### Changed existing files
+
+Reasons and changes below are scoped to this assessment follow-up, not the preceding red-team revision.
+
+| File | Reason / major changes |
+| --- | --- |
+| [AGENTS.md](../../AGENTS.md) | Constitution: shared checkpoint, independent completion and explicit continuation without implementation authority. |
+| [README.md](../../README.md) | Current overview and workflow/order now include assessment, optional stop and separate plan approval. |
+| [REWROTRON_PROJECT_PLAN.md](../../REWROTRON_PROJECT_PLAN.md) | Current overview and workflow/order now include assessment, optional stop and separate plan approval. |
+| [docs/00-vision/GLOSSARY.md](../../docs/00-vision/GLOSSARY.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/00-vision/PRODUCT.md](../../docs/00-vision/PRODUCT.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/01-architecture/ADR/0011-development-baseline-and-contract-completion.md](../../docs/01-architecture/ADR/0011-development-baseline-and-contract-completion.md) | Existing accepted decision extended for shared checkpoint sequencing, immutable selections and falsification. |
+| [docs/01-architecture/ADR/0012-target-specification-and-dependency-resolution.md](../../docs/01-architecture/ADR/0012-target-specification-and-dependency-resolution.md) | Existing accepted decision extended for shared checkpoint sequencing, immutable selections and falsification. |
+| [docs/01-architecture/COMPONENTS.md](../../docs/01-architecture/COMPONENTS.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/01-architecture/SERVICE-CONTRACTS.md](../../docs/01-architecture/SERVICE-CONTRACTS.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/01-architecture/SYSTEM-DESIGN.md](../../docs/01-architecture/SYSTEM-DESIGN.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/02-domain/CONFIRMATION-PROTOCOL.md](../../docs/02-domain/CONFIRMATION-PROTOCOL.md) | Typed report/finding reuse, current versus history and checkpoint refs in immutable plan closure. |
+| [docs/02-domain/DOMAIN-MODEL.md](../../docs/02-domain/DOMAIN-MODEL.md) | Typed report/finding reuse, current versus history and checkpoint refs in immutable plan closure. |
+| [docs/02-domain/PROJECT-LIFECYCLE.md](../../docs/02-domain/PROJECT-LIFECYCLE.md) | Canonical completion/report/selection/continuation, feasibility, scope, identity, invalidation and cross-record rules. |
+| [docs/03-analysis/ANALYSIS-SPEC.md](../../docs/03-analysis/ANALYSIS-SPEC.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/04-migration/DEPENDENCY-RESOLUTION.md](../../docs/04-migration/DEPENDENCY-RESOLUTION.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/04-migration/MIGRATION-ENGINE.md](../../docs/04-migration/MIGRATION-ENGINE.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/04-migration/TARGET-SPECIFICATION.md](../../docs/04-migration/TARGET-SPECIFICATION.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/06-agent/AGENT-MODEL.md](../../docs/06-agent/AGENT-MODEL.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/06-agent/CLI-SPEC.md](../../docs/06-agent/CLI-SPEC.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/06-agent/ERROR-CATALOG.md](../../docs/06-agent/ERROR-CATALOG.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/06-agent/EXECUTION-OBSERVABILITY.md](../../docs/06-agent/EXECUTION-OBSERVABILITY.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/06-agent/MCP-SPEC.md](../../docs/06-agent/MCP-SPEC.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/06-agent/MISSION-PROTOCOL.md](../../docs/06-agent/MISSION-PROTOCOL.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/06-agent/SKILL-SPEC.md](../../docs/06-agent/SKILL-SPEC.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/08-storage/ARTIFACT-STORE.md](../../docs/08-storage/ARTIFACT-STORE.md) | Assessment artifact indexing/atomic publication/retention through existing storage; no DDL change. |
+| [docs/08-storage/SQLITE-SCHEMA.md](../../docs/08-storage/SQLITE-SCHEMA.md) | Assessment artifact indexing/atomic publication/retention through existing storage; no DDL change. |
+| [docs/09-security/PERMISSION-MODEL.md](../../docs/09-security/PERMISSION-MODEL.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/10-development/FIXTURE-CORPUS.md](../../docs/10-development/FIXTURE-CORPUS.md) | Fifteen X41–X55 falsification experiments and shared reference fixture variants; execution remains pending. |
+| [docs/10-development/PROJECT-INPUTS.md](../../docs/10-development/PROJECT-INPUTS.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/10-development/TESTING.md](../../docs/10-development/TESTING.md) | Fifteen X41–X55 falsification experiments and shared reference fixture variants; execution remains pending. |
+| [docs/11-roadmap/DECISION-REGISTER.md](../../docs/11-roadmap/DECISION-REGISTER.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/11-roadmap/DEVELOPMENT-PLAN.md](../../docs/11-roadmap/DEVELOPMENT-PLAN.md) | Assessment outputs/prerequisites/tests added to existing milestones without a parallel queue or delaying M1. |
+| [docs/11-roadmap/DOCUMENTATION-AUDIT.md](../../docs/11-roadmap/DOCUMENTATION-AUDIT.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [docs/11-roadmap/RED-TEAM-RESOLUTION.md](../../docs/11-roadmap/RED-TEAM-RESOLUTION.md) | Follow-up disposition, file manifest, evidence limits and remaining experiments. |
+| [docs/11-roadmap/ROADMAP.md](../../docs/11-roadmap/ROADMAP.md) | Assessment outputs/prerequisites/tests added to existing milestones without a parallel queue or delaying M1. |
+| [docs/README.md](../../docs/README.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [specs/README.md](../../specs/README.md) | Align the existing owning or supporting specification with shared assessment, explicit continuation and evidence limits. |
+| [specs/cli/commands.json](../../specs/cli/commands.json) | Catalog 2.1 for guarded assessment coordination/inspection and local human selection. |
+| [specs/cli/commands/plan.input.schema.json](../../specs/cli/commands/plan.input.schema.json) | Align machine contract with checkpoint refs, rendering, validity or versioned current plan; retain historical shapes. |
+| [specs/cli/commands/report.input.schema.json](../../specs/cli/commands/report.input.schema.json) | Align machine contract with checkpoint refs, rendering, validity or versioned current plan; retain historical shapes. |
+| [specs/examples/approval-hash-vectors.json](../../specs/examples/approval-hash-vectors.json) | Add one checkpoint-derived v2 subject vector; preserve all eight original vectors. |
+| [specs/examples/validation-cases.json](../../specs/examples/validation-cases.json) | Positive/negative synthetic checkpoint, classification, selection, scope, validity and plan fixtures. |
+| [specs/mcp/tools.json](../../specs/mcp/tools.json) | Catalog 2.1 for guarded assessment coordination/inspection and local human selection. |
+| [specs/mcp/tools/migration.plan.input.schema.json](../../specs/mcp/tools/migration.plan.input.schema.json) | Align machine contract with checkpoint refs, rendering, validity or versioned current plan; retain historical shapes. |
+| [specs/mcp/tools/reports.generate.input.schema.json](../../specs/mcp/tools/reports.generate.input.schema.json) | Align machine contract with checkpoint refs, rendering, validity or versioned current plan; retain historical shapes. |
+| [specs/migration/plan.schema.json](../../specs/migration/plan.schema.json) | Align machine contract with checkpoint refs, rendering, validity or versioned current plan; retain historical shapes. |
+| [specs/project/approval-subject.schema.json](../../specs/project/approval-subject.schema.json) | Align machine contract with checkpoint refs, rendering, validity or versioned current plan; retain historical shapes. |
+| [specs/project/snapshot.schema.json](../../specs/project/snapshot.schema.json) | Align machine contract with checkpoint refs, rendering, validity or versioned current plan; retain historical shapes. |
+| [specs/project/validity-graph.schema.json](../../specs/project/validity-graph.schema.json) | Align machine contract with checkpoint refs, rendering, validity or versioned current plan; retain historical shapes. |
+
+### Necessary new files
+
+| File | Purpose |
+| --- | --- |
+| [specs/cli/commands/assess.input.schema.json](../../specs/cli/commands/assess.input.schema.json) | Typed CLI/MCP input for shared checkpoint services; no implementation. |
+| [specs/cli/commands/assessment-decide.input.schema.json](../../specs/cli/commands/assessment-decide.input.schema.json) | Typed CLI/MCP input for shared checkpoint services; no implementation. |
+| [specs/cli/commands/assessment-show.input.schema.json](../../specs/cli/commands/assessment-show.input.schema.json) | Typed CLI/MCP input for shared checkpoint services; no implementation. |
+| [specs/mcp/tools/assessment.get.input.schema.json](../../specs/mcp/tools/assessment.get.input.schema.json) | Typed CLI/MCP input for shared checkpoint services; no implementation. |
+| [specs/mcp/tools/assessment.run.input.schema.json](../../specs/mcp/tools/assessment.run.input.schema.json) | Typed CLI/MCP input for shared checkpoint services; no implementation. |
+| [specs/migration/assessment-planning-basis.schema.json](../../specs/migration/assessment-planning-basis.schema.json) | Immutable changed/reused finding inputs bound by plan approval. |
+| [specs/project/assessment-selection.schema.json](../../specs/project/assessment-selection.schema.json) | Explicit immutable human work decision, never implementation approval. |
+| [specs/project/work-scope.schema.json](../../specs/project/work-scope.schema.json) | Shared pre-plan scope without an executable corpus. |
+| [specs/reports/assessment-report.schema.json](../../specs/reports/assessment-report.schema.json) | Persisted report or separately evaluated applicability; no plan/approval prerequisite. |
+| [specs/reports/assessment-view.schema.json](../../specs/reports/assessment-view.schema.json) | Persisted report or separately evaluated applicability; no plan/approval prerequisite. |
+
+### Remaining blockers, order and validation limits
+
+P0/P1: no newly unresolved assessment design decision identified. Actual human-channel enforcement, source/production non-mutation, atomic completion, typed selective reuse and approval-token rejection are mandatory implementation evidence, not proven by these documents. P2/P3 capability deferrals from the prior review remain unchanged. Missing runtime/dependency capability can block migration while still permitting a useful assessment.
+
+Order remains M0 → M1 → M2 → M3 → M4 → M5 → M6, optional M7, later M8. M0 persists checkpoint records; M1 tests stopping/resuming the same stateful workflow and rejects wrong reconstructions; M2 reports real source evidence/gaps; M3 resolves explicitly selected work into approved exact plans; M5 tests interface parity.
+
+Contradiction scan corrected overview pipeline bypass, generic completion-as-packaging wording, Skill completion requiring verification for assessment, automatic successor-plan wording, plan permission prerequisites and FINALIZE display scope. No conflicting answer remains identified for these revised concepts. Historical red-team results and old schema/plan versions are labeled historical; an assessment applicability claim remains distinct from verification PASS.
+
+Executed structural validation: `python3 tools/docs/validate.py` and `git diff --check`, exit 0 before this audit appendix; rerun after publication is required. At that check: 130 schemas, 178 positive/negative fixtures, 71 CLI/MCP catalog entries, 474 local links, 40 SQL tables across the same two migrations and nine approval vectors. Go/runtime/agent/sandbox/client tests were not run. X41–X55 are acceptance specifications, not passing runtime tests. Original input review and migrations remain byte-identical; no engine, adapter, production Go, new executable tool or Skill was implemented.
+
+Post-publication rerun passed: 130 schemas, 178 positive/negative fixtures, 71 catalog entries, 535 local links, the same 40 SQL tables and nine approval vectors. `git diff --check` passed. All fifteen X41–X55 entries are present, all eight original vectors are unchanged, and the scope check found no Go or SQL migration changes. This follow-up changed 49 existing files and added ten necessary specification files; runtime acceptance remains pending.

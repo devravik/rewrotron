@@ -8,7 +8,7 @@
 | `cmd/rewrotron-mcp` | Entry point and stdio lifecycle | JSON-RPC → MCP handler → same application services |
 | `internal/runtime` | Composition and adapter registration | Concrete constructors → injected neutral ports |
 | `internal/domain` | Records, typed IDs, enums, errors, ports | Standard library and canonical types only |
-| `internal/core` | Gate-checked application services | Domain requests → persisted state and operation results |
+| `internal/core` | Gate-checked shared application services | Domain requests → persisted state, assessment checkpoint projections and operation results |
 | `internal/project` | Configuration, manifests, workspace opening | Root `rewrotron.yaml`/legacy input → validated intent; generated views have no approval authority |
 | `internal/detection` | Neutral source/environment proposal coordination | Bounded adapter facts → separate immutable detection artifacts |
 | `internal/recommendations` | Evidence-backed proposed actions and decision views | Facts + requested target + compatibility evidence → typed recommendations; never mutates intent |
@@ -17,7 +17,7 @@
 | `internal/analysis` | Framework-neutral graph and reachability algorithms | Source/Application IR → evidence-backed classifications |
 | `internal/observer` | Capture coordination, correlation, redaction | Sandbox adapter observations → canonical trace artifacts |
 | `internal/behavior` | Workflow synthesis and contract validation | Application IR + traces → Behavior IR and case corpus |
-| `internal/migration` | Unit DAG, plan synthesis and patch coordination | Behavior IR + target capabilities → confirmed plan and patches |
+| `internal/migration` | Unit DAG, selected-work plan synthesis and patch coordination | Valid assessed evidence + explicit human continuation + Behavior IR/target capabilities → proposed plan; Gate 2 → patches |
 | `internal/verification` | Replay orchestration and neutral comparisons | Case + source/target traces + policy → deterministic report |
 | `internal/execution` | Structured instrumentation, repeatable stage/task projections, measured progress, explanations and human control views | Committed events/operations/missions/findings/confirmations → one live state/timeline; no approval or verdict authority |
 | `internal/missions` | Queue, leases, retries, evidence-based completion | Valid state + dependencies → fenced mission lease |
@@ -41,3 +41,5 @@
 PHP parsing, CI3 hook semantics, Laravel middleware, and framework template generation are adapter responsibilities. Shared graph algorithms and JSON/session/DB comparison are neutral responsibilities. Table identifiers belong to discovered data models, not hardcoded framework conventions.
 
 No second artifact store or normalization implementation is introduced. `internal/storage/artifacts` owns durable bytes; `internal/verification` owns comparison. `internal/observer` invokes a shared redactor before persistence. Enforce the import graph with an architecture check in RWT-001 and fixtures in RWT-007/008.
+
+Assessment reporting/selection is a checkpoint projection coordinated by the existing services, not an `internal/assessment` analyzer or parallel adapter pipeline. [PROJECT-LIFECYCLE](../02-domain/PROJECT-LIFECYCLE.md) owns its completion and continuation contract.

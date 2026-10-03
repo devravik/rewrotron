@@ -34,7 +34,7 @@ Expose these stages in this display order. They are execution labels, not new pr
 | `VERIFY` | Differential cases/dimensions and current aggregate evidence |
 | `REPAIR` | Recorded hypothesis, bounded attempts and regression results |
 | `OPTIMIZE` | Optional post-parity improvements with benchmark/regression evidence |
-| `FINALIZE` | Full-scope checks, benchmark, session/rollback evidence, Gate 3 and packaging |
+| `FINALIZE` | Publish an assessment report for an assessment operation; for a release operation, full-scope checks, benchmark, session/rollback evidence, Gate 3 and packaging |
 
 Every visit has a `stage_instance_id` and captured subjects. OBSERVE/MODEL can repeat; stage instances can overlap for inspection, while initial mutations are serialized per project; CONFIRM may recur at each gate. OPTIMIZE can be `NOT_APPLICABLE` when not selected. A completed stage instance does not mean every case passed or that a whole project is complete. Show latest/current/historical instances and reasons for reopened work; do not turn prior success into a current checkmark after drift.
 
@@ -163,3 +163,7 @@ Control-mode COMPLETED means the current scheduled execution scope has no unfini
 page.schema v2 requires state_semantics=CURRENT and state_sequence=N. Read current rows and global committed N in one SQLite read transaction; state.latest_event_sequence equals page.state_sequence=N and is a read watermark, not a claim this project changed at N; through_sequence=M bounds events/changes with after ≤ M ≤ N. The state reflects N even when a caller supplies older M. Never label it state-at-M. Each later page may have a newer current N; the M event window remains fixed. Full historical projections/snapshots are deferred. Correlation uses the shared causality envelope; trace timestamps are not causation.
 
 Inspection auditing is coalesced to at most one summary per client/project/minute and excluded from unread work/activity. Heartbeats may be coalesced before persistence but committed ledger rows stay immutable. Liveness, activity, waiting, progress, retrying, blocked and stale are distinct labels. Event-store failure stops new work, records recoverable journal/owned cleanup evidence where possible and returns a structured failure; never report uncommitted success or retry an irreversible effect because logging failed. Quota/retention follow ARTIFACT-STORE; process ownership follows RECOVERY.
+
+## Assessment outcome versus migration readiness
+
+Use the existing ANALYZE/OBSERVE/MODEL display stages for shared evidence gathering and FINALIZE for assessment report publication; an assessment checkpoint is not another analysis stage or projects.status enum. TASK_COMPLETED/ACTION_COMPLETED names the assessment artifact, captured inputs and report completion reason. Outcome reports distinguish COMPLETED assessment from BLOCKED/UNKNOWN migration feasibility and current STALE/UNKNOWN findings. A completed report leaves execution waiting for explicit human decision, or completes an assessment-only operation; it does not automatically enqueue PLAN/MIGRATE. Status shows available report, examined scope/evidence limits, feasibility, missing evidence, current validity and next options. No percentage implies plan readiness. Historical as_of_sequence is a captured report watermark, not a historical mutable-state projection.

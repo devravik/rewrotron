@@ -1,0 +1,207 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/migration/assessment-planning-basis.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "assessment_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "selection_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "selected_scope_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "current_input_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "enum": [
+              "SOURCE_SNAPSHOT",
+              "DETECTION",
+              "TARGET_INTENT",
+              "OPERATIONAL_PROFILE",
+              "CONSTRAINTS",
+              "BUSINESS_REQUIREMENTS",
+              "ANALYSIS",
+              "OBSERVATION",
+              "DEPENDENCY",
+              "ADAPTER",
+              "POLICY",
+              "EVIDENCE"
+            ]
+          },
+          "ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "role",
+          "ref"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "validity_graph_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "reused_findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "analysis_record_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "checked_prerequisite_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "witness_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "analysis_record_ref",
+          "checked_prerequisite_refs",
+          "witness_refs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "stale_finding_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "new_finding_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "changes_since_assessment": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "input_role": {
+            "enum": [
+              "SOURCE_SNAPSHOT",
+              "DETECTION",
+              "TARGET_INTENT",
+              "OPERATIONAL_PROFILE",
+              "CONSTRAINTS",
+              "BUSINESS_REQUIREMENTS",
+              "ANALYSIS",
+              "OBSERVATION",
+              "DEPENDENCY",
+              "ADAPTER",
+              "POLICY",
+              "EVIDENCE",
+              "DECISION",
+              "SCOPE"
+            ]
+          },
+          "before_ref": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "after_ref": {
+            "oneOf": [
+              {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "provenance_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            "minItems": 1,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "input_role",
+          "before_ref",
+          "after_ref",
+          "reason",
+          "provenance_refs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "assessment_ref",
+    "selection_ref",
+    "selected_scope_ref",
+    "current_input_refs",
+    "validity_graph_ref",
+    "reused_findings",
+    "stale_finding_refs",
+    "new_finding_refs",
+    "changes_since_assessment"
+  ],
+  "additionalProperties": false,
+  "description": "Immutable planning input/delta, hashed via PLAN subject decision_refs. Reuse checks precede any executable plan; not a verification reuse certificate."
+}

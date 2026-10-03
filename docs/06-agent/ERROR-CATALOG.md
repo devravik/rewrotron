@@ -9,6 +9,7 @@ Every error has `code`, `message`, `category`, `retryable`, `recommended_action`
 | ERR_PROJECT_NOT_FOUND | 1 | No | Initialize/register the selected workspace |
 | ERR_CONFIRMATION_REQUIRED | 4 for Gate 1/2, 3 for Gate 3 | No | Review and approve the exact current subject |
 | ERR_SOURCE_DRIFT | 4 | No | Re-detect, review changes and re-confirm baseline |
+| ERR_ASSESSMENT_DECISION_REQUIRED | 4 | No | Review assessment and explicitly select CONTINUE_PLANNING through the local human channel |
 | ERR_PLAN_STALE | 4 | No | Re-synthesize and confirm current plan |
 | ERR_APPROVAL_INVALID | 3 | No | Issue a valid human approval for the project/gate/subject |
 | ERR_IDEMPOTENCY_CONFLICT | 1 | No | Use new request key or original identical payload |
@@ -32,3 +33,5 @@ Categories match `specs/common.schema.json`. Machine contracts never require par
 The canonical execution view combines the existing code with stage/task/scope, concrete difference, evidence refs, recorded attempts, labeled hypothesis and next action. A task failure is separate from MISMATCH/UNKNOWN; paused, disconnected and stale-heartbeat states are not verification verdicts. `ERR_INVALID_ARGUMENT` covers invalid/future event cursors, watch/JSON or watch/quiet/dry-run combinations, and unknown verbosity. Reading developer details retains the same redaction/ownership rules. UI Skip proposes a scope/plan revision, never a silent PASS or exclusion.
 
 Version 2 reasons: ERR_CAPABILITY_UNSUPPORTED (mechanism/operator/supervisor missing), ERR_UNBOUND_VALUE (missing typed input), ERR_CONFIG_CONFLICT (competing intent), BACKUP_INCOMPLETE (unavailable closure), ERR_QUOTA_EXCEEDED (admission paused), ERR_SUBJECT_VERSION (retained subject cannot execute). Include stage/scope/ref/evidence/next action; unsupported in-scope behavior yields UNKNOWN, never PASS.
+
+A persisted useful assessment with BLOCKED/UNKNOWN migration feasibility is successful report completion, not ERR_UNSUPPORTED_CAPABILITY solely because migration is infeasible. Acquisition errors are reported as classified findings where possible; inability to persist the report remains an operation error. A stale selection/changed chosen scope must be reviewed before planning, never silently substituted.

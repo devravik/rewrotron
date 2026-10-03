@@ -141,7 +141,8 @@
             "pattern": "^sha256:[a-f0-9]{64}$"
           },
           "minItems": 0,
-          "uniqueItems": true
+          "uniqueItems": true,
+          "description": "Immutable selected decision artifact refs. For plan envelope 2.1 this set also contains exact assessment-selection and assessment-planning-basis refs; services validate their typed same-project closure. Progress is excluded."
         },
         "dependency_graph_ref": {
           "type": "string",
@@ -562,7 +563,8 @@
             "pattern": "^sha256:[a-f0-9]{64}$"
           },
           "minItems": 0,
-          "uniqueItems": true
+          "uniqueItems": true,
+          "description": "Immutable selected decision artifact refs. For plan envelope 2.1 this set also contains exact assessment-selection and assessment-planning-basis refs; services validate their typed same-project closure. Progress is excluded."
         },
         "dependency_graph_ref": {
           "type": "string",

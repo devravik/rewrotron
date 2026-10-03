@@ -5490,5 +5490,2388 @@
       ]
     },
     "valid": true
+  },
+  {
+    "name": "assessment-completed-with-blocked-migration",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "COMPLETED",
+      "migration_feasibility": "BLOCKED",
+      "implementation_authorized": false,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+        },
+        {
+          "role": "OPERATIONAL_PROFILE",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000016"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "classification": "UNSUPPORTED",
+          "basis": "STATIC_ONLY",
+          "category": "BLOCKER",
+          "summary": "Required legacy extension is unavailable in the declared sandbox",
+          "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "limitations": [
+            "Static dependency/profile evidence only; no runtime behavior has been established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+        },
+        {
+          "finding_id": "source_extension_requirement",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014",
+          "classification": "OBSERVED",
+          "basis": "STATIC_ONLY",
+          "category": "DEPENDENCY",
+          "summary": "Source fixture declares a required extension",
+          "reason": "Pinned source manifest declares the extension requirement",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000015"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+          ],
+          "limitations": [
+            "Declaration observed statically; runtime usage is not established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": null
+        }
+      ],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-feasibility-unknown",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "COMPLETED",
+      "migration_feasibility": "UNKNOWN",
+      "implementation_authorized": false,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+        },
+        {
+          "role": "OPERATIONAL_PROFILE",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000016"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "classification": "UNSUPPORTED",
+          "basis": "STATIC_ONLY",
+          "category": "BLOCKER",
+          "summary": "Required legacy extension is unavailable in the declared sandbox",
+          "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "limitations": [
+            "Static dependency/profile evidence only; no runtime behavior has been established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+        },
+        {
+          "finding_id": "source_extension_requirement",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014",
+          "classification": "OBSERVED",
+          "basis": "STATIC_ONLY",
+          "category": "DEPENDENCY",
+          "summary": "Source fixture declares a required extension",
+          "reason": "Pinned source manifest declares the extension requirement",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000015"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+          ],
+          "limitations": [
+            "Declaration observed statically; runtime usage is not established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": null
+        }
+      ],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-feasibility-partially_understood",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "COMPLETED",
+      "migration_feasibility": "PARTIALLY_UNDERSTOOD",
+      "implementation_authorized": false,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+        },
+        {
+          "role": "OPERATIONAL_PROFILE",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000016"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "classification": "UNSUPPORTED",
+          "basis": "STATIC_ONLY",
+          "category": "BLOCKER",
+          "summary": "Required legacy extension is unavailable in the declared sandbox",
+          "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "limitations": [
+            "Static dependency/profile evidence only; no runtime behavior has been established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+        },
+        {
+          "finding_id": "source_extension_requirement",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014",
+          "classification": "OBSERVED",
+          "basis": "STATIC_ONLY",
+          "category": "DEPENDENCY",
+          "summary": "Source fixture declares a required extension",
+          "reason": "Pinned source manifest declares the extension requirement",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000015"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+          ],
+          "limitations": [
+            "Declaration observed statically; runtime usage is not established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": null
+        }
+      ],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-feasibility-viable_with_conditions",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "COMPLETED",
+      "migration_feasibility": "VIABLE_WITH_CONDITIONS",
+      "implementation_authorized": false,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+        },
+        {
+          "role": "OPERATIONAL_PROFILE",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000016"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+        "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "classification": "UNSUPPORTED",
+          "basis": "STATIC_ONLY",
+          "category": "BLOCKER",
+          "summary": "Required legacy extension is unavailable in the declared sandbox",
+          "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "limitations": [
+            "Static dependency/profile evidence only; no runtime behavior has been established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+        },
+        {
+          "finding_id": "source_extension_requirement",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014",
+          "classification": "OBSERVED",
+          "basis": "STATIC_ONLY",
+          "category": "DEPENDENCY",
+          "summary": "Source fixture declares a required extension",
+          "reason": "Pinned source manifest declares the extension requirement",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000015"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+          ],
+          "limitations": [
+            "Declaration observed statically; runtime usage is not established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": null
+        }
+      ],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-cannot-be-verification-pass",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "COMPLETED",
+      "migration_feasibility": "BLOCKED",
+      "implementation_authorized": false,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "classification": "UNSUPPORTED",
+          "basis": "STATIC_ONLY",
+          "category": "BLOCKER",
+          "summary": "Required legacy extension is unavailable in the declared sandbox",
+          "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "limitations": [
+            "Static dependency/profile evidence only; no runtime behavior has been established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+        }
+      ],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null,
+      "verdict": "PASS"
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-never-authorizes-implementation",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "COMPLETED",
+      "migration_feasibility": "BLOCKED",
+      "implementation_authorized": true,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "classification": "UNSUPPORTED",
+          "basis": "STATIC_ONLY",
+          "category": "BLOCKER",
+          "summary": "Required legacy extension is unavailable in the declared sandbox",
+          "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "limitations": [
+            "Static dependency/profile evidence only; no runtime behavior has been established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+        }
+      ],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null
+    },
+    "valid": false
+  },
+  {
+    "name": "static-assessment-must-state-limits",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "COMPLETED",
+      "migration_feasibility": "BLOCKED",
+      "implementation_authorized": false,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "classification": "UNSUPPORTED",
+          "basis": "STATIC_ONLY",
+          "category": "BLOCKER",
+          "summary": "Required legacy extension is unavailable in the declared sandbox",
+          "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "limitations": [],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+        }
+      ],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-material-finding-needs-provenance",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "COMPLETED",
+      "migration_feasibility": "BLOCKED",
+      "implementation_authorized": false,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "classification": "UNSUPPORTED",
+          "basis": "STATIC_ONLY",
+          "category": "BLOCKER",
+          "summary": "Required legacy extension is unavailable in the declared sandbox",
+          "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+          "provenance_refs": [],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "limitations": [
+            "Static dependency/profile evidence only; no runtime behavior has been established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+        }
+      ],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-finding-needs-shared-analysis-identity",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "COMPLETED",
+      "migration_feasibility": "BLOCKED",
+      "implementation_authorized": false,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [
+        {
+          "finding_id": "missing_extension",
+          "classification": "UNSUPPORTED",
+          "basis": "STATIC_ONLY",
+          "category": "BLOCKER",
+          "summary": "Required legacy extension is unavailable in the declared sandbox",
+          "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "limitations": [
+            "Static dependency/profile evidence only; no runtime behavior has been established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+        }
+      ],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-does-not-borrow-project-status",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "VERIFIED",
+      "migration_feasibility": "BLOCKED",
+      "implementation_authorized": false,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "classification": "UNSUPPORTED",
+          "basis": "STATIC_ONLY",
+          "category": "BLOCKER",
+          "summary": "Required legacy extension is unavailable in the declared sandbox",
+          "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "limitations": [
+            "Static dependency/profile evidence only; no runtime behavior has been established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+        }
+      ],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null
+    },
+    "valid": false
+  },
+  {
+    "name": "blocked-assessment-cannot-hide-blocker",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "COMPLETED",
+      "migration_feasibility": "BLOCKED",
+      "implementation_authorized": false,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null
+    },
+    "valid": false
+  },
+  {
+    "name": "missing-evidence-is-not-observation",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-report.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "assessment_id": "assessment_fixture",
+      "project_id": "fixture",
+      "assessment_status": "COMPLETED",
+      "migration_feasibility": "BLOCKED",
+      "implementation_authorized": false,
+      "as_of_sequence": 15,
+      "created_at": "2026-10-03T00:00:00Z",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+      "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        }
+      ],
+      "analysis_record_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+      ],
+      "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+      "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+      "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+      "examined_scope": "The selected fixture payment operation, not the whole application",
+      "findings": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "classification": "OBSERVED",
+          "basis": "MISSING_EVIDENCE",
+          "category": "BLOCKER",
+          "summary": "Required legacy extension is unavailable in the declared sandbox",
+          "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+          "provenance_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+          ],
+          "prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "limitations": [
+            "Static dependency/profile evidence only; no runtime behavior has been established"
+          ],
+          "affected_ids": [
+            "payment_workflow"
+          ],
+          "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+        }
+      ],
+      "missing_evidence": [
+        "Executable sandbox and payment behavioral characterization"
+      ],
+      "assumptions": [
+        "Customer workflow inventory is available only for the selected operation"
+      ],
+      "uncertainty": [
+        "Runtime behavior and target feasibility remain uncharacterized"
+      ],
+      "suggested_sequence": [
+        {
+          "position": 1,
+          "finding_ids": [
+            "missing_extension"
+          ],
+          "action": "Obtain extension/runtime evidence",
+          "prerequisite_finding_ids": []
+        }
+      ],
+      "effort_estimate": null
+    },
+    "valid": false
+  },
+  {
+    "name": "historical-assessment-and-current-validity-distinct",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-view.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "report_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "report": {
+        "schema_version": "1.0",
+        "assessment_id": "assessment_fixture",
+        "project_id": "fixture",
+        "assessment_status": "COMPLETED",
+        "migration_feasibility": "BLOCKED",
+        "implementation_authorized": false,
+        "as_of_sequence": 15,
+        "created_at": "2026-10-03T00:00:00Z",
+        "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+        "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+        "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+        "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+        "input_refs": [
+          {
+            "role": "SOURCE_SNAPSHOT",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+          },
+          {
+            "role": "DETECTION",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+          },
+          {
+            "role": "TARGET_INTENT",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          },
+          {
+            "role": "ANALYSIS",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+          },
+          {
+            "role": "ANALYSIS",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+          },
+          {
+            "role": "OPERATIONAL_PROFILE",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000016"
+          }
+        ],
+        "analysis_record_refs": [
+          "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+        ],
+        "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+        "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+        "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+        "examined_scope": "The selected fixture payment operation, not the whole application",
+        "findings": [
+          {
+            "finding_id": "missing_extension",
+            "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+            "classification": "UNSUPPORTED",
+            "basis": "STATIC_ONLY",
+            "category": "BLOCKER",
+            "summary": "Required legacy extension is unavailable in the declared sandbox",
+            "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+            "provenance_refs": [
+              "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+            ],
+            "prerequisite_refs": [
+              "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+              "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+              "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+            ],
+            "limitations": [
+              "Static dependency/profile evidence only; no runtime behavior has been established"
+            ],
+            "affected_ids": [
+              "payment_workflow"
+            ],
+            "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+          },
+          {
+            "finding_id": "source_extension_requirement",
+            "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014",
+            "classification": "OBSERVED",
+            "basis": "STATIC_ONLY",
+            "category": "DEPENDENCY",
+            "summary": "Source fixture declares a required extension",
+            "reason": "Pinned source manifest declares the extension requirement",
+            "provenance_refs": [
+              "sha256:0000000000000000000000000000000000000000000000000000000000000015"
+            ],
+            "prerequisite_refs": [
+              "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+            ],
+            "limitations": [
+              "Declaration observed statically; runtime usage is not established"
+            ],
+            "affected_ids": [
+              "payment_workflow"
+            ],
+            "recommended_action": null
+          }
+        ],
+        "missing_evidence": [
+          "Executable sandbox and payment behavioral characterization"
+        ],
+        "assumptions": [
+          "Customer workflow inventory is available only for the selected operation"
+        ],
+        "uncertainty": [
+          "Runtime behavior and target feasibility remain uncharacterized"
+        ],
+        "suggested_sequence": [
+          {
+            "position": 1,
+            "finding_ids": [
+              "missing_extension"
+            ],
+            "action": "Obtain extension/runtime evidence",
+            "prerequisite_finding_ids": []
+          }
+        ],
+        "effort_estimate": null
+      },
+      "is_latest_report": false,
+      "current_state_sequence": 23,
+      "validity": "STALE",
+      "current_validity_graph_ref": "sha256:000000000000000000000000000000000000000000000000000000000000000c",
+      "finding_validity": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "validity": "STALE",
+          "reason": "Successor runtime evidence requires refreshing the assessed compatibility finding",
+          "witness_refs": [
+            "sha256:000000000000000000000000000000000000000000000000000000000000000e"
+          ]
+        },
+        {
+          "finding_id": "source_extension_requirement",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014",
+          "validity": "VALID",
+          "reason": "Source bytes and declared dependency unchanged",
+          "witness_refs": [
+            "sha256:000000000000000000000000000000000000000000000000000000000000000d"
+          ]
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "explicit-assessment-continuation-not-approval",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "CONTINUE_PLANNING",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-human-stop",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "STOP",
+      "selected_scope_ref": null,
+      "target_intent_ref": null,
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-human-request_evidence",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "REQUEST_EVIDENCE",
+      "selected_scope_ref": null,
+      "target_intent_ref": null,
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [
+        "Obtain missing runtime characterization for the selected workflow"
+      ],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-human-change_target",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "CHANGE_TARGET",
+      "selected_scope_ref": null,
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-human-change_scope",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "CHANGE_SCOPE",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "target_intent_ref": null,
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-human-select_work",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "SELECT_WORK",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "target_intent_ref": null,
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-human-accept_recommendations",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "ACCEPT_RECOMMENDATIONS",
+      "selected_scope_ref": null,
+      "target_intent_ref": null,
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-human-reject_recommendations",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "REJECT_RECOMMENDATIONS",
+      "selected_scope_ref": null,
+      "target_intent_ref": null,
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "continuation-needs-selected-work",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:4139a2a316bdc9bec737b2b662464530784fbf36a2962ece0e6796b1d6bd635b",
+      "action": "CONTINUE_PLANNING",
+      "selected_scope_ref": null,
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "continuation-is-not-implementation-permission",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:4139a2a316bdc9bec737b2b662464530784fbf36a2962ece0e6796b1d6bd635b",
+      "action": "CONTINUE_PLANNING",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": true,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "agent-cannot-supply-human-mcp-channel",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:4139a2a316bdc9bec737b2b662464530784fbf36a2962ece0e6796b1d6bd635b",
+      "action": "CONTINUE_PLANNING",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "MCP",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-reuse-before-any-plan",
+    "schema": "https://rewrotron.dev/specs/migration/assessment-planning-basis.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "selection_ref": "sha256:0ab26ee1f8b0f264905fd9b11c832060d4d39202e517ffe098f2d6346412ed21",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "current_input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+        },
+        {
+          "role": "OPERATIONAL_PROFILE",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000016"
+        }
+      ],
+      "validity_graph_ref": "sha256:000000000000000000000000000000000000000000000000000000000000000c",
+      "reused_findings": [
+        {
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014",
+          "checked_prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+          ],
+          "witness_refs": [
+            "sha256:000000000000000000000000000000000000000000000000000000000000000d"
+          ]
+        }
+      ],
+      "stale_finding_refs": [
+        "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+      ],
+      "new_finding_refs": [
+        "sha256:000000000000000000000000000000000000000000000000000000000000000e"
+      ],
+      "changes_since_assessment": [
+        {
+          "input_role": "EVIDENCE",
+          "before_ref": null,
+          "after_ref": "sha256:000000000000000000000000000000000000000000000000000000000000000e",
+          "reason": "Illustrative successor fixture includes acquired runtime evidence; actual planning still requires feasibility/semantics service checks",
+          "provenance_refs": [
+            "sha256:000000000000000000000000000000000000000000000000000000000000000e"
+          ]
+        },
+        {
+          "input_role": "OPERATIONAL_PROFILE",
+          "before_ref": null,
+          "after_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000016",
+          "reason": "Successor disposable runtime profile now has acquired extension bytes",
+          "provenance_refs": [
+            "sha256:000000000000000000000000000000000000000000000000000000000000000e"
+          ]
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "reuse-without-current-witness-invalid",
+    "schema": "https://rewrotron.dev/specs/migration/assessment-planning-basis.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:4139a2a316bdc9bec737b2b662464530784fbf36a2962ece0e6796b1d6bd635b",
+      "selection_ref": "sha256:d0183a43736c73512b0f0a17f12f8892a8a072b242e59312d140d523b494d200",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "current_input_refs": [
+        {
+          "role": "SOURCE_SNAPSHOT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+        },
+        {
+          "role": "DETECTION",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+        },
+        {
+          "role": "TARGET_INTENT",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+        },
+        {
+          "role": "ANALYSIS",
+          "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+        }
+      ],
+      "validity_graph_ref": "sha256:000000000000000000000000000000000000000000000000000000000000000c",
+      "reused_findings": [
+        {
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "checked_prerequisite_refs": [
+            "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+            "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          ],
+          "witness_refs": []
+        }
+      ],
+      "stale_finding_refs": [],
+      "new_finding_refs": [
+        "sha256:000000000000000000000000000000000000000000000000000000000000000e"
+      ],
+      "changes_since_assessment": [
+        {
+          "input_role": "EVIDENCE",
+          "before_ref": null,
+          "after_ref": "sha256:000000000000000000000000000000000000000000000000000000000000000e",
+          "reason": "Illustrative successor fixture includes acquired runtime evidence; actual planning still requires feasibility/semantics service checks",
+          "provenance_refs": [
+            "sha256:000000000000000000000000000000000000000000000000000000000000000e"
+          ]
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "cli-assess-shared-scope",
+    "schema": "https://rewrotron.dev/specs/cli/commands/assess.input.schema.json",
+    "instance": {
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004"
+    },
+    "valid": true
+  },
+  {
+    "name": "cli-assessment-read-without-plan",
+    "schema": "https://rewrotron.dev/specs/cli/commands/assessment-show.input.schema.json",
+    "instance": {
+      "assessment_ref": "sha256:4139a2a316bdc9bec737b2b662464530784fbf36a2962ece0e6796b1d6bd635b"
+    },
+    "valid": true
+  },
+  {
+    "name": "cli-explicit-assessment-choice",
+    "schema": "https://rewrotron.dev/specs/cli/commands/assessment-decide.input.schema.json",
+    "instance": {
+      "assessment_ref": "sha256:4139a2a316bdc9bec737b2b662464530784fbf36a2962ece0e6796b1d6bd635b",
+      "action": "CONTINUE_PLANNING",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "rationale": "Continue selected fixture work"
+    },
+    "valid": true
+  },
+  {
+    "name": "cli-continuation-needs-explicit-scope",
+    "schema": "https://rewrotron.dev/specs/cli/commands/assessment-decide.input.schema.json",
+    "instance": {
+      "assessment_ref": "sha256:4139a2a316bdc9bec737b2b662464530784fbf36a2962ece0e6796b1d6bd635b",
+      "action": "CONTINUE_PLANNING",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "rationale": "Continue selected fixture work"
+    },
+    "valid": false
+  },
+  {
+    "name": "cli-human-context-cannot-be-caller-forged",
+    "schema": "https://rewrotron.dev/specs/cli/commands/assessment-decide.input.schema.json",
+    "instance": {
+      "assessment_ref": "sha256:4139a2a316bdc9bec737b2b662464530784fbf36a2962ece0e6796b1d6bd635b",
+      "action": "CONTINUE_PLANNING",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "rationale": "Continue selected fixture work",
+      "actor_id": "agent"
+    },
+    "valid": false
+  },
+  {
+    "name": "mcp-assessment-uses-shared-scope",
+    "schema": "https://rewrotron.dev/specs/mcp/tools/assessment.run.input.schema.json",
+    "instance": {
+      "project_id": "fixture",
+      "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "idempotency_key": "request_fixture"
+    },
+    "valid": true
+  },
+  {
+    "name": "mcp-blocked-assessment-still-readable",
+    "schema": "https://rewrotron.dev/specs/mcp/tools/assessment.get.input.schema.json",
+    "instance": {
+      "project_id": "fixture",
+      "assessment_ref": "sha256:4139a2a316bdc9bec737b2b662464530784fbf36a2962ece0e6796b1d6bd635b"
+    },
+    "valid": true
+  },
+  {
+    "name": "assessment-report-explicit-rendering",
+    "schema": "https://rewrotron.dev/specs/cli/commands/report.input.schema.json",
+    "instance": {
+      "format": "markdown",
+      "kind": "assessment",
+      "assessment_ref": "sha256:4139a2a316bdc9bec737b2b662464530784fbf36a2962ece0e6796b1d6bd635b"
+    },
+    "valid": true
+  },
+  {
+    "name": "checkpoint-linked-executable-plan-envelope",
+    "schema": "https://rewrotron.dev/specs/migration/plan.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "project_id": "fixture",
+      "plan_id": "plan",
+      "plan_hash": "2fea0aa910c9d732a7d087b3065ed9f477c5afe9d524b95a1e93bc6dda2c2e18",
+      "subject": {
+        "schema_version": "2.0",
+        "canonicalization": "rwt-cjson-1",
+        "project_id": "fixture",
+        "kind": "PLAN",
+        "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "snapshot_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "behavior_ir_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "corpus_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "target_intent_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "resolved_environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "target_model_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "decision_refs": [
+          "sha256:0ab26ee1f8b0f264905fd9b11c832060d4d39202e517ffe098f2d6346412ed21",
+          "sha256:a17d92d37e6785b1487096bcd4c8eafdb915ed5bda24ceafe3a5b98da0220d8e"
+        ],
+        "dependency_graph_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "adapter_bindings": [
+          {
+            "role": "TARGET",
+            "adapter_id": "synthetic",
+            "version": "1.0.0",
+            "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ],
+        "consumed_revision_refs": [],
+        "ordered_units": [
+          {
+            "unit_id": "login",
+            "contract_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "case_ids": [
+              "login"
+            ],
+            "priority": 1,
+            "capabilities": [
+              "http"
+            ]
+          }
+        ],
+        "dependency_edges": [],
+        "omission_proof_refs": [],
+        "scope_exclusion_refs": [],
+        "unresolved_items": []
+      },
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "selection_ref": "sha256:0ab26ee1f8b0f264905fd9b11c832060d4d39202e517ffe098f2d6346412ed21",
+      "planning_basis_ref": "sha256:a17d92d37e6785b1487096bcd4c8eafdb915ed5bda24ceafe3a5b98da0220d8e"
+    },
+    "valid": true
+  },
+  {
+    "name": "current-plan-cannot-omit-assessment-selection",
+    "schema": "https://rewrotron.dev/specs/migration/plan.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "project_id": "fixture",
+      "plan_id": "plan",
+      "plan_hash": "53620b77532ad380ec0e671300d78ae8bd211b8c938a729fb47093a1ab0af2c7",
+      "subject": {
+        "schema_version": "2.0",
+        "canonicalization": "rwt-cjson-1",
+        "project_id": "fixture",
+        "kind": "PLAN",
+        "configuration_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "snapshot_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "behavior_ir_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "corpus_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "policy_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "target_intent_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "resolved_environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "target_model_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "decision_refs": [
+          "sha256:a2cc523382fa264edde2b986eab87319458f262619e283c01fed5838c8a82a61",
+          "sha256:d0183a43736c73512b0f0a17f12f8892a8a072b242e59312d140d523b494d200"
+        ],
+        "dependency_graph_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "adapter_bindings": [
+          {
+            "role": "TARGET",
+            "adapter_id": "synthetic",
+            "version": "1.0.0",
+            "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ],
+        "consumed_revision_refs": [],
+        "ordered_units": [
+          {
+            "unit_id": "login",
+            "contract_refs": [
+              "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            ],
+            "case_ids": [
+              "login"
+            ],
+            "priority": 1,
+            "capabilities": [
+              "http"
+            ]
+          }
+        ],
+        "dependency_edges": [],
+        "omission_proof_refs": [],
+        "scope_exclusion_refs": [],
+        "unresolved_items": []
+      },
+      "assessment_ref": "sha256:4139a2a316bdc9bec737b2b662464530784fbf36a2962ece0e6796b1d6bd635b",
+      "planning_basis_ref": "sha256:a2cc523382fa264edde2b986eab87319458f262619e283c01fed5838c8a82a61"
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-report-reference-cannot-render-migration",
+    "schema": "https://rewrotron.dev/specs/cli/commands/report.input.schema.json",
+    "instance": {
+      "format": "json",
+      "kind": "migration",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2"
+    },
+    "valid": false
+  },
+  {
+    "name": "shared-work-scope-needs-no-executable-corpus",
+    "schema": "https://rewrotron.dev/specs/project/work-scope.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "scope_id": "scope_fixture",
+      "project_id": "fixture",
+      "source_snapshot_ref": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "included_entrypoint_ids": [],
+      "included_source_paths": [
+        "."
+      ],
+      "critical_workflow_refs": [],
+      "constraint_refs": [],
+      "business_requirement_refs": [],
+      "operational_profile_ref": null,
+      "excluded_scope_refs": [],
+      "limitations": [
+        "Operational inventory and runtime entrypoints are not yet characterized"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "work-scope-cannot-escape-snapshot",
+    "schema": "https://rewrotron.dev/specs/project/work-scope.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "scope_id": "scope_fixture",
+      "project_id": "fixture",
+      "source_snapshot_ref": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "included_entrypoint_ids": [],
+      "included_source_paths": [
+        "../production"
+      ],
+      "critical_workflow_refs": [],
+      "constraint_refs": [],
+      "business_requirement_refs": [],
+      "operational_profile_ref": null,
+      "excluded_scope_refs": [],
+      "limitations": [
+        "Operational inventory and runtime entrypoints are not yet characterized"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "work-scope-cannot-address-host-root",
+    "schema": "https://rewrotron.dev/specs/project/work-scope.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "scope_id": "scope_fixture",
+      "project_id": "fixture",
+      "source_snapshot_ref": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "included_entrypoint_ids": [],
+      "included_source_paths": [
+        "/etc"
+      ],
+      "critical_workflow_refs": [],
+      "constraint_refs": [],
+      "business_requirement_refs": [],
+      "operational_profile_ref": null,
+      "excluded_scope_refs": [],
+      "limitations": [
+        "Operational inventory and runtime entrypoints are not yet characterized"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "work-scope-needs-a-boundary",
+    "schema": "https://rewrotron.dev/specs/project/work-scope.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "scope_id": "scope_fixture",
+      "project_id": "fixture",
+      "source_snapshot_ref": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "included_entrypoint_ids": [],
+      "included_source_paths": [],
+      "critical_workflow_refs": [],
+      "constraint_refs": [],
+      "business_requirement_refs": [],
+      "operational_profile_ref": null,
+      "excluded_scope_refs": [],
+      "limitations": [
+        "Operational inventory and runtime entrypoints are not yet characterized"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-select_work-needs-explicit-subject",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "SELECT_WORK",
+      "selected_scope_ref": null,
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-change_scope-needs-explicit-subject",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "CHANGE_SCOPE",
+      "selected_scope_ref": null,
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-change_target-needs-explicit-subject",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "CHANGE_TARGET",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "target_intent_ref": null,
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-accept_recommendations-needs-explicit-subject",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "ACCEPT_RECOMMENDATIONS",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "finding_ids": [],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-reject_recommendations-needs-explicit-subject",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "REJECT_RECOMMENDATIONS",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "finding_ids": [],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "assessment-request_evidence-needs-explicit-subject",
+    "schema": "https://rewrotron.dev/specs/project/assessment-selection.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "selection_id": "selection_fixture",
+      "project_id": "fixture",
+      "assessment_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "action": "REQUEST_EVIDENCE",
+      "selected_scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+      "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+      "finding_ids": [
+        "missing_extension"
+      ],
+      "decision_refs": [],
+      "requested_evidence": [],
+      "rationale": "Select characterized scope for planning after obtaining the missing evidence",
+      "implementation_authorized": false,
+      "human_action": {
+        "actor_id": "fixture-human",
+        "channel": "CLI",
+        "action_id": "human_fixture_action",
+        "recorded_at": "2026-10-03T00:01:00Z"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "valid-assessment-view-cannot-hide-stale-finding",
+    "schema": "https://rewrotron.dev/specs/reports/assessment-view.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "report_ref": "sha256:0f20635e1861db9ebbf7f466e50511be0c230ec561cf53d021cf581cf55a07e2",
+      "report": {
+        "schema_version": "1.0",
+        "assessment_id": "assessment_fixture",
+        "project_id": "fixture",
+        "assessment_status": "COMPLETED",
+        "migration_feasibility": "BLOCKED",
+        "implementation_authorized": false,
+        "as_of_sequence": 15,
+        "created_at": "2026-10-03T00:00:00Z",
+        "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "source_snapshot_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+        "detection_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+        "target_intent_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003",
+        "scope_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000004",
+        "input_refs": [
+          {
+            "role": "SOURCE_SNAPSHOT",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+          },
+          {
+            "role": "DETECTION",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000002"
+          },
+          {
+            "role": "TARGET_INTENT",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+          },
+          {
+            "role": "ANALYSIS",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007"
+          },
+          {
+            "role": "ANALYSIS",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+          },
+          {
+            "role": "OPERATIONAL_PROFILE",
+            "ref": "sha256:0000000000000000000000000000000000000000000000000000000000000016"
+          }
+        ],
+        "analysis_record_refs": [
+          "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "sha256:0000000000000000000000000000000000000000000000000000000000000014"
+        ],
+        "validity_graph_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000005",
+        "system_summary": "Synthetic legacy PHP fixture with a payment workflow",
+        "evidence_summary": "Source/dependency/profile findings only; runtime is unavailable",
+        "examined_scope": "The selected fixture payment operation, not the whole application",
+        "findings": [
+          {
+            "finding_id": "missing_extension",
+            "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+            "classification": "UNSUPPORTED",
+            "basis": "STATIC_ONLY",
+            "category": "BLOCKER",
+            "summary": "Required legacy extension is unavailable in the declared sandbox",
+            "reason": "Source dependency inventory requires an extension absent from the available fixture profile",
+            "provenance_refs": [
+              "sha256:0000000000000000000000000000000000000000000000000000000000000008"
+            ],
+            "prerequisite_refs": [
+              "sha256:0000000000000000000000000000000000000000000000000000000000000001",
+              "sha256:0000000000000000000000000000000000000000000000000000000000000002",
+              "sha256:0000000000000000000000000000000000000000000000000000000000000003"
+            ],
+            "limitations": [
+              "Static dependency/profile evidence only; no runtime behavior has been established"
+            ],
+            "affected_ids": [
+              "payment_workflow"
+            ],
+            "recommended_action": "Acquire a pinned supported sandbox extension or narrow the scope explicitly"
+          },
+          {
+            "finding_id": "source_extension_requirement",
+            "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014",
+            "classification": "OBSERVED",
+            "basis": "STATIC_ONLY",
+            "category": "DEPENDENCY",
+            "summary": "Source fixture declares a required extension",
+            "reason": "Pinned source manifest declares the extension requirement",
+            "provenance_refs": [
+              "sha256:0000000000000000000000000000000000000000000000000000000000000015"
+            ],
+            "prerequisite_refs": [
+              "sha256:0000000000000000000000000000000000000000000000000000000000000001"
+            ],
+            "limitations": [
+              "Declaration observed statically; runtime usage is not established"
+            ],
+            "affected_ids": [
+              "payment_workflow"
+            ],
+            "recommended_action": null
+          }
+        ],
+        "missing_evidence": [
+          "Executable sandbox and payment behavioral characterization"
+        ],
+        "assumptions": [
+          "Customer workflow inventory is available only for the selected operation"
+        ],
+        "uncertainty": [
+          "Runtime behavior and target feasibility remain uncharacterized"
+        ],
+        "suggested_sequence": [
+          {
+            "position": 1,
+            "finding_ids": [
+              "missing_extension"
+            ],
+            "action": "Obtain extension/runtime evidence",
+            "prerequisite_finding_ids": []
+          }
+        ],
+        "effort_estimate": null
+      },
+      "is_latest_report": false,
+      "current_state_sequence": 23,
+      "validity": "VALID",
+      "current_validity_graph_ref": "sha256:000000000000000000000000000000000000000000000000000000000000000c",
+      "finding_validity": [
+        {
+          "finding_id": "missing_extension",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000007",
+          "validity": "STALE",
+          "reason": "Successor runtime evidence requires refreshing the assessed compatibility finding",
+          "witness_refs": [
+            "sha256:000000000000000000000000000000000000000000000000000000000000000e"
+          ]
+        },
+        {
+          "finding_id": "source_extension_requirement",
+          "analysis_record_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000014",
+          "validity": "VALID",
+          "reason": "Source bytes and declared dependency unchanged",
+          "witness_refs": [
+            "sha256:000000000000000000000000000000000000000000000000000000000000000d"
+          ]
+        }
+      ]
+    },
+    "valid": false
   }
 ]

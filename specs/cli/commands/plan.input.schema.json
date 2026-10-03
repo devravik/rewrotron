@@ -14,8 +14,13 @@
     },
     "recalculate": {
       "type": "boolean"
+    },
+    "selection_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
     }
   },
   "required": [],
-  "additionalProperties": false
+  "additionalProperties": false,
+  "description": "Requires supplied or current explicit human CONTINUE_PLANNING selection. Absent valid selection is a domain error; target/style assertions cannot replace it."
 }
