@@ -1,80 +1,27 @@
-# DATA-FLOW.md — End-to-End Pipeline & Event Streaming
+# Data flow and publication boundaries
 
-> **Version:** 1.0  
-> **Status:** Architecture Reference Guide  
+| Stage | Input | Durable result | Guard |
+| --- | --- | --- | --- |
+| Initialize/detect | Readable source and bounded metadata scan | Detection proposal, manifest | No source execution or deep parsing |
+| Confirm baseline | Reviewed detection and overrides | Immutable baseline and Gate 1 record | Explicit human approval |
+| Analyze | Confirmed source snapshot | Source IR, Application IR, graph and findings | Valid Gate 1 |
+| Observe | Sandbox copy, fixture, scenario | Redacted traces and completeness map | Valid Gate 1, isolated environment |
+| Discover | Structural graph and traces | Contracts, cases, workflow relations, unknowns | Evidence/provenance required |
+| Configure/freeze | User intent and recommendations | Immutable target revision, provenance; no gate approval | Schema validation; explicit choices never replaced by recommendations |
+| Resolve/assess | Source usage, capability/constraint graph, requested target | Recursive target graph, API differences, feasibility and decision artifacts | Valid Gate 1 for deep analysis; unknown required compatibility blocks dependent scope |
+| Plan | Behavior IR, frozen target, resolved dependencies, scope | Immutable plan, ordered units, omission and decision review | Valid Gate 1; target feasibility and generation blockers visible |
+| Confirm plan | Exact plan subject | Gate 2 record | Current baseline and human approval |
+| Generate/repair | Confirmed plan, ready unit, before hashes | Staged patch, target tree hash, provenance | Valid Gates 1/2 and mission fence |
+| Verify | Identical fixtures and inputs in independent environments | Run report, dimensions, verdicts | Fresh source/target/corpus/policy hashes |
+| Benchmark | Passing corpus, pinned workload | Measurement and acceptance report | Equivalent behavior under measured load |
+| Confirm/package | Current release evidence and runbooks | Gate 3 record, immutable package | Current subjects and human approval |
 
----
+Each result captures upstream hashes and adapter/tool versions. Large results use `sha256:<digest>` artifact references. A result is published only after artifact persistence succeeds and the captured subjects still match current state. Events and entity updates share a SQLite transaction.
 
-## 1. End-to-End Information Lifecycle
+JSONL event output is an export of committed records. It can lag or be rebuilt; no filesystem write is claimed to be atomically committed with SQLite. See [EVENT-MODEL](../08-storage/EVENT-MODEL.md).
 
-Data flows sequentially through discrete stages of crystallization—from raw, noisy legacy code down to verified, idiomatic target code:
+Source traces are evidence, not executable instructions. Proposals from an agent or workflow heuristic include confidence and source references. The engine validates them and records unresolved questions before they can enter a locked corpus. A change to evidence or scope creates a new plan rather than silently rewriting a confirmed plan.
 
-```text
-[Legacy PHP Source Code] + [Live HTTP Requests / Seeds]
-                     │
-                     ▼
-             1. RECONNAISSANCE
-      • Static AST Parsing → Source Symbols, Calls, Queries
-      • Runtime Observation → Correlated Execution Traces
-                     │
-                     ▼
-             2. CRYSTALLIZATION
-      • Reachability Graph Builder → Classify (ACTIVE, DORMANT, DEAD)
-      • Behavior Synthesizer → BehaviorCases & BehaviorContracts
-                     │
-                     ▼
-             3. PLANNING & SLICING
-      • Migration Planner → Dependency-Ordered MigrationUnits
-      • Architecture Mapper → Route & Model Clean Architecture Specs
-                     │
-                     ▼
-             4. RECONSTRUCTION
-      • Target Adapter (Laravel 13) → Idiomatic Code & Configurations
-      • Clean Target Code committed to Target Project Workspace
-                     │
-                     ▼
-             5. DIFFERENTIAL VERIFICATION
-      • Replay Engine executes identical inputs against Source & Target
-      • State Normalizer strips dynamic tokens (CSRF, Nonce, Time)
-      • Comparator checks Status, Headers, Body, DB Mutations, Session
-                     │
-         ┌───────────┴───────────┐
-         │                       │
-      [PASS]                 [MISMATCH]
-         │                       │
-         ▼                       ▼
-6. REPETITION & REGRESSION   7. DIAGNOSIS & REPAIR
-   • Freeze Golden Master       • LLM Mismatch Analysis
-   • Run next MigrationUnit     • Patch Target Implementation
-                                • Re-run Verification (Loop)
-```
+## Shared execution flow
 
----
-
-## 2. Event Model & Audit Stream
-
-Every significant state transition across the pipeline emits an append-only event persisted into `project.db` (and logged to `.rewrotron/logs/events.jsonl`):
-
-```json
-{
-  "event_id": "evt_01HZX89AB1234567890",
-  "project_id": "customer-portal",
-  "timestamp": "2026-10-03T04:30:00.000Z",
-  "event_type": "VERIFICATION_MISMATCH_DETECTED",
-  "payload": {
-    "case_id": "order-create-001",
-    "unit_id": "orders-slice",
-    "mismatch_type": "DATABASE_MUTATION_MISMATCH",
-    "details": {
-      "table": "orders",
-      "expected_column": "created_at",
-      "difference": "Target stored UTC ISO8601; Source stored Unix timestamp"
-    }
-  }
-}
-```
-
-This guarantees that:
-- Every action taken by autonomous agents is auditable.
-- Any failed experiment can be rolled back to its exact prior state.
-- Migration progress and quality metrics are computed deterministically from real events.
+Every long-running stage records structured starts, factual rationale, observations/decisions/actions/results, progress/liveness and blockers through `internal/execution` and the existing SQLite event ledger. Domain effects and their result events commit together; live clients see only committed state at a sequence watermark. CLI, MCP and future desktop render the same projection and registered drill-down refs. Approval cards delegate to existing confirmations; control pause is a persisted scheduler guard, not a new lifecycle gate. See [EXECUTION-OBSERVABILITY](../06-agent/EXECUTION-OBSERVABILITY.md).

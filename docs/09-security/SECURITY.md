@@ -1,46 +1,25 @@
-# SECURITY.md — Safe Execution, Isolation, and Secret Protection
+# Security and trust boundaries
 
-> **Authority Level:** Mandatory Security Specification  
-> **Status:** Authoritative Core Specification  
-> **Target Subsystems:** All Subsystems, Sandbox Runners, CLI & MCP  
+**Status:** Normative. Source applications, imported traces, generated code and agent proposals are untrusted inputs. The reference engine is local-first and sends no telemetry or source data by default.
 
----
+## Boundaries
 
-## 1. Threat Model & Principles
+1. Deterministic services enforce gates, validated domain operations, paths, capability limits and persistence. CLI/MCP never expose raw SQL, arbitrary shell commands or unrestricted writes.
+2. Static analysis never executes application PHP or dependency hooks. Runtime execution of an untrusted application requires the isolated container profile in [SANDBOX](SANDBOX.md).
+3. Source baselines remain immutable. Instrumentation modifies a disposable sandbox copy. Target patches write only declared files within the configured target, reject symlink escapes and check before hashes.
+4. Runtime observation/replay uses synthetic or explicitly sanitized data in independent sandbox DBs. Production credentials, endpoints and writable production mounts are excluded. Gate 3 approves a release package/runbook; it does not enable a production runner in the first release.
+5. Project facts and artifacts remain local. Sending context to an external agent provider requires explicit customer configuration and a disclosed context manifest. The engine itself has no provider SDK.
 
-Rewrotron executes, instruments, and analyzes arbitrary, unvetted legacy applications that may contain:
-- Unpatched remote code execution vulnerabilities (e.g. legacy SQL injection, insecure deserialization).
-- Hardcoded production credentials and API keys in source files.
-- Destructive outbound integrations (e.g. real payment gateway calls, production email dispatches).
+## Inputs and resource limits
 
-Rewrotron adheres to three non-negotiable security mandates:
-1. **Zero Production Mutation:** Rewrotron is strictly forbidden from connecting directly to production databases, payment endpoints, or messaging queues.
-2. **Local-First Secret Isolation:** No source code, passwords, database dumps, or traces are ever uploaded to cloud AI providers or external analytics servers without explicit configuration.
-3. **Sandbox Execution Isolation:** Legacy and modern target applications execute in containerized or isolated loopback environments with mock external services.
+Validate project config, cases, schemas and tool requests before use. Bind SQL values; discovered table names are validated identifiers within discovered schema, never interpolated from MCP strings. Invoke fixed executable paths with argument arrays, cancellation, timeouts and output limits. Never concatenate application data into a shell command.
 
----
+Imported archives reject absolute paths, `..`, links escaping extraction roots, device files, excessive entry counts and decompression bombs. Artifacts resolve only by registered SHA-256 references. Imported source text is data and cannot instruct a worker to bypass policy.
 
-## 2. Sandbox Execution Policies
+Default per-operation limits are 30 seconds per replay step, 16 MiB captured output/body, 10 redirects, and 100 workflow steps; analysis defaults are 100,000 files, 2 GiB aggregate source bytes, 16 MiB per parsed file and 10 minutes per analysis operation. Budgets are recorded in the operation request. Limit hits produce explicit incomplete evidence. A reviewed configuration can raise these limits; limit changes affecting completeness require reanalysis and dependent plan review.
 
-When executing legacy or target code during runtime observation or differential verification:
-- **Network Egress Block:** Outbound HTTP/TCP traffic to the public internet is disabled by default via sandbox proxy or iptables/Docker network restrictions.
-- **External Side-Effect Mocking:** Outbound calls to SMTP, Twilio, Stripe, PayPal, or third-party webhooks are trapped by Rewrotron's local mock server (`127.0.0.1:8999`).
-- **Filesystem Write Containment:** Application writes outside the project root or sandbox temporary directory are trapped and prevented.
+## Human decisions
 
----
+Gate approval is governed by [CONFIRMATION-PROTOCOL](../02-domain/CONFIRMATION-PROTOCOL.md). Scope exclusions for dormant/unknown behavior, intentional behavior changes, sensitive exports and any future external access policy require explicit reviewed subjects. None turns old UNKNOWN evidence into PASS. Unsafe runtime isolation creates a blocker and cannot be overridden merely by a gate record.
 
-## 3. Secret Handling & Redaction Invariants
-
-1. **Detection:** All strings matching known secret patterns (AWS keys, Stripe keys, database passwords, private keys, JWTs) are detected during file parsing and trace recording.
-2. **Redaction Prior to Storage:** Before writing any trace, log, or artifact to disk, sensitive keys are replaced with `[REDACTED_BY_REWROTRON]`.
-3. **Environment Injection:** Target applications use modern `.env.example` configurations. Secrets are never hardcoded in generated PHP/Laravel classes.
-
----
-
-## 4. Human Review Gates for High-Risk Actions
-
-The following actions **unconditionally require manual human confirmation** and cannot be bypassed autonomously by an AI agent:
-1. Disabling the local mock server to permit real external network egress.
-2. Deleting any code classified as `DORMANT` or `UNKNOWN`.
-3. Accepting an unclassified `UNKNOWN` verification failure as an intentional design change.
-4. Executing live production database migrations or final traffic cutover.
+Security checks include egress/DNS denial, path traversal, host mount denial, credential injection/redaction, unauthorized confirmations, malicious artifact refs, stale patches and untrusted imported instructions. Report vulnerabilities privately through the release security contact once one is assigned; assigning that contact is a release prerequisite in the decision register.

@@ -1,31 +1,23 @@
-# ARTIFACT-STORE.md — Filesystem Storage Hierarchy & Redaction
+# Content-addressed artifact store
 
-> **Version:** 1.0  
-> **Status:** Storage Reference Guide  
+Durable bytes live at `.rewrotron/artifacts/sha256/<first-two-hex>/<remaining-hex>`. Public references are `sha256:<64 lowercase hex>`. SQLite records digest, relative path, media type, size, creation time, redaction manifest and entity links. Human-friendly trace/report names are exported indexes, not canonical storage paths.
 
----
+## Write protocol
 
-## 1. Filesystem Layout Under `.rewrotron/artifacts/`
+Redact before any staging write. Stream sanitized bytes to an owner-only temporary file within the store, compute digest and size, fsync, and atomically rename within the same filesystem. If that digest exists, verify its size/hash and reuse it. Sync the directory where supported. Then insert metadata/links/events in a SQLite transaction. If the DB commit fails, an unreferenced artifact is harmless and can be reconciled later.
 
-```text
-.rewrotron/artifacts/
-├── traces/                   # Raw HTTP request/response payloads (>64KB)
-│   ├── trc_01HZX..._req.bin
-│   └── trc_01HZX..._resp.bin
-├── reports/                  # Generated HTML/JSON mismatch and audit reports
-│   ├── mismatch_order_001.json
-│   └── omissions.json
-├── patches/                  # Unified diffs generated during repair attempts
-│   └── patch_order_attempt_1.diff
-├── screenshots/              # Browser DOM snapshots and visual diffs
-│   ├── legacy_checkout.png
-│   └── modern_checkout.png
-└── generated/                # Intermediate code templates before commit
-```
+Readers resolve only registered references, reject path traversal/symlink escapes, and validate hashes before using evidence. Corrupt or missing bytes produce `ERR_ARTIFACT_CORRUPT` and prevent a current pass/readiness claim. No raw artifact path supplied by an agent is opened directly.
 
----
+## Retention and privacy
 
-## 2. Invariants & Retention
-- **Content-Addressable Hashing:** Every artifact file is named or validated with its SHA-256 hash.
-- **Redaction Prior to Disk:** No raw trace containing unmasked authentication tokens or secrets may ever touch the filesystem.
-- **Retention Policies:** Traces older than 30 days or belonging to passed verification cases can be garbage-collected via `rewrotron clean`.
+Default retention preserves every artifact reachable from current or historical confirmations, baselines, locked contracts, plans, runs, repair evidence and reports. Age or a PASS verdict alone never authorizes collection. Temporary/unreferenced writes can be collected only after a documented reconciliation grace period (24 hours by default) and active operation checks.
+
+Customer archive/deletion policy is a separate reviewed workspace lifecycle; no public `clean` command is part of the initial catalog. Export builds a reviewed manifest, sanitizes credentials/PII, excludes correlation keys and private fixtures, and verifies destination ownership. A reusable diagnostic report is smaller than a raw customer archive.
+
+Backups include SQLite, referenced artifacts, configuration and the private correlation key only when explicitly requested through a secure local backup policy. WAL-consistent backup and restore procedures are in [RECOVERY](RECOVERY.md).
+
+## Decision-system views
+
+Detection, source dependency inventory, recommendations, frozen target revisions, recursive resolution and feasibility are registered immutable artifacts. Human-readable `.rewrotron/{detection,recommendations,source-dependencies,dependencies,plan,approvals}.yaml` files are regenerable views. The optional `target.yaml` is user-owned input, never a generated recommendation view. `approvals.yaml` mirrors SQLite history and current subject validity; importing or editing it cannot create a confirmation.
+
+Store bytes before transactional metadata/events. A crash during YAML export is recovered by regenerating from committed references. Target-only changes preserve unaffected source artifacts and immutable history; old target evidence stays retained and visibly stale. [TARGET-SPECIFICATION](../04-migration/TARGET-SPECIFICATION.md) defines file precedence and ownership.

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/mcp/tools/reports.generate.input.schema.json",
+  "title": "reports.generate.input.schema",
+  "type": "object",
+  "properties": {
+    "format": {
+      "type": "string",
+      "enum": [
+        "json",
+        "markdown"
+      ]
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  },
+  "required": [
+    "format",
+    "project_id",
+    "idempotency_key"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "trace_id": "trc_001",
+  "project_id": "fixture",
+  "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+  "entrypoint_type": "http",
+  "environment": "source_legacy",
+  "timestamp": "2026-10-03T00:00:00Z",
+  "duration_ms": 1,
+  "completeness": {
+    "http": "COMPLETE",
+    "body": "COMPLETE",
+    "authentication": "COMPLETE",
+    "authorization": "COMPLETE",
+    "session": "COMPLETE",
+    "database": "COMPLETE",
+    "external": "COMPLETE",
+    "files": "COMPLETE",
+    "cache": "COMPLETE",
+    "errors": "COMPLETE",
+    "execution": "NOT_APPLICABLE"
+  },
+  "request": {
+    "method": "GET",
+    "path": "/orders/42",
+    "headers": {}
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "set-cookie": [
+        "a=b; HttpOnly",
+        "c=d; Secure"
+      ]
+    }
+  },
+  "redaction": {
+    "fields": [],
+    "withheld_dimensions": []
+  }
+}

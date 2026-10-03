@@ -1,115 +1,38 @@
-# DOMAIN-MODEL.md — Core Entity Definitions & Relationships
+# Domain entities and cardinality
 
-> **Status:** Authoritative Domain Specification  
-> **Subsystem:** Domain Model & Vocabulary Authority  
+The [glossary](../00-vision/GLOSSARY.md) owns vocabulary; [IR-CONTRACTS](IR-CONTRACTS.md) owns document fields; [SQLite schema](../08-storage/SQLITE-SCHEMA.md) owns persistence. Entity names are stable across Go, CLI, and MCP.
 
----
+| Entity | Identity and ownership | Relationships and invariants |
+| --- | --- | --- |
+| Project | `project_id` | Owns one operational workspace and historical baselines |
+| Detection | `detection_id` + manifest | Immutable evidence-backed proposal; not confirmation |
+| Baseline | `configuration_hash` | Confirmed facts plus overrides and immutable manifest |
+| Confirmation | `confirmation_id` | One human approval of one gate subject; append-only |
+| SourceFile / SourceSymbol | Baseline + stable ID | File owns symbols; spans and parser completeness retained |
+| Entrypoint | Baseline + `entrypoint_id` | HTTP/CLI/cron/event dispatch; many-to-many operations |
+| Operation / BehaviorContract | `operation_id`, semantic version, revision | Governs observable rules and effects; several concrete cases |
+| BehaviorCase | `case_id` + content hash | Binds contract version, fixture, inputs, expected dimensions |
+| Workflow | `workflow_id` | Ordered/bounded steps referencing operations and bindings |
+| ObservationTrace | `trace_id` | One actual run with completeness statuses; never inferred execution |
+| TargetSpecification | `target_spec_hash` + immutable artifact | User-owned requested constraints and migration intent; Gate 2 binds the frozen revision |
+| Recommendation | ID/revision + target subject | Evidence-backed proposal with type and explicit decision; never configuration authority |
+| Dependency / Capability / Resolution | Baseline/target subject + stable IDs | Source usage and recursive constraints; selected strategy and cases are scoped to required behavior |
+| FeasibilityAssessment | Target/source/graph subjects + artifact | Required compatibility and unknowns; scoped proceed decision is not parity |
+| MigrationPlan | `plan_id` + `plan_hash` | Immutable target choices, units, omissions, scope and blockers |
+| MigrationUnit | `unit_id` within plan | Many contracts/cases; explicit prerequisite units |
+| VerificationRun | `run_id` + captured hashes | Owns case results and deterministic dimension verdicts |
+| Mismatch | `mismatch_id` | A difference within a run; classification is separate from verdict |
+| Experiment / RepairAttempt | Fingerprint + attempt ID | Hypothesis, before/after hashes, outcome and evidence |
+| Mission | `mission_id` | Mutable scheduling projection, fenced leases, immutable attempt events |
+| Finding / Blocker | `finding_id` | Required decision, missing evidence, or unsupported capability |
+| Artifact | SHA-256 digest | Immutable redacted bytes; reachable references prevent collection |
+| Benchmark | `benchmark_id` | Captured workload, environment and measurement report |
+| Lesson / SkillVersion | ID + scope/revision | Project-only by default; explicit privacy-reviewed global promotion |
 
-To prevent different agents and engineers from interpreting core modernization concepts differently, this document establishes the formal definitions, boundaries, attributes, and relationships of every entity in Rewrotron.
+A new project may have zero source files, routes, contracts, cases, or units until their stages run. A case belongs to one contract revision and may contribute to multiple units/workflows. A verification result references a run, two observations, a case, and policy hash. A mismatch is derived from that result rather than directly owned by a source file. Dependencies can reference shared components without declaring every shared table a migration prerequisite.
 
-## 1. Entity Relationship Diagram
+Do not use `BehavioralCase`, `PARITY_ACHIEVED`, `DETECTION_COMPLETE`, or `APPROVED` as competing canonical names. Lifecycle and unit enums are defined in [PROJECT-LIFECYCLE](PROJECT-LIFECYCLE.md), mission enums in [MISSION-PROTOCOL](../06-agent/MISSION-PROTOCOL.md), and verdicts in [COMPATIBILITY-SPEC](../05-verification/COMPATIBILITY-SPEC.md).
 
-```text
-┌─────────────────┐       1..*      ┌─────────────────┐
-│     Project     ├────────────────►│   SourceFile    │
-└────────┬────────┘                 └────────┬────────┘
-         │                                   │ 1..*
-         │ 1..*                              ▼
-         │                          ┌─────────────────┐
-         │                          │  SourceSymbol   │
-         │                          └─────────────────┘
-         │
-         │ 1..*                     1..*      ┌─────────────────┐
-         ├───────────────────────────────────►│  MigrationUnit  │
-         │                                    └────────┬────────┘
-         │                                             │ 1..*
-         │                                             ▼
-         │ 1..*                     1..*      ┌─────────────────┐
-         ├───────────────────────────────────►│ BehavioralCase  │
-         │                                    └────────┬────────┘
-         │                                             │ 1..1
-         │                                             ▼
-         │ 1..*                               ┌─────────────────┐
-         ├───────────────────────────────────►│BehaviorContract │
-         │                                    └─────────────────┘
-         │
-         │ 1..*                     1..*      ┌─────────────────┐
-         ├───────────────────────────────────►│   Observation   │
-         │                                    └────────┬────────┘
-         │                                             │ 1..*
-         │                                             ▼
-         │ 1..*                               ┌─────────────────┐
-         ├───────────────────────────────────►│    Mismatch     │
-         │                                    └────────┬────────┘
-         │                                             │ 0..*
-         │                                             ▼
-         │ 1..*                               ┌─────────────────┐
-         └───────────────────────────────────►│ RepairAttempt   │
-                                              └─────────────────┘
-```
+## Execution supervision entities
 
----
-
-## 2. Entity Specifications
-
-### 2.1 Project
-- **Definition:** The top-level root context binding a specific legacy source application, its target destination, local storage (`.rewrotron/project.db`), configuration (`project.yaml`), and audit ledger.
-- **Attributes:** `id`, `name`, `source_type` (e.g. `codeigniter3`), `target_type` (e.g. `laravel13`), `status`, `created_at`, `updated_at`.
-
-### 2.2 Source Application & Target Application
-- **Source Application:** The existing legacy codebase serving as the behavioral oracle. It is never modified by Rewrotron during migration.
-- **Target Application:** The newly constructed modern codebase generated by Rewrotron adapters. It contains clean controllers, models, routes, and tests.
-
-### 2.3 Route & Endpoint
-- **Route:** A URL pattern and HTTP method declared in code (e.g. `POST /api/v1/checkout`) mapped to an entrypoint controller/action.
-- **Endpoint:** The concrete addressable network interface through which a client invokes a route.
-
-### 2.4 Workflow
-- **Definition:** A stateful, multi-step sequence of operations executed across multiple requests or entrypoints (e.g., `User Registration -> Email Verification -> Profile Onboarding -> First Order`).
-- **Attributes:** `id`, `name`, `steps` (ordered array of operations), `preconditions`, `final_state`.
-
-### 2.5 Behavior Case (`BehaviorCase`)
-- **Definition:** A concrete, reproducible scenario executing a specific path through an entry point with exact inputs, preconditions, environment setup, and expected assertions.
-- **Attributes:** `id`, `case_id`, `route_id`, `method`, `path`, `headers`, `payload`, `precondition_state_id`, `created_at`.
-
-### 2.6 Behavioral Contract (`BehaviorContract`)
-- **Definition:** The formal, target-independent specification governing an operation or workflow. Defines status codes, headers, response schema, database mutations, session mutations, and external side-effects.
-- **Attributes:** `id`, `case_id`, `status_code`, `redirect_rule`, `response_schema`, `db_mutations`, `session_mutations`, `side_effects`.
-
-### 2.7 Observation (`ObservationTrace`)
-- **Definition:** An empirically captured trace of actual execution through either the legacy or target stack, recording HTTP payload, runtime timeline, database queries executed, cache hits, and response data.
-- **Attributes:** `id`, `trace_id`, `environment` (`source` vs `target`), `duration_ms`, `http_status`, `raw_response_ref`, `db_trace_ref`.
-
-### 2.8 Experiment & Fingerprint
-- **Experiment:** A single execution cycle of target code generation, verification, or mismatch diagnosis under explicit inputs.
-- **Experiment Fingerprint:** A SHA-256 hash uniquely combining source code hashes, prompt/skill templates, target adapter version, and input parameters to prevent redundant execution and enable deterministic caching.
-
-### 2.9 Migration Unit (`MigrationUnit`)
-- **Definition:** **The smallest independently migratable and verifiable externally observable slice of functionality.**
-- **CRITICAL CLARIFICATION FOR AGENTS:** A Migration Unit is **NEVER a PHP file** or a single class. It is a behavioral vertical slice—typically a single route, an cohesive group of REST endpoints, or a self-contained workflow.
-- **Attributes:** `id`, `name`, `category`, `dependencies` (array of other unit IDs), `routes`, `contracts`, `status` (`DISCOVERED`, `PLANNED`, `GENERATED`, `VERIFIED`, `APPROVED`).
-
-### 2.10 Mapping
-- **Definition:** The formal traceability record linking legacy symbols and routes to modern target classes, methods, and files (e.g. `CI3 Cart::add` -> `Laravel CartService::addItem`).
-
-### 2.11 Mismatch
-- **Definition:** A detected discrepancy between legacy and target behavior during differential replay.
-- **Taxonomy:**
-  - `EXPECTED_CHANGE`: Benign modern improvement (e.g. updated CSRF token format, RFC-compliant date header).
-  - `DEFECT`: True regression where target violates contract (e.g. missing database insert, wrong HTTP status).
-  - `UNKNOWN`: Unclear discrepancy requiring human review or further observation.
-
-### 2.12 Finding
-- **Definition:** An analytical fact discovered by static analysis or runtime observation (e.g. dead code candidate, raw SQL string concatenation, unvalidated parameter).
-
-### 2.13 Artifact
-- **Definition:** A filesystem-stored file referenced by the database (e.g. request traces, screenshots, diff files, generated Laravel project files).
-
-### 2.14 Lesson, Knowledge & Skill
-- **Lesson:** An atomic finding learned from a specific mismatch repair attempt within a project.
-- **Knowledge:** Aggregated, verified insights promoted from project lessons to global knowledge.
-- **Skill:** An actionable, versioned agent workflow package enabling autonomous execution of complex missions.
-
-### 2.15 Mission
-- **Definition:** An atomic unit of work scheduled by the Mission Manager for an agent or internal subsystem.
-- **Types:** `ANALYZE_SOURCE`, `DISCOVER_ROUTE`, `OBSERVE_WORKFLOW`, `GENERATE_CONTRACT`, `MIGRATE_UNIT`, `VERIFY_CASE`, `REPAIR_MISMATCH`, `ANALYZE_DEAD_CODE`, `BENCHMARK`, `OPTIMIZE`, `REVIEW_UNKNOWN`.
+ExecutionRun identifies an operation attempt (initially the same ID); StageInstance and Task identify repeated/concurrent work with current subjects and public reasons. ExecutionEvent is a typed projection of the existing append-only ledger; ProgressMetric cites its scope/basis/accounting revision. ExecutionState and ExecutionPage are reconstructable read models, not new approval or verdict entities. Human ControlRequest is a durable event whose safe acknowledgment is distinct from lifecycle state. [EXECUTION-OBSERVABILITY](../06-agent/EXECUTION-OBSERVABILITY.md) owns these definitions.

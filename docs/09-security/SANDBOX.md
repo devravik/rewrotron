@@ -1,18 +1,17 @@
-# SANDBOX.md — Containerization & Process Isolation
+# Sandbox execution contract
 
-> **Version:** 1.0  
-> **Status:** Security Reference Guide  
+## Reference container profile
 
----
+Runtime source/target execution uses separate non-root containers and independent DB/cache/session/filesystem/sink state. Use digest-pinned images, no privileged mode, no Docker socket mount, dropped capabilities, `no-new-privileges`, read-only application image with only declared scratch/output volumes, CPU/memory/process limits, and a closed internal network. Host source is mounted read-only or copied into the disposable instrumented image.
 
-## 1. Supported Sandbox Modes
+Mock HTTP/SMTP/queue/payment receivers live on the internal network. A mock cannot fall through to a real service. Do not place public/production secrets in the container. Deny internet egress and DNS resolution beyond the internal allowlist; validate IP literals, alternate schemes and redirects. A proxy environment variable alone cannot stop raw sockets or programs that ignore it.
 
-Rewrotron supports two execution modes configured in `project.yaml`:
+The runner creates labeled resources with project/operation IDs and records cleanup ownership. On timeout, cancellation or restart, terminate the process tree, remove temporary networks/volumes, and preserve redacted evidence. Failed cleanup produces a visible resource leak finding.
 
-1. **Local Process Sandbox (`mode: local`):**
-   - Spawns local PHP-FPM or built-in web servers on randomized localhost loopback ports (`127.0.0.1:40000+`).
-   - Traps external network calls via custom `http_proxy` / `CURLOPT_PROXY` environment variables.
-2. **Docker Container Sandbox (`mode: docker` - Recommended):**
-   - Spawns isolated Docker containers for Source Application, Target Application, and MySQL database.
-   - Attaches to a closed bridge network with no external internet gateway (`--internal`).
-   - Rewrotron injects mock side-effect receivers within the closed network.
+## Build and execution separation
+
+Acquiring Composer packages and images is a separate controlled setup operation. Dependency manifests can execute scripts/plugins, so installation occurs in an isolated build container and scripts are disabled until required ones are reviewed. Preserve package archives/image digests/locks for offline replay. “Local-first” means no cloud service is required; initial dependency acquisition may require network access or a supplied cache.
+
+`mode: local` is a trusted-fixture convenience for deterministic development only. It provides no general containment guarantee and is rejected for arbitrary customer runtime observation or cutover evidence. `mode: docker` is the initial customer execution profile; aliases such as `sandbox` are removed from the canonical config.
+
+The doctor command verifies container availability, image cache, network denial, mount restrictions, fixture restore, sink health and runtime compatibility before replay. Missing containment is `ERR_UNSAFE_ENVIRONMENT`, never a silently weaker fallback.

@@ -20,5 +20,9 @@ Any unresolvable discrepancy is classified as `UNKNOWN` or `MISMATCH`.
 - **Manual QA Testing:** Too slow, expensive, and non-reproducible.
 
 ## Consequences
-- **Positive:** Unassailable mathematical proof of behavioral equivalence; catches silent side-effect bugs and missed database updates early.
+- **Positive:** Reproducible compatibility evidence for an explicit finite corpus and scope; catches silent side-effect bugs and missed database updates early.
 - **Negative:** Requires running both stacks simultaneously in isolated sandboxes and resetting test database state between runs.
+
+## Implementation clarification (2026-10-03)
+
+[ADR 0011](0011-development-baseline-and-contract-completion.md) defines the initial concrete package, hash, protocol, evidence and release baseline. This accepted design is not a claim that implementation/runtime validation has completed.

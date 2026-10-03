@@ -1,0 +1,304 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/ir/application-ir.schema.json",
+  "title": "application-ir.schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "configuration_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "document_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "source_ir_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "entrypoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "entrypoint_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "http",
+              "cli",
+              "cron",
+              "event"
+            ]
+          },
+          "dispatch": {
+            "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/entrypoint"
+          },
+          "handler_symbol_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "coverage_state": {
+            "type": "string",
+            "enum": [
+              "RESOLVED",
+              "PARTIAL",
+              "UNKNOWN"
+            ]
+          }
+        },
+        "required": [
+          "entrypoint_id",
+          "type",
+          "dispatch",
+          "handler_symbol_ids",
+          "evidence_ids",
+          "coverage_state"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "component_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "handler",
+              "service",
+              "data_model",
+              "renderer",
+              "integration"
+            ]
+          },
+          "symbol_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          }
+        },
+        "required": [
+          "component_id",
+          "role",
+          "symbol_ids",
+          "evidence_ids"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "edge_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "from_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "to_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resolved": {
+            "type": "boolean"
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "expression": {
+            "type": "string",
+            "minLength": 1
+          },
+          "affected_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          }
+        },
+        "required": [
+          "edge_id",
+          "from_id",
+          "to_id",
+          "kind",
+          "resolved",
+          "evidence_ids"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "data_models": {
+      "type": "array",
+      "items": {
+        "$ref": "https://rewrotron.dev/specs/ir/data-model.schema.json"
+      }
+    },
+    "workflows": {
+      "type": "array",
+      "items": {
+        "$ref": "https://rewrotron.dev/specs/behavior/workflow.schema.json"
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "CRITICAL",
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ]
+          },
+          "affected_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "finding_id",
+          "code",
+          "severity",
+          "affected_ids",
+          "evidence_ids",
+          "message"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "STATIC",
+              "RUNTIME",
+              "USER_OVERRIDE",
+              "AGENT_PROPOSAL"
+            ]
+          },
+          "artifact_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "symbol_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "trace_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "evidence_id",
+          "kind",
+          "artifact_ref",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "configuration_hash",
+    "document_id",
+    "source_ir_ref",
+    "entrypoints",
+    "components",
+    "dependencies",
+    "data_models",
+    "workflows",
+    "findings",
+    "evidence"
+  ],
+  "additionalProperties": false
+}

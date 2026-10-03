@@ -1,33 +1,32 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/mcp/get-next-mission.schema.json",
-  "title": "GetNextMissionResponse",
-  "description": "Output schema for MCP research.get_next_mission",
+  "title": "get-next-mission.schema",
   "type": "object",
-  "required": ["mission_id", "type", "priority", "status"],
   "properties": {
-    "mission_id": { "type": "string" },
-    "type": {
-      "type": "string",
-      "enum": [
-        "ANALYZE_SOURCE",
-        "DISCOVER_ROUTE",
-        "OBSERVE_WORKFLOW",
-        "GENERATE_CONTRACT",
-        "MIGRATE_UNIT",
-        "VERIFY_CASE",
-        "REPAIR_MISMATCH",
-        "ANALYZE_DEAD_CODE",
-        "BENCHMARK",
-        "OPTIMIZE",
-        "REVIEW_UNKNOWN"
+    "mission": {
+      "oneOf": [
+        {
+          "$ref": "https://rewrotron.dev/specs/missions/mission.schema.json"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
-    "unit_id": { "type": ["string", "null"] },
-    "case_id": { "type": ["string", "null"] },
-    "description": { "type": "string" },
-    "priority": { "type": "integer" },
-    "status": { "type": "string" },
-    "context": { "type": "object" }
-  }
+    "reason": {
+      "type": "string",
+      "enum": [
+        "READY",
+        "NO_WORK",
+        "DEPENDENCIES_BLOCKED",
+        "CONFIRMATION_REQUIRED"
+      ]
+    }
+  },
+  "required": [
+    "mission",
+    "reason"
+  ],
+  "additionalProperties": false
 }

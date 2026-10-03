@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/behavior/observation-scenario.schema.json",
+  "title": "observation-scenario.schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "scenario_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "entrypoint": {
+      "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/entrypoint"
+    },
+    "headers": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ]
+      }
+    },
+    "payload": {},
+    "fixture_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      }
+    },
+    "principal_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "secret_refs": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "required_dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "http",
+          "body",
+          "authentication",
+          "authorization",
+          "session",
+          "database",
+          "external",
+          "files",
+          "cache",
+          "errors",
+          "execution"
+        ]
+      }
+    },
+    "workflow_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "operation_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "request_case_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "extract": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_-]+$"
+                },
+                "source": {
+                  "type": "string",
+                  "enum": [
+                    "header",
+                    "json_pointer",
+                    "html_selector",
+                    "cookie"
+                  ]
+                },
+                "selector": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "name",
+                "source",
+                "selector"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "bindings": {
+            "type": "object",
+            "properties": {},
+            "required": [],
+            "additionalProperties": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "max_repeats": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "required": [
+          "step_id",
+          "operation_id",
+          "request_case_id",
+          "extract",
+          "bindings",
+          "max_repeats"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "timeout_ms": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 300000
+    }
+  },
+  "required": [
+    "schema_version",
+    "scenario_id",
+    "entrypoint",
+    "headers",
+    "fixture_refs",
+    "required_dimensions"
+  ],
+  "additionalProperties": false
+}

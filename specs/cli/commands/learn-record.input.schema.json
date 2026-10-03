@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/learn-record.input.schema.json",
+  "title": "learn-record.input.schema",
+  "type": "object",
+  "properties": {
+    "experiment_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "finding": {
+      "type": "string",
+      "minLength": 1
+    },
+    "remediation": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "experiment_id",
+    "finding",
+    "remediation"
+  ],
+  "additionalProperties": false
+}

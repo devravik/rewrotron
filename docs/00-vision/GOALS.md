@@ -28,7 +28,7 @@
 
 ### G5: Objective Dead Code Elimination
 - Formally identify, classify, and safely eliminate dead legacy code.
-- Provide cryptographic reachability and observation proofs justifying why omitted code is not present in the target application.
+- Provide reproducible, integrity-hashed reachability and observation evidence justifying why omitted code is not present in the target application.
 
 ### G6: Vendor-Neutral Agent Architecture
 - Core engine, CLI, analyzers, observers, and verifiers implemented in pure Go without vendor lock-in.
@@ -36,13 +36,26 @@
 
 ### G7: Local-First and Enterprise Safe
 - Default operation runs locally on customer premises with SQLite storage and local filesystem artifacts.
-- Absolute sandbox protection against unauthorized production mutations, third-party network egress, or accidental credential leakage.
+- Enforced sandbox policies and negative security fixtures against unauthorized production mutations, third-party network egress, or accidental credential leakage.
 
 ---
+
+### G8: Transparent Execution and User Supervision
+
+- Every long-running task exposes stage, task, factual reason, discoveries, changes, results, blockers, next action and needed decisions.
+- One committed execution event/state model powers CLI/MCP and future desktop clients; progress has a persisted accounting basis and freshness.
+- Timeline/drill-down, return-session changes, verbosity, exact-subject approvals and safe persistent pause/continue are first-release engine requirements.
+- Public explanations cite evidence without exposing hidden reasoning; no fake percentages, success claims or alert-based approvals.
+
+See [EXECUTION-OBSERVABILITY](../06-agent/EXECUTION-OBSERVABILITY.md) for normative semantics.
 
 ## 2. Secondary Objectives (Phase 2+)
 
 - **Multi-Target Ecosystem:** Extensible target architecture supporting Go (Gin/Fiber), Python (FastAPI), and Rust (Axum/Actix-web).
 - **Multi-Source Adapters:** Support for legacy Zend Framework, CakePHP 2/3, Symfony 2/3, and raw procedural PHP monoliths.
-- **Continuous Learning & Skill Evolution:** Autonomous accumulation of pattern lessons and automatic synthesis of migration skills across repeated runs.
+- **Continuous Learning & Skill Evolution:** Autonomous accumulation of pattern lessons and reviewed proposals for migration skills across repeated runs.
 - **Automated Performance Optimization:** Static and dynamic profiling identifying redundant queries, N+1 patterns, and caching opportunities during migration.
+
+## Evidence and release scope
+
+These are target objectives, not implemented capability claims. The initial supported profile, maturity requirements, finite-corpus limits and project acceptance criteria are owned by [PRODUCT](PRODUCT.md). Dynamic values require scoped relation validation; generic HTML whitespace stripping is not an approved comparator.

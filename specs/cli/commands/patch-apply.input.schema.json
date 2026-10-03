@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/patch-apply.input.schema.json",
+  "title": "patch-apply.input.schema",
+  "type": "object",
+  "properties": {
+    "patch_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "patch_ref"
+  ],
+  "additionalProperties": false
+}

@@ -1,20 +1,20 @@
-# PERMISSION-MODEL.md — Agent Tool Permissions & Review Gates
+# Domain operation permissions
 
-> **Version:** 1.0  
-> **Status:** Security Reference Guide  
+| Operation | Agent allowed | Preconditions / changes |
+| --- | --- | --- |
+| Execution state/timeline/drill-down | Yes | Sanitized same-project read; no shared seen marker, work claim or control mutation |
+| Human pause/continue | Local human channel only | Persistent scheduler control; no gate approval; MCP inspection is read-only |
+| Snapshot, case/plan lookup, mission peek | Yes | Registered project; sanitized read; audit may append |
+| Detect | Yes | Bounded metadata read; persists proposal, never confirms |
+| Analyze, sandbox observe/discover | Yes | Valid Gate 1; isolated runtime for observation |
+| Plan proposal | Yes | Valid Gate 1; disclosed capabilities and scope |
+| Source/plan/cutover confirmation | Human-approved channel only | Exact subject and persisted approval; MCP consumes a scoped token |
+| Mission claim/renew/complete | Yes | Atomic leases; correct fence and completion evidence |
+| Generate/repair | Yes | Valid Gates 1/2; target-only staged patch; current before hashes |
+| Verify/benchmark | Yes | Confirmed scope, safe environments and current inputs |
+| Omit DEAD in generated target | Yes | Current proof included in approved plan; source never deleted |
+| Exclude DORMANT/UNKNOWN scope | Proposal only | Explicit reviewed plan change; limitations disclosed |
+| Export/global lesson promotion | Human approval when sensitive | Sanitization and exact reviewed manifest |
+| Production writes/deploy/traffic changes | Not implemented | Gate 3 prepares a package/runbook only |
 
----
-
-## 1. Tool Permission Matrix
-
-| Interface / Tool | Autonomous Agent Allowed? | Human Gate Required? | Risk Tier |
-| :--- | :--- | :--- | :--- |
-| `project.get_snapshot` | Yes | No | Low (Read-Only) |
-| `research.get_next_mission`| Yes | No | Low (Read-Only) |
-| `behavior.get_case` | Yes | No | Low (Read-Only) |
-| `verification.run_case` | Yes | No | Medium (Sandbox Replay) |
-| `migration.generate_code` | Yes | No | Medium (Target Workspace) |
-| `code.delete_dead_symbol` | Yes (If proven DEAD) | No | Medium (Verified Safe) |
-| `code.delete_dormant_symbol`| **NO** | **YES** | **High** (Potential Regress) |
-| `config.enable_production`| **NO** | **YES** | **Critical** (Destructive) |
-| `database.live_cutover` | **NO** | **YES** | **Critical** (Production Cutover) |
+Read-only means business state is not changed; an invocation can still append an audit event. `next` peeks without acquiring a lease. `research.claim_mission` is a mutation. Arbitrary code deletion, `config.enable_production` and raw SQL/shell tools are not public MCP operations.

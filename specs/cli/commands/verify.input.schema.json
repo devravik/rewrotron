@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/verify.input.schema.json",
+  "title": "verify.input.schema",
+  "type": "object",
+  "properties": {
+    "case_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "unit_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "all": {
+      "type": "boolean"
+    }
+  },
+  "required": [],
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "required": [
+        "case_id"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "unit_id"
+            ]
+          },
+          {
+            "required": [
+              "all"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "unit_id"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "case_id"
+            ]
+          },
+          {
+            "required": [
+              "all"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "all"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "case_id"
+            ]
+          },
+          {
+            "required": [
+              "unit_id"
+            ]
+          }
+        ]
+      },
+      "properties": {
+        "all": {
+          "const": true
+        }
+      }
+    }
+  ]
+}

@@ -1,17 +1,9 @@
-# GOLDEN-MASTER.md — Golden Master Generation & Baseline Locking
+# Golden master and baseline revisions
 
-> **Version:** 1.0  
-> **Status:** Verification Reference Guide  
+A golden master is a reproducible source observation corpus for a specific source configuration, contract revision, fixture and comparison policy. It is evidence for those scenarios.
 
----
+Run each source case at least three times from a fully reset fixture. Compare all required dimensions across repeats. Stable values become exact assertions; variable fields become candidates requiring scoped validators and relationships. Changing a value does not prove that it is semantically irrelevant. Unexplained variance creates UNKNOWN and an observation/review mission.
 
-## 1. Golden Master Lifecycle
+Lock a master only when fixture restoration, source health, instrumentation completeness and required security cases are demonstrated. Save the original redacted trace references, their content hashes, canonical assertions, approved normalization rules, creation evidence and environment identity in an immutable artifact. SQLite indexes the corpus hash and active revision; exported `.rewrotron/contracts/` files are views of these records.
 
-To prevent target developers from aiming at a moving target, Rewrotron generates a locked **Golden Master** for every behavior case:
-
-1. **Multiple Replay Capture:** The legacy application executes the scenario multiple times under identical database seeds.
-2. **Determinism Verification:** Response hashes and database mutations across runs are compared.
-3. **Variance Extraction:** Any field that changes between legacy runs (e.g. timestamps, random tokens) is flagged as dynamic and mapped to an extraction pattern.
-4. **Baseline Lock:** The final normalized legacy response and mutation set is cryptographically hashed and saved in `.rewrotron/contracts/golden_master_{case_id}.json`.
-
-Once locked, the Golden Master cannot be mutated without a recorded engineering justification.
+A changed source, fixture, rule or scope produces a new master revision and invalidates dependent verification/plan subjects. Never overwrite the old master to make a target patch pass. Re-baselining requires an explicit reason, evidence and renewed affected gate approval.

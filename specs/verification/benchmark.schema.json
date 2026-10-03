@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+  "title": "benchmark.schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "benchmark_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "configuration_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "target_tree_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "verification_report_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "workload_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "environment_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "trials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source_p95_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "target_p95_ms": {
+            "type": "number",
+            "minimum": 0
+          },
+          "source_peak_memory_mb": {
+            "type": "number",
+            "minimum": 0
+          },
+          "target_peak_memory_mb": {
+            "type": "number",
+            "minimum": 0
+          },
+          "source_successes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "target_successes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "source_errors": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "target_errors": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "latency_ratio": {
+            "type": "number",
+            "minimum": 0
+          },
+          "memory_ratio": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "source_p95_ms",
+          "target_p95_ms",
+          "source_peak_memory_mb",
+          "target_peak_memory_mb",
+          "source_successes",
+          "target_successes",
+          "source_errors",
+          "target_errors",
+          "latency_ratio",
+          "memory_ratio"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "confidence_intervals": {
+      "type": "object"
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "NON_REGRESSION",
+        "REGRESSION",
+        "INCONCLUSIVE",
+        "APPROVED_BUDGET"
+      ]
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "USER_ERROR",
+              "ENVIRONMENT_ERROR",
+              "SOURCE_ERROR",
+              "TARGET_BUILD_ERROR",
+              "ANALYSIS_ERROR",
+              "OBSERVATION_ERROR",
+              "VERIFICATION_ERROR",
+              "AGENT_ERROR",
+              "INTERNAL_ERROR"
+            ]
+          },
+          "retryable": {
+            "type": "boolean"
+          },
+          "recommended_action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "details": {
+            "type": "object"
+          },
+          "artifact_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "category",
+          "retryable",
+          "recommended_action"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "benchmark_id",
+    "project_id",
+    "configuration_hash",
+    "plan_hash",
+    "target_tree_hash",
+    "verification_report_ref",
+    "workload_ref",
+    "environment_ref",
+    "seed",
+    "trials",
+    "confidence_intervals",
+    "outcome",
+    "artifact_refs",
+    "errors"
+  ],
+  "additionalProperties": false
+}

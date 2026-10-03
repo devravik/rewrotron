@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/mission-claim.input.schema.json",
+  "title": "mission-claim.input.schema",
+  "type": "object",
+  "properties": {
+    "mission_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  },
+  "required": [
+    "mission_id"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/mcp/tools/research.claim_mission.input.schema.json",
+  "title": "research.claim_mission.input.schema",
+  "type": "object",
+  "properties": {
+    "mission_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  },
+  "required": [
+    "mission_id",
+    "project_id",
+    "idempotency_key"
+  ],
+  "additionalProperties": false
+}

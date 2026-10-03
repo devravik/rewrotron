@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/mcp/tools/behavior.get_case.input.schema.json",
+  "title": "behavior.get_case.input.schema",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  },
+  "required": [
+    "project_id",
+    "case_id"
+  ],
+  "additionalProperties": false
+}

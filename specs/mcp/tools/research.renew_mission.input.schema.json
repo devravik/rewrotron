@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/mcp/tools/research.renew_mission.input.schema.json",
+  "title": "research.renew_mission.input.schema",
+  "type": "object",
+  "properties": {
+    "mission_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "fencing_token": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  },
+  "required": [
+    "mission_id",
+    "fencing_token",
+    "project_id",
+    "idempotency_key"
+  ],
+  "additionalProperties": false
+}

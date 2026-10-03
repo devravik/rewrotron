@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/mcp/tools/project.prepare_source_confirmation.input.schema.json",
+  "title": "project.prepare_source_confirmation.input.schema",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "detection_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "manifest_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "overrides": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  },
+  "required": [
+    "project_id",
+    "detection_id",
+    "manifest_hash",
+    "overrides",
+    "idempotency_key"
+  ],
+  "additionalProperties": false
+}

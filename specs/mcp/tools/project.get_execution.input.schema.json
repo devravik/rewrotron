@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/mcp/tools/project.get_execution.input.schema.json",
+  "title": "Read canonical execution page",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+    },
+    "after_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "through_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 500
+    }
+  },
+  "required": [
+    "project_id"
+  ],
+  "additionalProperties": false
+}

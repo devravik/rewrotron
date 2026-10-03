@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/mcp/tools/migration.stage_patch.input.schema.json",
+  "title": "migration.stage_patch.input.schema",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "patch_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  },
+  "required": [
+    "project_id",
+    "patch_id",
+    "idempotency_key"
+  ],
+  "additionalProperties": false
+}

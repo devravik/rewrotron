@@ -27,7 +27,7 @@ laravel-target/
 │       ├── Order.php
 │       └── OrderItem.php
 ├── database/
-│   └── migrations/               # Retained / mirrored database schema
+│   └── migrations/               # Fixture bootstrap only; production schema retained
 ├── resources/
 │   └── views/                    # Clean Blade templates
 └── tests/
@@ -38,3 +38,16 @@ laravel-target/
 1. **No God Controllers:** Controllers only validate incoming requests (via Form Requests), delegate execution to Actions/Services, and return view/resource responses.
 2. **Explicit Database Transactions:** Transaction boundaries are modeled explicitly in Actions (`DB::transaction`).
 3. **Type Safety:** Target code uses strict types (`declare(strict_types=1);`), typed properties, and explicit return types (PHP 8.3+).
+
+
+## Architecture choices and output manifest
+
+The first reference style is `modular_monolith`. Other declared styles require capability checks and a confirmed architecture plan; naming a style in YAML does not establish adapter support. Prefer the smallest structure that separates dispatch, business rules and persistence without adding repositories for every model.
+
+Each plan records module boundaries, shared component owners, data access strategy, transaction/session policy, assets, error/validation mapping and runtime dependencies. Every generated file appears in the staged patch manifest with before/after hashes and unit provenance. Customer changes cause a conflict requiring a new patch; they are never silently overwritten.
+
+Generated repositories include source-independent application code, Composer locks, `.env.example`, compatibility tests, a README describing runtime/setup, configuration and schema assumptions, and a migration report. A clean target bootstrap is an external runtime validation result, not something this documentation has executed.
+
+## User-owned environment
+
+The architecture blueprint is one adapter example. [TARGET-SPECIFICATION](TARGET-SPECIFICATION.md) owns requested language/framework/runtime, OS/CPU, web/database/cache/queue/storage/package-manager and compatibility choices. Every generator consumes the exact Gate 2-bound specification and resolved environment. Naming Laravel or a blueprint does not authorize choosing a lower runtime. [DEPENDENCY-RESOLUTION](DEPENDENCY-RESOLUTION.md) supplies required capability implementations and explicit retained services; unsupported choices become feasibility blockers before generation.

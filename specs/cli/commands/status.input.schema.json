@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/status.input.schema.json",
+  "title": "status.input.schema",
+  "type": "object",
+  "properties": {
+    "watch": {
+      "type": "boolean"
+    },
+    "verbosity": {
+      "enum": [
+        "simple",
+        "detailed",
+        "developer"
+      ]
+    }
+  },
+  "required": [],
+  "additionalProperties": false
+}

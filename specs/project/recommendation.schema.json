@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/recommendation.schema.json",
+  "title": "Evidence-backed target recommendation",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "recommendation_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "target_spec_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "category": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "enum": [
+        "REQUIRED",
+        "RECOMMENDED",
+        "OPTIONAL",
+        "INFORMATIONAL",
+        "BLOCKING"
+      ]
+    },
+    "current": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "requested": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "proposed_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "recommended": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "risk": {
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH",
+        "UNKNOWN"
+      ]
+    },
+    "affected_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]+$"
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "source_files": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "required_actions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "alternatives": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minItems": 0,
+      "uniqueItems": true
+    },
+    "decision": {
+      "enum": [
+        "PENDING",
+        "ACCEPTED",
+        "REJECTED",
+        "DEFERRED",
+        "SUPERSEDED"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "recommendation_id",
+    "revision",
+    "target_spec_hash",
+    "category",
+    "type",
+    "current",
+    "requested",
+    "proposed_action",
+    "recommended",
+    "reasons",
+    "risk",
+    "affected_ids",
+    "source_files",
+    "evidence_refs",
+    "required_actions",
+    "alternatives",
+    "decision"
+  ],
+  "additionalProperties": false
+}

@@ -1,7 +1,7 @@
 # Rewrotron — Implementation-Grade Project Plan
 
-**Document status:** Team review draft
-**Version:** 1.0
+**Document status:** Product exploration and historical design rationale; implementation contracts are maintained under docs/ and specs/
+**Version:** 1.1 documentation review
 **Date:** 2026-10-03
 **Repository model:** One open-source monorepo
 **Primary implementation language:** Go
@@ -10,6 +10,9 @@
 **Initial source framework:** CodeIgniter 3.x
 **Initial target framework:** Laravel 13.x
 **Future targets:** Go, Python, Rust, additional PHP frameworks
+
+
+> **Reading this document:** This exploration preserves product scenarios and rationale. The repository currently contains specifications, schemas and an initial SQL migration definition, with no Go engine or executed adapter corpus. The [documentation index](docs/README.md), [canonical development plan](docs/11-roadmap/DEVELOPMENT-PLAN.md), [decision register](docs/11-roadmap/DECISION-REGISTER.md) and owning specifications supersede its historical phase/backlog numbering and illustrative layouts. Acceptance applies to an explicit finite corpus and scope, not every possible application execution.
 
 ---
 
@@ -188,7 +191,7 @@ The canonical interfaces are:
 
 Go is the primary implementation language for the Rewrotron core, CLI, MCP server, storage layer and deterministic services.
 
-The implementation baseline should be pinned in CI. At project inception, Go 1.27.1 is the current stable patch release available in the official release history.
+The constitutional floor is Go 1.22+. RWT-001 selects and pins a supported stable toolchain compatible with all dependency floors; no current patch release is inferred from this document date.
 
 ## 3.2 Local storage
 
@@ -221,143 +224,23 @@ The initial migration should retain the existing relational database rather than
 
 ## 3.5 MCP
 
-The MCP server should target the current stable MCP specification available at project inception, 2026-07-28, using only capabilities required by Rewrotron. The core implementation should remain useful through ordinary CLI execution even when an LLM client has no MCP support.
+The first implementation targets MCP protocol revision 2025-11-25 over stdio, using only capabilities required by Rewrotron. The core implementation should remain useful through ordinary CLI execution even when an LLM client has no MCP support.
 
 ---
 
 # 4. User workflow
 
-The primary user workflow is:
+The complete planned CLI flow is maintained in [CLI-SPEC](docs/06-agent/CLI-SPEC.md). Initialize/detect a minimal workspace, explicitly confirm the current source subject, analyze/observe/discover, synthesize the target plan, explicitly confirm the plan hash, generate and verify behavioral units, benchmark and prepare runbooks, then confirm the release hash before packaging.
 
-```bash
-rewrotron init /path/to/legacy-app
-```
-
-Then:
-
-```bash
-rewrotron analyze
-rewrotron doctor
-rewrotron observe
-rewrotron discover
-rewrotron plan
-rewrotron migrate
-rewrotron verify
-rewrotron benchmark
-rewrotron status
-```
-
-For agent clients, the user can simply expose the Rewrotron skill and/or MCP server.
-
-The agent can then be instructed:
-
-> Migrate this CodeIgniter application to Laravel using Rewrotron. Preserve externally observable behavior. Do not change production. Work only inside the configured sandbox.
-
-The agent must then use Rewrotron's state rather than creating its own competing project ledger.
+An external agent operates through the same persisted gates/services and cannot infer confirmation from chat or create its own authoritative ledger. Source facts and safe runtime inputs must satisfy [PROJECT-INPUTS](docs/10-development/PROJECT-INPUTS.md).
 
 ---
 
 # 5. Repository architecture
 
-Everything belongs in a single repository.
+A single monorepo owns engine, adapters, tooling, fixtures, schemas, migrations and documentation. The exact implementation package map and dependency direction are maintained in [COMPONENTS](docs/01-architecture/COMPONENTS.md).
 
-```text
-rewrotron/
-├── cmd/
-│   ├── rewrotron/
-│   └── rewrotron-mcp/
-│
-├── internal/
-│   ├── project/
-│   ├── config/
-│   ├── policy/
-│   ├── analyzer/
-│   │   ├── php/
-│   │   ├── routes/
-│   │   ├── symbols/
-│   │   ├── dependencies/
-│   │   └── database/
-│   ├── observer/
-│   │   ├── http/
-│   │   ├── ci3/
-│   │   ├── database/
-│   │   ├── session/
-│   │   ├── filesystem/
-│   │   └── external/
-│   ├── behavior/
-│   │   ├── graph/
-│   │   ├── contracts/
-│   │   ├── normalization/
-│   │   └── workflows/
-│   ├── migration/
-│   │   ├── planner/
-│   │   ├── mappings/
-│   │   ├── generator/
-│   │   └── adapters/
-│   ├── verification/
-│   │   ├── http/
-│   │   ├── browser/
-│   │   ├── database/
-│   │   ├── sideeffects/
-│   │   └── normalization/
-│   ├── benchmark/
-│   ├── knowledge/
-│   ├── learning/
-│   ├── skills/
-│   ├── tools/
-│   ├── artifacts/
-│   └── events/
-│
-├── adapters/
-│   ├── source/
-│   │   └── codeigniter3/
-│   └── target/
-│       ├── laravel13/
-│       ├── go/
-│       ├── python/
-│       └── rust/
-│
-├── tools/
-│   ├── php/
-│   ├── browser/
-│   ├── database/
-│   ├── diff/
-│   └── fixtures/
-│
-├── skills/
-│   └── rewrotron/
-│       ├── SKILL.md
-│       ├── references/
-│       └── scripts/
-│
-├── schemas/
-│   ├── project/
-│   ├── behavior/
-│   ├── migration/
-│   ├── verification/
-│   └── mcp/
-│
-├── migrations/
-├── testdata/
-│   ├── ci3-fixtures/
-│   ├── laravel-fixtures/
-│   └── compatibility-cases/
-│
-├── docs/
-│   ├── architecture.md
-│   ├── contracts.md
-│   ├── adapters.md
-│   ├── agent-integration.md
-│   ├── contributing.md
-│   └── security.md
-│
-├── Makefile
-├── go.mod
-├── README.md
-└── LICENSE
-```
-
-Generated customer projects do not belong inside the Rewrotron source tree.
+Framework parsing/hooks live in `adapters/source/php/`; target generation lives in `adapters/target/php/`. Neutral domain records/ports and services live in `internal/`. `internal/runtime` wires concrete implementations; core/behavior/verification do not import framework packages. CLI/MCP drive the same application services. Machine schemas live in `specs/`, SQL in `migrations/`, synthetic fixtures in `testdata/`. Generated customer targets are outside source roots.
 
 ---
 
@@ -370,8 +253,16 @@ customer-app/
 ├── application/
 ├── system/
 ├── public/
+├── rewrotron.yaml                # Primary user intent
 └── .rewrotron/
-    ├── project.yaml
+    ├── project.yaml              # Identity/settings view or legacy input
+    ├── target.yaml               # Optional exclusive target input
+    ├── detection.yaml
+    ├── recommendations.yaml
+    ├── source-dependencies.yaml
+    ├── dependencies.yaml
+    ├── plan.yaml
+    ├── approvals.yaml            # SQLite export; no approval authority
     ├── project.db
     ├── lock
     ├── artifacts/
@@ -406,96 +297,25 @@ Project knowledge must never be promoted into global knowledge automatically wit
 
 # 7. Project configuration
 
-`project.yaml` is human-readable metadata; SQLite is the authoritative operational store.
+Root `rewrotron.yaml` is the primary user-owned configuration; optional exclusive `.rewrotron/target.yaml` separates target intent. Detection and recommendations are generated artifacts and never overwrite either. [TARGET-SPECIFICATION](docs/04-migration/TARGET-SPECIFICATION.md) owns precedence, rich target fields, frozen revisions, feasibility and selective invalidation; [DEPENDENCY-RESOLUTION](docs/04-migration/DEPENDENCY-RESOLUTION.md) owns actual usage, recursive constraints, capability mappings and explicit strategy decisions. Gate 2 binds the exact specification and plan; no fourth gate is introduced.
 
-Example:
+Canonical configuration is validated by [project.schema.json](specs/project/project.schema.json). It expresses intent and secret references, never gate authority. A target may be absent at initialization; before planning it includes language, framework/version/runtime, architecture, preserved-database policy and an explicit safe output path. Minimal initialization precedes Gate 1 solely to persist detection and approval.
 
-```yaml
-version: 1
-project_id: customer-portal
-source:
-  type: codeigniter3
-  path: .
-  runtime:
-    php: auto
-
-target:
-  type: laravel
-  version: "13.x"
-  php: "8.3"
-
-environment:
-  mode: sandbox
-  database:
-    engine: mysql
-    schema_policy: retain
-
-compatibility:
-  requirement: behavior_equivalent
-  active_session_continuity: required
-  exact_html: required_when_deterministic
-  redirects: exact
-  status_codes: exact
-
-safety:
-  production_access: denied
-  external_writes: denied
-  payment_actions: sandbox_only
-
-agent:
-  mode: vendor_agnostic
-```
-
-Any value not represented here is obtained from detected environment information or explicitly requested configuration. Rewrotron must not silently invent infrastructure details.
+Use docker execution for customer source code; local mode is restricted to trusted development fixtures. Production and external writes remain denied. Confirmed baseline facts/overrides and operational state are authoritative SQLite records; YAML `confirmed` flags are rejected.
 
 ---
 
 # 8. Lifecycle state machine
 
-Every project has an explicit state.
+Canonical states and transitions are defined in [PROJECT-LIFECYCLE](docs/02-domain/PROJECT-LIFECYCLE.md):
 
 ```text
-CREATED
-  ↓
-DIAGNOSED
-  ↓
-ANALYZED
-  ↓
-OBSERVATION_READY
-  ↓
-DISCOVERING
-  ↓
-MODELED
-  ↓
-CONTRACTS_READY
-  ↓
-MIGRATION_PLANNED
-  ↓
-MIGRATING
-  ↓
-VERIFYING
-  ↓
-REPAIRING
-  ↓
-PARITY_ACHIEVED
-  ↓
-OPTIMIZING
-  ↓
-FINAL_VERIFY
-  ↓
-READY_FOR_CUTOVER
+INITIALIZED → DETECTED → [Gate 1] SOURCE_CONFIRMED → ANALYZED → MODELED
+→ PLAN_SYNTHESIZED → [Gate 2] PLAN_CONFIRMED → MIGRATING → VERIFIED
+→ BENCHMARKED → [Gate 3] READY_CUTOVER
 ```
 
-Additional terminal or blocking states:
-
-```text
-BLOCKED
-FAILED
-NEEDS_HUMAN_REVIEW
-ABANDONED
-```
-
-A project may return to an earlier state when new evidence invalidates an assumption.
+Operation/unit/mission blockers are distinct from project state. [CONFIRMATION-PROTOCOL](docs/02-domain/CONFIRMATION-PROTOCOL.md) defines source/configuration, plan and release hashes, exact human subjects, overrides, idempotency and drift invalidation. No old illustrative state names should be implemented as competing enums.
 
 ---
 
@@ -550,7 +370,7 @@ type PHPParser interface {
 
 The initial implementation may use a PHP AST backend compatible with the detected source syntax.
 
-If syntax cannot be parsed, the project enters `BLOCKED` for that portion rather than falling back to regex and pretending the analysis is complete.
+If syntax cannot be parsed, the affected operation/unit receives a `BLOCKED` finding rather than falling back to regex and pretending the analysis is complete.
 
 ## 9.4 Static reachability
 
@@ -576,7 +396,7 @@ Every source component receives a classification:
 
 ### ACTIVE
 
-Observed or strongly established as reachable.
+Observed in at least one correlated runtime trace in the approved baseline. Static reachability without observation is DORMANT.
 
 ### DORMANT
 
@@ -787,103 +607,17 @@ MigrationUnit
 
 # 14. Behavioral contract
 
-Every migrated behavior slice gets a canonical contract.
+The canonical example and fields are maintained in [BEHAVIOR-MODEL](docs/02-domain/BEHAVIOR-MODEL.md), [IR-CONTRACTS](docs/02-domain/IR-CONTRACTS.md) and [behavior schemas](specs/README.md). Contracts govern operations; concrete cases bind exact versions, fixtures and expected dimensions. HTTP, CLI, cron and event dispatch have type-specific fields.
 
-Example:
-
-```yaml
-case_id: order-create-001
-entrypoint:
-  type: http
-  method: POST
-  path: /orders
-
-auth:
-  state: authenticated
-  identity: test-user-a
-
-input:
-  content_type: application/x-www-form-urlencoded
-  fields:
-    product_id: integer
-    quantity: integer
-
-preconditions:
-  product_exists: true
-  inventory_available: true
-
-response:
-  status: 302
-  redirect:
-    exact_path: /orders/{created_order_id}
-
-side_effects:
-  database:
-    inserts:
-      - table: orders
-    updates:
-      - table: inventory
-  session:
-    flash_keys:
-      - order_created
-
-external_effects:
-  email: none
-```
-
-The contract is target-framework independent.
+Business descriptions are not executable code. A required computation must have evidenced declarative semantics supported by the target adapter or remain unresolved. Workflows have explicit ordered steps and per-side variable bindings; authentication, state/effects and failure paths are part of the contract.
 
 ---
 
-# 15. Exact response policy
+# 15. Comparison policy
 
-"Exactly the same" must be implemented as a layered comparison system.
+[COMPATIBILITY-SPEC](docs/05-verification/COMPATIBILITY-SPEC.md) defines EXACT, SEMANTIC and scoped dynamic relation operators. No blanket HTML whitespace or token/ID masking is allowed. JSON types, array order, null/missing, decimals, status, redirects, principal/permissions and committed effects remain meaningful.
 
-## 15.1 Byte-exact
-
-Use when values are deterministic.
-
-Examples:
-
-- status code;
-- deterministic redirect path;
-- static JSON values;
-- deterministic HTML.
-
-## 15.2 Canonical semantic comparison
-
-Use for structured outputs where formatting may vary.
-
-Examples:
-
-- JSON object ordering;
-- whitespace differences;
-- SQL formatting;
-- HTML formatting.
-
-## 15.3 Dynamic-value normalization
-
-Detect values that legitimately vary.
-
-Examples:
-
-```text
-UUID
-timestamp
-nonce
-CSRF token
-request ID
-session ID
-random filename
-```
-
-A field becomes dynamic only when repeated source observations demonstrate variability.
-
-The normalization rule must be stored in the contract.
-
-## 15.4 Unknown
-
-If Rewrotron cannot determine whether a difference is legitimate, the result is `UNKNOWN`, not `PASS`.
+The verdicts are PASS/MISMATCH/UNKNOWN; expected modernization is a separately approved contract exception requiring new policy/plan subjects and rerun. Required incomplete capture is UNKNOWN, and historical results are immutable.
 
 ---
 
@@ -948,44 +682,9 @@ Never modify a production database during automatic behavior discovery.
 
 # 18. Database behavior capture
 
-For every behavior case that touches the DB, capture:
+Capture tables read/written, query/transaction diagnostics, committed pre/post-state and trigger/procedure effects in independent identically seeded environments. The [DB comparison contract](docs/05-verification/DATABASE-COMPARISON.md) defines typed row/null/decimal/timezone comparison and ambiguity handling.
 
-```text
-tables read
-queries
-parameters (secret-redacted)
-transaction boundaries
-rows inserted
-rows updated
-rows deleted
-stored procedure calls
-```
-
-## 18.1 DB comparison policy
-
-Do not require identical physical identifiers.
-
-If the old system creates:
-
-```text
-order_id = 918
-```
-
-and the new system creates:
-
-```text
-order_id = 247
-```
-
-Rewrotron maps the logical entities and compares their business fields.
-
-The mapping engine must support:
-
-```text
-source identity → target identity
-```
-
-through deterministic correlation rules.
+IDs are exact by default. An explicit approved bijective mapping can account for generated IDs only when all foreign-key, URL, session, later request and external-effect references preserve the same relationships. Correlation ambiguity is UNKNOWN, not an ignored difference.
 
 ---
 
@@ -1330,80 +1029,19 @@ This prevents the agent from repeatedly trying the same failed fix.
 
 ---
 
-# 30. Research/migration ledger
+# 30. Research and migration ledger
 
-The project database must record every meaningful operation.
+The complete project table catalog and executable initial DDL are maintained in [SQLITE-SCHEMA](docs/08-storage/SQLITE-SCHEMA.md) and [0001_initial.sql](migrations/0001_initial.sql). Source/IR, detection/baseline/approval, case/workflow, plan/unit, run/result/mismatch, experiment/repair, mission/operation and artifact/learning records are explicitly separated.
 
-Core tables:
-
-```text
-projects
-project_state
-source_files
-source_symbols
-source_routes
-source_components
-assets
-workflows
-behavior_cases
-contracts
-observations
-experiments
-migrations
-migration_units
-mappings
-diffs
-repair_attempts
-benchmarks
-findings
-lessons
-skills
-skill_runs
-knowledge_refs
-events
-locks
-```
+There is no existing deployed schema; future schema changes require incremental numbered migrations and compatibility fixtures. Project/global state have separate privacy and migration namespaces.
 
 ---
 
 # 31. Append-only event log
 
-Every important state change produces an event.
+The [event model](docs/08-storage/EVENT-MODEL.md) defines event IDs, project/sequence ordering, actor/request attribution and sanitized payloads. State transitions and events commit in one SQLite transaction. Append-only triggers prevent history mutation/deletion.
 
-```sql
-CREATE TABLE events (
-    id INTEGER PRIMARY KEY,
-    project_id TEXT NOT NULL,
-    event_type TEXT NOT NULL,
-    entity_type TEXT,
-    entity_id TEXT,
-    payload_json TEXT NOT NULL,
-    created_at TEXT NOT NULL,
-    agent_session_id TEXT
-);
-```
-
-Examples:
-
-```text
-PROJECT_CREATED
-SOURCE_ANALYSIS_COMPLETED
-ROUTE_DISCOVERED
-WORKFLOW_DISCOVERED
-CASE_CREATED
-CASE_VERIFIED
-MIGRATION_STARTED
-MIGRATION_COMPLETED
-DIFF_FOUND
-DIFF_RESOLVED
-SKILL_USED
-LESSON_RECORDED
-GLOBAL_PATTERN_CANDIDATE
-```
-
-Events are never mutated to rewrite history.
-
-Derived state can be rebuilt from events plus immutable artifacts when practical.
+JSONL is a recoverable export of committed events, not a second atomic ledger. Evidence artifacts and baseline/contract/plan records are needed for rebuilding supported projections; an event log alone cannot roll back files or external effects.
 
 ---
 
@@ -1467,7 +1105,7 @@ Example:
 
 ```text
 Project: customer-portal
-Phase: VERIFYING
+State: MIGRATING
 
 Routes: 100%
 Behavior cases: 78%
@@ -1484,63 +1122,19 @@ Next task:
 
 ---
 
-# 34. Mission/task system
+# 34. Mission and task system
 
-Rewrotron must generate explicit missions rather than relying on the LLM to improvise the backlog.
+The [mission protocol](docs/06-agent/MISSION-PROTOCOL.md) defines readiness, states, context/fingerprint, dependencies, priority, atomic lease claiming, renewal, fencing and evidence-based completion. Engineering repository tasks and customer migration missions are distinct.
 
-Mission fields:
-
-```text
-mission_id
-project_id
-type
-target_entity
-objective
-preconditions
-dependencies
-priority
-estimated_cost
-status
-attempt_count
-created_at
-completed_at
-```
-
-Mission types:
-
-```text
-ANALYZE_SOURCE
-DISCOVER_ROUTE
-OBSERVE_WORKFLOW
-GENERATE_CONTRACT
-MIGRATE_UNIT
-VERIFY_CASE
-REPAIR_MISMATCH
-ANALYZE_DEAD_CODE
-BENCHMARK
-OPTIMIZE
-REVIEW_UNKNOWN
-```
+`next` peeks without mutation. Claim/renew/complete require the current trusted owner and live fence. Expired workers cannot publish. Completion requires current verifiable evidence rather than a free-text agent assertion.
 
 ---
 
 # 35. Next-task selection
 
-The project manager should rank tasks using:
+Ready tasks are sorted deterministically by priority descending, creation time ascending and mission ID ascending. Applicable gates, safe environment, prerequisite completion and current subject hashes determine readiness before priority. The mission specification defines concrete severity priorities and three-attempt current-context limits.
 
-```text
-compatibility impact
-+ dependency readiness
-+ behavior coverage gap
-+ mismatch severity
-+ migration progress
-+ estimated effort
-+ historical success of the required skill
-```
-
-This is a scheduling heuristic, not an LLM opinion.
-
-The agent may override the next task only by recording a reason.
+An empty/blocked queue returns a typed null mission and explicit reason; it does not invent a new task or spin indefinitely.
 
 ---
 
@@ -1574,94 +1168,9 @@ The Skill must instruct the agent to use the CLI/MCP as the source of truth.
 
 # 37. Vendor-neutral agent interfaces
 
-## 37.1 CLI
+[CLI-SPEC](docs/06-agent/CLI-SPEC.md) and [MCP-SPEC](docs/06-agent/MCP-SPEC.md), with the complete [schema registries](specs/README.md), own every supported command/tool/resource and response. Stdio MCP uses JSON-RPC lifecycle/capabilities and typed structured results; CLI uses one JSON envelope with exit/error semantics.
 
-Every essential operation must be possible without an LLM.
-
-Examples:
-
-```bash
-rewrotron status
-rewrotron status --json
-rewrotron analyze --json
-rewrotron discover --json
-rewrotron next --json
-rewrotron verify --case order-create-001 --json
-rewrotron report --json
-```
-
-## 37.2 JSON contract
-
-Human-oriented CLI output is optional. Machine output is mandatory.
-
-A machine-readable command must emit valid JSON to stdout and diagnostics to stderr.
-
-## 37.3 MCP
-
-The MCP server exposes semantic operations rather than raw SQL.
-
-Do not expose:
-
-```text
-execute_sql
-write_file_anywhere
-shell_any_command
-```
-
-as Rewrotron-specific management tools.
-
-Preferred tools:
-
-```text
-project.get_snapshot
-project.get_status
-project.pause
-project.resume
-
-research.get_next_mission
-research.start_mission
-research.complete_mission
-research.search_history
-
-analysis.get_routes
-analysis.get_components
-analysis.get_call_graph
-
-behavior.get_case
-behavior.create_case
-behavior.record_observation
-
-migration.get_plan
-migration.get_unit
-migration.record_mapping
-
-verification.run_case
-verification.get_mismatches
-verification.classify_mismatch
-
-knowledge.search_project
-knowledge.search_global
-knowledge.record_lesson
-
-skills.search
-skills.record_usage
-skills.propose
-skills.evaluate
-
-reports.generate
-reports.get
-```
-
-## 37.4 MCP resources
-
-Where helpful, expose read-only resources such as:
-
-```text
-rewrotron://project/{id}/snapshot
-rewrotron://project/{id}/coverage
-rewrotron://project/{id}/contract/{case_id}
-rewrotron://project/{id}/mismatch/{id}
-```
+No arbitrary SQL/shell/write or result-override interface exists. Confirmation tools consume approval for exact human-reviewed subjects; actors cannot be claimed by an agent-controlled field. Every essential migration can run through CLI without an LLM.
 
 ---
 
@@ -2058,23 +1567,9 @@ This allows us to determine why a migration produced a result.
 
 # 50. Concurrency
 
-SQLite is sufficient for the initial single-machine architecture.
+[MISSION-PROTOCOL](docs/06-agent/MISSION-PROTOCOL.md) and [RECOVERY](docs/08-storage/RECOVERY.md) define short SQLite write transactions, expected project revision, at-least-once leases with monotonically increasing fencing tokens, and target patch ownership.
 
-Use file/project locks and DB transactions so two agents cannot accidentally mutate the same migration unit simultaneously.
-
-Mission claiming must be atomic.
-
-Example logical operation:
-
-```text
-BEGIN
-select pending mission
-lock mission
-mark running
-COMMIT
-```
-
-Only one worker owns a mission at a time.
+Long subprocess/parser work does not hold DB transactions. Publication checks current hashes/fences and before-file digests; independent cases have separate state, and overlapping target files publish serially. A stale worker cannot complete or overwrite customer edits.
 
 ---
 
@@ -2098,56 +1593,17 @@ The agents do not maintain independent task backlogs.
 
 # 52. Human review gates
 
-Human approval is required at these gates by default:
+The three mandatory gates are source baseline, target/plan, and release/cutover, enforced through immutable persisted exact-subject approvals. Scope exclusions, intentional behavior changes and sensitive cross-project exports require explicit reviewed decisions included in their owning subjects/policies.
 
-1. enabling any production target;
-2. approving destructive/external side effects;
-3. accepting an `UNKNOWN` compatibility difference as intentional;
-4. approving deletion of `DORMANT` or `UNKNOWN` code;
-5. final production cutover.
-
-Everything else can be automated.
+The initial engine does not implement production writes. A Gate 3 package contains verified evidence and customer-supplied staging-tested operator/rollback commands. Agents cannot convert UNKNOWN into PASS or silently omit dormant/unknown behavior.
 
 ---
 
 # 53. CLI specification
 
-Minimum command set:
+The complete supported command and flag catalog is [CLI-SPEC](docs/06-agent/CLI-SPEC.md), with typed inputs/results in [commands.json](specs/cli/commands.json). Initialization/detection/confirmation, analysis/observation/discovery, planning/generation/verification, benchmark/status/missions, report/export/learning/skills and Gate 3 package operations are explicitly documented.
 
-```text
-rewrotron init
-rewrotron doctor
-rewrotron analyze
-rewrotron observe
-rewrotron discover
-rewrotron model
-rewrotron plan
-rewrotron migrate
-rewrotron verify
-rewrotron benchmark
-rewrotron status
-rewrotron next
-rewrotron resume
-rewrotron learn
-rewrotron skills
-rewrotron report
-rewrotron export
-```
-
-Every command supports:
-
-```text
---json
---project <path>
---quiet
---verbose
-```
-
-Where meaningful, mutating operations also support:
-
-```text
---dry-run
-```
+Unknown/legacy speculative commands are rejected; `--auto-confirm` is removed. Dry-run never writes state, claims leases, executes source or grants approval. Use the canonical registry rather than this exploration to implement commands.
 
 ---
 
@@ -2389,19 +1845,9 @@ A particularly important metric is:
 
 # 63. Initial success thresholds
 
-The exact thresholds should be configurable, but the default v1 release gate is:
+Customer success is defined by [PRODUCT](docs/00-vision/PRODUCT.md), [COVERAGE](docs/05-verification/COVERAGE.md) and [PERFORMANCE](docs/05-verification/PERFORMANCE.md). All required in-scope cases/dimensions must pass; required unknowns and uncovered inventory block readiness. Percentages name explicit denominators and a zero denominator is not 100%.
 
-```text
-100% of in-scope compatibility cases pass
-0 unresolved critical mismatches
-0 source components incorrectly deleted in benchmark corpus
-100% of generated compatibility cases reproducible
-100% of migrations produce a complete report
-0 plaintext secrets in Rewrotron logs
-0 unapproved production writes in automated tests
-```
-
-For an actual customer project, 100% refers to the agreed compatibility corpus and defined scope, not every theoretical input the application could possibly receive.
+Release support requires reproducible fixtures, independent target builds, gate/drift/recovery/security checks, omission evidence, actual session continuity, measured performance and complete reviewed runbooks. These are future executed deliverables, not claims established by this document.
 
 ---
 
@@ -3002,134 +2448,19 @@ These decisions are locked unless deliberately changed through an ADR:
 
 ---
 
-# 88. First sprint backlog
+# 88. Development backlog
 
-The first development sprint should create these concrete tickets.
+The dependency-ordered [DEVELOPMENT-PLAN](docs/11-roadmap/DEVELOPMENT-PLAN.md) supersedes the historical first-sprint list. RWT-001–027 there are canonical task IDs with exact files, interfaces, negative fixtures, verification and evidence; see [BACKLOG](docs/11-roadmap/BACKLOG.md).
 
-## RWT-001 — Monorepo bootstrap
-
-Create Go module, package structure, Makefile, CI.
-
-Acceptance:
-
-```text
-make test
-make build
-```
-
-pass on Linux.
-
-## RWT-002 — Project initializer
-
-Implement `.rewrotron/project.yaml` and SQLite initialization.
-
-## RWT-003 — Event log
-
-Implement append-only events and project reconstruction tests.
-
-## RWT-004 — Artifact store
-
-Implement content-addressed artifact storage.
-
-## RWT-005 — CLI framework
-
-Implement command routing and `--json` output.
-
-## RWT-006 — Project snapshot
-
-Implement `rewrotron status` and `rewrotron next`.
-
-## RWT-007 — PHP runtime detector
-
-Detect PHP version and Composer metadata from a CI3 project.
-
-## RWT-008 — CI3 detector
-
-Identify CI3 installation, application directory and configuration.
-
-## RWT-009 — Route extractor
-
-Extract static CI3 routes into the project database.
-
-## RWT-010 — Source symbol index
-
-Parse CI3 fixture and persist symbols/calls.
-
-## RWT-011 — CI3 probe
-
-Create runtime instrumentation package using hooks.
-
-## RWT-012 — Request trace
-
-Record request and response metadata.
-
-## RWT-013 — DB trace
-
-Record queries and transaction metadata.
-
-## RWT-014 — Behavior case format
-
-Implement canonical case schema.
-
-## RWT-015 — Golden master
-
-Create repeated-observation normalization.
-
-## RWT-016 — Differential runner
-
-Compare legacy and a deliberately modified target fixture.
-
-## RWT-017 — Laravel bootstrap
-
-Generate an empty Laravel 13 target.
-
-## RWT-018 — First vertical slice
-
-Migrate one real CI3 route into Laravel.
-
-## RWT-019 — Compatibility test generator
-
-Generate Laravel tests from canonical cases.
-
-## RWT-020 — MCP server
-
-Expose project snapshot and next-mission tools.
-
-## RWT-021 — Rewrotron Skill
-
-Create agent instructions for the first end-to-end migration.
+Start with safe persistence/artifacts/configuration/gates/CLI, then source characterization and the verifier, then confirmed target slices, auth/transactions/effects, agent integration, measured performance and release packages. Optional learning/extensions follow proven baseline operation.
 
 ---
 
 # 89. First end-to-end demonstration
 
-The first meaningful demonstration should be a small but real CI3 application, not a toy hello-world project.
+Use the scenario in the [development plan](docs/11-roadmap/DEVELOPMENT-PLAN.md): detect and persist Gate 1, analyze/observe login and CRUD in reset independent sandboxes, lock cases, synthesize/confirm Gate 2, generate target slices, demonstrate deliberate MISMATCH and incomplete-capture UNKNOWN, repair with fences/history, resume after crash, rerun corpus, benchmark, rehearse session/rollback evidence, confirm Gate 3 and package.
 
-Required flow:
-
-```text
-1. Point Rewrotron at CI3 repo
-2. Detect framework/runtime
-3. Analyze source
-4. Discover routes
-5. Boot sandbox
-6. Login using test account
-7. Record dashboard workflow
-8. Record one create/update/read workflow
-9. Capture DB effects
-10. Generate compatibility cases
-11. Bootstrap Laravel 13
-12. Migrate one vertical slice
-13. Run legacy and Laravel against same cases
-14. Show exact/semantic comparison
-15. Intentionally introduce a target mismatch
-16. Let agent diagnose it
-17. Repair it
-18. Re-run verification
-19. Produce migration report
-```
-
-If this demo works reliably, the core architecture is validated.
+No production mutation occurs. A read-only first slice validates plumbing; full auth/state/integration evidence is required before broad adapter maturity or whole-app claims.
 
 ---
 
@@ -3376,31 +2707,12 @@ Once that exists, Laravel is the first rendering of that model. Go, Rust and Pyt
 
 ---
 
-# 97. Team approval checklist
+# 97. Decision and readiness register
 
-Before implementation starts, the team should explicitly approve:
+The [decision register](docs/11-roadmap/DECISION-REGISTER.md) records fixed engineering choices and external validation inputs with explicit owners/tasks. The repository owner's documentation request authorizes this specification review. It does not confirm any customer application's Gate 1/2/3 or certify runtime behavior.
 
-```text
-[ ] Single monorepo
-[ ] Go core
-[ ] SQLite project DB
-[ ] Filesystem artifact store
-[ ] CLI is canonical baseline
-[ ] MCP is integration layer
-[ ] Agent Skill is orchestration layer
-[ ] CI3 is first source adapter
-[ ] Laravel 13 is first target adapter
-[ ] Existing DB retained in initial migration
-[ ] Behavior IR is canonical
-[ ] Vertical-slice migration
-[ ] Differential testing is mandatory
-[ ] Dead code requires evidence
-[ ] Production access denied by default
-[ ] Project and global knowledge separated
-[ ] Learning is evidence-based
-[ ] Generated tools are versioned/promoted
-[ ] No provider-specific core logic
-[ ] Apache-2.0 license
-```
+Proceed through the development plan; missing fixture/runtime/customer/session/release inputs become concrete tracked blockers. No blanket “approve the entire architecture again” step is required to begin already-authorized safe engineering work.
 
-Once these are approved, development can begin with Phase 0 and the first 21 backlog items without requiring architectural decisions during implementation.
+# Transparent execution as a central product requirement
+
+Behavior preservation and continuous user supervision are the two governing product promises. [EXECUTION-OBSERVABILITY](docs/06-agent/EXECUTION-OBSERVABILITY.md) and [ADR 0013](docs/01-architecture/ADR/0013-transparent-execution.md) own the shared execution stages/events/state, factual explanations, measured progress, timeline, return-session changes, decision cards, verbosity and safe persistent control. `internal/execution` projects existing operational records; CLI/MCP/future desktop consume the same committed facts. UI stages do not replace lifecycle states, and progress/alerts cannot grant approval or parity. This requirement belongs to the first engine milestone; runtime/client implementation is pending.

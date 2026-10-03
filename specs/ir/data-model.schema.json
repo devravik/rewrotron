@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/ir/data-model.schema.json",
+  "title": "data-model.schema",
+  "type": "object",
+  "properties": {
+    "model_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "table": {
+      "type": "string",
+      "minLength": 1
+    },
+    "columns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "nullable": {
+            "type": "boolean"
+          },
+          "precision": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "scale": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "name",
+          "type",
+          "nullable"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "primary_key": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unique_keys": {
+      "type": "array",
+      "items": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "collation": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timezone": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]+$"
+      }
+    }
+  },
+  "required": [
+    "model_id",
+    "table",
+    "columns",
+    "primary_key",
+    "unique_keys",
+    "relationships",
+    "evidence_ids"
+  ],
+  "additionalProperties": false
+}

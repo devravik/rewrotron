@@ -1,55 +1,28 @@
-# TESTING.md — Testing Pyramid & Quality Gate Standards
+# Verification requirements for engine development
 
-> **Authority Level:** Mandatory Development Quality Specification  
-> **Status:** Authoritative Core Specification  
-> **Target Subsystems:** All Go packages, CI/CD, Contributor PRs  
+## Profiles
 
----
+1. **Deterministic Go tests:** Pure hashing/state/graph/comparison tests and local SQLite/artifact integration with no containers, PHP, network or LLM.
+2. **Contracts:** Every JSON Schema, local reference, CLI/MCP registry, success/error fixture, lifecycle enum and command output, including unknown version/field and empty queue.
+3. **Storage/recovery:** Fresh migration, version upgrades/checksums, foreign keys, append-only rules, transactional events, leases/fences, crash publication and backup/restore.
+4. **Adapter/runtime fixtures:** Synthetic PHP parsing/routing/probe/target generation, pinned isolated environments, instrumented control runs and safe effects.
+5. **End-to-end:** Gate-aware complete scoped CI3→Laravel migrations plus intentional mismatch/unknown/repair and process restart.
+6. **Performance:** Independent reproducible workloads after corpus correctness; report inconclusive results explicitly.
 
-## 1. The Rewrotron Testing Pyramid
+[FIXTURE-CORPUS](FIXTURE-CORPUS.md) maps scenarios to paths. Tests target observable behavior and failure cases, not trivial copies of implementation internals. Inject clocks/IDs/runners for repeatability.
 
-Rewrotron's mission is proving behavioral equivalence; its own codebase must maintain immaculate testing standards.
+## Mandatory checks after implementation
 
-```text
-                  ▲
-                 / \
-                /   \     8. Global Benchmark Corpus (Latency, Memory)
-               /     \
-              /───────\   7. Full Project End-to-End Migrations
-             /         \
-            /───────────\ 6. Differential Verifier Integration Suites
-           /             \
-          /───────────────\ 5. Machine Contract Tests (specs/cli, specs/mcp)
-         /                 \
-        /───────────────────\ 4. Golden Master Fixture Replays (testdata/)
-       /                     \
-      /───────────────────────\ 3. Storage Layer & Migration Compatibility
-     /                         \
-    /───────────────────────────\ 2. Analyzer & AST Parsing Tests
-   /                             \
-  /───────────────────────────────\ 1. Pure Unit Tests (internal/*_test.go)
-```
+Run `go test -race ./...`, `go vet ./...`, pinned lint, schema/CLI/MCP contract checks, migration compatibility and the affected fixture suite. Complete runtime/reference checks before claiming adapter support. Measure core coverage with a target above 85%; prioritize gate, drift, publication, reference ownership and uncertainty branches rather than gaming a percentage. A coverage number alone is not proof of correctness.
 
----
+Test errors separately from verdicts: completed mismatch/unknown is exit 2; unsafe or incomplete execution error is exit 1 with UNKNOWN diagnostic evidence. No case can pass solely because status is 200. Counterexamples are required for every approved normalizer.
 
-## 2. Test Category Definitions
+For documentation-only work before Go packages exist, run `python3 tools/docs/validate.py` and report exactly its scope. Do not present initial DDL validation as executed Go migration compatibility or runtime testing. CI profiles and the initial checks are built in RWT-001/002.
 
-1. **Unit Tests:** High-speed, isolated Go tests testing individual functions, normalizers, hashers, and state machine transitions. Zero network, zero external processes.
-2. **Analyzer Tests:** AST fixture tests validating that PHP constructs (classes, traits, dynamic calls, complex queries) are accurately parsed into symbol graphs.
-3. **Storage & Migration Tests:** Validates that SQLite schemas initialize cleanly and upgrade without data loss across versions in `migrations/`.
-4. **Fixture Replays:** Verifies that synthetic CodeIgniter 3 test applications in `testdata/ci3-fixtures/` are correctly observed and modeled.
-5. **Contract Tests:** Asserts that every CLI command `--json` output and MCP server response strictly validates against its JSON Schema in `specs/`.
-6. **Differential Verifier Tests:** Runs the comparator against known identical and divergent traces to confirm accurate categorization (`PASS`, `EXPECTED_CHANGE`, `DEFECT`, `UNKNOWN`).
-7. **End-to-End Migration Suites:** Runs complete end-to-end migrations on reference benchmark applications (e.g. CI3 sample e-commerce store -> Laravel 13).
-8. **Benchmarks:** Profiling test execution to prevent memory leaks and throughput regressions.
+## Evidence artifact
 
----
+Record command, tool/dependency versions, exit status, executed profile/corpus, hashes and limitations. Mark incomplete release-required environments as blockers; skips are never equivalent to a release pass. No test/check is pre-marked complete in a checklist.
 
-## 3. Pre-Merge Verification Checklist
+## Transparent execution acceptance
 
-A pull request or feature branch is considered complete **ONLY IF**:
-- [x] `go test -race ./...` passes with zero race conditions.
-- [x] Code coverage across `internal/` exceeds 85%.
-- [x] `golangci-lint run` reports zero warnings.
-- [x] All schema contracts in `specs/` validate against test fixtures.
-- [x] An ADR is added in `docs/01-architecture/ADR/` for any new architectural pattern.
+Test the canonical event/state contracts and real long-running producer instrumentation. Required cases include heartbeats while a subprocess waits, stale worker display, concurrent stage/task runs, privacy in every verbosity, cursor gaps/duplicates/fixed page watermarks, client-specific deltas, zero/unknown denominators, changed weighted scope, failed execution versus MISMATCH/UNKNOWN, pause at journal/replay boundaries, restart/resume retaining pause and continue with stale gates. Test telemetry failure without repeated side effects and approval events without actual confirmation. [EXECUTION-OBSERVABILITY](../06-agent/EXECUTION-OBSERVABILITY.md) owns acceptance details. JSON fixtures prove shape only; runtime/race/recovery/client evidence remains required.

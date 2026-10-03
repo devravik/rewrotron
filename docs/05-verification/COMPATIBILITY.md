@@ -1,19 +1,14 @@
-# COMPATIBILITY.md — Compatibility Matrix Across Subsystems
+# Reference adapter compatibility map
 
-> **Version:** 1.0  
-> **Status:** Verification Reference Guide  
+The [canonical compatibility specification](COMPATIBILITY-SPEC.md) owns verdicts and comparison rules. Framework APIs are implementation choices rather than evidence of compatibility.
 
----
+| Behavior | CI3 extraction | Laravel implementation | Required evidence |
+| --- | --- | --- | --- |
+| Routing | Config, verb routes, conventions, overrides | Explicit ordered routes | Method/path/precedence and fallback cases |
+| Input validation | Actual source validation/coercion | Requests/actions preserving observed errors | Accepted/rejected payloads and exact status/messages |
+| Sessions | Detected driver, cookie settings, userdata/flash | Explicit compatible store/bridge | Principal continuity, rotation, flags and logout |
+| DB effects | Transactions, query traces and row snapshots | Query builder/model with exact schema mapping | Committed state and rollback |
+| HTML | Source rendered pages and assets | Blade/output preserving contract | Text/forms/assets and selected DOM or exact bytes |
+| CSRF | Detected settings and invalid-token behavior | Explicit middleware compatible with case | Missing/invalid/replayed tokens and lifecycle |
 
-## 1. Subsystem Compatibility Matrix
-
-| Dimension | Legacy CI3 Baseline | Target Laravel 13 Baseline | Verification Strategy |
-| :--- | :--- | :--- | :--- |
-| **HTTP Routing** | `application/config/routes.php` | `routes/web.php`, `routes/api.php` | Differential HTTP Replay |
-| **Request Inputs** | `$this->input->post()` | Form Requests (`$request->validated()`) | Payload Schema Assertion |
-| **Session State** | `CI_Session` (`$_SESSION['ci_session']`) | Laravel Session Store | Session Diff Comparator |
-| **Flash Data** | `set_flashdata()` | `with('key', 'value')` | Session Flash Diff |
-| **Active Record** | `$this->db->get_where()` | Eloquent Models / Query Builder | Database Mutation Diff |
-| **View Rendering** | PHP template files | Blade templates (`.blade.php`) | DOM Semantic Comparator |
-| **Validation** | CI3 Form Validation library | Laravel Validator | Error Message Normalization |
-| **Security CSRF** | `$config['csrf_protection']` | VerifyCsrfToken Middleware | Token Pattern Masking |
+Neither Eloquent defaults nor Laravel validation defaults automatically match a source. Session interoperability is specified in [AUTH-AND-SESSION](../04-migration/AUTH-AND-SESSION.md). Unknown framework extensions block the affected capability.

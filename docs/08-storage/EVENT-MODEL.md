@@ -1,29 +1,27 @@
-# EVENT-MODEL.md — Append-Only Audit Stream & Event Taxonomy
+# Append-only events and export
 
-> **Version:** 1.0  
-> **Status:** Storage Reference Guide  
+Events have global monotonic `sequence`, unique `event_id`, `project_id`, `event_type`, entity identity, request ID, UTC timestamp and validated JSON payload. SQLite sequence defines order; wall clocks can move backward. Event IDs are identities, not chronological proof.
 
----
+The entity update, expected revision check and event insertion share one transaction. Append-only SQL triggers forbid mutation/deletion. Payloads contain hashes/references and sanitized structured facts, not raw secrets or huge trace bodies. Include schema version in payloads used for projection rebuilding.
 
-## 1. Event Invariants
+| Event | Required facts |
+| --- | --- |
+| PROJECT_INITIALIZED / DETECTION_RECORDED | Project/source identity, manifest and detection references |
+| GATE_CONFIRMED / BASELINE_INVALIDATED | Gate, exact subject, actor/channel/action or drift reason |
+| ANALYSIS_COMPLETED / OBSERVATION_RECORDED / CONTRACT_LOCKED | Captured baseline, artifact refs, completeness/counts |
+| PLAN_SYNTHESIZED / CODE_GENERATED | Plan/target hashes, units, patch and provenance refs |
+| VERIFICATION_COMPLETED / MISMATCH_DETECTED | Run, case, dimensions, verdict, diff refs |
+| MISSION_CLAIMED / MISSION_RENEWED / MISSION_COMPLETED | Mission ID, owner, fence, expiry, evidence |
+| REPAIR_ATTEMPTED / BENCHMARK_COMPLETED | Fingerprint, outcome and evidence hashes |
+| LESSON_RECORDED / EXPORT_APPROVED | Scope, reviewed privacy manifest and evidence |
+| OPERATION_FAILED / OPERATION_CANCELLED | Error category/code, retryability, sanitized diagnostics |
 
-1. **Strictly Append-Only:** Rows in `events` are never updated, deleted, or truncated during normal operations.
-2. **Deterministic Sequence:** Events carry monotonic timestamps and ULID/UUID identifiers.
-3. **Dual Persistence:** Events are written simultaneously to `project.db` (for relational querying) and `.rewrotron/logs/events.jsonl` (for external log forwarders).
+A JSONL export is generated after commit using sequence cursors. It can be replayed/deduplicated by event ID and rebuilt from SQLite; it is not a second authoritative ledger. Export failure never rolls back committed business state. Read-only tool calls may append audit events but must not change project revision or lifecycle.
 
----
+Only documented event-driven projections are promised rebuildable. Artifacts and immutable baseline/contract/plan records are needed too; an event log by itself does not restore a filesystem, DB snapshot or external side effect.
 
-## 2. Event Types Catalog
+## Canonical execution payloads and views
 
-| Event Type | Emitting Subsystem | Payload Contents |
-| :--- | :--- | :--- |
-| `PROJECT_INITIALIZED` | `internal/project` | Source path, target framework, config flags |
-| `ANALYSIS_COMPLETED` | `internal/analyzer` | Symbol counts, files scanned, route count |
-| `OBSERVATION_RECORDED` | `internal/observer` | Trace ID, endpoint, duration, query count |
-| `CONTRACT_LOCKED` | `internal/behavior` | Contract ID, version, hash |
-| `UNIT_PLANNED` | `internal/migration` | Unit ID, dependency list, priority |
-| `CODE_GENERATED` | Target Adapter | Target file paths generated, LOC |
-| `VERIFICATION_PASSED` | `internal/verification` | Case ID, Unit ID, duration |
-| `MISMATCH_DETECTED` | `internal/verification` | Mismatch type, severity, diff summary |
-| `REPAIR_ATTEMPTED` | Repair Loop | Mismatch ID, attempt number, outcome |
-| `GATE_APPROVED` | Human Review | User identity, rationale, approved action |
+[EXECUTION-OBSERVABILITY](../06-agent/EXECUTION-OBSERVABILITY.md) owns typed execution payloads in the existing ledger; `specs/execution/event.schema.json` validates the committed public representation. Payloads name schema version, operation/run, stage instance/task/mission, OBSERVED/DECIDED/ACTION/RESULT kind, factual reason, result, refs, progress and user attention. Starts, progress, heartbeat, discovery, decision, action, warnings/errors, approvals, controls and invalidations share ledger ordering and ownership. Existing domain event types remain valid; no second event table or competing log is introduced. Domain events may carry the same execution context; append correlated presentation events in the same transaction where needed and deduplicate their domain fact in projections.
+
+Heartbeats do not claim progress or change lifecycle/business revision. Completion/control/approval events and state changes share a transaction; received approval requires the actual confirmation row. Projections use a consistent watermark and exclusive sequence cursor, handle global per-project gaps and delivery duplicates, and expose per-client deltas without server-wide read acknowledgment. Sanitize before persistence; failure of the sink blocks new opaque work at a safe boundary without replaying external effects. JSONL remains a rebuildable export, not live authority.

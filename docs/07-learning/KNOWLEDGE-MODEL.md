@@ -1,36 +1,13 @@
-# KNOWLEDGE-MODEL.md — Lessons, Patterns, and Hypotheses Schemas
+# Knowledge records and privacy
 
-> **Version:** 1.0  
-> **Status:** Learning Reference Guide  
+A project lesson records `lesson_id`, project/unit/experiment IDs, observed finding, proposed remediation, source/target/corpus/policy hashes, immutable evidence references, applicability, limitations and outcome. A single success is evidence for that case, not a universal confidence score.
 
----
+A reusable pattern additionally records pattern ID/version, supported capability predicates, sanitized examples, positive/negative fixture refs, evaluation outcomes, originating evidence count, approval actor/action and deprecation history. Store no customer identifiers, private URLs, credential hashes or raw traces in global records.
 
-## 1. Schema Definitions
+Framework examples must be evidence-based. CI3 session formats depend on the configured driver; do not assume encrypted session cookies or a particular legacy cipher. Session bridges must satisfy [AUTH-AND-SESSION](../04-migration/AUTH-AND-SESSION.md).
 
-### 1.1 Project Lesson Schema
-```json
-{
-  "lesson_id": "lsn_01HZX89AB",
-  "project_id": "customer-portal",
-  "unit_id": "auth-login",
-  "mismatch_category": "SESSION_ENCRYPTION_MISMATCH",
-  "legacy_behavior": "CI3 stores session cookie encrypted using legacy mcrypt/openssl AES-128-CBC",
-  "modern_solution": "Laravel uses modern APP_KEY with AES-256-CBC; injected bridge decryptor for active session migration",
-  "success_rate": 1.0,
-  "created_at": "2026-10-03T04:55:00Z"
-}
-```
+Project lessons are local-first and can exist without global storage. Global pattern schema/migration is developed in RWT-023 with privacy and regression fixtures before promotion is exposed. Pending global functionality cannot block a baseline migration.
 
-### 1.2 Global Pattern Schema
-```json
-{
-  "pattern_id": "pat_ci3_session_bridge",
-  "title": "CodeIgniter 3 to Laravel Session Interoperability",
-  "source_framework": "codeigniter3",
-  "target_framework": "laravel13",
-  "confidence_score": 0.98,
-  "occurrences_count": 7,
-  "rule_type": "ADAPTER_TEMPLATE",
-  "template_ref": "templates/ci3_laravel_session_bridge.php"
-}
-```
+## Dependency resolution experience
+
+Resolution lessons include exact source/target versions, used capability predicates, selected strategy/adapter/native implementation, transitive constraints, characterization and application corpus/policy/environment subjects, and successful/failed alternatives. Report evidence counts and failures rather than inventing a numerical confidence from small samples. Known mappings remain scoped recommendations; they cannot override a user target, satisfy Gate 2 or bypass current differential verification. Global promotion follows the existing opt-in privacy and multi-context validation policy.

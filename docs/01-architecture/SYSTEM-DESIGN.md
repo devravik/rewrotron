@@ -65,13 +65,13 @@ Rewrotron is architected around the following structural invariants:
 │                                                                                │
 │  ┌──────────────────────────────────────────────────────────────────────────┐  │
 │  │ Source Adapters (implement SourceAdapter interface)                      │  │
-│  │   • adapters/source/php/codeigniter3 (Initial tested reference)          │  │
+│  │   • adapters/source/php/codeigniter3 (Planned reference)          │  │
 │  │   • adapters/source/php/generic_php  (Fallback for non-standard PHP)     │  │
 │  │   • adapters/source/python/django, etc.                                  │  │
 │  └──────────────────────────────────────────────────────────────────────────┘  │
 │  ┌──────────────────────────────────────────────────────────────────────────┐  │
 │  │ Target Adapters (implement TargetAdapter interface)                      │  │
-│  │   • adapters/target/php/laravel13    (Initial tested reference)          │  │
+│  │   • adapters/target/php/laravel13    (Planned reference)          │  │
 │  │   • adapters/target/go/std_http, adapters/target/rust/axum, etc.         │  │
 │  └──────────────────────────────────────────────────────────────────────────┘  │
 │  ┌─────────────────────────────┐        ┌───────────────────────────────────┐  │
@@ -103,7 +103,10 @@ type SourceAdapter interface {
     // Analyze parses the codebase and returns the Source IR.
     Analyze(ctx context.Context, project Project) (SourceIR, error)
 
-    // Observe injects instrumentation hooks and captures runtime traces.
+    // Extract resolves framework conventions into neutral application structure.
+    Extract(ctx context.Context, source SourceIR) (ApplicationIR, error)
+
+    // Observe instruments only a sandbox copy and captures runtime traces.
     Observe(ctx context.Context, project Project, options ObserveOptions) (RuntimeTraceSet, error)
 }
 
@@ -127,11 +130,11 @@ type TargetAdapter interface {
 
 ## 4. The Three Confirmation Gates
 
-1. **Gate 1: Source Detection (`DETECTION_COMPLETE` ➔ `SOURCE_CONFIRMED`)**
+1. **Gate 1: Source Detection (`DETECTED` ➔ `SOURCE_CONFIRMED`)**
    - Automatically triggered upon `rewrotron detect` or `rewrotron init`.
    - Inspects language, framework, version, runtime, entrypoints, and dependencies.
    - Requires explicit user confirmation via `rewrotron confirm source` or MCP `project.confirm_source`.
-   - Engine stores an immutable configuration hash. Any subsequent source file mutations invalidate the hash.
+   - Engine stores an immutable configuration hash. Material source or environment drift invalidates the current baseline; immutable prior approvals remain in history.
 
 2. **Gate 2: Target & Migration Plan (`PLAN_SYNTHESIZED` ➔ `PLAN_CONFIRMED`)**
    - Proposes target language, framework, architectural style (e.g. `modular_monolith`), behavioral slices to migrate, and dead code candidates to drop.
@@ -139,5 +142,38 @@ type TargetAdapter interface {
    - The engine returns `ERROR: USER_CONFIRMATION_REQUIRED` if code generation is attempted prior to confirmation.
 
 3. **Gate 3: Production Cutover (`VERIFIED` ➔ `READY_CUTOVER`)**
-   - Proves differential equivalence across 100% of active units.
+   - Requires passing evidence for 100% of the confirmed in-scope corpus, no required UNKNOWN dimensions, and current benchmark/session/rollback evidence.
    - Final deployment or live database cutover requires explicit human sign-off.
+
+
+## 5. Construction and service boundary
+
+The interface examples describe planned ports; their records are defined in [IR-CONTRACTS](../02-domain/IR-CONTRACTS.md). `SourceAdapter.Analyze` returns neutral syntax records; `Extract` resolves framework routing/loading semantics. The core cannot infer CI3 conventions from generic syntax. `TargetAdapter.Generate` writes a staging directory and returns a patch manifest; it never overwrites customer edits directly. `Observe` receives a project whose execution paths resolve to an isolated sandbox copy.
+
+`internal/runtime` registers concrete adapters and injects them into the gate-checked service layer. Concrete implementation paths and the Go import rules are owned by [COMPONENTS](COMPONENTS.md). The target-neutral planner checks declared capabilities before calling the target adapter. If a behavior cannot be generated from evidenced rules, return `ERR_UNSUPPORTED_CAPABILITY` with unit and rule references.
+
+## 6. Durable operation contract
+
+A service request carries project ID, request ID, idempotency key for mutations, expected subject hashes, and cancellation context. A result carries operation ID, artifact references, blockers, and captured hashes. Short state changes use one SQLite transaction; long operations use a captured input snapshot and publish through a current-subject/fencing check. See [RECOVERY](../08-storage/RECOVERY.md).
+
+Before invoking adapters, the service checks gates, source drift, capability coverage, safe execution prerequisites, and unit dependencies. Adapters cannot write gate records, declare verification passes, or update project status. `status`, `next`, and MCP snapshots derive facts from the same records.
+
+## 7. Current capability status
+
+No adapter implementation or reference corpus has run in this repository. CI3 and Laravel are initial reference targets; maturity begins at `EXPERIMENTAL` after implementation and is promoted only on recorded corpus evidence. Generic PHP must return unsupported findings for unresolved framework conventions. Additional adapters reuse the same IR and verifier, but each pair still requires a tested capability intersection.
+
+## 8. Operational records
+
+[SERVICE-CONTRACTS](SERVICE-CONTRACTS.md) defines request context, infrastructure handles, capture/runner/lease fields, injection and compare-and-publish semantics shared by implementation tasks.
+
+## 9. Target and dependency decision services
+
+[ADR 0012](ADR/0012-target-specification-and-dependency-resolution.md) makes source detection, recommendations, requested target specifications and dependency resolution separate engine responsibilities. The flow is detect/review/Gate 1 → source/usage/behavior analysis → recommend/configure → immutable target revision → feasibility/plan → Gate 2 → generation/verification → Gate 3. Preliminary metadata recommendations may precede Gate 1; deep analysis cannot.
+
+`internal/detection` coordinates neutral proposals; `internal/recommendations` emits evidence-backed decisions; `internal/target` validates and freezes user intent; `internal/dependency` builds usage/capability/constraint graphs. `internal/migration` remains the planner, `internal/core` enforces approval and publication, and `internal/knowledge` owns lessons. `TargetConfig` is the canonical rich [target specification](../04-migration/TARGET-SPECIFICATION.md), not merely a framework name. Ecosystem parsing/API extraction and generation remain adapter capabilities. Plans capture exact resolution and decision artifact hashes. A target change propagates along recorded dependency links while retaining unrelated source work; incomplete feasibility cannot become executable by approval alone.
+
+## 10. Transparent execution boundary
+
+[ADR 0013](ADR/0013-transparent-execution.md) and [EXECUTION-OBSERVABILITY](../06-agent/EXECUTION-OBSERVABILITY.md) make instrumentation a baseline service requirement. `internal/execution` validates typed events and projects active concurrent runs, repeatable stages, factual explanations, progress, findings/approval cards and next actions from the existing ledger. Engine and agent work must publish real start/boundary/result evidence; an agent summary is never completion authority.
+
+All CLI/MCP/future desktop clients read the same committed projection at a sequence watermark. Execution labels do not replace lifecycle states. Progress never grants approval or parity, and telemetry does not change a business revision merely because it advances. Persistent human pause/continue constrains mission readiness independently of gates; resume reconciles without clearing pause. Concrete services receive an injected event sink, clock/redactor and repository; no framework/provider/desktop dependency enters the core.

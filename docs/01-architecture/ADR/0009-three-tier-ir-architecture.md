@@ -29,7 +29,11 @@ Target Adapters (Laravel, Go, Rust, Python, TypeScript)
 ## Consequences
 - **Positive:**
   - $N$ source adapters + $M$ target adapters enable $N \times M$ migration combinations.
-  - Adding a new target adapter (e.g. Go or Rust) immediately works for all supported source frameworks.
+  - Adding a target adapter reuses the common model; each claimed combination requires a tested supported-capability intersection.
   - Clean separation of concerns: source adapters understand legacy quirks; target adapters generate clean modern idioms.
 - **Negative:**
   - Requires maintaining transformations between Source IR, Application IR, and Behavior IR.
+
+## Implementation clarification (2026-10-03)
+
+[ADR 0011](0011-development-baseline-and-contract-completion.md) defines the initial concrete package, hash, protocol, evidence and release baseline. This accepted design is not a claim that implementation/runtime validation has completed.

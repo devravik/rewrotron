@@ -1,49 +1,20 @@
-# CODE-CLASSIFICATION.md — Detailed Classification Matrix & Proof Rules
+# Classification and omission evidence
 
-> **Version:** 1.0  
-> **Status:** Standard Reference Specification  
+| Classification | Rule | Target treatment |
+| --- | --- | --- |
+| `ACTIVE` | At least one correlated runtime hit in the approved baseline | Characterize and reconstruct |
+| `DORMANT` | Proven possible static/configured path, no observed hit | Retain in scope or explicit reviewed exclusion |
+| `UNKNOWN` | No hit and reachability cannot be closed because of dynamic edges, incomplete roots/parsing, or missing operations | Preserve or create a reviewed scope decision |
+| `DEAD` | Closed static proof of no path from any approved root, no unresolved candidate path, and zero observed hits | Automatic target omission eligible with proof |
 
----
+A known reachable symbol remains DORMANT even when other uncertainty exists; the uncertainty is recorded separately and prevents omission. Absence of observation is never sufficient for DEAD. Runtime evidence dominates: an observed symbol is ACTIVE even if the static graph missed it.
 
-This document establishes the exact algorithmic rules for classifying legacy code artifacts.
+## Proof bundle
 
-## 1. Classification Status Matrix
+A DEAD proof records baseline/manifest hash, symbol and file/span, complete root inventory, graph hash, unresolved edge analysis, parser completeness, operational-input declarations, runtime corpus/window and zero hit count, analyzer version, and a machine-checkable reachability result. Inbound calls can exist among dead symbols; zero inbound edges is neither necessary nor sufficient. The required property is no reachable path from any approved root.
 
-| Classification | Reachable Statically? | Observed Dynamically? | Dynamic Dispatch Risk? | Action Taken by Rewrotron |
-| :--- | :--- | :--- | :--- | :--- |
-| **`ACTIVE`** | Yes or Unknown | Yes (>= 1 hit) | Any | **Reconstruct in Target** |
-| **`DORMANT`** | Yes (>= 1 path) | No (0 hits) | Low / None | **Reconstruct or Human Review Gate** |
-| **`DEAD`** | No (0 paths) | No (0 hits) | None (Proven) | **Omit from Target + Emit Proof** |
-| **`UNKNOWN`** | Indeterminate | No (0 hits) | High (`eval`, variable methods) | **Must Preserve or Require Gate** |
+Cryptographic hashes protect bundle integrity and reproducibility, not the truth or completeness of the analysis. There is no “unforgeable” or universal cryptographic proof of dead PHP. No runtime corpus available means insufficient evidence for automatic omission in the initial engine.
 
----
+A file is DEAD only if all executable symbols and top-level statements are proven dead and it provides no reachable templates, assets, configuration, include-time side effects or operational resources. Individual symbols may be DEAD in a mixed ACTIVE file. Omission applies to target reconstruction; the source repository is never edited or deleted.
 
-## 2. Generating Cryptographic Proof of Dead Code
-
-When a symbol, method, or class is classified as `DEAD`, Rewrotron generates an unforgeable proof bundle:
-
-```json
-{
-  "symbol": "LegacyExportHelper::exportToDbase3",
-  "file": "application/helpers/export_helper.php",
-  "line": 142,
-  "file_hash": "a1b2c3d4e5f6...7890",
-  "classification": "DEAD",
-  "proof": {
-    "reachability_scan": {
-      "inbound_static_calls": 0,
-      "inbound_view_references": 0,
-      "routes_mapped": 0
-    },
-    "dynamic_scan": {
-      "variable_function_risk": false,
-      "eval_usage_detected": false
-    },
-    "runtime_traces_checked": 1482,
-    "runtime_hits": 0
-  },
-  "signed_timestamp": "2026-10-03T04:45:00Z"
-}
-```
-
-This proof guarantees that developers and compliance auditors have clear empirical evidence of why legacy baggage was omitted.
+Omission candidates and proofs appear in the Gate 2 plan. A stale baseline, new route/job, parse failure, unresolved dynamic edge or runtime hit invalidates the proof and dependent plan. RWT-008 includes fixtures for mutually unreachable cycles, dynamic loaders, cron-only routines, templates, includes, missing roots, and incomplete parsing.

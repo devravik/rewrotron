@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/migrate.input.schema.json",
+  "title": "migrate.input.schema",
+  "type": "object",
+  "properties": {
+    "unit_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "all": {
+      "type": "boolean"
+    }
+  },
+  "required": [],
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "required": [
+        "unit_id"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "all"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "all"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "unit_id"
+            ]
+          }
+        ]
+      },
+      "properties": {
+        "all": {
+          "const": true
+        }
+      }
+    }
+  ]
+}

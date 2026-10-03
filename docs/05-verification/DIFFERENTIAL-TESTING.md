@@ -1,88 +1,26 @@
-# DIFFERENTIAL-TESTING.md — Dual Replay & Differential Verification Algorithm
+# Differential replay algorithm
 
-> **Authority Level:** Mandatory Verification Contract  
-> **Status:** Authoritative Core Specification  
-> **Subsystems:** `internal/verification`, Replay Engine, Repair Loop  
+## Preconditions
 
----
+A run captures current Gate 1/2 validity, source and target hashes, case/contract/corpus/policy hashes, source/target adapter versions, sandbox image digests, DB schema and fixture hashes, locale, timezone, seed, and tool versions. Non-HTTP inventory remains visible even when a target adapter cannot execute it.
 
-## 1. The Differential Verification Algorithm
+## Execution sequence
 
-Differential testing is the mathematical foundation of Rewrotron's verification guarantee.
+1. Validate the case and every artifact/reference before starting a process. Reject unsafe effects or unsupported required dimensions.
+2. Create independent source and target environments from the same logical fixture. They never share a writable DB, session store, filesystem, or outbound-effect sink.
+3. Restore all relevant state: DB rows and sequences, sessions, cache, files, queues, clocks/random providers where controllable. Verify restoration hashes. Restore failure yields UNKNOWN.
+4. Execute the same scenario. Preserve each side's cookie jar through its own workflow. Extract values such as CSRF tokens and generated IDs using explicit bindings; never replay a source-side token into the target.
+5. Capture request/response, redirect chain, status/exit code, committed DB state, session/flash, files/cache, and sink events. Automatic redirects are disabled unless a case declares the chain to follow. Each step has a 30-second default timeout, a maximum of 10 declared redirects, and 16 MiB capture limit; configured increases become policy inputs.
+6. Persist redacted artifacts and completeness statuses. Timeout/cancellation/truncation prevents complete assertions; preserve partial evidence without declaring PASS.
+7. Compare using [COMPATIBILITY-SPEC](COMPATIBILITY-SPEC.md). Store per-dimension results, aggregate verdict, captured hashes and diff artifact.
+8. Recheck drift and target fences before accepting the result as current. Append events and results atomically. Clean up processes, mounts and temporary state even on cancellation.
 
-```text
-               ┌────────────────────────────────────────────────────────┐
-               │              Behavior Case (Input & Seed)              │
-               └───────────────────────────┬────────────────────────────┘
-                                           │
-                     ┌─────────────────────┴─────────────────────┐
-                     ▼                                           ▼
-       ┌───────────────────────────┐               ┌───────────────────────────┐
-       │   Legacy Execution (CI3)  │               │ Target Execution (Laravel)│
-       └─────────────┬─────────────┘               └─────────────┬─────────────┘
-                     ▼                                           ▼
-       ┌───────────────────────────┐               ┌───────────────────────────┐
-       │   Capture Source Trace    │               │   Capture Target Trace    │
-       │ (HTTP, DB, Session, Time) │               │ (HTTP, DB, Session, Time) │
-       └─────────────┬─────────────┘               └─────────────┬─────────────┘
-                     │                                           │
-                     └─────────────────────┬─────────────────────┘
-                                           ▼
-                             ┌───────────────────────────┐
-                             │ Dynamic Value Normalizer  │
-                             │ (Mask CSRF, UUID, Time)   │
-                             └─────────────┬─────────────┘
-                                           ▼
-                             ┌───────────────────────────┐
-                             │   Multi-Tier Comparator   │
-                             │ (Status, Headers, Bodies, │
-                             │  DB Mutations, Sessions)  │
-                             └─────────────┬─────────────┘
-                                           ▼
-                             ┌───────────────────────────┐
-                             │       CLASSIFICATION      │
-                             │  • PASS                   │
-                             │  • EXPECTED_CHANGE        │
-                             │  • MISMATCH               │
-                             │  • UNKNOWN                │
-                             └───────────────────────────┘
-```
+Workflows reset state before each complete scenario, not between steps. Cases can run concurrently only with independent environment/fixture instances. A DB rollback around a request is insufficient when the application commits, sends effects, or uses multiple connections.
 
----
+## Repair coordination
 
-## 2. Verdict Classifications
+MISMATCH queues a repair mission with the contract, both traces, exact dimension differences, relevant symbols, and previous attempts. UNKNOWN queues an observation or review mission. No provider is invoked by the deterministic engine; external agents consume the mission through CLI/MCP.
 
-Every differential run produces one of four mutually exclusive classifications:
+A repair stage records its hypothesis and target before hashes, validates paths and edits, runs build/static checks, then reruns the affected case and regression corpus. Maximum automatic attempts are three per mismatch/current context. A changed context requires a new fingerprint and cannot silently reset the recorded attempt history. Exhaustion creates a blocker with prior evidence and a concrete requested decision.
 
-1. **`PASS`**: Outputs and side effects match perfectly under `EXACT` or `SEMANTIC` comparison rules.
-2. **`EXPECTED_CHANGE`**: Outputs differ in an approved, modernized manner documented in the contract (e.g. Modern UUIDv4 format instead of md5 hash, or Laravel's JSON error envelope instead of plain text, provided it was intentional).
-3. **`MISMATCH`**: Target execution violates the contract (e.g. status code 500 instead of 200, missing database INSERT, wrong column value).
-4. **`UNKNOWN`**: Difference detected whose legitimacy cannot be determined automatically.
-
----
-
-## 3. What Happens After a Mismatch?
-
-When a `MISMATCH` or `UNKNOWN` verdict is reached, the following workflow is automatically triggered:
-
-```text
-Differential Run produces MISMATCH
-    ↓
-Record Mismatch in project.db (mismatches table)
-    ↓
-Generate Diagnostic Diff Artifact (.rewrotron/artifacts/reports/mismatch_*.json)
-    ↓
-Calculate Mismatch Severity (CRITICAL, HIGH, MEDIUM, LOW)
-    ↓
-Spawn or Update Mission: REPAIR_MISMATCH
-    ↓
-Invoke LLM Diagnostic Prompt / Agent Repair Loop:
-  - Input: Legacy Trace, Target Trace, Unified Diff, Contract
-  - Output: Target Code Patch OR Contract Normalization Proposal
-    ↓
-Apply Patch to Target Application
-    ↓
-Re-run Differential Verification (Max 3 automated attempts)
-    ↓
-If still failing after 3 attempts ──► Escalate to Human Review Gate
-```
+Regression impact can restrict early feedback, but a unit/project completion claim requires the full confirmed corpus. Comparator or case changes are proposals requiring a new policy/corpus and plan approval. Failed code patches are reverted only if their current hashes still match the applied patch; customer edits are never overwritten by rollback.

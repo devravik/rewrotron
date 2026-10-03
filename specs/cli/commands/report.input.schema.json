@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/report.input.schema.json",
+  "title": "report.input.schema",
+  "type": "object",
+  "properties": {
+    "format": {
+      "type": "string",
+      "enum": [
+        "json",
+        "markdown"
+      ]
+    }
+  },
+  "required": [
+    "format"
+  ],
+  "additionalProperties": false
+}

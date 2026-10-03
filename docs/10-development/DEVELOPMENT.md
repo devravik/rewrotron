@@ -1,34 +1,34 @@
-# DEVELOPMENT.md — Local Development Setup & Tooling
+# Development setup and available checks
 
-> **Version:** 1.0  
-> **Status:** Development Reference Guide  
+## Current repository
 
----
+The repository is a specification baseline. There is no `go.mod`, Makefile, Go implementation, container fixture corpus or engine binary yet. The initial SQL migration defines the store to build; it is not a deployed customer DB. Start with RWT-001 in [DEVELOPMENT-PLAN](../11-roadmap/DEVELOPMENT-PLAN.md).
 
-## 1. Prerequisites
-
-- **Go:** 1.22+ installed and available on PATH.
-- **PHP:** 8.2 or 8.3 with standard extensions (pdo, mbstring, sqlite3, curl).
-- **Composer:** Modern Composer 2.x for PHP test dependencies.
-- **Docker:** (Optional but recommended) for containerized sandboxing.
-
----
-
-## 2. Standard Make Commands
+For documentation/schema checks now:
 
 ```bash
-# Compile binaries (rewrotron & rewrotron-mcp)
-make build
-
-# Run complete test suite with race detector
-make test
-
-# Run linter
-make lint
-
-# Validate all JSON schemas against fixtures
-make test-schemas
-
-# Run end-to-end reference fixture migration
-make test-e2e
+python3 -m pip install 'jsonschema>=4.10,<5'
+python3 tools/docs/validate.py
 ```
+
+The validator uses local schema IDs, checks fixtures/registries/links and executes the initial SQLite DDL. This does not establish Go driver, race, framework runtime or migration correctness.
+
+## Planned implementation prerequisites
+
+Go 1.22+ is the constitutional minimum; RWT-001 selects and pins a currently supported stable toolchain satisfying all chosen dependency floors. A dependency requiring a later Go version raises the build baseline explicitly; do not silently use an incompatible minimum. Use `modernc.org/sqlite`, standard-library CLI parsing, and the selected Go PHP parser inside the adapter. Pin exact versions and checksums in `go.mod/go.sum` and a tool manifest.
+
+Source PHP is detected/pinned per fixture/application. Target PHP is 8.3+ for Laravel 13; source and target runtimes are independent. Composer 2 and a container runtime/image cache are required for runtime fixture tasks. No cloud account or LLM subscription is needed. Go-only tests cannot require PHP/containers/network.
+
+## Make targets to create in RWT-001
+
+| Target | Command/behavior |
+| --- | --- |
+| `make build` | Build CLI/MCP binaries with injected version metadata |
+| `make test` | `go test -race ./...` for deterministic tests |
+| `make lint` | `go vet ./...` and pinned `golangci-lint run` |
+| `make test-schemas` | Offline schema/registry/example/document checks |
+| `make test-fixtures` | Pinned container source observation corpus |
+| `make test-e2e` | Gate-aware CI3→Laravel fixture migrations |
+| `make benchmark-fixtures` | Reproducible separate measurement workflow |
+
+Runtime tests report an explicit skip only in a named development profile; release CI must provision and execute them. Every command's prerequisites and remediation are recorded by doctor. Shared fixture images/dependencies are cached for offline replay.

@@ -78,6 +78,8 @@ Vertical Slice Migration & Differential Verification
 1. **No Inference from Silence:** Agents MUST NOT infer confirmation from conversational context, silence, or assumed agreement. Confirmation MUST be a persisted database record in `user_confirmations` created by explicit user command or MCP confirmation tool.
 2. **Invalidation on Repository Drift:** If source repository files change materially after Gate 1, the `configuration_hash` is invalidated, and the engine MUST re-request user confirmation before proceeding.
 3. **User Overrides are Sovereign:** User corrections (e.g. "PHP runtime is 8.2, not 7.4", "PostgreSQL database is read-only") override machine-inferred detections and become permanent project baseline facts.
+4. **User-Owned Target Specification:** Rewrotron MUST detect the source environment before migration planning and persist detected facts separately from user configuration. It MUST present material source facts, recommended/requested/resolved target versions, dependency decisions, compatibility risks and required transformations before execution. Freeze the requested target revision before planning; Gate 2 confirms that exact specification and plan. User-confirmed choices take precedence over recommendations; agents MUST NOT silently alter confirmed versions. Target changes invalidate affected planning/build/verification and Gate 2/3 validity, preserve unrelated completed source work, and require a newly reviewed plan without resetting the project.
+5. **Capability-Based Dependency Decisions:** Dependency resolution MUST use exact source inventory, actual usage, recursive constraints and required behavioral capabilities. DIRECT_UPGRADE, ADAPTER, REPLACEMENT, REIMPLEMENT and RETAIN are proposed strategies; BLOCKED denotes unresolved dependent scope. Package metadata, API coverage or user acceptance alone MUST NOT be treated as behavioral equivalence. DORMANT/UNKNOWN usage cannot justify automatic omission.
 
 ---
 
@@ -131,6 +133,7 @@ When reasoning, coding, refactoring, or resolving ambiguities, every agent MUST 
 - **Adapter Maturity Tiers:** All adapters must be explicitly categorized as `EXPERIMENTAL`, `BETA`, or `STABLE`.
 
 ### 4.3 Code Modification & Verification Rules
+- **ALWAYS** make execution transparent: all long-running Rewrotron operations MUST emit structured execution events. No long-running operation may be opaque to the user. Every operation MUST expose its current stage, current task, evidence-backed reason, result, blockers, next action and required user input through the canonical execution state. Events, counts and percentages MUST reflect committed facts with defined scopes; private chain-of-thought MUST NOT be exposed. Clients consume the same events/state, and telemetry MUST NOT bypass approvals or verification.
 - **NEVER** bypass Gate 1, Gate 2, or Gate 3.
 - **NEVER** modify public CLI command signatures, flags, or output structures without updating `docs/06-agent/CLI-SPEC.md` and `specs/cli/`.
 - **NEVER** modify persistent database schemas without an incremental migration file in `migrations/`, updated docs in `docs/08-storage/SQLITE-SCHEMA.md`, and compatibility tests.
@@ -185,6 +188,7 @@ A task or pull request is complete ONLY when ALL of the following criteria are s
 4. **Deterministic Behavior:** Predictable across environments without flaky tests (`go test -race`).
 5. **Machine Contract Integrity:** CLI commands emit valid JSON matching `specs/cli/`. MCP handlers match `specs/mcp/`.
 6. **Documentation Parity:** Every architectural decision is recorded in an ADR under `docs/01-architecture/ADR/`.
+7. **Transparent Execution:** Long-running work has current inspectable events, reasons, measured progress/freshness, blockers and next actions; observability and pause/recovery behavior are covered by implementation verification.
 
 ---
 
@@ -196,9 +200,12 @@ Before modifying any subsystem, agents MUST thoroughly review the foundation doc
 | :--- | :--- |
 | **System Architecture & IR Pipeline** | [`docs/01-architecture/SYSTEM-DESIGN.md`](file:///media/System/rewrotron/docs/01-architecture/SYSTEM-DESIGN.md) |
 | **Three-Tier IR & Behavior Contracts** | [`docs/02-domain/BEHAVIOR-MODEL.md`](file:///media/System/rewrotron/docs/02-domain/BEHAVIOR-MODEL.md) |
+| **Target Intent & Configuration Authority** | [`docs/04-migration/TARGET-SPECIFICATION.md`](docs/04-migration/TARGET-SPECIFICATION.md) |
+| **Dependency Usage & Resolution** | [`docs/04-migration/DEPENDENCY-RESOLUTION.md`](docs/04-migration/DEPENDENCY-RESOLUTION.md) |
 | **User Confirmation Gates & Lifecycle** | [`docs/02-domain/PROJECT-LIFECYCLE.md`](file:///media/System/rewrotron/docs/02-domain/PROJECT-LIFECYCLE.md) |
 | **Equivalence & Normalization** | [`docs/05-verification/COMPATIBILITY-SPEC.md`](file:///media/System/rewrotron/docs/05-verification/COMPATIBILITY-SPEC.md) |
 | **Agent / Engine Boundary & Gates** | [`docs/06-agent/AGENT-MODEL.md`](file:///media/System/rewrotron/docs/06-agent/AGENT-MODEL.md) |
+| **Transparent Execution & Supervision** | [`docs/06-agent/EXECUTION-OBSERVABILITY.md`](docs/06-agent/EXECUTION-OBSERVABILITY.md) |
 | **CLI Machine Contract** | [`docs/06-agent/CLI-SPEC.md`](file:///media/System/rewrotron/docs/06-agent/CLI-SPEC.md) |
 | **MCP Tool Contracts** | [`docs/06-agent/MCP-SPEC.md`](file:///media/System/rewrotron/docs/06-agent/MCP-SPEC.md) |
 | **Authoritative Storage & Schema** | [`docs/08-storage/SQLITE-SCHEMA.md`](file:///media/System/rewrotron/docs/08-storage/SQLITE-SCHEMA.md) |

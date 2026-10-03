@@ -1,4 +1,3 @@
-# AGENT-WORKFLOW.md — Canonical Agent Development Workflow
+# Development workflow
 
-> **Notice:** The authoritative version of this document is maintained at [`docs/AGENT-WORKFLOW.md`](file:///media/System/rewrotron/docs/AGENT-WORKFLOW.md).  
-> Please refer directly to that document for the complete 12-step engineering protocol, pre-flight search checklist, and task completion report template.
+The authoritative engineering procedure is [docs/AGENT-WORKFLOW](../AGENT-WORKFLOW.md). Use the canonical [development plan](../11-roadmap/DEVELOPMENT-PLAN.md) for task prerequisites, exact file paths, failure cases and evidence. The [constitution](../../AGENTS.md) remains the highest repository directive.

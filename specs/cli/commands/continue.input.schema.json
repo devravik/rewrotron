@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/continue.input.schema.json",
+  "title": "Human execution continue",
+  "type": "object",
+  "properties": {},
+  "required": [],
+  "additionalProperties": false
+}

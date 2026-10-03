@@ -1,27 +1,11 @@
-# WORKFLOW-DISCOVERY.md — Multi-Step Workflow Mining & State Transition Modeling
+# Workflow discovery and executable scenarios
 
-> **Version:** 1.0  
-> **Status:** Analysis Reference Guide  
+A workflow is an ordered business scenario across operations, with state continuity and explicit value bindings. Login → dashboard and cart → checkout → confirmation are candidate examples; the customer supplies the actual critical scenarios.
 
----
+Evidence can come from existing tests, declared API collections, supplied staging traces, redirects, rendered form/link targets, and related session/state mutations. Discovery heuristics propose sequences with evidence and confidence. They do not prove that adjacent traffic belongs to one user or that a visible link is safe to crawl.
 
-## 1. Defining Multi-Step Workflows
+A workflow record includes ID, operation IDs, bounded branches, initial fixture/principal, each request, extracted variables, later bindings, expected final state, required observation dimensions and unresolved questions. Use independent source/target cookie jars. Preserve state across steps; reset before the whole workflow. Never share raw session/CSRF tokens between implementations.
 
-A workflow represents a coherent, multi-request business process. While individual routes can be migrated as standalone operations, multi-step workflows must maintain session continuity, temporary database state, and transaction boundaries across steps.
+Cases cover authenticated and unauthenticated paths, permitted/forbidden roles, validation and business failures, logout, token rotation/expiry where applicable, and retry behavior. Cyclic applications need bounded test scenarios; automatic exploration stops at configured request/redirect/step limits and records coverage gaps.
 
-Examples of critical workflows:
-- **Authentication & Recovery:** Login -> MFA Challenge -> Session Establishment -> Logout.
-- **E-Commerce Checkout:** Cart Review -> Address Entry -> Payment Processing -> Order Confirmation.
-- **Multistage Forms:** Step 1 Personal Info -> Step 2 Documents Upload -> Step 3 Submission.
-
----
-
-## 2. Mining Heuristics
-
-Rewrotron discovers workflows using three correlation heuristics:
-
-1. **Session State Continuity:** Sequences of HTTP requests that mutate and consume shared session keys (e.g. `step_1_data` set in request A, read in request B).
-2. **HTML Form Action Chaining:** Static analysis of rendered Blade/HTML views discovering `<form action="/step2">` within the response of `/step1`.
-3. **HTTP 302 Redirect Chaining:** Requests terminating in a 302/303 redirect immediately followed by a GET to the target location.
-
-Discovered workflows are stored as `Workflow` records in `project.db` and assigned higher verification priority than isolated read-only GET requests.
+Discovered workflows contribute edges to the application graph and migration unit dependencies. A heuristic result enters a confirmed corpus only after its assertions and safe execution are evidenced. Missing session mutation capture produces UNKNOWN, even if every response is HTTP 200.

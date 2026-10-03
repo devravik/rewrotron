@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/mission-renew.input.schema.json",
+  "title": "mission-renew.input.schema",
+  "type": "object",
+  "properties": {
+    "mission_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "fencing_token": {
+      "type": "integer",
+      "minimum": 0
+    }
+  },
+  "required": [
+    "mission_id",
+    "fencing_token"
+  ],
+  "additionalProperties": false
+}

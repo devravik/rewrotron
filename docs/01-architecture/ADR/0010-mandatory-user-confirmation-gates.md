@@ -20,5 +20,9 @@ The engine returns `ERROR: USER_CONFIRMATION_REQUIRED` if any command attempts t
 - **Single Confirmation at End:** Allowing full autonomous migration and asking only at the end. Rejected because operating on an incorrect initial source framework or version assumption invalidates all subsequent work.
 
 ## Consequences
-- **Positive:** Absolute safety; user maintains full sovereignty over project baseline; eliminates catastrophic misunderstandings before expensive compute/token expenditure.
+- **Positive:** Enforced approval subjects and tested refusal behavior; user maintains sovereignty over project baseline; eliminates catastrophic misunderstandings before expensive compute/token expenditure.
 - **Negative:** Requires an interactive confirmation step in CLI or explicit tool call via MCP.
+
+## Implementation clarification (2026-10-03)
+
+[ADR 0011](0011-development-baseline-and-contract-completion.md) defines the initial concrete package, hash, protocol, evidence and release baseline. This accepted design is not a claim that implementation/runtime validation has completed.

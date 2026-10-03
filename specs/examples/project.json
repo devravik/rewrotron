@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "project_id": "fixture",
+  "source": {
+    "type": "codeigniter3",
+    "path": "/fixture/source"
+  },
+  "environment": {
+    "mode": "docker"
+  },
+  "safety": {
+    "production_access": "denied",
+    "external_writes": "denied",
+    "export_policy": "local_only"
+  }
+}

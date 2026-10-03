@@ -1,0 +1,274 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/ir/source-ir.schema.json",
+  "title": "source-ir.schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "configuration_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "document_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "file_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "syntax_status": {
+            "type": "string",
+            "enum": [
+              "PARSED",
+              "PARTIAL",
+              "UNSUPPORTED",
+              "FAILED"
+            ]
+          }
+        },
+        "required": [
+          "file_id",
+          "path",
+          "sha256",
+          "syntax_status"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "symbols": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "symbol_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "file_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "class",
+              "interface",
+              "trait",
+              "function",
+              "method",
+              "property",
+              "constant",
+              "closure",
+              "script"
+            ]
+          },
+          "start_line": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "end_line": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "symbol_id",
+          "file_id",
+          "name",
+          "kind",
+          "start_line",
+          "end_line"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "edge_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "from_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "to_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1
+          },
+          "resolved": {
+            "type": "boolean"
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "expression": {
+            "type": "string",
+            "minLength": 1
+          },
+          "affected_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          }
+        },
+        "required": [
+          "edge_id",
+          "from_id",
+          "to_id",
+          "kind",
+          "resolved",
+          "evidence_ids"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "CRITICAL",
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ]
+          },
+          "affected_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "finding_id",
+          "code",
+          "severity",
+          "affected_ids",
+          "evidence_ids",
+          "message"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "STATIC",
+              "RUNTIME",
+              "USER_OVERRIDE",
+              "AGENT_PROPOSAL"
+            ]
+          },
+          "artifact_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "symbol_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "trace_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "evidence_id",
+          "kind",
+          "artifact_ref",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "configuration_hash",
+    "document_id",
+    "files",
+    "symbols",
+    "edges",
+    "findings",
+    "evidence"
+  ],
+  "additionalProperties": false
+}

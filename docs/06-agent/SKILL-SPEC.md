@@ -39,3 +39,10 @@ version: 1.0.0
 author: Rewrotron Core Team
 ---
 ```
+
+
+## 3. Portability and operating contract
+
+The Skill is a planned external orchestration package, not engine implementation. Its default flow uses the canonical CLI/MCP catalogs, waits for persisted gate approvals, claims fenced missions, distinguishes unsupported/UNKNOWN behavior, and completes only with verified current evidence. Reference documents load on demand; scripts invoke fixed domain commands and never provide a shell/SQL escape hatch.
+
+Record Skill version/content hash when used; a client without skill support can perform the same flow manually through CLI. Test with at least two client integrations, interrupted/resumed sessions and a blocked gate. No client brand is required by core services.

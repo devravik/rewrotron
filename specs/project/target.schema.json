@@ -1,0 +1,233 @@
+{
+  "type": "object",
+  "properties": {
+    "language": {
+      "type": "string",
+      "minLength": 1
+    },
+    "framework": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtime": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "image_digest": {
+          "type": "string",
+          "minLength": 1
+        },
+        "secret_refs": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^env:[A-Z_][A-Z0-9_]*$"
+          }
+        },
+        "os": {
+          "type": "string",
+          "minLength": 1
+        },
+        "architecture": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "architecture": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "string",
+          "enum": [
+            "modular_monolith",
+            "clean_architecture",
+            "hexagonal"
+          ]
+        },
+        "service_layer": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "style"
+      ],
+      "additionalProperties": false
+    },
+    "database_policy": {
+      "const": "preserve_existing"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1
+    },
+    "web": {
+      "type": "object",
+      "properties": {
+        "server": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "server"
+      ],
+      "additionalProperties": false
+    },
+    "database": {
+      "type": "object",
+      "properties": {
+        "engine": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "preserve_schema": {
+          "const": true
+        }
+      },
+      "required": [
+        "engine",
+        "version",
+        "preserve_schema"
+      ],
+      "additionalProperties": false
+    },
+    "cache": {
+      "type": "object",
+      "properties": {
+        "engine": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "engine"
+      ],
+      "additionalProperties": false
+    },
+    "queue": {
+      "type": "object",
+      "properties": {
+        "engine": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "engine"
+      ],
+      "additionalProperties": false
+    },
+    "storage": {
+      "type": "object",
+      "properties": {
+        "local": {
+          "type": "boolean"
+        },
+        "engine": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "package_manager": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "compatibility": {
+      "type": "object",
+      "properties": {
+        "http": {
+          "enum": [
+            "strict",
+            "approved_changes"
+          ]
+        },
+        "api": {
+          "enum": [
+            "strict",
+            "approved_changes"
+          ]
+        },
+        "auth": {
+          "enum": [
+            "strict",
+            "approved_changes"
+          ]
+        },
+        "database_behavior": {
+          "enum": [
+            "strict",
+            "approved_changes"
+          ]
+        }
+      },
+      "required": [
+        "http",
+        "api",
+        "auth",
+        "database_behavior"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "language",
+    "framework",
+    "version",
+    "architecture",
+    "database_policy",
+    "path"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/target.schema.json",
+  "title": "User-owned target environment specification"
+}

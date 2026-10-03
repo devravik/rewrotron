@@ -1,0 +1,3552 @@
+[
+  {
+    "name": "project-before-target",
+    "schema": "https://rewrotron.dev/specs/project/project.schema.json",
+    "valid": true,
+    "instance": {
+      "version": 1,
+      "project_id": "fixture",
+      "source": {
+        "type": "codeigniter3",
+        "path": "/fixture/source"
+      },
+      "environment": {
+        "mode": "docker"
+      },
+      "safety": {
+        "production_access": "denied",
+        "external_writes": "denied",
+        "export_policy": "local_only"
+      }
+    }
+  },
+  {
+    "name": "yaml-confirmation-spoof",
+    "schema": "https://rewrotron.dev/specs/project/project.schema.json",
+    "valid": false,
+    "instance": {
+      "version": 1,
+      "project_id": "fixture",
+      "source": {
+        "type": "codeigniter3",
+        "path": "/fixture/source",
+        "confirmed": true
+      },
+      "environment": {
+        "mode": "docker"
+      },
+      "safety": {
+        "production_access": "denied",
+        "external_writes": "denied",
+        "export_policy": "local_only"
+      }
+    }
+  },
+  {
+    "name": "production-enabled",
+    "schema": "https://rewrotron.dev/specs/project/project.schema.json",
+    "valid": false,
+    "instance": {
+      "version": 1,
+      "project_id": "fixture",
+      "source": {
+        "type": "codeigniter3",
+        "path": "/fixture/source"
+      },
+      "environment": {
+        "mode": "docker"
+      },
+      "safety": {
+        "production_access": "allowed",
+        "external_writes": "denied",
+        "export_policy": "local_only"
+      }
+    }
+  },
+  {
+    "name": "unknown-project-field",
+    "schema": "https://rewrotron.dev/specs/project/project.schema.json",
+    "valid": false,
+    "instance": {
+      "version": 1,
+      "project_id": "fixture",
+      "source": {
+        "type": "codeigniter3",
+        "path": "/fixture/source"
+      },
+      "environment": {
+        "mode": "docker"
+      },
+      "safety": {
+        "production_access": "denied",
+        "external_writes": "denied",
+        "export_policy": "local_only"
+      },
+      "typo": 1
+    }
+  },
+  {
+    "name": "contract-canonical",
+    "schema": "https://rewrotron.dev/specs/behavior/behavior-contract.schema.json",
+    "valid": true,
+    "instance": {
+      "schema_version": "1.0",
+      "operation_id": "orders-read",
+      "version": "1.0.0",
+      "description": "Read an order owned by the authenticated principal",
+      "entrypoint": {
+        "type": "http",
+        "method": "GET",
+        "path": "/orders/42",
+        "content_types": []
+      },
+      "authentication": {
+        "required": true,
+        "principal_fixture_id": "customer-a"
+      },
+      "authorization": {
+        "rule_id": "owner-only"
+      },
+      "inputs": {
+        "parameters": []
+      },
+      "business_rules": [
+        {
+          "id": "owner-only",
+          "description": "Return the order only to its owner",
+          "representation": "DECLARATIVE",
+          "evidence_ids": [
+            "ev_owner"
+          ],
+          "data": {
+            "operator": "principal_equals_row_owner"
+          }
+        }
+      ],
+      "database_effects": {
+        "transactional": false,
+        "mutations": []
+      },
+      "session_effects": {
+        "mutations": []
+      },
+      "external_effects": {
+        "events": []
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": {
+          "type": "json",
+          "assertions": [
+            {
+              "json_pointer": "/order_id",
+              "equals": 42
+            }
+          ]
+        }
+      },
+      "evidence_ids": [
+        "ev_owner"
+      ],
+      "required_dimensions": [
+        "http",
+        "body",
+        "authentication",
+        "authorization",
+        "database",
+        "session",
+        "external"
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "name": "http-contract-missing-status",
+    "schema": "https://rewrotron.dev/specs/behavior/behavior-contract.schema.json",
+    "valid": false,
+    "instance": {
+      "schema_version": "1.0",
+      "operation_id": "orders-read",
+      "version": "1.0.0",
+      "description": "Read an order owned by the authenticated principal",
+      "entrypoint": {
+        "type": "http",
+        "method": "GET",
+        "path": "/orders/42",
+        "content_types": []
+      },
+      "authentication": {
+        "required": true,
+        "principal_fixture_id": "customer-a"
+      },
+      "authorization": {
+        "rule_id": "owner-only"
+      },
+      "inputs": {
+        "parameters": []
+      },
+      "business_rules": [
+        {
+          "id": "owner-only",
+          "description": "Return the order only to its owner",
+          "representation": "DECLARATIVE",
+          "evidence_ids": [
+            "ev_owner"
+          ],
+          "data": {
+            "operator": "principal_equals_row_owner"
+          }
+        }
+      ],
+      "database_effects": {
+        "transactional": false,
+        "mutations": []
+      },
+      "session_effects": {
+        "mutations": []
+      },
+      "external_effects": {
+        "events": []
+      },
+      "response": {
+        "body": {
+          "type": "json"
+        }
+      },
+      "evidence_ids": [
+        "ev_owner"
+      ],
+      "required_dimensions": [
+        "http",
+        "body",
+        "authentication",
+        "authorization",
+        "database",
+        "session",
+        "external"
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "name": "contract-version-invalid",
+    "schema": "https://rewrotron.dev/specs/behavior/behavior-contract.schema.json",
+    "valid": false,
+    "instance": {
+      "schema_version": "1.0",
+      "operation_id": "orders-read",
+      "version": "1.0",
+      "description": "Read an order owned by the authenticated principal",
+      "entrypoint": {
+        "type": "http",
+        "method": "GET",
+        "path": "/orders/42",
+        "content_types": []
+      },
+      "authentication": {
+        "required": true,
+        "principal_fixture_id": "customer-a"
+      },
+      "authorization": {
+        "rule_id": "owner-only"
+      },
+      "inputs": {
+        "parameters": []
+      },
+      "business_rules": [
+        {
+          "id": "owner-only",
+          "description": "Return the order only to its owner",
+          "representation": "DECLARATIVE",
+          "evidence_ids": [
+            "ev_owner"
+          ],
+          "data": {
+            "operator": "principal_equals_row_owner"
+          }
+        }
+      ],
+      "database_effects": {
+        "transactional": false,
+        "mutations": []
+      },
+      "session_effects": {
+        "mutations": []
+      },
+      "external_effects": {
+        "events": []
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "content-type": "application/json"
+        },
+        "body": {
+          "type": "json",
+          "assertions": [
+            {
+              "json_pointer": "/order_id",
+              "equals": 42
+            }
+          ]
+        }
+      },
+      "evidence_ids": [
+        "ev_owner"
+      ],
+      "required_dimensions": [
+        "http",
+        "body",
+        "authentication",
+        "authorization",
+        "database",
+        "session",
+        "external"
+      ],
+      "open_questions": []
+    }
+  },
+  {
+    "name": "case-canonical",
+    "schema": "https://rewrotron.dev/specs/behavior/behavior-case.schema.json",
+    "valid": true,
+    "instance": {
+      "schema_version": "1.0",
+      "case_id": "orders-read-a",
+      "contract_id": "orders-read",
+      "contract_version": "1.0.0",
+      "entrypoint": {
+        "type": "http",
+        "method": "GET",
+        "path": "/orders/42"
+      },
+      "http_method": "GET",
+      "path": "/orders/42",
+      "headers": {},
+      "preconditions": {
+        "fixture_refs": [
+          "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        ],
+        "principal_id": "customer-a"
+      },
+      "expected_response": {
+        "status": 200
+      },
+      "required_dimensions": [
+        "http",
+        "database"
+      ],
+      "comparison_policy_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  {
+    "name": "case-method-invalid",
+    "schema": "https://rewrotron.dev/specs/behavior/behavior-case.schema.json",
+    "valid": false,
+    "instance": {
+      "schema_version": "1.0",
+      "case_id": "orders-read-a",
+      "contract_id": "orders-read",
+      "contract_version": "1.0.0",
+      "entrypoint": {
+        "type": "http",
+        "method": "GET",
+        "path": "/orders/42"
+      },
+      "http_method": "BREW",
+      "path": "/orders/42",
+      "headers": {},
+      "preconditions": {
+        "fixture_refs": [
+          "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        ],
+        "principal_id": "customer-a"
+      },
+      "expected_response": {
+        "status": 200
+      },
+      "required_dimensions": [
+        "http",
+        "database"
+      ],
+      "comparison_policy_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  {
+    "name": "case-status-invalid",
+    "schema": "https://rewrotron.dev/specs/behavior/behavior-case.schema.json",
+    "valid": false,
+    "instance": {
+      "schema_version": "1.0",
+      "case_id": "orders-read-a",
+      "contract_id": "orders-read",
+      "contract_version": "1.0.0",
+      "entrypoint": {
+        "type": "http",
+        "method": "GET",
+        "path": "/orders/42"
+      },
+      "http_method": "GET",
+      "path": "/orders/42",
+      "headers": {},
+      "preconditions": {
+        "fixture_refs": [
+          "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        ],
+        "principal_id": "customer-a"
+      },
+      "expected_response": {
+        "status": 600
+      },
+      "required_dimensions": [
+        "http",
+        "database"
+      ],
+      "comparison_policy_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  {
+    "name": "trace-cookies",
+    "schema": "https://rewrotron.dev/specs/schemas/trace-schema.json",
+    "valid": true,
+    "instance": {
+      "schema_version": "1.0",
+      "trace_id": "trc_001",
+      "project_id": "fixture",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "entrypoint_type": "http",
+      "environment": "source_legacy",
+      "timestamp": "2026-10-03T00:00:00Z",
+      "duration_ms": 1,
+      "completeness": {
+        "http": "COMPLETE",
+        "body": "COMPLETE",
+        "authentication": "COMPLETE",
+        "authorization": "COMPLETE",
+        "session": "COMPLETE",
+        "database": "COMPLETE",
+        "external": "COMPLETE",
+        "files": "COMPLETE",
+        "cache": "COMPLETE",
+        "errors": "COMPLETE",
+        "execution": "NOT_APPLICABLE"
+      },
+      "request": {
+        "method": "GET",
+        "path": "/orders/42",
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "set-cookie": [
+            "a=b; HttpOnly",
+            "c=d; Secure"
+          ]
+        }
+      },
+      "redaction": {
+        "fields": [],
+        "withheld_dimensions": []
+      }
+    }
+  },
+  {
+    "name": "trace-missing-completeness",
+    "schema": "https://rewrotron.dev/specs/schemas/trace-schema.json",
+    "valid": false,
+    "instance": {
+      "schema_version": "1.0",
+      "trace_id": "trc_001",
+      "project_id": "fixture",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "entrypoint_type": "http",
+      "environment": "source_legacy",
+      "timestamp": "2026-10-03T00:00:00Z",
+      "duration_ms": 1,
+      "request": {
+        "method": "GET",
+        "path": "/orders/42",
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "set-cookie": [
+            "a=b; HttpOnly",
+            "c=d; Secure"
+          ]
+        }
+      },
+      "redaction": {
+        "fields": [],
+        "withheld_dimensions": []
+      }
+    }
+  },
+  {
+    "name": "trace-path-ref-rejected",
+    "schema": "https://rewrotron.dev/specs/schemas/trace-schema.json",
+    "valid": false,
+    "instance": {
+      "schema_version": "1.0",
+      "trace_id": "trc_001",
+      "project_id": "fixture",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "entrypoint_type": "http",
+      "environment": "source_legacy",
+      "timestamp": "2026-10-03T00:00:00Z",
+      "duration_ms": 1,
+      "completeness": {
+        "http": "COMPLETE",
+        "body": "COMPLETE",
+        "authentication": "COMPLETE",
+        "authorization": "COMPLETE",
+        "session": "COMPLETE",
+        "database": "COMPLETE",
+        "external": "COMPLETE",
+        "files": "COMPLETE",
+        "cache": "COMPLETE",
+        "errors": "COMPLETE",
+        "execution": "NOT_APPLICABLE"
+      },
+      "request": {
+        "method": "GET",
+        "path": "/orders/42",
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {},
+        "body_ref": "../../secret"
+      },
+      "redaction": {
+        "fields": [],
+        "withheld_dimensions": []
+      }
+    }
+  },
+  {
+    "name": "trace-negative-duration",
+    "schema": "https://rewrotron.dev/specs/schemas/trace-schema.json",
+    "valid": false,
+    "instance": {
+      "schema_version": "1.0",
+      "trace_id": "trc_001",
+      "project_id": "fixture",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "entrypoint_type": "http",
+      "environment": "source_legacy",
+      "timestamp": "2026-10-03T00:00:00Z",
+      "duration_ms": -1,
+      "completeness": {
+        "http": "COMPLETE",
+        "body": "COMPLETE",
+        "authentication": "COMPLETE",
+        "authorization": "COMPLETE",
+        "session": "COMPLETE",
+        "database": "COMPLETE",
+        "external": "COMPLETE",
+        "files": "COMPLETE",
+        "cache": "COMPLETE",
+        "errors": "COMPLETE",
+        "execution": "NOT_APPLICABLE"
+      },
+      "request": {
+        "method": "GET",
+        "path": "/orders/42",
+        "headers": {}
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "set-cookie": [
+            "a=b; HttpOnly",
+            "c=d; Secure"
+          ]
+        }
+      },
+      "redaction": {
+        "fields": [],
+        "withheld_dimensions": []
+      }
+    }
+  },
+  {
+    "name": "non-http-trace",
+    "schema": "https://rewrotron.dev/specs/schemas/trace-schema.json",
+    "valid": true,
+    "instance": {
+      "schema_version": "1.0",
+      "trace_id": "trc_001",
+      "project_id": "fixture",
+      "configuration_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "entrypoint_type": "cli",
+      "environment": "source_legacy",
+      "timestamp": "2026-10-03T00:00:00Z",
+      "duration_ms": 1,
+      "completeness": {
+        "http": "COMPLETE",
+        "body": "COMPLETE",
+        "authentication": "COMPLETE",
+        "authorization": "COMPLETE",
+        "session": "COMPLETE",
+        "database": "COMPLETE",
+        "external": "COMPLETE",
+        "files": "COMPLETE",
+        "cache": "COMPLETE",
+        "errors": "COMPLETE",
+        "execution": "COMPLETE"
+      },
+      "redaction": {
+        "fields": [],
+        "withheld_dimensions": []
+      },
+      "execution": {
+        "exit_code": 0
+      }
+    }
+  },
+  {
+    "name": "snapshot-empty-denominator",
+    "schema": "https://rewrotron.dev/specs/project/snapshot.schema.json",
+    "valid": true,
+    "instance": {
+      "project_id": "fixture",
+      "state": "DETECTED",
+      "revision": 0,
+      "configuration_hash": null,
+      "plan_hash": null,
+      "gate_states": {
+        "GATE_1_SOURCE_DETECTION": "PENDING",
+        "GATE_2_PLAN_CONFIRMED": "PENDING",
+        "GATE_3_CUTOVER": "PENDING"
+      },
+      "coverage": {
+        "entrypoints": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        },
+        "cases": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        },
+        "units": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        },
+        "dimensions": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        }
+      },
+      "blockers": [],
+      "latest_operation_id": null
+    }
+  },
+  {
+    "name": "snapshot-obsolete-state",
+    "schema": "https://rewrotron.dev/specs/project/snapshot.schema.json",
+    "valid": false,
+    "instance": {
+      "project_id": "fixture",
+      "state": "PARITY_ACHIEVED",
+      "revision": 0,
+      "configuration_hash": null,
+      "plan_hash": null,
+      "gate_states": {
+        "GATE_1_SOURCE_DETECTION": "PENDING",
+        "GATE_2_PLAN_CONFIRMED": "PENDING",
+        "GATE_3_CUTOVER": "PENDING"
+      },
+      "coverage": {
+        "entrypoints": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        },
+        "cases": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        },
+        "units": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        },
+        "dimensions": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        }
+      },
+      "blockers": [],
+      "latest_operation_id": null
+    }
+  },
+  {
+    "name": "empty-mission-queue",
+    "schema": "https://rewrotron.dev/specs/mcp/get-next-mission.schema.json",
+    "valid": true,
+    "instance": {
+      "mission": null,
+      "reason": "NO_WORK"
+    }
+  },
+  {
+    "name": "empty-queue-invalid-reason",
+    "schema": "https://rewrotron.dev/specs/mcp/get-next-mission.schema.json",
+    "valid": false,
+    "instance": {
+      "mission": null,
+      "reason": "GUESS"
+    }
+  },
+  {
+    "name": "envelope-success",
+    "schema": "https://rewrotron.dev/specs/cli/cli-output.schema.json",
+    "valid": true,
+    "instance": {
+      "version": "1.0",
+      "command": "status",
+      "success": true,
+      "exit_code": 0,
+      "timestamp": "2026-10-03T00:00:00Z",
+      "duration_ms": 0,
+      "data": {
+        "project_id": "fixture",
+        "state": "DETECTED",
+        "revision": 0,
+        "configuration_hash": null,
+        "plan_hash": null,
+        "gate_states": {
+          "GATE_1_SOURCE_DETECTION": "PENDING",
+          "GATE_2_PLAN_CONFIRMED": "PENDING",
+          "GATE_3_CUTOVER": "PENDING"
+        },
+        "coverage": {
+          "entrypoints": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          },
+          "cases": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          },
+          "units": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          },
+          "dimensions": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          }
+        },
+        "blockers": [],
+        "latest_operation_id": null
+      },
+      "errors": []
+    }
+  },
+  {
+    "name": "envelope-failure",
+    "schema": "https://rewrotron.dev/specs/cli/cli-output.schema.json",
+    "valid": true,
+    "instance": {
+      "version": "1.0",
+      "command": "analyze",
+      "success": false,
+      "exit_code": 4,
+      "timestamp": "2026-10-03T00:00:00Z",
+      "duration_ms": 0,
+      "data": {},
+      "errors": [
+        {
+          "code": "ERR_CONFIRMATION_REQUIRED",
+          "message": "Source confirmation required",
+          "category": "USER_ERROR",
+          "retryable": false,
+          "recommended_action": "Confirm the current source subject"
+        }
+      ]
+    }
+  },
+  {
+    "name": "envelope-contradictory-exit",
+    "schema": "https://rewrotron.dev/specs/cli/cli-output.schema.json",
+    "valid": false,
+    "instance": {
+      "version": "1.0",
+      "command": "status",
+      "success": true,
+      "exit_code": 4,
+      "timestamp": "2026-10-03T00:00:00Z",
+      "duration_ms": 0,
+      "data": {
+        "project_id": "fixture",
+        "state": "DETECTED",
+        "revision": 0,
+        "configuration_hash": null,
+        "plan_hash": null,
+        "gate_states": {
+          "GATE_1_SOURCE_DETECTION": "PENDING",
+          "GATE_2_PLAN_CONFIRMED": "PENDING",
+          "GATE_3_CUTOVER": "PENDING"
+        },
+        "coverage": {
+          "entrypoints": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          },
+          "cases": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          },
+          "units": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          },
+          "dimensions": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          }
+        },
+        "blockers": [],
+        "latest_operation_id": null
+      },
+      "errors": []
+    }
+  },
+  {
+    "name": "envelope-failure-no-error",
+    "schema": "https://rewrotron.dev/specs/cli/cli-output.schema.json",
+    "valid": false,
+    "instance": {
+      "version": "1.0",
+      "command": "status",
+      "success": false,
+      "exit_code": 1,
+      "timestamp": "2026-10-03T00:00:00Z",
+      "duration_ms": 0,
+      "data": {
+        "project_id": "fixture",
+        "state": "DETECTED",
+        "revision": 0,
+        "configuration_hash": null,
+        "plan_hash": null,
+        "gate_states": {
+          "GATE_1_SOURCE_DETECTION": "PENDING",
+          "GATE_2_PLAN_CONFIRMED": "PENDING",
+          "GATE_3_CUTOVER": "PENDING"
+        },
+        "coverage": {
+          "entrypoints": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          },
+          "cases": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          },
+          "units": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          },
+          "dimensions": {
+            "numerator": 0,
+            "denominator": 0,
+            "percent": null
+          }
+        },
+        "blockers": [],
+        "latest_operation_id": null
+      },
+      "errors": []
+    }
+  },
+  {
+    "name": "migrate-selector",
+    "schema": "https://rewrotron.dev/specs/cli/commands/migrate.input.schema.json",
+    "valid": true,
+    "instance": {
+      "unit_id": "auth"
+    }
+  },
+  {
+    "name": "migrate-two-selectors",
+    "schema": "https://rewrotron.dev/specs/cli/commands/migrate.input.schema.json",
+    "valid": false,
+    "instance": {
+      "unit_id": "auth",
+      "all": true
+    }
+  },
+  {
+    "name": "migrate-no-selector",
+    "schema": "https://rewrotron.dev/specs/cli/commands/migrate.input.schema.json",
+    "valid": false,
+    "instance": {}
+  },
+  {
+    "name": "mcp-confirm-token",
+    "schema": "https://rewrotron.dev/specs/mcp/tools/project.confirm_plan.input.schema.json",
+    "valid": true,
+    "instance": {
+      "project_id": "fixture",
+      "subject_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "approval_token": "synthetic-token",
+      "idempotency_key": "req_1"
+    }
+  },
+  {
+    "name": "mcp-confirm-no-token",
+    "schema": "https://rewrotron.dev/specs/mcp/tools/project.confirm_plan.input.schema.json",
+    "valid": false,
+    "instance": {
+      "project_id": "fixture",
+      "subject_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "idempotency_key": "req_1"
+    }
+  },
+  {
+    "name": "mcp-confirm-actor-spoof",
+    "schema": "https://rewrotron.dev/specs/mcp/tools/project.confirm_plan.input.schema.json",
+    "valid": false,
+    "instance": {
+      "project_id": "fixture",
+      "subject_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "approval_token": "synthetic-token",
+      "idempotency_key": "req_1",
+      "confirmed_by": "human"
+    }
+  },
+  {
+    "name": "cron-dispatch",
+    "schema": "https://rewrotron.dev/specs/common.schema.json#/$defs/entrypoint",
+    "valid": true,
+    "instance": {
+      "type": "cron",
+      "command_id": "report",
+      "schedule": "0 1 * * *",
+      "timezone": "UTC"
+    }
+  },
+  {
+    "name": "cron-no-schedule",
+    "schema": "https://rewrotron.dev/specs/common.schema.json#/$defs/entrypoint",
+    "valid": false,
+    "instance": {
+      "type": "cron",
+      "command_id": "report"
+    }
+  },
+  {
+    "name": "event-dispatch",
+    "schema": "https://rewrotron.dev/specs/common.schema.json#/$defs/entrypoint",
+    "valid": true,
+    "instance": {
+      "type": "event",
+      "channel": "orders",
+      "message_schema": {
+        "type": "object"
+      }
+    }
+  },
+  {
+    "name": "empty-denominator-cannot-pass",
+    "schema": "https://rewrotron.dev/specs/project/snapshot.schema.json",
+    "valid": false,
+    "instance": {
+      "project_id": "fixture",
+      "state": "DETECTED",
+      "revision": 0,
+      "configuration_hash": null,
+      "plan_hash": null,
+      "gate_states": {
+        "GATE_1_SOURCE_DETECTION": "PENDING",
+        "GATE_2_PLAN_CONFIRMED": "PENDING",
+        "GATE_3_CUTOVER": "PENDING"
+      },
+      "coverage": {
+        "entrypoints": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        },
+        "cases": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": 100
+        },
+        "units": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        },
+        "dimensions": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        }
+      },
+      "blockers": [],
+      "latest_operation_id": null
+    }
+  },
+  {
+    "name": "selector-false-extra-rejected",
+    "schema": "https://rewrotron.dev/specs/cli/commands/migrate.input.schema.json",
+    "valid": false,
+    "instance": {
+      "unit_id": "auth",
+      "all": false
+    }
+  },
+  {
+    "name": "rich-requested-target",
+    "schema": "https://rewrotron.dev/specs/project/target.schema.json",
+    "instance": {
+      "language": "php",
+      "framework": "laravel",
+      "version": "13.*",
+      "runtime": {
+        "version": "8.3",
+        "os": "linux",
+        "architecture": "amd64"
+      },
+      "architecture": {
+        "style": "modular_monolith"
+      },
+      "database_policy": "preserve_existing",
+      "path": "/fixture/target",
+      "database": {
+        "engine": "mysql",
+        "version": "8.*",
+        "preserve_schema": true
+      },
+      "cache": {
+        "engine": "redis"
+      },
+      "queue": {
+        "engine": "redis"
+      },
+      "web": {
+        "server": "nginx"
+      },
+      "storage": {
+        "local": true
+      },
+      "package_manager": {
+        "name": "composer"
+      },
+      "compatibility": {
+        "http": "strict",
+        "api": "strict",
+        "auth": "strict",
+        "database_behavior": "strict"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-competing-runtime-key",
+    "schema": "https://rewrotron.dev/specs/project/target.schema.json",
+    "instance": {
+      "language": "php",
+      "framework": "laravel",
+      "version": "13.*",
+      "runtime": {
+        "version": "8.3",
+        "os": "linux",
+        "architecture": "amd64",
+        "php": "8.1"
+      },
+      "architecture": {
+        "style": "modular_monolith"
+      },
+      "database_policy": "preserve_existing",
+      "path": "/fixture/target",
+      "database": {
+        "engine": "mysql",
+        "version": "8.*",
+        "preserve_schema": true
+      },
+      "cache": {
+        "engine": "redis"
+      },
+      "queue": {
+        "engine": "redis"
+      },
+      "web": {
+        "server": "nginx"
+      },
+      "storage": {
+        "local": true
+      },
+      "package_manager": {
+        "name": "composer"
+      },
+      "compatibility": {
+        "http": "strict",
+        "api": "strict",
+        "auth": "strict",
+        "database_behavior": "strict"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "target-yaml-cannot-self-confirm",
+    "schema": "https://rewrotron.dev/specs/project/target.schema.json",
+    "instance": {
+      "language": "php",
+      "framework": "laravel",
+      "version": "13.*",
+      "runtime": {
+        "version": "8.3",
+        "os": "linux",
+        "architecture": "amd64"
+      },
+      "architecture": {
+        "style": "modular_monolith"
+      },
+      "database_policy": "preserve_existing",
+      "path": "/fixture/target",
+      "database": {
+        "engine": "mysql",
+        "version": "8.*",
+        "preserve_schema": true
+      },
+      "cache": {
+        "engine": "redis"
+      },
+      "queue": {
+        "engine": "redis"
+      },
+      "web": {
+        "server": "nginx"
+      },
+      "storage": {
+        "local": true
+      },
+      "package_manager": {
+        "name": "composer"
+      },
+      "compatibility": {
+        "http": "strict",
+        "api": "strict",
+        "auth": "strict",
+        "database_behavior": "strict"
+      },
+      "confirmed": true
+    },
+    "valid": false
+  },
+  {
+    "name": "open-language-id-requires-service-capability-check",
+    "schema": "https://rewrotron.dev/specs/project/target.schema.json",
+    "instance": {
+      "language": "future-language",
+      "framework": "future-framework",
+      "version": "1.*",
+      "runtime": {
+        "version": "1.2",
+        "os": "linux",
+        "architecture": "amd64"
+      },
+      "architecture": {
+        "style": "modular_monolith"
+      },
+      "database_policy": "preserve_existing",
+      "path": "/fixture/target",
+      "database": {
+        "engine": "mysql",
+        "version": "8.*",
+        "preserve_schema": true
+      },
+      "cache": {
+        "engine": "redis"
+      },
+      "queue": {
+        "engine": "redis"
+      },
+      "web": {
+        "server": "nginx"
+      },
+      "storage": {
+        "local": true
+      },
+      "package_manager": {
+        "name": "composer"
+      },
+      "compatibility": {
+        "http": "strict",
+        "api": "strict",
+        "auth": "strict",
+        "database_behavior": "strict"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "project-with-rich-target-and-migration",
+    "schema": "https://rewrotron.dev/specs/project/project.schema.json",
+    "instance": {
+      "version": 1,
+      "project_id": "fixture",
+      "source": {
+        "type": "codeigniter3",
+        "path": "/fixture/source"
+      },
+      "environment": {
+        "mode": "docker"
+      },
+      "safety": {
+        "production_access": "denied",
+        "external_writes": "denied",
+        "export_policy": "local_only"
+      },
+      "target": {
+        "language": "php",
+        "framework": "laravel",
+        "version": "13.*",
+        "runtime": {
+          "version": "8.3",
+          "os": "linux",
+          "architecture": "amd64"
+        },
+        "architecture": {
+          "style": "modular_monolith"
+        },
+        "database_policy": "preserve_existing",
+        "path": "/fixture/target",
+        "database": {
+          "engine": "mysql",
+          "version": "8.*",
+          "preserve_schema": true
+        },
+        "cache": {
+          "engine": "redis"
+        },
+        "queue": {
+          "engine": "redis"
+        },
+        "web": {
+          "server": "nginx"
+        },
+        "storage": {
+          "local": true
+        },
+        "package_manager": {
+          "name": "composer"
+        },
+        "compatibility": {
+          "http": "strict",
+          "api": "strict",
+          "auth": "strict",
+          "database_behavior": "strict"
+        }
+      },
+      "migration": {
+        "strategy": "vertical_slice",
+        "remove_dead_code": true,
+        "preserve_dormant_code": true,
+        "optimization": {
+          "enabled_after_parity": true
+        }
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-auto-removal-of-dormant-code",
+    "schema": "https://rewrotron.dev/specs/project/project.schema.json",
+    "instance": {
+      "version": 1,
+      "project_id": "fixture",
+      "source": {
+        "type": "codeigniter3",
+        "path": "/fixture/source"
+      },
+      "environment": {
+        "mode": "docker"
+      },
+      "safety": {
+        "production_access": "denied",
+        "external_writes": "denied",
+        "export_policy": "local_only"
+      },
+      "target": {
+        "language": "php",
+        "framework": "laravel",
+        "version": "13.*",
+        "runtime": {
+          "version": "8.3",
+          "os": "linux",
+          "architecture": "amd64"
+        },
+        "architecture": {
+          "style": "modular_monolith"
+        },
+        "database_policy": "preserve_existing",
+        "path": "/fixture/target",
+        "database": {
+          "engine": "mysql",
+          "version": "8.*",
+          "preserve_schema": true
+        },
+        "cache": {
+          "engine": "redis"
+        },
+        "queue": {
+          "engine": "redis"
+        },
+        "web": {
+          "server": "nginx"
+        },
+        "storage": {
+          "local": true
+        },
+        "package_manager": {
+          "name": "composer"
+        },
+        "compatibility": {
+          "http": "strict",
+          "api": "strict",
+          "auth": "strict",
+          "database_behavior": "strict"
+        }
+      },
+      "migration": {
+        "strategy": "vertical_slice",
+        "remove_dead_code": true,
+        "preserve_dormant_code": false,
+        "optimization": {
+          "enabled_after_parity": true
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "reject-optimization-before-parity",
+    "schema": "https://rewrotron.dev/specs/project/project.schema.json",
+    "instance": {
+      "version": 1,
+      "project_id": "fixture",
+      "source": {
+        "type": "codeigniter3",
+        "path": "/fixture/source"
+      },
+      "environment": {
+        "mode": "docker"
+      },
+      "safety": {
+        "production_access": "denied",
+        "external_writes": "denied",
+        "export_policy": "local_only"
+      },
+      "target": {
+        "language": "php",
+        "framework": "laravel",
+        "version": "13.*",
+        "runtime": {
+          "version": "8.3",
+          "os": "linux",
+          "architecture": "amd64"
+        },
+        "architecture": {
+          "style": "modular_monolith"
+        },
+        "database_policy": "preserve_existing",
+        "path": "/fixture/target",
+        "database": {
+          "engine": "mysql",
+          "version": "8.*",
+          "preserve_schema": true
+        },
+        "cache": {
+          "engine": "redis"
+        },
+        "queue": {
+          "engine": "redis"
+        },
+        "web": {
+          "server": "nginx"
+        },
+        "storage": {
+          "local": true
+        },
+        "package_manager": {
+          "name": "composer"
+        },
+        "compatibility": {
+          "http": "strict",
+          "api": "strict",
+          "auth": "strict",
+          "database_behavior": "strict"
+        }
+      },
+      "migration": {
+        "strategy": "vertical_slice",
+        "remove_dead_code": true,
+        "preserve_dormant_code": true,
+        "optimization": {
+          "enabled_after_parity": false
+        }
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "pending-runtime-recommendation",
+    "schema": "https://rewrotron.dev/specs/project/recommendation.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "recommendation_id": "php-runtime",
+      "revision": 1,
+      "target_spec_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "category": "runtime",
+      "type": "RECOMMENDED",
+      "current": "7.4.33",
+      "requested": "8.3",
+      "proposed_action": "Keep requested PHP runtime line",
+      "recommended": "8.3",
+      "reasons": [
+        "Requested target constraint"
+      ],
+      "risk": "MEDIUM",
+      "affected_ids": [
+        "search"
+      ],
+      "source_files": [
+        "composer.lock"
+      ],
+      "evidence_refs": [
+        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      ],
+      "required_actions": [
+        "Check used dependency APIs"
+      ],
+      "alternatives": [],
+      "decision": "PENDING"
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-untyped-recommendation",
+    "schema": "https://rewrotron.dev/specs/project/recommendation.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "recommendation_id": "php-runtime",
+      "revision": 1,
+      "target_spec_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "category": "runtime",
+      "type": "warning",
+      "current": "7.4.33",
+      "requested": "8.3",
+      "proposed_action": "Keep requested PHP runtime line",
+      "recommended": "8.3",
+      "reasons": [
+        "Requested target constraint"
+      ],
+      "risk": "MEDIUM",
+      "affected_ids": [
+        "search"
+      ],
+      "source_files": [
+        "composer.lock"
+      ],
+      "evidence_refs": [
+        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      ],
+      "required_actions": [
+        "Check used dependency APIs"
+      ],
+      "alternatives": [],
+      "decision": "PENDING"
+    },
+    "valid": false
+  },
+  {
+    "name": "reject-recommendation-without-evidence",
+    "schema": "https://rewrotron.dev/specs/project/recommendation.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "recommendation_id": "php-runtime",
+      "revision": 1,
+      "target_spec_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "category": "runtime",
+      "type": "RECOMMENDED",
+      "current": "7.4.33",
+      "requested": "8.3",
+      "proposed_action": "Keep requested PHP runtime line",
+      "recommended": "8.3",
+      "reasons": [
+        "Requested target constraint"
+      ],
+      "risk": "MEDIUM",
+      "affected_ids": [
+        "search"
+      ],
+      "source_files": [
+        "composer.lock"
+      ],
+      "evidence_refs": [],
+      "required_actions": [
+        "Check used dependency APIs"
+      ],
+      "alternatives": [],
+      "decision": "PENDING"
+    },
+    "valid": false
+  },
+  {
+    "name": "partial-replacement-is-blocked",
+    "schema": "https://rewrotron.dev/specs/migration/dependency-resolution.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "dependency_id": "dep-search",
+      "target_spec_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": {
+        "ecosystem": "composer",
+        "package": "legacy/search-client",
+        "version": "1.8.2",
+        "evidence_refs": [
+          "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        ]
+      },
+      "usage": {
+        "symbols": [
+          "Legacy\\Search\\Client::stream"
+        ],
+        "source_files": [
+          "application/libraries/Search.php"
+        ],
+        "affected_unit_ids": [
+          "search"
+        ],
+        "required_capabilities": [
+          "streaming"
+        ]
+      },
+      "proposal": {
+        "strategy": "REPLACEMENT",
+        "package": "modern/search-client",
+        "version": "4.1.0",
+        "adapter_required": true
+      },
+      "compatibility": {
+        "metadata": "COMPATIBLE",
+        "used_api": "PARTIAL",
+        "behavior": "UNKNOWN",
+        "missing_capabilities": [
+          "streaming"
+        ]
+      },
+      "capability_mappings": [
+        {
+          "capability_id": "streaming",
+          "provider": "modern/search-client",
+          "status": "MISSING",
+          "case_ids": [],
+          "evidence_refs": [
+            "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          ]
+        }
+      ],
+      "transitive_dependency_ids": [],
+      "decision": "PENDING",
+      "status": "BLOCKED",
+      "evidence_refs": [
+        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "blocked-is-not-a-resolution-strategy",
+    "schema": "https://rewrotron.dev/specs/migration/dependency-resolution.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "dependency_id": "dep-search",
+      "target_spec_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": {
+        "ecosystem": "composer",
+        "package": "legacy/search-client",
+        "version": "1.8.2",
+        "evidence_refs": [
+          "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        ]
+      },
+      "usage": {
+        "symbols": [
+          "Legacy\\Search\\Client::stream"
+        ],
+        "source_files": [
+          "application/libraries/Search.php"
+        ],
+        "affected_unit_ids": [
+          "search"
+        ],
+        "required_capabilities": [
+          "streaming"
+        ]
+      },
+      "proposal": {
+        "strategy": "BLOCKED",
+        "package": "modern/search-client",
+        "version": "4.1.0",
+        "adapter_required": true
+      },
+      "compatibility": {
+        "metadata": "COMPATIBLE",
+        "used_api": "PARTIAL",
+        "behavior": "UNKNOWN",
+        "missing_capabilities": [
+          "streaming"
+        ]
+      },
+      "capability_mappings": [
+        {
+          "capability_id": "streaming",
+          "provider": "modern/search-client",
+          "status": "MISSING",
+          "case_ids": [],
+          "evidence_refs": [
+            "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          ]
+        }
+      ],
+      "transitive_dependency_ids": [],
+      "decision": "PENDING",
+      "status": "BLOCKED",
+      "evidence_refs": [
+        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "pending-decision-cannot-be-planned",
+    "schema": "https://rewrotron.dev/specs/migration/dependency-resolution.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "dependency_id": "dep-search",
+      "target_spec_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": {
+        "ecosystem": "composer",
+        "package": "legacy/search-client",
+        "version": "1.8.2",
+        "evidence_refs": [
+          "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        ]
+      },
+      "usage": {
+        "symbols": [
+          "Legacy\\Search\\Client::stream"
+        ],
+        "source_files": [
+          "application/libraries/Search.php"
+        ],
+        "affected_unit_ids": [
+          "search"
+        ],
+        "required_capabilities": [
+          "streaming"
+        ]
+      },
+      "proposal": {
+        "strategy": "REPLACEMENT",
+        "package": "modern/search-client",
+        "version": "4.1.0",
+        "adapter_required": true
+      },
+      "compatibility": {
+        "metadata": "COMPATIBLE",
+        "used_api": "PARTIAL",
+        "behavior": "UNKNOWN",
+        "missing_capabilities": [
+          "streaming"
+        ]
+      },
+      "capability_mappings": [
+        {
+          "capability_id": "streaming",
+          "provider": "modern/search-client",
+          "status": "MISSING",
+          "case_ids": [],
+          "evidence_refs": [
+            "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          ]
+        }
+      ],
+      "transitive_dependency_ids": [],
+      "decision": "PENDING",
+      "status": "PLANNED",
+      "evidence_refs": [
+        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "metadata-compatibility-is-not-verified-behavior",
+    "schema": "https://rewrotron.dev/specs/migration/dependency-resolution.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "dependency_id": "dep-search",
+      "target_spec_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": {
+        "ecosystem": "composer",
+        "package": "legacy/search-client",
+        "version": "1.8.2",
+        "evidence_refs": [
+          "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        ]
+      },
+      "usage": {
+        "symbols": [
+          "Legacy\\Search\\Client::stream"
+        ],
+        "source_files": [
+          "application/libraries/Search.php"
+        ],
+        "affected_unit_ids": [
+          "search"
+        ],
+        "required_capabilities": [
+          "streaming"
+        ]
+      },
+      "proposal": {
+        "strategy": "REPLACEMENT",
+        "package": "modern/search-client",
+        "version": "4.1.0",
+        "adapter_required": true
+      },
+      "compatibility": {
+        "metadata": "COMPATIBLE",
+        "used_api": "PARTIAL",
+        "behavior": "UNKNOWN",
+        "missing_capabilities": [
+          "streaming"
+        ]
+      },
+      "capability_mappings": [
+        {
+          "capability_id": "streaming",
+          "provider": "modern/search-client",
+          "status": "MISSING",
+          "case_ids": [],
+          "evidence_refs": [
+            "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          ]
+        }
+      ],
+      "transitive_dependency_ids": [],
+      "decision": "ACCEPTED",
+      "status": "VERIFIED",
+      "evidence_refs": [
+        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "verified-capability-resolution-shape",
+    "schema": "https://rewrotron.dev/specs/migration/dependency-resolution.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "dependency_id": "dep-search",
+      "target_spec_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": {
+        "ecosystem": "composer",
+        "package": "legacy/search-client",
+        "version": "1.8.2",
+        "evidence_refs": [
+          "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        ]
+      },
+      "usage": {
+        "symbols": [
+          "Legacy\\Search\\Client::stream"
+        ],
+        "source_files": [
+          "application/libraries/Search.php"
+        ],
+        "affected_unit_ids": [
+          "search"
+        ],
+        "required_capabilities": [
+          "streaming"
+        ]
+      },
+      "proposal": {
+        "strategy": "REPLACEMENT",
+        "package": "modern/search-client",
+        "version": "4.1.0",
+        "adapter_required": true
+      },
+      "compatibility": {
+        "metadata": "COMPATIBLE",
+        "used_api": "COMPATIBLE",
+        "behavior": "PASS",
+        "missing_capabilities": []
+      },
+      "capability_mappings": [
+        {
+          "capability_id": "streaming",
+          "provider": "modern/search-client",
+          "status": "COVERED",
+          "case_ids": [
+            "search-streaming"
+          ],
+          "evidence_refs": [
+            "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          ]
+        }
+      ],
+      "transitive_dependency_ids": [],
+      "decision": "ACCEPTED",
+      "status": "VERIFIED",
+      "evidence_refs": [
+        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "verified-mapping-requires-characterization-case",
+    "schema": "https://rewrotron.dev/specs/migration/dependency-resolution.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "dependency_id": "dep-search",
+      "target_spec_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": {
+        "ecosystem": "composer",
+        "package": "legacy/search-client",
+        "version": "1.8.2",
+        "evidence_refs": [
+          "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        ]
+      },
+      "usage": {
+        "symbols": [
+          "Legacy\\Search\\Client::stream"
+        ],
+        "source_files": [
+          "application/libraries/Search.php"
+        ],
+        "affected_unit_ids": [
+          "search"
+        ],
+        "required_capabilities": [
+          "streaming"
+        ]
+      },
+      "proposal": {
+        "strategy": "REPLACEMENT",
+        "package": "modern/search-client",
+        "version": "4.1.0",
+        "adapter_required": true
+      },
+      "compatibility": {
+        "metadata": "COMPATIBLE",
+        "used_api": "COMPATIBLE",
+        "behavior": "PASS",
+        "missing_capabilities": []
+      },
+      "capability_mappings": [
+        {
+          "capability_id": "streaming",
+          "provider": "modern/search-client",
+          "status": "COVERED",
+          "case_ids": [],
+          "evidence_refs": [
+            "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          ]
+        }
+      ],
+      "transitive_dependency_ids": [],
+      "decision": "ACCEPTED",
+      "status": "VERIFIED",
+      "evidence_refs": [
+        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "legacy-plan-remains-readable-not-executable",
+    "schema": "https://rewrotron.dev/specs/migration/plan.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "plan_id": "plan-search",
+      "project_id": "fixture",
+      "plan_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "configuration_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "behavior_ir_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "corpus_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "policy_hash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "target_config": {
+        "language": "php",
+        "framework": "laravel",
+        "version": "13.*",
+        "architecture": {
+          "style": "modular_monolith"
+        },
+        "database_policy": "preserve_existing",
+        "path": "/fixture/target"
+      },
+      "units": [
+        {
+          "unit_id": "search",
+          "contract_ids": [
+            "search-query"
+          ],
+          "case_ids": [
+            "search-streaming"
+          ],
+          "dependencies": [],
+          "priority": 1,
+          "capabilities": [
+            "streaming"
+          ]
+        }
+      ],
+      "omissions": [],
+      "scope_exclusions": [],
+      "unresolved_items": []
+    },
+    "valid": true
+  },
+  {
+    "name": "plan-binds-target-and-decision-artifacts",
+    "schema": "https://rewrotron.dev/specs/migration/plan.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "plan_id": "plan-search",
+      "project_id": "fixture",
+      "plan_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "configuration_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "behavior_ir_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "corpus_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "policy_hash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "target_config": {
+        "language": "php",
+        "framework": "laravel",
+        "version": "13.*",
+        "runtime": {
+          "version": "8.3",
+          "os": "linux",
+          "architecture": "amd64"
+        },
+        "architecture": {
+          "style": "modular_monolith"
+        },
+        "database_policy": "preserve_existing",
+        "path": "/fixture/target",
+        "database": {
+          "engine": "mysql",
+          "version": "8.*",
+          "preserve_schema": true
+        },
+        "cache": {
+          "engine": "redis"
+        },
+        "queue": {
+          "engine": "redis"
+        },
+        "web": {
+          "server": "nginx"
+        },
+        "storage": {
+          "local": true
+        },
+        "package_manager": {
+          "name": "composer"
+        },
+        "compatibility": {
+          "http": "strict",
+          "api": "strict",
+          "auth": "strict",
+          "database_behavior": "strict"
+        }
+      },
+      "units": [
+        {
+          "unit_id": "search",
+          "contract_ids": [
+            "search-query"
+          ],
+          "case_ids": [
+            "search-streaming"
+          ],
+          "dependencies": [],
+          "priority": 1,
+          "capabilities": [
+            "streaming"
+          ]
+        }
+      ],
+      "omissions": [],
+      "scope_exclusions": [],
+      "unresolved_items": [],
+      "decision_system": {
+        "target_spec_hash": "5555555555555555555555555555555555555555555555555555555555555555",
+        "target_spec_ref": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "resolved_target": {
+          "language": "php",
+          "framework": "laravel",
+          "version": "13.0.0",
+          "runtime": {
+            "version": "8.3.0",
+            "os": "linux",
+            "architecture": "amd64"
+          },
+          "architecture": {
+            "style": "modular_monolith"
+          },
+          "database_policy": "preserve_existing",
+          "path": "/fixture/target",
+          "database": {
+            "engine": "mysql",
+            "version": "8.0.0",
+            "preserve_schema": true
+          },
+          "cache": {
+            "engine": "redis"
+          },
+          "queue": {
+            "engine": "redis"
+          },
+          "web": {
+            "server": "nginx"
+          },
+          "storage": {
+            "local": true
+          },
+          "package_manager": {
+            "name": "composer"
+          },
+          "compatibility": {
+            "http": "strict",
+            "api": "strict",
+            "auth": "strict",
+            "database_behavior": "strict"
+          }
+        },
+        "recommendation_decisions_ref": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "dependency_resolution_ref": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+        "feasibility_ref": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "incomplete-decision-section-is-invalid",
+    "schema": "https://rewrotron.dev/specs/migration/plan.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "plan_id": "plan-search",
+      "project_id": "fixture",
+      "plan_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "configuration_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "behavior_ir_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "corpus_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "policy_hash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "target_config": {
+        "language": "php",
+        "framework": "laravel",
+        "version": "13.*",
+        "runtime": {
+          "version": "8.3",
+          "os": "linux",
+          "architecture": "amd64"
+        },
+        "architecture": {
+          "style": "modular_monolith"
+        },
+        "database_policy": "preserve_existing",
+        "path": "/fixture/target",
+        "database": {
+          "engine": "mysql",
+          "version": "8.*",
+          "preserve_schema": true
+        },
+        "cache": {
+          "engine": "redis"
+        },
+        "queue": {
+          "engine": "redis"
+        },
+        "web": {
+          "server": "nginx"
+        },
+        "storage": {
+          "local": true
+        },
+        "package_manager": {
+          "name": "composer"
+        },
+        "compatibility": {
+          "http": "strict",
+          "api": "strict",
+          "auth": "strict",
+          "database_behavior": "strict"
+        }
+      },
+      "units": [
+        {
+          "unit_id": "search",
+          "contract_ids": [
+            "search-query"
+          ],
+          "case_ids": [
+            "search-streaming"
+          ],
+          "dependencies": [],
+          "priority": 1,
+          "capabilities": [
+            "streaming"
+          ]
+        }
+      ],
+      "omissions": [],
+      "scope_exclusions": [],
+      "unresolved_items": [],
+      "decision_system": {
+        "target_spec_hash": "5555555555555555555555555555555555555555555555555555555555555555",
+        "target_spec_ref": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "resolved_target": {
+          "language": "php",
+          "framework": "laravel",
+          "version": "13.0.0",
+          "runtime": {
+            "version": "8.3.0",
+            "os": "linux",
+            "architecture": "amd64"
+          },
+          "architecture": {
+            "style": "modular_monolith"
+          },
+          "database_policy": "preserve_existing",
+          "path": "/fixture/target",
+          "database": {
+            "engine": "mysql",
+            "version": "8.0.0",
+            "preserve_schema": true
+          },
+          "cache": {
+            "engine": "redis"
+          },
+          "queue": {
+            "engine": "redis"
+          },
+          "web": {
+            "server": "nginx"
+          },
+          "storage": {
+            "local": true
+          },
+          "package_manager": {
+            "name": "composer"
+          },
+          "compatibility": {
+            "http": "strict",
+            "api": "strict",
+            "auth": "strict",
+            "database_behavior": "strict"
+          }
+        },
+        "recommendation_decisions_ref": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "dependency_resolution_ref": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "frozen-target-reference-is-required",
+    "schema": "https://rewrotron.dev/specs/migration/plan.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "plan_id": "plan-search",
+      "project_id": "fixture",
+      "plan_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "configuration_hash": "1111111111111111111111111111111111111111111111111111111111111111",
+      "behavior_ir_hash": "2222222222222222222222222222222222222222222222222222222222222222",
+      "corpus_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+      "policy_hash": "4444444444444444444444444444444444444444444444444444444444444444",
+      "target_config": {
+        "language": "php",
+        "framework": "laravel",
+        "version": "13.*",
+        "runtime": {
+          "version": "8.3",
+          "os": "linux",
+          "architecture": "amd64"
+        },
+        "architecture": {
+          "style": "modular_monolith"
+        },
+        "database_policy": "preserve_existing",
+        "path": "/fixture/target",
+        "database": {
+          "engine": "mysql",
+          "version": "8.*",
+          "preserve_schema": true
+        },
+        "cache": {
+          "engine": "redis"
+        },
+        "queue": {
+          "engine": "redis"
+        },
+        "web": {
+          "server": "nginx"
+        },
+        "storage": {
+          "local": true
+        },
+        "package_manager": {
+          "name": "composer"
+        },
+        "compatibility": {
+          "http": "strict",
+          "api": "strict",
+          "auth": "strict",
+          "database_behavior": "strict"
+        }
+      },
+      "units": [
+        {
+          "unit_id": "search",
+          "contract_ids": [
+            "search-query"
+          ],
+          "case_ids": [
+            "search-streaming"
+          ],
+          "dependencies": [],
+          "priority": 1,
+          "capabilities": [
+            "streaming"
+          ]
+        }
+      ],
+      "omissions": [],
+      "scope_exclusions": [],
+      "unresolved_items": [],
+      "decision_system": {
+        "target_spec_hash": "5555555555555555555555555555555555555555555555555555555555555555",
+        "resolved_target": {
+          "language": "php",
+          "framework": "laravel",
+          "version": "13.0.0",
+          "runtime": {
+            "version": "8.3.0",
+            "os": "linux",
+            "architecture": "amd64"
+          },
+          "architecture": {
+            "style": "modular_monolith"
+          },
+          "database_policy": "preserve_existing",
+          "path": "/fixture/target",
+          "database": {
+            "engine": "mysql",
+            "version": "8.0.0",
+            "preserve_schema": true
+          },
+          "cache": {
+            "engine": "redis"
+          },
+          "queue": {
+            "engine": "redis"
+          },
+          "web": {
+            "server": "nginx"
+          },
+          "storage": {
+            "local": true
+          },
+          "package_manager": {
+            "name": "composer"
+          },
+          "compatibility": {
+            "http": "strict",
+            "api": "strict",
+            "auth": "strict",
+            "database_behavior": "strict"
+          }
+        },
+        "recommendation_decisions_ref": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "dependency_resolution_ref": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+        "feasibility_ref": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "plan-from-project-configuration",
+    "schema": "https://rewrotron.dev/specs/cli/commands/plan.input.schema.json",
+    "instance": {},
+    "valid": true
+  },
+  {
+    "name": "legacy-plan-flags-remain-valid",
+    "schema": "https://rewrotron.dev/specs/cli/commands/plan.input.schema.json",
+    "instance": {
+      "target": "php/laravel",
+      "style": "modular_monolith"
+    },
+    "valid": true
+  },
+  {
+    "name": "reject-undocumented-runtime-plan-flag",
+    "schema": "https://rewrotron.dev/specs/cli/commands/plan.input.schema.json",
+    "instance": {
+      "php": "8.1"
+    },
+    "valid": false
+  },
+  {
+    "name": "mcp-plan-from-project-configuration",
+    "schema": "https://rewrotron.dev/specs/mcp/tools/migration.plan.input.schema.json",
+    "instance": {
+      "project_id": "fixture",
+      "idempotency_key": "plan-001"
+    },
+    "valid": true
+  },
+  {
+    "name": "mcp-plan-still-requires-project-identity",
+    "schema": "https://rewrotron.dev/specs/mcp/tools/migration.plan.input.schema.json",
+    "instance": {
+      "idempotency_key": "plan-001"
+    },
+    "valid": false
+  },
+  {
+    "name": "verified-resolution-cannot-have-unknown-target-compatibility",
+    "schema": "https://rewrotron.dev/specs/migration/dependency-resolution.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "dependency_id": "dep-search",
+      "target_spec_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "source": {
+        "ecosystem": "composer",
+        "package": "legacy/search-client",
+        "version": "1.8.2",
+        "evidence_refs": [
+          "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+        ]
+      },
+      "usage": {
+        "symbols": [
+          "Legacy\\Search\\Client::stream"
+        ],
+        "source_files": [
+          "application/libraries/Search.php"
+        ],
+        "affected_unit_ids": [
+          "search"
+        ],
+        "required_capabilities": [
+          "streaming"
+        ]
+      },
+      "proposal": {
+        "strategy": "REPLACEMENT",
+        "package": "modern/search-client",
+        "version": "4.1.0",
+        "adapter_required": true
+      },
+      "compatibility": {
+        "metadata": "UNKNOWN",
+        "used_api": "COMPATIBLE",
+        "behavior": "PASS",
+        "missing_capabilities": []
+      },
+      "capability_mappings": [
+        {
+          "capability_id": "streaming",
+          "provider": "modern/search-client",
+          "status": "COVERED",
+          "case_ids": [
+            "search-streaming"
+          ],
+          "evidence_refs": [
+            "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+          ]
+        }
+      ],
+      "transitive_dependency_ids": [],
+      "decision": "ACCEPTED",
+      "status": "VERIFIED",
+      "evidence_refs": [
+        "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "measured-current-case-progress",
+    "schema": "https://rewrotron.dev/specs/execution/progress.schema.json",
+    "instance": {
+      "metric_id": "required-case-compatibility",
+      "definition": "Current PASS cases / required cases in frozen corpus",
+      "numerator": 397,
+      "denominator": 431,
+      "unit": "cases",
+      "percent": 92.11136890951276,
+      "scope_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "basis_ref": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "accounting_revision": 1,
+      "evidence_sequence": 10,
+      "freshness": "CURRENT"
+    },
+    "valid": true
+  },
+  {
+    "name": "empty-progress-is-not-evaluated",
+    "schema": "https://rewrotron.dev/specs/execution/progress.schema.json",
+    "instance": {
+      "metric_id": "required-case-compatibility",
+      "definition": "Current PASS cases / required cases in frozen corpus",
+      "numerator": 0,
+      "denominator": 0,
+      "unit": "cases",
+      "percent": null,
+      "scope_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "basis_ref": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "accounting_revision": 1,
+      "evidence_sequence": 10,
+      "freshness": "CURRENT"
+    },
+    "valid": true
+  },
+  {
+    "name": "empty-progress-cannot-be-complete",
+    "schema": "https://rewrotron.dev/specs/execution/progress.schema.json",
+    "instance": {
+      "metric_id": "required-case-compatibility",
+      "definition": "Current PASS cases / required cases in frozen corpus",
+      "numerator": 0,
+      "denominator": 0,
+      "unit": "cases",
+      "percent": 100,
+      "scope_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "basis_ref": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "accounting_revision": 1,
+      "evidence_sequence": 10,
+      "freshness": "CURRENT"
+    },
+    "valid": false
+  },
+  {
+    "name": "unknown-work-denominator",
+    "schema": "https://rewrotron.dev/specs/execution/progress.schema.json",
+    "instance": {
+      "metric_id": "required-case-compatibility",
+      "definition": "Current PASS cases / required cases in frozen corpus",
+      "numerator": 397,
+      "denominator": null,
+      "unit": "cases",
+      "percent": null,
+      "scope_hash": null,
+      "basis_ref": null,
+      "accounting_revision": 1,
+      "evidence_sequence": 10,
+      "freshness": "CURRENT"
+    },
+    "valid": true
+  },
+  {
+    "name": "unknown-work-cannot-claim-percent",
+    "schema": "https://rewrotron.dev/specs/execution/progress.schema.json",
+    "instance": {
+      "metric_id": "required-case-compatibility",
+      "definition": "Current PASS cases / required cases in frozen corpus",
+      "numerator": 397,
+      "denominator": null,
+      "unit": "cases",
+      "percent": 42,
+      "scope_hash": null,
+      "basis_ref": null,
+      "accounting_revision": 1,
+      "evidence_sequence": 10,
+      "freshness": "CURRENT"
+    },
+    "valid": false
+  },
+  {
+    "name": "numeric-progress-requires-accounting-evidence",
+    "schema": "https://rewrotron.dev/specs/execution/progress.schema.json",
+    "instance": {
+      "metric_id": "required-case-compatibility",
+      "definition": "Current PASS cases / required cases in frozen corpus",
+      "numerator": 397,
+      "denominator": 431,
+      "unit": "cases",
+      "percent": 92.11136890951276,
+      "scope_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+      "basis_ref": null,
+      "accounting_revision": 1,
+      "evidence_sequence": 10,
+      "freshness": "CURRENT"
+    },
+    "valid": false
+  },
+  {
+    "name": "action-has-public-evidenced-reason",
+    "schema": "https://rewrotron.dev/specs/execution/event.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "event_id": "evt-order-test",
+      "sequence": 10,
+      "project_id": "fixture",
+      "run_id": "op-observe",
+      "operation_id": "op-observe",
+      "mission_id": "mission-orders",
+      "task_id": "task-orders",
+      "stage": "OBSERVE",
+      "stage_instance_id": "stage-observe-1",
+      "type": "TASK_STARTED",
+      "kind": "ACTION",
+      "severity": "INFO",
+      "producer": "ENGINE",
+      "requires_user": false,
+      "created_at": "2026-10-03T12:41:00Z",
+      "causation_event_id": null,
+      "title": "Characterize cross-account order creation",
+      "summary": "Testing POST /orders with a second supplied identity",
+      "reason": "User-owned order creation lacks cross-account authorization evidence",
+      "result": null,
+      "next_action": "Capture committed state and authenticated identity",
+      "user_request": null,
+      "entity_type": "case",
+      "entity_id": "order-create-18",
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "evidence_refs": [
+        "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      ],
+      "artifact_refs": [],
+      "progress": null,
+      "approval": null,
+      "details": {}
+    },
+    "valid": true
+  },
+  {
+    "name": "opaque-event-without-reason-is-invalid",
+    "schema": "https://rewrotron.dev/specs/execution/event.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "event_id": "evt-order-test",
+      "sequence": 10,
+      "project_id": "fixture",
+      "run_id": "op-observe",
+      "operation_id": "op-observe",
+      "mission_id": "mission-orders",
+      "task_id": "task-orders",
+      "stage": "OBSERVE",
+      "stage_instance_id": "stage-observe-1",
+      "type": "TASK_STARTED",
+      "kind": "ACTION",
+      "severity": "INFO",
+      "producer": "ENGINE",
+      "requires_user": false,
+      "created_at": "2026-10-03T12:41:00Z",
+      "causation_event_id": null,
+      "title": "Characterize cross-account order creation",
+      "summary": "Testing POST /orders with a second supplied identity",
+      "result": null,
+      "next_action": "Capture committed state and authenticated identity",
+      "user_request": null,
+      "entity_type": "case",
+      "entity_id": "order-create-18",
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "evidence_refs": [
+        "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      ],
+      "artifact_refs": [],
+      "progress": null,
+      "approval": null,
+      "details": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "attention-event-needs-user-request",
+    "schema": "https://rewrotron.dev/specs/execution/event.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "event_id": "evt-order-test",
+      "sequence": 10,
+      "project_id": "fixture",
+      "run_id": "op-observe",
+      "operation_id": "op-observe",
+      "mission_id": "mission-orders",
+      "task_id": "task-orders",
+      "stage": "OBSERVE",
+      "stage_instance_id": "stage-observe-1",
+      "type": "TASK_STARTED",
+      "kind": "ACTION",
+      "severity": "INFO",
+      "producer": "ENGINE",
+      "requires_user": true,
+      "created_at": "2026-10-03T12:41:00Z",
+      "causation_event_id": null,
+      "title": "Characterize cross-account order creation",
+      "summary": "Testing POST /orders with a second supplied identity",
+      "reason": "User-owned order creation lacks cross-account authorization evidence",
+      "result": null,
+      "next_action": "Capture committed state and authenticated identity",
+      "user_request": null,
+      "entity_type": "case",
+      "entity_id": "order-create-18",
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "evidence_refs": [
+        "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      ],
+      "artifact_refs": [],
+      "progress": null,
+      "approval": null,
+      "details": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "approval-event-names-authoritative-record",
+    "schema": "https://rewrotron.dev/specs/execution/event.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "event_id": "evt-order-test",
+      "sequence": 10,
+      "project_id": "fixture",
+      "run_id": "op-observe",
+      "operation_id": "op-observe",
+      "mission_id": "mission-orders",
+      "task_id": "task-orders",
+      "stage": "OBSERVE",
+      "stage_instance_id": "stage-observe-1",
+      "type": "APPROVAL_RECEIVED",
+      "kind": "RESULT",
+      "severity": "INFO",
+      "producer": "ENGINE",
+      "requires_user": false,
+      "created_at": "2026-10-03T12:41:00Z",
+      "causation_event_id": null,
+      "title": "Characterize cross-account order creation",
+      "summary": "Testing POST /orders with a second supplied identity",
+      "reason": "User-owned order creation lacks cross-account authorization evidence",
+      "result": "Gate 2 confirmed for reviewed plan",
+      "next_action": "Capture committed state and authenticated identity",
+      "user_request": null,
+      "entity_type": "case",
+      "entity_id": "order-create-18",
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "evidence_refs": [
+        "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      ],
+      "artifact_refs": [],
+      "progress": null,
+      "approval": {
+        "gate_type": "GATE_2_PLAN_CONFIRMED",
+        "subject_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+        "confirmation_id": "confirm-plan-1"
+      },
+      "details": {}
+    },
+    "valid": true
+  },
+  {
+    "name": "approval-event-without-confirmation-is-invalid",
+    "schema": "https://rewrotron.dev/specs/execution/event.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "event_id": "evt-order-test",
+      "sequence": 10,
+      "project_id": "fixture",
+      "run_id": "op-observe",
+      "operation_id": "op-observe",
+      "mission_id": "mission-orders",
+      "task_id": "task-orders",
+      "stage": "OBSERVE",
+      "stage_instance_id": "stage-observe-1",
+      "type": "APPROVAL_RECEIVED",
+      "kind": "RESULT",
+      "severity": "INFO",
+      "producer": "ENGINE",
+      "requires_user": false,
+      "created_at": "2026-10-03T12:41:00Z",
+      "causation_event_id": null,
+      "title": "Characterize cross-account order creation",
+      "summary": "Testing POST /orders with a second supplied identity",
+      "reason": "User-owned order creation lacks cross-account authorization evidence",
+      "result": "Gate 2 confirmed for reviewed plan",
+      "next_action": "Capture committed state and authenticated identity",
+      "user_request": null,
+      "entity_type": "case",
+      "entity_id": "order-create-18",
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "evidence_refs": [
+        "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      ],
+      "artifact_refs": [],
+      "progress": null,
+      "approval": {
+        "gate_type": "GATE_2_PLAN_CONFIRMED",
+        "subject_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+        "confirmation_id": null
+      },
+      "details": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "agent-cannot-produce-authoritative-approval-event",
+    "schema": "https://rewrotron.dev/specs/execution/event.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "event_id": "evt-order-test",
+      "sequence": 10,
+      "project_id": "fixture",
+      "run_id": "op-observe",
+      "operation_id": "op-observe",
+      "mission_id": "mission-orders",
+      "task_id": "task-orders",
+      "stage": "OBSERVE",
+      "stage_instance_id": "stage-observe-1",
+      "type": "APPROVAL_RECEIVED",
+      "kind": "RESULT",
+      "severity": "INFO",
+      "producer": "AGENT",
+      "requires_user": false,
+      "created_at": "2026-10-03T12:41:00Z",
+      "causation_event_id": null,
+      "title": "Characterize cross-account order creation",
+      "summary": "Testing POST /orders with a second supplied identity",
+      "reason": "User-owned order creation lacks cross-account authorization evidence",
+      "result": "Gate 2 confirmed for reviewed plan",
+      "next_action": "Capture committed state and authenticated identity",
+      "user_request": null,
+      "entity_type": "case",
+      "entity_id": "order-create-18",
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "evidence_refs": [
+        "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      ],
+      "artifact_refs": [],
+      "progress": null,
+      "approval": {
+        "gate_type": "GATE_2_PLAN_CONFIRMED",
+        "subject_hash": "3333333333333333333333333333333333333333333333333333333333333333",
+        "confirmation_id": "confirm-plan-1"
+      },
+      "details": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "completed-action-needs-result",
+    "schema": "https://rewrotron.dev/specs/execution/event.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "event_id": "evt-order-test",
+      "sequence": 10,
+      "project_id": "fixture",
+      "run_id": "op-observe",
+      "operation_id": "op-observe",
+      "mission_id": "mission-orders",
+      "task_id": "task-orders",
+      "stage": "OBSERVE",
+      "stage_instance_id": "stage-observe-1",
+      "type": "ACTION_COMPLETED",
+      "kind": "ACTION",
+      "severity": "INFO",
+      "producer": "ENGINE",
+      "requires_user": false,
+      "created_at": "2026-10-03T12:41:00Z",
+      "causation_event_id": null,
+      "title": "Characterize cross-account order creation",
+      "summary": "Testing POST /orders with a second supplied identity",
+      "reason": "User-owned order creation lacks cross-account authorization evidence",
+      "result": null,
+      "next_action": "Capture committed state and authenticated identity",
+      "user_request": null,
+      "entity_type": "case",
+      "entity_id": "order-create-18",
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "evidence_refs": [
+        "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      ],
+      "artifact_refs": [],
+      "progress": null,
+      "approval": null,
+      "details": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "progress-update-needs-measurement",
+    "schema": "https://rewrotron.dev/specs/execution/event.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "event_id": "evt-order-test",
+      "sequence": 10,
+      "project_id": "fixture",
+      "run_id": "op-observe",
+      "operation_id": "op-observe",
+      "mission_id": "mission-orders",
+      "task_id": "task-orders",
+      "stage": "OBSERVE",
+      "stage_instance_id": "stage-observe-1",
+      "type": "PROGRESS_UPDATED",
+      "kind": "ACTION",
+      "severity": "INFO",
+      "producer": "ENGINE",
+      "requires_user": false,
+      "created_at": "2026-10-03T12:41:00Z",
+      "causation_event_id": null,
+      "title": "Characterize cross-account order creation",
+      "summary": "Testing POST /orders with a second supplied identity",
+      "reason": "User-owned order creation lacks cross-account authorization evidence",
+      "result": null,
+      "next_action": "Capture committed state and authenticated identity",
+      "user_request": null,
+      "entity_type": "case",
+      "entity_id": "order-create-18",
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "evidence_refs": [
+        "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      ],
+      "artifact_refs": [],
+      "progress": null,
+      "approval": null,
+      "details": {}
+    },
+    "valid": false
+  },
+  {
+    "name": "live-execution-with-unknown-progress",
+    "schema": "https://rewrotron.dev/specs/execution/state.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "lifecycle_state": "ANALYZED",
+      "control_mode": "RUNNING",
+      "control_reason": "One observation mission is running",
+      "latest_event_sequence": 10,
+      "observed_at": "2026-10-03T12:41:01Z",
+      "focus_run_id": "op-observe",
+      "active_runs": [
+        {
+          "run_id": "op-observe",
+          "operation_id": "op-observe",
+          "stage": "OBSERVE",
+          "stage_instance_id": "stage-observe-1",
+          "status": "RUNNING",
+          "current_task": {
+            "task_id": "task-orders",
+            "mission_id": "mission-orders",
+            "title": "Characterize cross-account order creation",
+            "reason": "User-owned order creation lacks cross-account authorization evidence",
+            "status": "RUNNING",
+            "result": null,
+            "next_action": "Capture committed state and authenticated identity",
+            "evidence_refs": [
+              "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+            ]
+          },
+          "last_activity_at": "2026-10-03T12:41:00Z",
+          "last_heartbeat_at": "2026-10-03T12:41:00Z",
+          "subjects": {
+            "configuration_hash": null,
+            "plan_hash": null,
+            "target_spec_hash": null,
+            "target_tree_hash": null,
+            "corpus_hash": null,
+            "policy_hash": null
+          }
+        }
+      ],
+      "stage_instances": [
+        {
+          "stage_instance_id": "stage-observe-1",
+          "run_id": "op-observe",
+          "stage": "OBSERVE",
+          "status": "RUNNING",
+          "summary": "Testing POST /orders with a second supplied identity",
+          "evidence_refs": [
+            "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+          ],
+          "artifact_refs": []
+        }
+      ],
+      "last_activity_at": "2026-10-03T12:41:00Z",
+      "last_heartbeat_at": "2026-10-03T12:41:00Z",
+      "liveness": "FRESH",
+      "progress_metrics": [
+        {
+          "metric_id": "required-case-compatibility",
+          "definition": "Current PASS cases / required cases in frozen corpus",
+          "numerator": 397,
+          "denominator": null,
+          "unit": "cases",
+          "percent": null,
+          "scope_hash": null,
+          "basis_ref": null,
+          "accounting_revision": 1,
+          "evidence_sequence": 10,
+          "freshness": "CURRENT"
+        }
+      ],
+      "blockers": [],
+      "pending_approvals": [],
+      "next_action": "Capture committed state and authenticated identity",
+      "user_request": null,
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "recent_change_refs": []
+    },
+    "valid": true
+  },
+  {
+    "name": "active-task-cannot-hide-rationale",
+    "schema": "https://rewrotron.dev/specs/execution/state.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "lifecycle_state": "ANALYZED",
+      "control_mode": "RUNNING",
+      "control_reason": "One observation mission is running",
+      "latest_event_sequence": 10,
+      "observed_at": "2026-10-03T12:41:01Z",
+      "focus_run_id": "op-observe",
+      "active_runs": [
+        {
+          "run_id": "op-observe",
+          "operation_id": "op-observe",
+          "stage": "OBSERVE",
+          "stage_instance_id": "stage-observe-1",
+          "status": "RUNNING",
+          "current_task": {
+            "task_id": "task-orders",
+            "mission_id": "mission-orders",
+            "title": "Characterize cross-account order creation",
+            "reason": "",
+            "status": "RUNNING",
+            "result": null,
+            "next_action": "Capture committed state and authenticated identity",
+            "evidence_refs": [
+              "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+            ]
+          },
+          "last_activity_at": "2026-10-03T12:41:00Z",
+          "last_heartbeat_at": "2026-10-03T12:41:00Z",
+          "subjects": {
+            "configuration_hash": null,
+            "plan_hash": null,
+            "target_spec_hash": null,
+            "target_tree_hash": null,
+            "corpus_hash": null,
+            "policy_hash": null
+          }
+        }
+      ],
+      "stage_instances": [
+        {
+          "stage_instance_id": "stage-observe-1",
+          "run_id": "op-observe",
+          "stage": "OBSERVE",
+          "status": "RUNNING",
+          "summary": "Testing POST /orders with a second supplied identity",
+          "evidence_refs": [
+            "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+          ],
+          "artifact_refs": []
+        }
+      ],
+      "last_activity_at": "2026-10-03T12:41:00Z",
+      "last_heartbeat_at": "2026-10-03T12:41:00Z",
+      "liveness": "FRESH",
+      "progress_metrics": [
+        {
+          "metric_id": "required-case-compatibility",
+          "definition": "Current PASS cases / required cases in frozen corpus",
+          "numerator": 397,
+          "denominator": null,
+          "unit": "cases",
+          "percent": null,
+          "scope_hash": null,
+          "basis_ref": null,
+          "accounting_revision": 1,
+          "evidence_sequence": 10,
+          "freshness": "CURRENT"
+        }
+      ],
+      "blockers": [],
+      "pending_approvals": [],
+      "next_action": "Capture committed state and authenticated identity",
+      "user_request": null,
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "recent_change_refs": []
+    },
+    "valid": false
+  },
+  {
+    "name": "pause-does-not-replace-project-lifecycle",
+    "schema": "https://rewrotron.dev/specs/execution/state.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "lifecycle_state": "ANALYZED",
+      "control_mode": "PAUSED",
+      "control_reason": "Human pause acknowledged after fixture cleanup",
+      "latest_event_sequence": 10,
+      "observed_at": "2026-10-03T12:41:01Z",
+      "focus_run_id": null,
+      "active_runs": [],
+      "stage_instances": [
+        {
+          "stage_instance_id": "stage-observe-1",
+          "run_id": "op-observe",
+          "stage": "OBSERVE",
+          "status": "PAUSED",
+          "summary": "Testing POST /orders with a second supplied identity",
+          "evidence_refs": [
+            "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+          ],
+          "artifact_refs": []
+        }
+      ],
+      "last_activity_at": "2026-10-03T12:41:00Z",
+      "last_heartbeat_at": "2026-10-03T12:41:00Z",
+      "liveness": "NOT_RUNNING",
+      "progress_metrics": [
+        {
+          "metric_id": "required-case-compatibility",
+          "definition": "Current PASS cases / required cases in frozen corpus",
+          "numerator": 397,
+          "denominator": null,
+          "unit": "cases",
+          "percent": null,
+          "scope_hash": null,
+          "basis_ref": null,
+          "accounting_revision": 1,
+          "evidence_sequence": 10,
+          "freshness": "CURRENT"
+        }
+      ],
+      "blockers": [],
+      "pending_approvals": [],
+      "next_action": "Use continue after reviewing pending work",
+      "user_request": null,
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "recent_change_refs": []
+    },
+    "valid": true
+  },
+  {
+    "name": "display-pause-is-not-a-lifecycle-state",
+    "schema": "https://rewrotron.dev/specs/execution/state.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "lifecycle_state": "PAUSED",
+      "control_mode": "PAUSED",
+      "control_reason": "Human pause acknowledged after fixture cleanup",
+      "latest_event_sequence": 10,
+      "observed_at": "2026-10-03T12:41:01Z",
+      "focus_run_id": null,
+      "active_runs": [],
+      "stage_instances": [
+        {
+          "stage_instance_id": "stage-observe-1",
+          "run_id": "op-observe",
+          "stage": "OBSERVE",
+          "status": "PAUSED",
+          "summary": "Testing POST /orders with a second supplied identity",
+          "evidence_refs": [
+            "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+          ],
+          "artifact_refs": []
+        }
+      ],
+      "last_activity_at": "2026-10-03T12:41:00Z",
+      "last_heartbeat_at": "2026-10-03T12:41:00Z",
+      "liveness": "NOT_RUNNING",
+      "progress_metrics": [
+        {
+          "metric_id": "required-case-compatibility",
+          "definition": "Current PASS cases / required cases in frozen corpus",
+          "numerator": 397,
+          "denominator": null,
+          "unit": "cases",
+          "percent": null,
+          "scope_hash": null,
+          "basis_ref": null,
+          "accounting_revision": 1,
+          "evidence_sequence": 10,
+          "freshness": "CURRENT"
+        }
+      ],
+      "blockers": [],
+      "pending_approvals": [],
+      "next_action": "Use continue after reviewing pending work",
+      "user_request": null,
+      "subjects": {
+        "configuration_hash": null,
+        "plan_hash": null,
+        "target_spec_hash": null,
+        "target_tree_hash": null,
+        "corpus_hash": null,
+        "policy_hash": null
+      },
+      "recent_change_refs": []
+    },
+    "valid": false
+  },
+  {
+    "name": "sequence-gap-page-is-valid",
+    "schema": "https://rewrotron.dev/specs/execution/page.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "after_sequence": 0,
+      "through_sequence": 10,
+      "next_sequence": 10,
+      "has_more": false,
+      "state": {
+        "schema_version": "1.0",
+        "project_id": "fixture",
+        "lifecycle_state": "ANALYZED",
+        "control_mode": "RUNNING",
+        "control_reason": "One observation mission is running",
+        "latest_event_sequence": 10,
+        "observed_at": "2026-10-03T12:41:01Z",
+        "focus_run_id": "op-observe",
+        "active_runs": [
+          {
+            "run_id": "op-observe",
+            "operation_id": "op-observe",
+            "stage": "OBSERVE",
+            "stage_instance_id": "stage-observe-1",
+            "status": "RUNNING",
+            "current_task": {
+              "task_id": "task-orders",
+              "mission_id": "mission-orders",
+              "title": "Characterize cross-account order creation",
+              "reason": "User-owned order creation lacks cross-account authorization evidence",
+              "status": "RUNNING",
+              "result": null,
+              "next_action": "Capture committed state and authenticated identity",
+              "evidence_refs": [
+                "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+              ]
+            },
+            "last_activity_at": "2026-10-03T12:41:00Z",
+            "last_heartbeat_at": "2026-10-03T12:41:00Z",
+            "subjects": {
+              "configuration_hash": null,
+              "plan_hash": null,
+              "target_spec_hash": null,
+              "target_tree_hash": null,
+              "corpus_hash": null,
+              "policy_hash": null
+            }
+          }
+        ],
+        "stage_instances": [
+          {
+            "stage_instance_id": "stage-observe-1",
+            "run_id": "op-observe",
+            "stage": "OBSERVE",
+            "status": "RUNNING",
+            "summary": "Testing POST /orders with a second supplied identity",
+            "evidence_refs": [
+              "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+            ],
+            "artifact_refs": []
+          }
+        ],
+        "last_activity_at": "2026-10-03T12:41:00Z",
+        "last_heartbeat_at": "2026-10-03T12:41:00Z",
+        "liveness": "FRESH",
+        "progress_metrics": [
+          {
+            "metric_id": "required-case-compatibility",
+            "definition": "Current PASS cases / required cases in frozen corpus",
+            "numerator": 397,
+            "denominator": null,
+            "unit": "cases",
+            "percent": null,
+            "scope_hash": null,
+            "basis_ref": null,
+            "accounting_revision": 1,
+            "evidence_sequence": 10,
+            "freshness": "CURRENT"
+          }
+        ],
+        "blockers": [],
+        "pending_approvals": [],
+        "next_action": "Capture committed state and authenticated identity",
+        "user_request": null,
+        "subjects": {
+          "configuration_hash": null,
+          "plan_hash": null,
+          "target_spec_hash": null,
+          "target_tree_hash": null,
+          "corpus_hash": null,
+          "policy_hash": null
+        },
+        "recent_change_refs": []
+      },
+      "events": [
+        {
+          "schema_version": "1.0",
+          "event_id": "evt-order-test",
+          "sequence": 10,
+          "project_id": "fixture",
+          "run_id": "op-observe",
+          "operation_id": "op-observe",
+          "mission_id": "mission-orders",
+          "task_id": "task-orders",
+          "stage": "OBSERVE",
+          "stage_instance_id": "stage-observe-1",
+          "type": "TASK_STARTED",
+          "kind": "ACTION",
+          "severity": "INFO",
+          "producer": "ENGINE",
+          "requires_user": false,
+          "created_at": "2026-10-03T12:41:00Z",
+          "causation_event_id": null,
+          "title": "Characterize cross-account order creation",
+          "summary": "Testing POST /orders with a second supplied identity",
+          "reason": "User-owned order creation lacks cross-account authorization evidence",
+          "result": null,
+          "next_action": "Capture committed state and authenticated identity",
+          "user_request": null,
+          "entity_type": "case",
+          "entity_id": "order-create-18",
+          "subjects": {
+            "configuration_hash": null,
+            "plan_hash": null,
+            "target_spec_hash": null,
+            "target_tree_hash": null,
+            "corpus_hash": null,
+            "policy_hash": null
+          },
+          "evidence_refs": [
+            "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+          ],
+          "artifact_refs": [],
+          "progress": null,
+          "approval": null,
+          "details": {}
+        }
+      ],
+      "changes": []
+    },
+    "valid": true
+  },
+  {
+    "name": "status-watch-and-developer-view",
+    "schema": "https://rewrotron.dev/specs/cli/commands/status.input.schema.json",
+    "instance": {
+      "watch": true,
+      "verbosity": "developer"
+    },
+    "valid": true
+  },
+  {
+    "name": "status-existing-call-remains-valid",
+    "schema": "https://rewrotron.dev/specs/cli/commands/status.input.schema.json",
+    "instance": {},
+    "valid": true
+  },
+  {
+    "name": "reject-unknown-verbosity",
+    "schema": "https://rewrotron.dev/specs/cli/commands/status.input.schema.json",
+    "instance": {
+      "verbosity": "debug-everything"
+    },
+    "valid": false
+  },
+  {
+    "name": "execution-page-input",
+    "schema": "https://rewrotron.dev/specs/cli/commands/execution-show.input.schema.json",
+    "instance": {
+      "after_sequence": 10,
+      "through_sequence": 20,
+      "limit": 100,
+      "verbosity": "detailed"
+    },
+    "valid": true
+  },
+  {
+    "name": "event-page-limit-is-bounded",
+    "schema": "https://rewrotron.dev/specs/cli/commands/execution-show.input.schema.json",
+    "instance": {
+      "limit": 501
+    },
+    "valid": false
+  },
+  {
+    "name": "mcp-read-execution-page",
+    "schema": "https://rewrotron.dev/specs/mcp/tools/project.get_execution.input.schema.json",
+    "instance": {
+      "project_id": "fixture",
+      "after_sequence": 10,
+      "limit": 100
+    },
+    "valid": true
+  },
+  {
+    "name": "mcp-cannot-inject-pause-through-read",
+    "schema": "https://rewrotron.dev/specs/mcp/tools/project.get_execution.input.schema.json",
+    "instance": {
+      "project_id": "fixture",
+      "control_mode": "RUNNING"
+    },
+    "valid": false
+  },
+  {
+    "name": "pause-local-human-command",
+    "schema": "https://rewrotron.dev/specs/cli/commands/pause.input.schema.json",
+    "instance": {},
+    "valid": true
+  },
+  {
+    "name": "continue-has-no-agent-actor-override",
+    "schema": "https://rewrotron.dev/specs/cli/commands/continue.input.schema.json",
+    "instance": {
+      "actor": "human"
+    },
+    "valid": false
+  },
+  {
+    "name": "snapshot-with-shared-execution-projection",
+    "schema": "https://rewrotron.dev/specs/project/snapshot.schema.json",
+    "instance": {
+      "project_id": "fixture",
+      "state": "ANALYZED",
+      "revision": 0,
+      "configuration_hash": null,
+      "plan_hash": null,
+      "gate_states": {
+        "GATE_1_SOURCE_DETECTION": "PENDING",
+        "GATE_2_PLAN_CONFIRMED": "PENDING",
+        "GATE_3_CUTOVER": "PENDING"
+      },
+      "coverage": {
+        "entrypoints": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        },
+        "cases": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        },
+        "units": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        },
+        "dimensions": {
+          "numerator": 0,
+          "denominator": 0,
+          "percent": null
+        }
+      },
+      "blockers": [],
+      "latest_operation_id": null,
+      "execution": {
+        "schema_version": "1.0",
+        "project_id": "fixture",
+        "lifecycle_state": "ANALYZED",
+        "control_mode": "RUNNING",
+        "control_reason": "One observation mission is running",
+        "latest_event_sequence": 10,
+        "observed_at": "2026-10-03T12:41:01Z",
+        "focus_run_id": "op-observe",
+        "active_runs": [
+          {
+            "run_id": "op-observe",
+            "operation_id": "op-observe",
+            "stage": "OBSERVE",
+            "stage_instance_id": "stage-observe-1",
+            "status": "RUNNING",
+            "current_task": {
+              "task_id": "task-orders",
+              "mission_id": "mission-orders",
+              "title": "Characterize cross-account order creation",
+              "reason": "User-owned order creation lacks cross-account authorization evidence",
+              "status": "RUNNING",
+              "result": null,
+              "next_action": "Capture committed state and authenticated identity",
+              "evidence_refs": [
+                "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+              ]
+            },
+            "last_activity_at": "2026-10-03T12:41:00Z",
+            "last_heartbeat_at": "2026-10-03T12:41:00Z",
+            "subjects": {
+              "configuration_hash": null,
+              "plan_hash": null,
+              "target_spec_hash": null,
+              "target_tree_hash": null,
+              "corpus_hash": null,
+              "policy_hash": null
+            }
+          }
+        ],
+        "stage_instances": [
+          {
+            "stage_instance_id": "stage-observe-1",
+            "run_id": "op-observe",
+            "stage": "OBSERVE",
+            "status": "RUNNING",
+            "summary": "Testing POST /orders with a second supplied identity",
+            "evidence_refs": [
+              "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+            ],
+            "artifact_refs": []
+          }
+        ],
+        "last_activity_at": "2026-10-03T12:41:00Z",
+        "last_heartbeat_at": "2026-10-03T12:41:00Z",
+        "liveness": "FRESH",
+        "progress_metrics": [
+          {
+            "metric_id": "required-case-compatibility",
+            "definition": "Current PASS cases / required cases in frozen corpus",
+            "numerator": 397,
+            "denominator": null,
+            "unit": "cases",
+            "percent": null,
+            "scope_hash": null,
+            "basis_ref": null,
+            "accounting_revision": 1,
+            "evidence_sequence": 10,
+            "freshness": "CURRENT"
+          }
+        ],
+        "blockers": [],
+        "pending_approvals": [],
+        "next_action": "Capture committed state and authenticated identity",
+        "user_request": null,
+        "subjects": {
+          "configuration_hash": null,
+          "plan_hash": null,
+          "target_spec_hash": null,
+          "target_tree_hash": null,
+          "corpus_hash": null,
+          "policy_hash": null
+        },
+        "recent_change_refs": []
+      }
+    },
+    "valid": true
+  }
+]

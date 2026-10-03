@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/mcp/tools/benchmark.run.input.schema.json",
+  "title": "benchmark.run.input.schema",
+  "type": "object",
+  "properties": {
+    "unit_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "all": {
+      "type": "boolean"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "idempotency_key": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  },
+  "required": [
+    "project_id",
+    "idempotency_key"
+  ],
+  "additionalProperties": false,
+  "oneOf": [
+    {
+      "required": [
+        "unit_id"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "all"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "required": [
+        "all"
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [
+              "unit_id"
+            ]
+          }
+        ]
+      },
+      "properties": {
+        "all": {
+          "const": true
+        }
+      }
+    }
+  ]
+}

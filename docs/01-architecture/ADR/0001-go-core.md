@@ -16,5 +16,9 @@ Implement the entire Rewrotron core engine, CLI, analyzer, observer harnesses, v
 - **TypeScript / Node.js:** Convenient for MCP, but single-threaded concurrency limitations for high-throughput HTTP replay and heavy runtime footprint.
 
 ## Consequences
-- **Positive:** Single, statically-linked binary distribution; exceptional native concurrency for differential testing; low memory footprint; straightforward cross-compilation.
+- **Positive:** Standalone binary distribution with linking/driver portability validated before release; exceptional native concurrency for differential testing; low memory footprint; straightforward cross-compilation.
 - **Negative:** AST parsing for PHP must either use robust Go bindings (e.g. tree-sitter or custom lexer) or invoke a small companion PHP CLI script for edge-case reflection.
+
+## Implementation clarification (2026-10-03)
+
+[ADR 0011](0011-development-baseline-and-contract-completion.md) defines the initial concrete package, hash, protocol, evidence and release baseline. This accepted design is not a claim that implementation/runtime validation has completed.

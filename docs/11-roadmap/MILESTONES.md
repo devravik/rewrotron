@@ -1,24 +1,13 @@
-# MILESTONES.md — Checkpoints & Acceptance Gates
+# Milestones and evidence gates
 
-> **Version:** 1.0  
-> **Status:** Project Milestones Reference  
+| Milestone | Task boundary | Required evidence |
+| --- | --- | --- |
+| M0 Specification baseline | Documentation/schema review | Local schemas/links/registries/DDL checked; external validation register visible |
+| M1 Safe foundation | RWT-001–006 | Durable workspace, bounded detection, explicit Gate 1, drift and negative refusals, valid JSON outputs, canonical execution events/state, live inspection and safe human control |
+| M2 Characterization | RWT-007–013 | Complete reference IR/trace/corpus, omission counterexamples, safe reset/egress, comparator MISMATCH/UNKNOWN detection |
+| M3 First slice | RWT-014–016 | Exact Gate 2, staged independent Laravel fixture, regression and crash/conflict recovery |
+| M4 Reference application | RWT-017–022 | Auth/session/CRUD/effects/files, full required corpus and coverage reconciliation, benchmark evidence, Gate 3 package/runbooks |
+| M5 Reference release | RWT-023–025 | Optional privacy learning/Skill, two clients, supported OS/capabilities, security/recovery/licenses/signatures |
+| M6 Extensions | RWT-026–027 | New adapter intersection verified with unchanged canonical IR |
 
----
-
-## 1. Major Release Milestones
-
-- **M0: Specification Lock & Schema Verification (Current Milestone)**  
-  *Deliverables:* All 18 mandatory specifications approved; JSON schemas validated; SQLite schema frozen.  
-  *Acceptance Gate:* Zero ambiguous contracts.
-
-- **M1: CI3 Static Analyzer Complete**  
-  *Deliverables:* AST parsing capable of indexing 100% of symbols in reference CI3 test suite. Reachability graph and code classifier active.
-
-- **M2: Observer & Trace Replay Complete**  
-  *Deliverables:* Runtime hooks intercepting requests, queries, and sessions; deterministic replay harness active.
-
-- **M3: End-to-End Reference Migration (First Vertical Slice)**  
-  *Deliverables:* Successful reconstruction and differential verification pass of CI3 authentication & user profile slice to Laravel 13.
-
-- **M4: Public Open-Source 1.0 Release**  
-  *Deliverables:* Standalone CLI binary, production MCP server, full CI3->Laravel migration capability, complete documentation.
+M0 does not freeze every future implementation detail or assert approval by unnamed stakeholders. Runtime milestones require executed results, not documentation status. Product claims remain bounded by tested scope and capability maturity.

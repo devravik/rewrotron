@@ -1,28 +1,11 @@
-# MIGRATION-UNITS.md — Migration Unit Granularity & Slicing Heuristics
+# Migration units and dependency planning
 
-> **Version:** 1.0  
-> **Status:** Migration Reference Guide  
+A unit is an externally verifiable route, operation group or bounded workflow. Individual helper files are supporting implementation, not canonical units. Include authentication, authorization, validation, state/effect changes, output and compatibility cases in the unit's scope.
 
----
+Unit records identify contracts/cases, supported capabilities, prerequisites, shared components, generation ownership and evidence. Shared tables do not automatically imply order; a unit depends on another when it needs that unit's generated behavior or shared implementation. Use read/write/effect conflicts to decide concurrent work safety.
 
-## 1. Granularity Guidelines
+Construct dependency edges, compute strongly connected components, and propose merging mutually dependent units into one verifiable slice. If that slice is too broad, surface a redesign decision before Gate 2. Never break a cycle by arbitrarily deleting an edge. Condense to a DAG; stable topological ordering uses priority then unit ID for ties.
 
-A `MigrationUnit` must be sized appropriately to balance isolation with cohesion:
+Default execution is serial. A dependent unit cannot generate until prerequisite units are current VERIFIED/COMPLETED. Independent units can proceed after another unit blocks, but project completion still requires the entire approved scope. Target file overlap requires a shared component owner or serial publication; mission fencing and before hashes protect edits.
 
-- **Too Small (Anti-Pattern):** An individual helper function or single private method. Cannot be tested with end-to-end HTTP requests.
-- **Too Large (Anti-Pattern):** An entire billing or admin module with 50 routes. Feedback loops become unmanageably long and debugging mismatches becomes overwhelming.
-- **Optimal Granularity:**
-  - A single atomic REST endpoint (e.g. `POST /api/v1/users`).
-  - A cohesive CRUD resource set (e.g. `GET/POST/PUT/DELETE /products`).
-  - A tightly-coupled workflow (e.g. `POST /checkout/address` -> `POST /checkout/pay`).
-
----
-
-## 2. Dependency Topological Sorting
-
-Migration units frequently depend on shared entities:
-- Common Database Tables (e.g. `users`, `settings`).
-- Authentication & Session Subsystems.
-- Shared Layout Views and UI Partials.
-
-The Migration Planner constructs a Directed Acyclic Graph (DAG) of migration units and topologically sorts them so foundational slices (e.g. Authentication, User Profile) are migrated and verified before downstream transactional slices (e.g. Orders, Checkout).
+A plan includes omission proofs, dormant/unknown disposition, scope exclusions, unresolved questions and a requirement-to-unit/case mapping. It cannot silently drop an unsupported entrypoint from the denominator.

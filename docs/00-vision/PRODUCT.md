@@ -1,155 +1,59 @@
-# PRODUCT.md — Rewrotron Product Specification
+# Product specification
 
-> **Status:** Authoritative Foundation Specification  
-> **Target Release:** Rewrotron 1.0  
-> **Domain:** Universal Legacy Web Application Reconstruction & Modernization  
+**Status:** Authoritative design specification. **Implementation:** Not started. **Target:** First scoped CI3→Laravel reference release, then broader adapter coverage.
 
----
+Rewrotron reconstructs externally observable application behavior in a modern target stack. The canonical pipeline is Source IR (syntax) → Application IR (structure) → Behavior IR (rules, inputs, state, effects and outputs) → target plan → target adapter → differential verification and repair. Migration units are behavior slices.
 
-## 1. Product Statement & Core Promise
+## Two central product requirements
 
-Rewrotron is an autonomous, behavior-driven modernization engine designed to reconstruct complex legacy web applications into modern, clean-architecture target stacks.
+1. Rewrotron preserves what the application does within its declared, evidenced scope.
+2. Rewrotron always shows what it is doing and why, including discoveries, changes, blockers, next actions and needed user decisions.
 
-Rewrotron understands **applications, not frameworks**. A legacy web application is characterized by its externally observable behavior, entrypoints, state transitions, business rules, and side effects—not the syntax or idiosyncrasies of the legacy framework in which it was authored.
+[EXECUTION-OBSERVABILITY](../06-agent/EXECUTION-OBSERVABILITY.md) makes the second promise a deterministic engine contract from the first long-running operation. Shared events/state serve CLI, MCP and a future desktop UI. Factual explanations, honest scoped progress, activity history, return-session changes and safe persistent control are baseline product responsibilities, not a later UI feature.
 
-### The Product Promise
-> **"Rewrotron reconstructs an existing web application's observable behavior in a modern target implementation through a universal behavior model, allowing unnecessary legacy implementation baggage to be omitted, target architectures to be substantially modernized, and equivalence to be mathematically proven via automated differential verification."**
+## Product promise and evidence boundary
 
----
+Produce a maintainable independent target, evidence for its compatibility with a declared case corpus and scope, and an accountable inventory of omissions, exclusions and unresolved behavior. Finite differential testing does not prove equivalence for every possible execution. Unknown behavior is disclosed and cannot pass. Hashes establish evidence identity/integrity, not that analysis is complete.
 
-## 2. The $N + M$ Architectural Advantage: The Three-Tier IR
+Source and target adapters decouple framework extraction from generation, allowing N source implementations and M target implementations to reuse the same model. An additional adapter enables only the capability intersection it supports; every claimed source/target combination requires corpus evidence. Core packages remain vendor/framework-neutral and run without an LLM.
 
-Traditional migration tools build point-to-point transpilers (e.g. CI3 to Laravel, Django to FastAPI, Rails to Go). Supporting $N$ source frameworks across $M$ target frameworks would require $N \times M$ fragile custom translators:
+## Initial scope
 
-```text
-POINT-TO-POINT MATRIX (Fragile, N × M translators):
-CI3 ─────────► Laravel
-CI3 ─────────► Go
-CI3 ─────────► Rust
-Django ──────► Go
-Rails ───────► Go
-Symfony ─────► Laravel
-```
+| Capability | First release commitment | Limitation |
+| --- | --- | --- |
+| Source | CI3 3.1.x reference adapter | Dynamic extensions and unsupported PHP syntax remain explicit |
+| Fallback | Generic PHP inventory/extraction | No automatic general PHP reconstruction guarantee |
+| Target | Laravel 13 on pinned PHP 8.3+ | Capability-checked evidenced rules; no universal code synthesis |
+| Architecture | Modular monolith | Other styles require adapter support and reviewed target plan |
+| Data | Preserve relational schema; independent MySQL sandbox copies | Other engines need their own reset/comparison execution capability |
+| Interfaces | CLI JSON and MCP stdio, portable Skill | No provider-specific engine logic |
+| Storage | SQLite WAL and local artifacts | Global knowledge optional; no mandatory cloud/vector DB |
+| Safety | Isolated execution, target-only generation, no production mutation | Cutover package/runbook after Gate 3; deployment implementation deferred |
 
-Rewrotron solves this through the **Universal Intermediate Representation Pipeline**, reducing complexity to **$N$ Source Adapters + $M$ Target Adapters**:
+## Gates and customer authority
 
-```text
-Source Frameworks (PHP, Python, Ruby, Java, Node, .NET)
-                     │
-                     ▼
-             [ Source Adapters ]
-                     │
-                     ▼
-             1. SOURCE IR
-   (Syntax, ASTs, symbols, classes, methods, calls, declared routes)
-                     │
-                     ▼
-           2. APPLICATION IR
-   (Controllers, services, data models, workflows, dependencies)
-                     │
-                     ▼
-             3. BEHAVIOR IR
-   (Entrypoints, inputs, state transitions, business rules, side effects, outputs)
-                     │
-                     ▼
-             [ Target Adapters ]
-                     │
-                     ▼
-Target Stacks (Laravel, Go std/fiber, Rust axum, Python fastapi, TypeScript nest)
-```
+Minimal workspace creation and bounded detection can precede Gate 1 so approval can be persisted. Deep analysis/observation/modeling require source approval. Generation and repair require the exact reviewed Gate 2 plan. The verified release/runbooks require Gate 3 before cutover packaging. Gate validity, user overrides and material drift are specified in [CONFIRMATION-PROTOCOL](../02-domain/CONFIRMATION-PROTOCOL.md).
 
-With this architecture:
-- Adding a **Django** source adapter immediately unlocks migration to **Laravel, Go, Rust, and Python**.
-- Adding a **Rust (Axum)** target adapter immediately unlocks migration from **CodeIgniter, Laravel, Symfony, Django, and Rails**.
+Customers supply critical workflows, operational roots, sandbox-safe fixtures/integrations and explicit decisions where source facts are ambiguous. The engine reports the missing item and dependent units. It never invents infrastructure, credentials, roles, runtime versions or business logic.
 
----
+## Adapter maturity
 
-## 3. Separation of Framework from Architecture
+No adapter is currently implemented/tested. A planned adapter becomes `EXPERIMENTAL` when registered with a version and capability manifest. `BETA` requires deterministic reference corpus coverage, safe failure modes, gate integrity and documented limitations. `STABLE` additionally requires the full supported corpus/CLI/MCP/recovery suite, security checks, reproducible target builds, release evidence and a published support matrix. Labels apply to tested capabilities, not every application in a framework family.
 
-Rewrotron does not merely allow the user to select a target framework; it decouples **Language**, **Framework**, and **Architectural Style**:
+Additional PHP/Python/Ruby/Java/.NET sources and Go/Rust/Python/TypeScript targets are roadmap candidates, not available features.
 
-```yaml
-target:
-  language: go
-  framework: std-http
-  architecture:
-    style: modular_monolith
-    service_layer: domain_driven
-  database:
-    preserve_existing: true
-  api:
-    compatibility: strict
-```
+## Successful migration
 
-Target code generation conforms to the requested clean architecture style rather than slavishly mirroring the legacy code's structural flaws.
+An in-scope unit succeeds when evidenced contracts/cases exist, target code builds independently, every required dimension passes against current subjects, committed state/effects and auth/session behavior match, regression cases pass, and mappings/artifacts are recorded. The product's performance goal is non-regression under the agreed reproducible workload; inconclusive evidence remains visible.
 
----
+A project additionally reconciles every entrypoint with a unit, current DEAD proof, or explicit reviewed exclusion; all required cases pass; there are no unresolved required UNKNOWNs or prohibited differences; performance, active sessions, integration behavior and rollback are evidenced; omissions and intentional changes are disclosed; and Gate 3 approves the exact release. Reports use explicit denominators from [COVERAGE](../05-verification/COVERAGE.md).
 
-## 4. The 3 Hard User Confirmation Gates
+## Release progression
 
-To guarantee that autonomous agents never execute destructive actions, misclassify a project, or operate on false assumptions, Rewrotron enforces **Three Hard Confirmation Gates**:
+First deliver safe workspace/detection/approval and negative gate tests, then a machine-verifiable behavior model, then a deterministic one-slice fixture migration, then auth/state/integration/generalization evidence. A first demo is not full production framework support. [DEVELOPMENT-PLAN](../11-roadmap/DEVELOPMENT-PLAN.md) defines the dependency order and tasks.
 
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ 1. SOURCE DETECTION CONFIRMATION (Gate 1)                   │
-│    - Engine automatically detects language, framework,      │
-│      version, runtime, routes, database, integrations.      │
-│    - Presents findings with confidence scores.              │
-│    - REQUIRES explicit user confirmation / overrides        │
-│      before deep analysis or project initialization.        │
-└──────────────────────────────┬──────────────────────────────┘
-                               │
-┌──────────────────────────────▼──────────────────────────────┐
-│ 2. TARGET & MIGRATION PLAN CONFIRMATION (Gate 2)            │
-│    - Proposes target stack, architecture style,             │
-│      behavioral units to migrate, and dead code to drop.    │
-│    - REQUIRES explicit user approval before code generation.│
-└──────────────────────────────┬──────────────────────────────┘
-                               │
-┌──────────────────────────────▼──────────────────────────────┐
-│ 3. PRODUCTION CUTOVER CONFIRMATION (Gate 3)                 │
-│    - Verifies differential equivalence across all units.     │
-│    - REQUIRES human sign-off before production cutover,     │
-│      destructive migration, or live deployment.             │
-└─────────────────────────────────────────────────────────────┘
-```
+## First-class migration decisions
 
----
+Source facts, user target intent, the plan and executed results are distinct records. [TARGET-SPECIFICATION](../04-migration/TARGET-SPECIFICATION.md) defines editable `rewrotron.yaml`, immutable planning revisions, recommendation types, feasibility and selective target invalidation. A requested runtime is never silently lowered to a recommendation. Gate 2 approves the exact target and plan; YAML approval views are not authorization.
 
-## 5. Adapter Availability & Maturity Tiers
-
-Rewrotron distinguishes **architectural support** (the core handles any web application) from **adapter implementation maturity**:
-
-### Source Adapters
-| Framework / Platform | Maturity Baseline | Role |
-| :--- | :--- | :--- |
-| **CodeIgniter 3.x** | `STABLE` | Initial reference source adapter |
-| **Generic PHP** | `BETA` | Fallback for non-framework or custom legacy PHP |
-| **Laravel (Legacy)** | `BETA` | Modernization of legacy Laravel 4/5/6 |
-| **Symfony 2/3** | `EXPERIMENTAL` | Enterprise legacy PHP |
-| **Django / Flask** | `EXPERIMENTAL` | Python monoliths |
-| **Ruby on Rails** | `EXPERIMENTAL` | Legacy Rails applications |
-
-### Target Adapters
-| Target Stack | Maturity Baseline | Role |
-| :--- | :--- | :--- |
-| **Laravel 13.x (PHP 8.3+)** | `STABLE` | Initial reference target adapter |
-| **Go (std-http / Fiber)** | `BETA` | Cloud-native microservices / modular monolith |
-| **Rust (Axum)** | `EXPERIMENTAL` | Ultra-high performance modernization |
-| **Python (FastAPI)** | `EXPERIMENTAL` | Modern Python async services |
-
----
-
-## 6. Definition of a "Successful Migration"
-
-A migration unit or complete application is deemed **successfully migrated** if and only if:
-1. **Full Behavior IR Coverage:** 100% of discovered active endpoints and workflows have an executable behavioral contract.
-2. **Differential Verification Pass:** Replaying all recorded and synthesized test cases produces an identical or normalized match between source and target:
-   - HTTP status codes match exactly.
-   - Redirect headers match exactly.
-   - Deterministic response bodies match exactly (byte-for-byte or normalized canonical semantic comparison).
-   - Relational database mutations (INSERTs, UPDATEs, DELETEs) match in table, columns, and values.
-   - Session flash data and state transitions match.
-3. **Zero Unexplained Mismatches:** Every discrepancy is classified as `EXPECTED_CHANGE` (e.g. upgraded CSRF tokens) with recorded justification. Zero `UNKNOWN` differences.
-4. **Performance Non-Regression:** The target stack response latency and memory consumption are equal to or better than the legacy baseline under identical load.
-5. **Independence:** The target application runs completely independently without requiring Rewrotron at runtime.
+[DEPENDENCY-RESOLUTION](../04-migration/DEPENDENCY-RESOLUTION.md) defines exact inventory, actual usage, recursive constraints and capability-based upgrade/adapt/replace/reimplement/retain decisions. Required unresolved dependencies block affected scope before generation. Behavioral characterization validates proposed implementations; optional global knowledge remains evidence-scoped and opt-in.

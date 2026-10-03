@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/reports/migration-report.schema.json",
+  "title": "migration-report.schema",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "configuration_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "plan_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "target_tree_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "snapshot": {
+      "$ref": "https://rewrotron.dev/specs/project/snapshot.schema.json"
+    },
+    "inventory_dispositions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "entrypoint_id",
+          "disposition",
+          "evidence_refs"
+        ],
+        "properties": {
+          "entrypoint_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "disposition": {
+            "enum": [
+              "MIGRATED",
+              "DEAD_OMISSION",
+              "REVIEWED_EXCLUSION",
+              "UNRESOLVED"
+            ]
+          },
+          "unit_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "verification_report_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      }
+    },
+    "benchmark_report_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      }
+    },
+    "omission_report_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "intentional_changes": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_decisions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "release_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "configuration_hash",
+    "plan_hash",
+    "target_tree_hash",
+    "snapshot",
+    "inventory_dispositions",
+    "verification_report_refs",
+    "benchmark_report_refs",
+    "omission_report_ref",
+    "intentional_changes",
+    "limitations",
+    "required_decisions"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/missions/mission.schema.json",
+  "title": "mission.schema",
+  "type": "object",
+  "properties": {
+    "mission_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "ANALYZE_SOURCE",
+        "DISCOVER_ROUTE",
+        "OBSERVE_WORKFLOW",
+        "GENERATE_CONTRACT",
+        "MIGRATE_UNIT",
+        "VERIFY_CASE",
+        "REPAIR_MISMATCH",
+        "ANALYZE_DEAD_CODE",
+        "BENCHMARK",
+        "OPTIMIZE",
+        "REVIEW_UNKNOWN"
+      ]
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "QUEUED",
+        "LEASED",
+        "RUNNING",
+        "COMPLETED",
+        "BLOCKED",
+        "FAILED",
+        "CANCELLED"
+      ]
+    },
+    "unit_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "case_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1
+    },
+    "context": {
+      "type": "object"
+    },
+    "attempt_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "fencing_token": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "lease_expires_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "mission_id",
+    "type",
+    "priority",
+    "status",
+    "unit_id",
+    "case_id",
+    "description",
+    "context",
+    "attempt_count",
+    "fencing_token",
+    "lease_expires_at"
+  ],
+  "additionalProperties": false
+}

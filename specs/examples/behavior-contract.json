@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "operation_id": "orders-read",
+  "version": "1.0.0",
+  "description": "Read an order owned by the authenticated principal",
+  "entrypoint": {
+    "type": "http",
+    "method": "GET",
+    "path": "/orders/42",
+    "content_types": []
+  },
+  "authentication": {
+    "required": true,
+    "principal_fixture_id": "customer-a"
+  },
+  "authorization": {
+    "rule_id": "owner-only"
+  },
+  "inputs": {
+    "parameters": []
+  },
+  "business_rules": [
+    {
+      "id": "owner-only",
+      "description": "Return the order only to its owner",
+      "representation": "DECLARATIVE",
+      "evidence_ids": [
+        "ev_owner"
+      ],
+      "data": {
+        "operator": "principal_equals_row_owner"
+      }
+    }
+  ],
+  "database_effects": {
+    "transactional": false,
+    "mutations": []
+  },
+  "session_effects": {
+    "mutations": []
+  },
+  "external_effects": {
+    "events": []
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json"
+    },
+    "body": {
+      "type": "json",
+      "assertions": [
+        {
+          "json_pointer": "/order_id",
+          "equals": 42
+        }
+      ]
+    }
+  },
+  "evidence_ids": [
+    "ev_owner"
+  ],
+  "required_dimensions": [
+    "http",
+    "body",
+    "authentication",
+    "authorization",
+    "database",
+    "session",
+    "external"
+  ],
+  "open_questions": []
+}

@@ -1,66 +1,56 @@
-# COMPATIBILITY-SPEC.md — Equivalence Definition & Normalization Specification
+# Behavioral compatibility and deterministic verdicts
 
-> **Authority Level:** Mandatory Verification Contract (Critical Foundation Document #2)  
-> **Status:** Authoritative Core Specification  
-> **Subsystems:** `internal/verification`, Differential Comparator, Repair Loop  
+**Status:** Normative. Applies to every verification run and migration report.
 
----
+## Claim and scope
 
-## 1. What Exactly Does "Same Application" Mean?
+A passing finite corpus demonstrates compatibility for those cases, their input/state conditions, required observation dimensions, and approved comparison policies. It is not mathematical proof of every possible execution. A report always names its configuration, plan, corpus, target tree, environment, and policy hashes and discloses uncovered entrypoints and approved intentional changes.
 
-To eliminate hand-waving and subjective claims of compatibility, Rewrotron defines behavioral equivalence across 11 explicit dimensions. Two implementations are **behaviorally equivalent** if and only if they produce identical observable outputs and side effects under identical preconditions.
+Required dimensions are HTTP status, redirects, structured payload/body, authentication, authorization, session/flash/cookies, committed DB state, external effects, HTML/form behavior, files/assets, and error behavior. Cache semantics and non-HTTP exit codes/events are included when applicable. Missing instrumentation is `UNKNOWN`; an empty effect list means “observed none” only when the completeness status is `COMPLETE`.
 
-### The 11 Dimensions of Equivalence
+## Verdict set and aggregation
 
-1. **HTTP Status Code Equivalence:** Status codes must match exactly (e.g. 200, 201, 302, 400, 401, 403, 404, 500). A 200 returned where a 302 was expected is an unconditional failure.
-2. **Redirect Behavior Equivalence:** Redirect targets (via `Location` header) must resolve to the identical relative path and query parameters.
-3. **API Payload Equivalence:** JSON/XML responses must carry equivalent data structures, data types, keys, and values.
-4. **Authentication Equivalence:** An unauthenticated request must be challenged identically; an authenticated request must authenticate the identical principal and permissions.
-5. **Authorization Equivalence:** Requests lacking required permissions must be forbidden with identical status codes and error bodies.
-6. **Session State Equivalence:** Flash messages, session variable sets/unsets, and persistence across consecutive requests must match.
-7. **Database State Equivalence:** The set of database tables mutated (INSERT, UPDATE, DELETE), the columns affected, and the final relational records must be identical.
-8. **External Side-Effect Equivalence:** External API calls, email dispatches, message queue publishes, and webhook triggers must match in destination and payload.
-9. **HTML Equivalence:** When rendering server-side HTML views, semantic structure, DOM elements, forms, and input fields must be equivalent.
-10. **File & Asset Behavior:** File uploads, downloads, and generated PDFs must produce identical content or valid representations.
-11. **Error Behavior Equivalence:** Validation errors and intentional business failure responses must emit equivalent error keys, status codes, and user messages.
+The only verdicts are `PASS`, `MISMATCH`, `UNKNOWN`.
 
----
+- `PASS`: Every required dimension was completely observed and satisfies the versioned policy.
+- `MISMATCH`: At least one complete dimension proves a prohibited difference.
+- `UNKNOWN`: No proved mismatch, but a required dimension cannot be evaluated safely or completely.
 
-## 2. The Three Comparison Modes
+Aggregation precedence is `MISMATCH` > `UNKNOWN` > `PASS`. Reports preserve all per-dimension results even when a mismatch takes precedence. A timeout, malformed trace, unsafe execution, missing source baseline, ambiguous row matching, or unavailable sink cannot pass.
 
-Equivalence is evaluated using a 3-tier policy:
+Mismatch classification (`DEFECT`, `EXPECTED_CHANGE`, `UNKNOWN`) is a separate diagnostic label. An intentional API, status, authorization, or business-value change is never made compatible by a generic normalizer. It requires a human-approved contract exception, new policy/corpus/plan hash, and rerun. The report marks `has_expected_changes: true`; strict parity claims disclose the changed behavior. An old result remains immutable.
 
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        THE 3 COMPARISON MODES                          │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. EXACT (Byte-for-Byte)                                               │
-│    • Applied when values are strictly deterministic.                   │
-│    • Required for: HTTP status codes, redirect paths, static JSON      │
-│      keys, database table names, column names, business rule values.   │
-├────────────────────────────────────────────────────────────────────────┤
-│ 2. SEMANTIC (Canonical Semantic Equivalence)                           │
-│    • Applied to structured data formats where formatting varies.        │
-│    • JSON: Ignores key ordering, formatting whitespace, float notation│
-│    • HTML: Normalizes whitespace, tag indentation, attribute quotes.   │
-│    • SQL: Normalizes SQL whitespace and keyword casing.                │
-├────────────────────────────────────────────────────────────────────────┤
-│ 3. NORMALIZED_DYNAMIC (Dynamic-Value Normalization)                    │
-│    • Applied ONLY to fields demonstrated to vary across repeat runs.    │
-│    • Nonces, CSRF tokens, session IDs, UUIDs, request IDs, timestamps. │
-│    • Values are extracted, validated against format schemas (e.g.      │
-│      UUIDv4 or ISO8601), and replaced with canonical masks (<UUID>).   │
-└────────────────────────────────────────────────────────────────────────┘
-```
+## Comparison modes
 
----
+| Dimension | Default | Permitted scoped alternative |
+| --- | --- | --- |
+| Non-HTTP exit codes/events | Exact declared outcome, stdout/stderr and effects | Explicit supported event assertions; unsupported harness is UNKNOWN |
+| Status, error code, deterministic business values | `EXACT` | Explicit intentional-change exception |
+| Redirects | Exact path, query multimap and redirect chain | Approved base-origin substitution; path escaping/order remain meaningful unless specified |
+| JSON | `SEMANTIC` | Compare objects independent of key order; array order, types, missing/null and values remain meaningful |
+| HTML | `EXACT` | Explicit DOM assertions preserving text, form actions/names, accessibility, scripts, assets and whitespace-sensitive elements |
+| Headers | Lowercase names, multivalue fields | Per-field transport noise policy; never collapse `Set-Cookie` |
+| Cookies | Name/domain/path/flags/expiry semantics and lifecycle | Opaque-value relation rules preserving principal and continuity |
+| DB | Typed committed row state | Approved bijective generated-ID mapping applied to all references |
+| Files, binary downloads | Exact bytes/hash | Explicit format-specific comparator; unsupported format returns UNKNOWN |
+| Side effects | Ordered destination/payload/count | Declared commutative groups with relation checks |
 
-## 3. The Invariant Rule on Uncertainty
+JSON numbers are parsed without float64 rounding. Numerically equivalent decimal spelling may compare equal, but a string `"1"` differs from number `1`; duplicate keys are rejected. No unconditional float tolerance is allowed for money. Arrays retain order. HTML whitespace can affect visible content and must not be stripped universally. SQL text/query count is diagnostic evidence; different SQL can produce the same committed business state.
 
-> ### **CRITICAL INVARIANT:**  
-> **UNKNOWN DIFFERENCES ARE NEVER PASSES.**
+## Dynamic values
 
-If a differential verification run detects a discrepancy between the Source Application and Target Application:
-1. If the difference is explicitly governed by an approved `NORMALIZED_DYNAMIC` or `EXPECTED_CHANGE` rule, it is classified as a pass.
-2. If the difference is NOT governed by an approved rule, the verifier **MUST classify the result as `MISMATCH` or `UNKNOWN`**.
-3. It is **STRICTLY FORBIDDEN** for an AI agent, repair algorithm, or human developer to automatically convert an `UNKNOWN` difference into a `PASS` without recording an approved rationale in the experiment ledger.
+Repeated source runs identify candidate variability, not automatically approved rules. A rule records ID, version, exact paths/selectors, source repeat trace IDs, format validator, comparison operator, relation group, and human approval reference. It is included in the Gate 2 policy subject.
+
+Supported initial operators are format-and-relation checks for opaque identifiers, approved origin mapping, and explicitly bounded time windows. Time bounds derive from the approved environment/workload, not a universal 60-second tolerance. A rule cannot ignore a whole response, principal, amount, permission, count, or DB table.
+
+Opaque values must be nonempty, satisfy format constraints, and preserve equality/inequality relationships within and across workflow steps. CSRF/session values must also preserve security and lifecycle behavior: rejection of invalid/replayed tokens where applicable, cookie flags and rotation, authentication continuity, logout invalidation, and cross-user separation. Replacing every token with one mask would hide these differences.
+
+## Publication and acceptance
+
+A run has execution status `COMPLETED`, `FAILED`, or `CANCELLED` and a verdict. Infrastructure failure produces diagnostic evidence and `UNKNOWN`; the CLI distinguishes operational failure from a completed mismatch. Source/target/corpus/policy drift prevents publishing a current passing run. All agreed cases and required dimensions must pass before a unit completes. Excluded cases and unreachable features remain visible in [coverage](COVERAGE.md).
+
+Required counterexamples include changed amount, wrong user, duplicate side effect, missing DB write, wrong redirect, removed form control, collapsed cookies, swapped generated IDs, unobserved session mutation, timestamp outside window, and loss of transaction rollback. Each must yield MISMATCH or UNKNOWN as appropriate.
+
+## Dependency characterization
+
+A dependency decision has separate package/platform compatibility, used-API coverage and behavioral evidence. A compatible release or complete capability mapping cannot produce PASS without complete observations for the applicable cases. Characterize the application's required subset, including errors/edge cases/state/effects, against the exact source and selected target implementations, then rerun dependent workflows. Use the same verdicts, comparators, scope denominators and immutable run records. Target or transitive dependency changes invalidate affected results; retained source characterization is reusable only with unchanged subjects. See [DEPENDENCY-RESOLUTION](../04-migration/DEPENDENCY-RESOLUTION.md).

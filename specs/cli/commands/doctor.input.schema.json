@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/doctor.input.schema.json",
+  "title": "doctor.input.schema",
+  "type": "object",
+  "properties": {},
+  "required": [],
+  "additionalProperties": false
+}

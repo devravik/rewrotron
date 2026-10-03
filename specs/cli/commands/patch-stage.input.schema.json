@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/patch-stage.input.schema.json",
+  "title": "patch-stage.input.schema",
+  "type": "object",
+  "properties": {
+    "patch_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    }
+  },
+  "required": [
+    "patch_id"
+  ],
+  "additionalProperties": false
+}

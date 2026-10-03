@@ -1,93 +1,29 @@
-# ANALYSIS-SPEC.md — Unified Static Analysis & Code Classification Specification
+# Analysis contract
 
-> **Authority Level:** Mandatory Analysis Contract  
-> **Status:** Authoritative Core Specification  
-> **Target Subsystems:** `internal/analyzer`, `internal/observer`, Code Classifier  
+**Status:** Normative. Analysis requires a valid Gate 1 baseline.
 
----
+## Outputs
 
-## 1. Scope & Objective
+1. Complete source file inventory with bytes/hashes, syntax status and positions.
+2. Source IR symbols and typed dependency edges, including unresolved dynamic expressions.
+3. Application IR entrypoints, handlers, shared components, data models and workflow candidates resolved by the source adapter.
+4. Evidence-backed ACTIVE/DORMANT/DEAD/UNKNOWN classifications.
+5. Findings, missing inputs, capability limitations and scope completeness.
 
-The Static Analysis Engine reverse-engineers legacy application source code into a structured, relational inventory of reachable symbols, routes, entrypoints, and data access patterns.
+Source parsing and framework interpretation are specified in [STATIC-ANALYSIS](STATIC-ANALYSIS.md) and [CI3-ADAPTER](../04-migration/CI3-ADAPTER.md). Generic graph logic must not include CI3 assumptions. Every output binds the confirmed source hash and adapter version.
 
-Static analysis provides the **structural hypothesis** of how the legacy application is built. This hypothesis is subsequent confirmed, enriched, or corrected by runtime observation.
+## Safety and completeness
 
----
+No application code, Composer scripts, route config, includes or reflection executes during static analysis. Analysis limits, unreadable files and parsing failures are explicit findings. They cannot silently disappear from graph roots or justify omission. Only the algorithm in [CODE-CLASSIFICATION](CODE-CLASSIFICATION.md) grants DEAD eligibility.
 
-## 2. Extracted Entities & Inventory
+Inventory includes templates, assets, hook/bootstrap files, CLI scripts, cron/consumer candidates and supplied operational commands. Detection counts are preliminary; analyzed counts have exact definitions and provenance. Dynamic dependency observations add evidence but do not close all possible dispatch targets.
 
-During `rewrotron analyze`, the engine extracts and persists into SQLite:
+## Publication and reruns
 
-1. **Source Files (`source_files`):** Path, file hash (SHA-256), lines of code, byte size, file type (`controller`, `model`, `view`, `config`, `helper`, `library`, `migration`, `asset`).
-2. **Symbols (`source_symbols`):** Classes, interfaces, traits, methods, functions, constants, class properties.
-3. **Calls & Call Graph:** Caller-callee edges between methods and functions, including instantiated classes and static invocations.
-4. **Declared & Implicit Routes:**
-   - Routes declared in routing configuration (`application/config/routes.php`).
-   - Implicit convention-based routes (`class/method/param` URI matching in CodeIgniter).
-5. **Hooks & Interceptors:** Framework lifecycle hooks (e.g. `pre_controller`, `post_controller_constructor`, `post_controller`, `post_system`).
-6. **Dependencies:** Composer packages, third-party libraries bundled in `application/libraries/` or `system/`.
-7. **Models & Queries:** Active Record calls (`$this->db->get()`, `$this->db->insert()`), raw SQL strings, query builder invocations.
-8. **Views & Templates:** View render calls (`$this->load->view('name', $data)`), partial inclusions, inline PHP scripts.
-9. **External Service Invocations:** cURL calls, Guzzle clients, file uploads, raw socket connections, email dispatches (`$this->email->send()`).
-10. **Background & Batch Entrypoints:** CLI controller commands, cron scripts, worker loops.
+Analysis operates on a frozen manifest/sandbox snapshot, stages IR artifacts, rechecks drift, then atomically publishes metadata and events. Interrupted or stale results remain historical partial artifacts and do not advance current project state. Identical hash/version inputs can reuse an existing immutable result; changed adapters or inputs create a new revision.
 
----
+Required fixtures include inheritance/traits, dynamic methods/includes, conditional route config, parser errors, controller subdirectories, shared helpers, dead strongly connected subgraphs, cron-only roots, view/asset dependencies, dirty/untracked files and symlinks. Expected graph/classifications are version-controlled synthetic fixtures.
 
-## 3. The 4-Tier Code Classification Taxonomy
+## Dependency usage evidence
 
-To ensure agents never delete code without empirical proof, every symbol, method, and file MUST be classified into exactly one of four objective states:
-
-```text
-┌────────────────────────────────────────────────────────────────────────┐
-│                        CODE CLASSIFICATION TAXONOMY                    │
-├────────────────────────────────────────────────────────────────────────┤
-│ 1. ACTIVE                                                              │
-│    • Statically reachable from a known entrypoint (HTTP, CLI, Cron)    │
-│    • AND/OR observed executing during runtime observation traces.       │
-│    Action: MUST be reconstructed in Target Application.                │
-├────────────────────────────────────────────────────────────────────────┤
-│ 2. DORMANT                                                             │
-│    • Statically reachable from an entrypoint                           │
-│    • BUT NEVER observed executing across all recorded runtime traces.   │
-│    Action: Reconstruct in Target OR flag for human review; NEVER drop.  │
-├────────────────────────────────────────────────────────────────────────┤
-│ 3. DEAD                                                                │
-│    • Proven STATICALLY UNREACHABLE from any public route, hook, CLI,   │
-│      or cron entrypoint.                                               │
-│    • AND has ZERO executions across all runtime observation traces.     │
-│    • AND no dynamic dispatch (e.g. $this->$variable()) targets it.     │
-│    Action: SAFELY OMIT from Target Application. Log reachability proof.│
-├────────────────────────────────────────────────────────────────────────┤
-│ 4. UNKNOWN                                                             │
-│    • Reachability cannot be mathematically proven (e.g. uses eval(),    │
-│      dynamic method calls $$method(), reflection, or plugin hooks).     │
-│    Action: MUST be preserved or escalated to human review gate.         │
-│            NEVER automatically deleted.                                │
-└────────────────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 4. Objective Classification Rules
-
-An AI agent or analyzer algorithm MUST apply these strict boolean rules when classifying a symbol `S`:
-
-```text
-Is S executed in any Runtime Observation Trace?
-  ├── YES ──► ACTIVE
-  └── NO
-        ├── Is S reachable via static call graph from any Entrypoint?
-        │     ├── YES ──► DORMANT
-        │     └── NO
-        │           ├── Does the codebase contain dynamic calls ($this->$name)
-        │           │   or eval() that could resolve to S?
-        │           │     ├── YES ──► UNKNOWN
-        │           │     └── NO  ──► DEAD
-```
-
-### Omission Audit Rule
-When code classified as `DEAD` is omitted from the target application, Rewrotron generates an **Omission Evidence Record** in `.rewrotron/artifacts/reports/omissions.json` containing:
-- Symbol name and file location.
-- SHA-256 hash of the legacy file.
-- Static graph traverse proof showing lack of inward edges from all entrypoints.
-- Runtime observation verification log demonstrating zero hits.
+The source inventory preserves exact manifest/installed/locked versions and direct/transitive/development/optional roles. After Gate 1, symbol reachability, operational roots and runtime observations identify required capability subsets and affected behavior units. Declared, reachable, observed and required counts remain distinct; dynamic or unobserved usage cannot justify automatic omission. Target selection never overwrites source dependency facts. [DEPENDENCY-RESOLUTION](../04-migration/DEPENDENCY-RESOLUTION.md) owns recursive target constraints, API/capability mapping and user decisions.

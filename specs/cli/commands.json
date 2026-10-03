@@ -1,0 +1,240 @@
+{
+  "version": "1.0",
+  "commands": [
+    {
+      "command": "init",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/init.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "NONE",
+      "mutating": true
+    },
+    {
+      "command": "detect",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/detect.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/schemas/detection-schema.json",
+      "gate": "NONE",
+      "mutating": true
+    },
+    {
+      "command": "doctor",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/doctor.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "NONE",
+      "mutating": false
+    },
+    {
+      "command": "confirm source",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/confirm-source.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/confirmation.schema.json",
+      "gate": "HUMAN",
+      "mutating": true,
+      "output_variants": [
+        "https://rewrotron.dev/specs/project/confirmation.schema.json",
+        "https://rewrotron.dev/specs/project/prepared-confirmation.schema.json"
+      ]
+    },
+    {
+      "command": "confirm plan",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/confirm-plan.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/confirmation.schema.json",
+      "gate": "HUMAN",
+      "mutating": true
+    },
+    {
+      "command": "confirm cutover",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/confirm-cutover.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/confirmation.schema.json",
+      "gate": "HUMAN",
+      "mutating": true
+    },
+    {
+      "command": "approval issue",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/approval-issue.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "HUMAN",
+      "mutating": true
+    },
+    {
+      "command": "analyze",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/analyze.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_1",
+      "mutating": true
+    },
+    {
+      "command": "observe",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/observe.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_1",
+      "mutating": true
+    },
+    {
+      "command": "discover",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/discover.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_1",
+      "mutating": true
+    },
+    {
+      "command": "plan",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/plan.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/migration/plan.schema.json",
+      "gate": "GATE_1",
+      "mutating": true
+    },
+    {
+      "command": "migrate",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/migrate.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_2",
+      "mutating": true
+    },
+    {
+      "command": "verify",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/verify.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/verification/report.schema.json",
+      "gate": "GATE_2",
+      "mutating": true
+    },
+    {
+      "command": "benchmark",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/benchmark.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+      "gate": "GATE_2",
+      "mutating": true
+    },
+    {
+      "command": "status",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/status.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/snapshot.schema.json",
+      "gate": "NONE",
+      "mutating": false
+    },
+    {
+      "command": "next",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/next.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/mcp/get-next-mission.schema.json",
+      "gate": "NONE",
+      "mutating": false
+    },
+    {
+      "command": "resume",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/resume.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/snapshot.schema.json",
+      "gate": "NONE",
+      "mutating": true
+    },
+    {
+      "command": "mission claim",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/mission-claim.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/missions/mission.schema.json",
+      "gate": "STATE",
+      "mutating": true
+    },
+    {
+      "command": "mission renew",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/mission-renew.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/missions/mission.schema.json",
+      "gate": "STATE",
+      "mutating": true
+    },
+    {
+      "command": "mission complete",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/mission-complete.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/missions/mission.schema.json",
+      "gate": "STATE",
+      "mutating": true
+    },
+    {
+      "command": "report",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/report.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "NONE",
+      "mutating": true
+    },
+    {
+      "command": "export",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/export.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "HUMAN_IF_SENSITIVE",
+      "mutating": true
+    },
+    {
+      "command": "skills search",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/skills-search.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "NONE",
+      "mutating": false
+    },
+    {
+      "command": "learn record",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/learn-record.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "NONE",
+      "mutating": true
+    },
+    {
+      "command": "cutover prepare",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/cutover-prepare.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_3",
+      "mutating": true
+    },
+    {
+      "command": "patch stage",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/patch-stage.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_2",
+      "mutating": true
+    },
+    {
+      "command": "patch apply",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/patch-apply.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_2",
+      "mutating": true
+    },
+    {
+      "command": "case show",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/case-show.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/behavior/behavior-case.schema.json",
+      "gate": "NONE",
+      "mutating": false
+    },
+    {
+      "command": "plan show",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/plan-show.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/migration/plan.schema.json",
+      "gate": "NONE",
+      "mutating": false
+    },
+    {
+      "command": "artifact read",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/artifact-read.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/artifact-content.schema.json",
+      "gate": "NONE",
+      "mutating": false
+    },
+    {
+      "command": "execution show",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/execution-show.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/execution/page.schema.json",
+      "gate": "NONE",
+      "mutating": false
+    },
+    {
+      "command": "pause",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/pause.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/execution/state.schema.json",
+      "gate": "HUMAN",
+      "mutating": true
+    },
+    {
+      "command": "continue",
+      "input_schema": "https://rewrotron.dev/specs/cli/commands/continue.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/execution/state.schema.json",
+      "gate": "HUMAN",
+      "mutating": true
+    }
+  ]
+}

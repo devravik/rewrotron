@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "case_id": "orders-read-a",
+  "contract_id": "orders-read",
+  "contract_version": "1.0.0",
+  "entrypoint": {
+    "type": "http",
+    "method": "GET",
+    "path": "/orders/42"
+  },
+  "http_method": "GET",
+  "path": "/orders/42",
+  "headers": {},
+  "preconditions": {
+    "fixture_refs": [
+      "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    ],
+    "principal_id": "customer-a"
+  },
+  "expected_response": {
+    "status": 200
+  },
+  "required_dimensions": [
+    "http",
+    "database"
+  ],
+  "comparison_policy_ref": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

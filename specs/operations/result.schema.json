@@ -1,0 +1,123 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/operations/result.schema.json",
+  "title": "result.schema",
+  "type": "object",
+  "properties": {
+    "operation_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "COMPLETED",
+        "FAILED",
+        "CANCELLED",
+        "PREPARED"
+      ]
+    },
+    "state": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": [
+            "INITIALIZED",
+            "DETECTED",
+            "SOURCE_CONFIRMED",
+            "ANALYZED",
+            "MODELED",
+            "PLAN_SYNTHESIZED",
+            "PLAN_CONFIRMED",
+            "MIGRATING",
+            "VERIFIED",
+            "BENCHMARKED",
+            "READY_CUTOVER"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "artifact_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      }
+    },
+    "entity_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z0-9_-]+$"
+      }
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "CRITICAL",
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ]
+          },
+          "affected_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "finding_id",
+          "code",
+          "severity",
+          "affected_ids",
+          "evidence_ids",
+          "message"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "operation_id",
+    "status",
+    "state",
+    "artifact_refs",
+    "entity_ids",
+    "blockers",
+    "summary"
+  ],
+  "additionalProperties": false
+}

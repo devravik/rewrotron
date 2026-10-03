@@ -40,7 +40,7 @@ This glossary establishes the unambiguous terms used across Rewrotron documentat
   The automated process of replaying an identical `BehaviorCase` against both the Source and Target applications and comparing the observed outputs and side effects.
 
 - **Mismatch (`Mismatch`)**  
-  A detected discrepancy between the Source and Target execution during differential verification, classified as either `EXPECTED_CHANGE`, `DEFECT`, or `UNKNOWN`.
+  A discrepancy recorded within a verification run. Its diagnostic classification is `EXPECTED_CHANGE`, `DEFECT`, or `UNKNOWN`; the run verdict remains `PASS`, `MISMATCH`, or `UNKNOWN`.
 
 - **Finding (`Finding`)**  
   An analytical fact discovered during static analysis or runtime observation (e.g., dead code candidate, raw SQL concatenation, deprecated superglobal usage).
@@ -53,3 +53,34 @@ This glossary establishes the unambiguous terms used across Rewrotron documentat
 
 - **Experiment Fingerprint (`Fingerprint`)**  
   A deterministic cryptographic hash (SHA-256) of all inputs, source ASTs, migration templates, and database state defining an exact reproduction context.
+
+
+- **Baseline:** Immutable confirmed source/environment facts identified by `configuration_hash`.
+- **Plan subject:** Immutable units, scope, corpus, policy and target choices identified by `plan_hash`.
+- **Release subject:** Target tree, dependency locks, verification, benchmark, session and runbook evidence identified by `release_hash`.
+- **Completeness:** Whether a required trace dimension is COMPLETE, PARTIAL, UNAVAILABLE or NOT_APPLICABLE.
+- **Fencing token:** Monotonically increasing mission lease revision; stale owners cannot publish results.
+- **Scope exclusion:** A disclosed, explicitly reviewed omission from the migration's agreed behavior; it does not count as migrated or verified.
+- **Expected change:** A separately approved contract exception and new policy subject, never a fourth verification verdict.
+
+ID formats and enum owners are defined in [IR-CONTRACTS](../02-domain/IR-CONTRACTS.md) and [TERMINOLOGY](../02-domain/TERMINOLOGY.md).
+
+## Migration decision vocabulary
+
+- **Detected environment:** Evidence-backed observed source facts, separate from user intent; corrections are recorded in the confirmed baseline.
+- **Target specification:** User-owned requested runtime/framework/infrastructure/architecture/compatibility constraints, frozen as a planning revision and approved with Gate 2.
+- **Recommendation:** An evidence-backed proposed action typed REQUIRED, RECOMMENDED, OPTIONAL, INFORMATIONAL or BLOCKING; never authority to mutate a target.
+- **Feasibility:** Scoped assessment of whether required target capabilities and recursive constraints can be satisfied; not behavioral equivalence.
+- **Dependency capability:** The input/output/state/error behavior actually required from a package/service, independent of package name.
+- **Resolution strategy:** DIRECT_UPGRADE, ADAPTER, REPLACEMENT, REIMPLEMENT or RETAIN; BLOCKED is an unresolved status.
+- **Selective invalidation:** Mark changed and transitively dependent artifacts stale while preserving unrelated current evidence and all history.
+
+## Execution vocabulary
+
+- **Execution stage:** A visible label for a repeatable/concurrent work instance, distinct from durable project lifecycle state.
+- **Execution event:** A committed structured observation, decision, action or result with rationale and evidence; the existing SQLite ledger supplies order.
+- **Execution state:** The canonical live projection answering current work, why, findings/changes, blockers, next action and user needs.
+- **Progress basis:** A persisted scope/accounting revision and work definition supporting a metric's numerator/denominator; unavailable basis gives no guessed percentage.
+- **Public explanation:** A factual evidence-linked justification; it does not expose hidden reasoning.
+- **Human pause:** Persistent control acknowledged at safe checkpoints; resume/reconnect does not clear it.
+- **Last-seen watermark:** A client-owned sequence used for return-session changes; reading does not approve or acknowledge work for other clients.

@@ -1,23 +1,13 @@
-# ROUTE-DISCOVERY.md — Static and Dynamic Route Discovery
+# Route and entrypoint discovery
 
-> **Version:** 1.0  
-> **Status:** Analysis Reference Guide  
+The CI3 adapter resolves framework routing into neutral Application IR. Sources are static route configuration, controller conventions, supplied tests/traffic/logs, and sandbox observations. Every discovered candidate has provenance, dispatch priority, HTTP method (or `ANY` when undetermined), handler, classification and uncertainty.
 
----
+CI3 supports HTTP verb-specific route arrays, regular-expression routes and URI conventions. Preserve route declaration precedence, `(:num)`/`(:any)` semantics, capture substitution, default controller, 404 override, `translate_uri_dashes`, nested controller directories and case-sensitive filesystem behavior. Public controller methods are candidates; inherited/private/reserved methods and custom `_remap` need adapter semantics rather than blanket exposure.
 
-## 1. Route Discovery Strategy
+Method-body checks refine behavior contracts; they do not replace explicit dispatch rules. A route accepting GET but returning an error for it differs from a route that cannot dispatch GET. Observe invalid methods, trailing slashes, encoded paths, missing segments and unknown routes in fixtures.
 
-Legacy web frameworks often employ multiple concurrent routing paradigms. For CodeIgniter 3.x, Rewrotron extracts routes via three cooperative mechanisms:
+Do not evaluate dynamic route PHP during static extraction. Record unresolved route expressions and `_remap` behavior; sandbox evidence may resolve concrete cases without proving all dynamic routes. Merge candidates by dispatch identity and evidence, not just path: overlapping patterns and method priorities must coexist.
 
-1. **Configured Static Routes:** Parsed from `application/config/routes.php`, including regular expressions (`$route['products/(:num)'] = 'catalog/detail/$1'`) and wildcards.
-2. **Implicit Convention Routes:** Inferred from public controller classes and public action methods (`class Products extends CI_Controller` -> `/products`, `/products/view/{id}`).
-3. **Observed Traffic Routes:** Extracted from HTTP access logs, recorded HAR files, or dynamic crawler executions discovering obscure legacy endpoints not declared in static configs.
+The complete entrypoint inventory also includes CLI, cron and consumers. Supplied operational commands become roots with explicit provenance. Unsupported execution is visible in coverage; it cannot be omitted because the first replay engine is HTTP-focused.
 
----
-
-## 2. Resolving Ambiguities & Fallbacks
-
-- **Default Controller:** Identified via `$route['default_controller']` in CI3 config.
-- **404 Override Controller:** Identified via `$route['404_override']`.
-- **Sub-directory Routing:** Controllers nested inside subdirectories (e.g. `application/controllers/admin/Users.php` -> `/admin/users`).
-- **HTTP Method Constraints:** Legacy CI3 lacks native HTTP verb constraints on routes. Rewrotron inspects method bodies for checks like `$this->input->method() === 'post'` or `$this->input->is_ajax_request()` to assign HTTP verb constraints to discovered routes.
+Source: [CI3 routing documentation](https://codeigniter.com/userguide3/general/routing.html?highlight=uri), supports verb-specific route arrays; checked on 2026-10-03.

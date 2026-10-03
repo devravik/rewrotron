@@ -1,46 +1,162 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/schemas/detection-schema.json",
-  "title": "DetectionResult",
-  "description": "Output schema for rewrotron detect and project.detect",
+  "title": "detection-schema",
   "type": "object",
-  "required": [
-    "language",
-    "framework",
-    "application_type",
-    "confidence",
-    "gate_status"
-  ],
   "properties": {
-    "language": { "type": "string" },
-    "framework": { "type": "string" },
-    "detected_version": { "type": ["string", "null"] },
-    "php_compatibility": { "type": ["string", "null"] },
-    "application_type": { "type": "string" },
-    "routes_count": { "type": "integer" },
-    "controllers_count": { "type": "integer" },
-    "models_count": { "type": "integer" },
-    "views_count": { "type": "integer" },
-    "database_engine": { "type": ["string", "null"] },
-    "external_integrations_count": { "type": "integer" },
-    "authentication_type": { "type": "string" },
-    "cron_entrypoints_count": { "type": "integer" },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "detection_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "source_manifest_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "language": {
+      "type": "string",
+      "minLength": 1
+    },
+    "framework": {
+      "type": "string",
+      "minLength": 1
+    },
+    "detected_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "php_compatibility": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "application_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "database_engine": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "authentication_type": {
+      "type": "string",
+      "minLength": 1
+    },
     "confidence": {
       "type": "object",
-      "required": ["framework"],
-      "properties": {
-        "framework": { "type": "number", "minimum": 0, "maximum": 1 },
-        "version": { "type": "number", "minimum": 0, "maximum": 1 },
-        "database": { "type": "number", "minimum": 0, "maximum": 1 }
+      "properties": {},
+      "required": [],
+      "additionalProperties": {
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1
       }
     },
     "potential_concerns": {
       "type": "array",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
     },
     "gate_status": {
       "type": "string",
-      "enum": ["AWAITING_SOURCE_CONFIRMATION", "SOURCE_CONFIRMED"]
+      "enum": [
+        "AWAITING_SOURCE_CONFIRMATION",
+        "SOURCE_CONFIRMED"
+      ]
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evidence_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "STATIC",
+              "RUNTIME",
+              "USER_OVERRIDE",
+              "AGENT_PROPOSAL"
+            ]
+          },
+          "artifact_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "symbol_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "trace_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "evidence_id",
+          "kind",
+          "artifact_ref",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "routes_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "controllers_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "models_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "views_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "external_integrations_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cron_entrypoints_count": {
+      "type": "integer",
+      "minimum": 0
     }
-  }
+  },
+  "required": [
+    "schema_version",
+    "detection_id",
+    "project_id",
+    "source_manifest_hash",
+    "language",
+    "framework",
+    "application_type",
+    "confidence",
+    "gate_status",
+    "evidence"
+  ],
+  "additionalProperties": false
 }

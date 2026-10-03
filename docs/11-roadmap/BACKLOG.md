@@ -1,18 +1,9 @@
-# BACKLOG.md — Sprint Backlog & Priority Epics
+# Backlog and task identity
 
-> **Version:** 1.0  
-> **Status:** Implementation Backlog  
+The canonical backlog is the checkbox task list in [DEVELOPMENT-PLAN](DEVELOPMENT-PLAN.md). All RWT IDs there are this review's implementation queue; the original exploratory RWT-001–021 list is superseded and must not be used to infer task meaning. No external issue tracker has been configured or populated by this documentation change.
 
----
+First queue: RWT-001 build/domain baseline → RWT-002 persistence → RWT-003 artifacts/redaction → RWT-004 workspace/manifest → RWT-005 gates → RWT-006 CLI/detection/doctor. This delivers safe persisted source confirmation plus shared execution events/state, honest live inspection and human pause/continue before deep analysis. Transparency is a baseline engine requirement, not deferred desktop work.
 
-## Sprint 1 Backlog: Foundation & Core Scaffolding
+Then characterization RWT-007–013, plan/publication/first slice RWT-014–016, application evidence RWT-017–022, optional learning/Skill and release RWT-023–025. Extensions RWT-026–027 follow verified reference support and demand selection.
 
-- [ ] **TASK-001:** Setup Go monorepo structure (`cmd/rewrotron`, `cmd/rewrotron-mcp`, `internal/`).
-- [ ] **TASK-002:** Implement SQLite storage layer (`internal/storage/sqlite`) with schema migration runner for `SQLITE-SCHEMA.md`.
-- [ ] **TASK-003:** Implement `rewrotron init` command creating `.rewrotron/`, `project.db`, and `project.yaml`.
-- [ ] **TASK-004:** Implement `rewrotron doctor` checking local Go, PHP, Composer, and Docker runtimes.
-- [ ] **TASK-005:** Implement Go-based PHP AST parser and CodeIgniter 3 route configuration extractor in `internal/analyzer`.
-- [ ] **TASK-006:** Implement `internal/observer` HTTP interception proxy and CI3 hook generator.
-- [ ] **TASK-007:** Implement Canonical Behavior Model data structures and JSON Schema validator in `internal/behavior`.
-- [ ] **TASK-008:** Implement initial Differential Verification runner in `internal/verification`.
-- [ ] **TASK-009:** Implement MCP server skeleton in `cmd/rewrotron-mcp` exposing `project.get_snapshot`.
+Open customer-specific work is recorded as engine findings/missions with evidence and required actions. Repository engineering tasks and customer migration missions are distinct queues; neither is completed by a conversational summary alone.

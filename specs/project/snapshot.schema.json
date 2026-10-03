@@ -1,0 +1,370 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/snapshot.schema.json",
+  "title": "snapshot.schema",
+  "type": "object",
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "INITIALIZED",
+        "DETECTED",
+        "SOURCE_CONFIRMED",
+        "ANALYZED",
+        "MODELED",
+        "PLAN_SYNTHESIZED",
+        "PLAN_CONFIRMED",
+        "MIGRATING",
+        "VERIFIED",
+        "BENCHMARKED",
+        "READY_CUTOVER"
+      ]
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "configuration_hash": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "plan_hash": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "gate_states": {
+      "type": "object",
+      "properties": {
+        "GATE_1_SOURCE_DETECTION": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "VALID",
+            "STALE"
+          ]
+        },
+        "GATE_2_PLAN_CONFIRMED": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "VALID",
+            "STALE"
+          ]
+        },
+        "GATE_3_CUTOVER": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "VALID",
+            "STALE"
+          ]
+        }
+      },
+      "required": [
+        "GATE_1_SOURCE_DETECTION",
+        "GATE_2_PLAN_CONFIRMED",
+        "GATE_3_CUTOVER"
+      ],
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "properties": {
+        "entrypoints": {
+          "type": "object",
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "denominator": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "percent": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator",
+            "percent"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "denominator": {
+                    "const": 0
+                  }
+                },
+                "required": [
+                  "denominator"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "numerator": {
+                    "const": 0
+                  },
+                  "percent": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "cases": {
+          "type": "object",
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "denominator": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "percent": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator",
+            "percent"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "denominator": {
+                    "const": 0
+                  }
+                },
+                "required": [
+                  "denominator"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "numerator": {
+                    "const": 0
+                  },
+                  "percent": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "units": {
+          "type": "object",
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "denominator": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "percent": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator",
+            "percent"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "denominator": {
+                    "const": 0
+                  }
+                },
+                "required": [
+                  "denominator"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "numerator": {
+                    "const": 0
+                  },
+                  "percent": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "dimensions": {
+          "type": "object",
+          "properties": {
+            "numerator": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "denominator": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "percent": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 100
+            }
+          },
+          "required": [
+            "numerator",
+            "denominator",
+            "percent"
+          ],
+          "additionalProperties": false,
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "denominator": {
+                    "const": 0
+                  }
+                },
+                "required": [
+                  "denominator"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "numerator": {
+                    "const": 0
+                  },
+                  "percent": {
+                    "type": "null"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "required": [
+        "entrypoints",
+        "cases",
+        "units",
+        "dimensions"
+      ],
+      "additionalProperties": false
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "code": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "CRITICAL",
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ]
+          },
+          "affected_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z0-9_-]+$"
+            }
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "finding_id",
+          "code",
+          "severity",
+          "affected_ids",
+          "evidence_ids",
+          "message"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "latest_operation_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "execution": {
+      "$ref": "https://rewrotron.dev/specs/execution/state.schema.json"
+    }
+  },
+  "required": [
+    "project_id",
+    "state",
+    "revision",
+    "configuration_hash",
+    "plan_hash",
+    "gate_states",
+    "coverage",
+    "blockers",
+    "latest_operation_id"
+  ],
+  "additionalProperties": false
+}

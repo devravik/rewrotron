@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+  "title": "manifest.schema",
+  "type": "object",
+  "properties": {
+    "adapter_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "SOURCE",
+        "TARGET"
+      ]
+    },
+    "implementation_status": {
+      "type": "string",
+      "enum": [
+        "IMPLEMENTED",
+        "PLANNED"
+      ]
+    },
+    "maturity": {
+      "type": "string",
+      "enum": [
+        "EXPERIMENTAL",
+        "BETA",
+        "STABLE"
+      ]
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "supported_profiles": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "evidence_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      }
+    }
+  },
+  "required": [
+    "adapter_id",
+    "version",
+    "direction",
+    "implementation_status",
+    "maturity",
+    "capabilities",
+    "supported_profiles",
+    "limitations",
+    "evidence_refs"
+  ],
+  "additionalProperties": false
+}

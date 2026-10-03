@@ -1,97 +1,29 @@
-# AGENT-MODEL.md — Agent & Engine Boundary Specification
+# Agent and deterministic engine boundary
 
-> **Authority Level:** Mandatory Agent Interface Contract (Critical Foundation Document #3)  
-> **Status:** Authoritative Core Specification  
-> **Target Audience:** All AI Agent Integrations, Subsystem Developers, MCP Servers  
+The engine owns gates, state, hashing, scheduling, sandbox execution, persistence and verifier verdicts. An optional external agent proposes interpretations, architectures, code patches, diagnosis and knowledge. The core runs without an LLM or provider credentials.
 
----
+Agents read snapshots and evidence through the CLI/MCP, claim fenced missions, propose target patches through staged generation, and submit completion evidence. They cannot mutate project SQLite directly, invent observations, approve their own proposals, mark uncertain code DEAD, overwrite source files, or alter deterministic results.
 
-## 1. The Separation of Responsibilities
+The three approvals are exact subjects described in [CONFIRMATION-PROTOCOL](../02-domain/CONFIRMATION-PROTOCOL.md). Chat agreement alone is not a persisted approval. CLI human actions or MCP calls consuming a separately issued human token create `user_confirmations`. YAML flags and agent-controlled actor names cannot establish authority. The local account remains the trust boundary.
 
-Rewrotron enforces a strict **bifurcation of responsibility**:
-- The **Deterministic Engine** is the sole authority on state, scope, data persistence, hashing, test execution, gate enforcement, and comparison.
-- The **AI Agent** is an advisory intelligence responsible for semantic interpretation, code synthesis, architecture design, and diagnostic reasoning.
+## Operating loop
 
-```text
-┌───────────────────────────────────────┬───────────────────────────────────────┐
-│     DETERMINISTIC ENGINE POWERS       │         AI AGENT CAPABILITIES         │
-├───────────────────────────────────────┼───────────────────────────────────────┤
-│ • Mandatory Confirmation Gate Checks  │ • Semantic Business Rule Inference    │
-│ • Relational State Persistence        │ • Target Architecture Design          │
-│ • Experiment Hashing & Fingerprinting │ • Clean Code Synthesis (Laravel, Go)  │
-│ • Reachability Graph Traversal        │ • Mismatch Diagnosis & Root Cause     │
-│ • Runtime Trace Capture & Redaction   │ • Ambiguity Resolution Proposals      │
-│ • Exact / Semantic Diff Comparisons   │ • Test Generation & Edge Case Defense │
-│ • Mission Scheduling & Prioritization │ • Refactoring & Modernization Styling │
-│ • Sandboxing & Security Enforcement   │                                       │
-└───────────────────────────────────────┴───────────────────────────────────────┘
-```
+1. Detect and present the source proposal and uncertainties.
+2. Wait for explicit persisted Gate 1 approval; report required missing inputs.
+3. Analyze and observe safely, then materialize evidenced contracts/cases.
+4. Propose a capability-checked plan and present omissions/exclusions/blockers.
+5. Wait for Gate 2, then peek and claim ready missions.
+6. Generate/repair target slices; invoke the engine verifier and inspect every required dimension.
+7. Complete only with current fenced evidence; UNKNOWN creates observation/review work.
+8. Benchmark the passing corpus and prepare release/rollback/session evidence.
+9. Request persisted Gate 3 approval of the current release subject; package the runbook.
 
----
+Direct deterministic fixtures implement a complete vertical slice without an agent. General business-rule interpretation can require customer/agent assistance, but uncertainty remains explicit rather than fabricated target logic. Client compatibility is established by protocol fixtures and at least two actual client sessions before a stable integration claim.
 
-## 2. Invariant Boundaries ("What Agents May NEVER Decide")
+## Target authority and dependency decisions
 
-1. **Agents CANNOT Bypass Confirmation Gates:** The engine enforces Gate 1 (Source Detection), Gate 2 (Target & Plan), and Gate 3 (Cutover). If an agent attempts to call `migration.start` or generate target code before Gate 1 and Gate 2 are recorded in `user_confirmations`, the engine returns `ERROR: USER_CONFIRMATION_REQUIRED`.
-2. **Agents CANNOT Infer Confirmation from Silence:** Confirmation requires an explicit, authenticated user action (a CLI confirmation command or MCP confirmation tool call) that writes a persistent cryptographic record into SQLite.
-3. **Agents CANNOT Alter Comparison Results:** An agent cannot declare a differential failure to be a "pass". The verifier emits `PASS`, `MISMATCH`, or `UNKNOWN`.
-4. **Agents CANNOT Delete Uncertain Code:** An agent cannot mark code as `DEAD` unless the deterministic reachability graph and runtime trace logs prove zero references.
-5. **Agents CANNOT Directly Mutate `project.db`:** Agents interact with project state exclusively via standardized MCP tools or CLI commands.
+Agents inspect separate detection, requested target, recommendation, dependency and plan artifacts. They may propose changes with evidence, but cannot edit user-owned target versions as a fallback. A candidate explicit user edit requires recomputed feasibility and a newly reviewed Gate 2 plan. Resolve required capabilities rather than copying all declared packages; preserve dormant/unknown usage. BLOCKED dependencies create affected-unit findings and human decisions, never invented equivalence. Resume uses SQLite confirmations and current hashes, never YAML approval flags. [TARGET-SPECIFICATION](../04-migration/TARGET-SPECIFICATION.md) and [DEPENDENCY-RESOLUTION](../04-migration/DEPENDENCY-RESOLUTION.md) define these engine-enforced obligations.
 
----
+## Visible agent execution
 
-## 3. The 3 Engine-Enforced Confirmation Gates
-
-```text
-┌─────────────────────────────────────────────────────────────┐
-│ GATE 1: SOURCE DETECTION CONFIRMATION                       │
-│ Trigger: rewrotron detect (or init)                         │
-│ Output: Language, framework, version, runtime, confidence.   │
-│ Blocking Rule: Deep analysis blocked until user confirms.   │
-│ Invalidation: If source repository files change,            │
-│               configuration_hash invalidates Gate 1.        │
-└──────────────────────────────┬──────────────────────────────┘
-                               │
-┌──────────────────────────────▼──────────────────────────────┐
-│ GATE 2: TARGET SELECTION & MIGRATION PLAN CONFIRMATION      │
-│ Trigger: rewrotron plan                                     │
-│ Output: Target language, framework, architectural style,    │
-│         migration units, dead code omission proofs.         │
-│ Blocking Rule: Target code generation blocked until user    │
-│                confirms plan.                               │
-└──────────────────────────────┬──────────────────────────────┘
-                               │
-┌──────────────────────────────▼──────────────────────────────┐
-│ GATE 3: PRODUCTION CUTOVER CONFIRMATION                     │
-│ Trigger: rewrotron cutover                                  │
-│ Output: Differential verification audit report (>= 99%).    │
-│ Blocking Rule: Deployment and production database mutations  │
-│                strictly blocked without human sign-off.     │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## 4. Agent Autonomous Loop: Next-Mission Flow
-
-When an agent operates in autonomous mode, it executes this standard loop:
-
-```text
-1. Agent runs `rewrotron detect --json` (or calls `project.detect`)
-2. Engine emits structured detection findings with confidence metrics.
-3. Agent presents findings to human user in chat.
-4. Human user confirms or provides overrides:
-   `rewrotron confirm source --php 8.2` (or calls `project.confirm_source`)
-5. Engine records confirmation and unlocks Gate 1.
-6. Agent runs deep analysis (`rewrotron analyze`, `rewrotron observe`, `rewrotron discover`).
-7. Agent runs `rewrotron plan --target go --style modular_monolith`.
-8. Agent presents proposed migration plan to human user.
-9. Human user confirms plan:
-   `rewrotron confirm plan` (or calls `project.confirm_plan`)
-10. Engine records confirmation and unlocks Gate 2.
-11. Autonomous migration loop begins:
-    a. Agent requests next mission: `research.get_next_mission`
-    b. Agent generates target vertical slice code conforming to target adapter.
-    c. Agent triggers differential verification: `verification.run_case`
-    d. If PASS: Agent marks mission complete and requests next mission.
-    e. If MISMATCH: Agent enters diagnostic repair loop.
-```
+An agent works through mission → reason/action → evidence/result → engine-validated completion → next mission. Canonical events/state update with those committed steps; the agent cannot replace them with an opaque activity message or make its narration an observed fact. Explanations cite goals/evidence and label hypotheses without exposing hidden reasoning. Inspect [EXECUTION-OBSERVABILITY](EXECUTION-OBSERVABILITY.md) for stage/task/result, liveness, blockers and next-action obligations. Persistent human pause stops new mission readiness; read-only inspection remains available.

@@ -1,0 +1,633 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/execution/state.schema.json",
+  "title": "Canonical live execution projection",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+    },
+    "lifecycle_state": {
+      "type": "string",
+      "enum": [
+        "INITIALIZED",
+        "DETECTED",
+        "SOURCE_CONFIRMED",
+        "ANALYZED",
+        "MODELED",
+        "PLAN_SYNTHESIZED",
+        "PLAN_CONFIRMED",
+        "MIGRATING",
+        "VERIFIED",
+        "BENCHMARKED",
+        "READY_CUTOVER"
+      ]
+    },
+    "control_mode": {
+      "enum": [
+        "RUNNING",
+        "PAUSE_REQUESTED",
+        "PAUSED",
+        "IDLE",
+        "COMPLETED",
+        "FAILED"
+      ]
+    },
+    "control_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "latest_event_sequence": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "focus_run_id": {
+      "anyOf": [
+        {
+          "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "active_runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "run_id": {
+            "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+          },
+          "operation_id": {
+            "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+          },
+          "stage": {
+            "enum": [
+              "DETECT",
+              "CONFIRM",
+              "ANALYZE",
+              "OBSERVE",
+              "MODEL",
+              "PLAN",
+              "MIGRATE",
+              "VERIFY",
+              "REPAIR",
+              "OPTIMIZE",
+              "FINALIZE"
+            ]
+          },
+          "stage_instance_id": {
+            "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "RUNNING",
+              "WAITING_USER",
+              "BLOCKED",
+              "PAUSED",
+              "COMPLETED",
+              "FAILED",
+              "CANCELLED",
+              "STALE",
+              "NOT_APPLICABLE"
+            ]
+          },
+          "current_task": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "task_id": {
+                    "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+                  },
+                  "mission_id": {
+                    "anyOf": [
+                      {
+                        "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "reason": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "status": {
+                    "enum": [
+                      "PENDING",
+                      "RUNNING",
+                      "WAITING_USER",
+                      "BLOCKED",
+                      "PAUSED",
+                      "COMPLETED",
+                      "FAILED",
+                      "CANCELLED",
+                      "STALE",
+                      "NOT_APPLICABLE"
+                    ]
+                  },
+                  "result": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "next_action": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "evidence_refs": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/artifact_ref"
+                    },
+                    "minItems": 0
+                  }
+                },
+                "required": [
+                  "task_id",
+                  "mission_id",
+                  "title",
+                  "reason",
+                  "status",
+                  "result",
+                  "next_action",
+                  "evidence_refs"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_activity_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "last_heartbeat_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "subjects": {
+            "type": "object",
+            "properties": {
+              "configuration_hash": {
+                "anyOf": [
+                  {
+                    "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "plan_hash": {
+                "anyOf": [
+                  {
+                    "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "target_spec_hash": {
+                "anyOf": [
+                  {
+                    "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "target_tree_hash": {
+                "anyOf": [
+                  {
+                    "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "corpus_hash": {
+                "anyOf": [
+                  {
+                    "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "policy_hash": {
+                "anyOf": [
+                  {
+                    "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "required": [
+              "configuration_hash",
+              "plan_hash",
+              "target_spec_hash",
+              "target_tree_hash",
+              "corpus_hash",
+              "policy_hash"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "run_id",
+          "operation_id",
+          "stage",
+          "stage_instance_id",
+          "status",
+          "current_task",
+          "last_activity_at",
+          "last_heartbeat_at",
+          "subjects"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "stage_instances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "stage_instance_id": {
+            "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+          },
+          "run_id": {
+            "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+          },
+          "stage": {
+            "enum": [
+              "DETECT",
+              "CONFIRM",
+              "ANALYZE",
+              "OBSERVE",
+              "MODEL",
+              "PLAN",
+              "MIGRATE",
+              "VERIFY",
+              "REPAIR",
+              "OPTIMIZE",
+              "FINALIZE"
+            ]
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "RUNNING",
+              "WAITING_USER",
+              "BLOCKED",
+              "PAUSED",
+              "COMPLETED",
+              "FAILED",
+              "CANCELLED",
+              "STALE",
+              "NOT_APPLICABLE"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/artifact_ref"
+            },
+            "minItems": 0
+          },
+          "artifact_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/artifact_ref"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "stage_instance_id",
+          "run_id",
+          "stage",
+          "status",
+          "summary",
+          "evidence_refs",
+          "artifact_refs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "last_activity_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "last_heartbeat_at": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "liveness": {
+      "enum": [
+        "FRESH",
+        "STALE",
+        "NOT_RUNNING"
+      ]
+    },
+    "progress_metrics": {
+      "type": "array",
+      "items": {
+        "$ref": "https://rewrotron.dev/specs/execution/progress.schema.json"
+      },
+      "minItems": 0
+    },
+    "blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "finding_id": {
+            "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+          },
+          "message": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "affected_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/id"
+            },
+            "minItems": 0
+          },
+          "next_action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "requires_user": {
+            "type": "boolean"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            },
+            "minItems": 0
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/artifact_ref"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "finding_id",
+          "message",
+          "reason",
+          "affected_ids",
+          "next_action",
+          "requires_user",
+          "options",
+          "evidence_refs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "pending_approvals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "gate_type": {
+            "enum": [
+              "GATE_1_SOURCE_DETECTION",
+              "GATE_2_PLAN_CONFIRMED",
+              "GATE_3_CUTOVER"
+            ]
+          },
+          "subject_hash": {
+            "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "next_action": {
+            "type": "string",
+            "minLength": 1
+          },
+          "evidence_refs": {
+            "type": "array",
+            "items": {
+              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/artifact_ref"
+            },
+            "minItems": 0
+          }
+        },
+        "required": [
+          "gate_type",
+          "subject_hash",
+          "reason",
+          "next_action",
+          "evidence_refs"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 0
+    },
+    "next_action": {
+      "type": "string",
+      "minLength": 1
+    },
+    "user_request": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "subjects": {
+      "type": "object",
+      "properties": {
+        "configuration_hash": {
+          "anyOf": [
+            {
+              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "plan_hash": {
+          "anyOf": [
+            {
+              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target_spec_hash": {
+          "anyOf": [
+            {
+              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "target_tree_hash": {
+          "anyOf": [
+            {
+              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "corpus_hash": {
+          "anyOf": [
+            {
+              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "policy_hash": {
+          "anyOf": [
+            {
+              "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/hash"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "configuration_hash",
+        "plan_hash",
+        "target_spec_hash",
+        "target_tree_hash",
+        "corpus_hash",
+        "policy_hash"
+      ],
+      "additionalProperties": false
+    },
+    "recent_change_refs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://rewrotron.dev/specs/common.schema.json#/$defs/artifact_ref"
+      },
+      "minItems": 0
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "lifecycle_state",
+    "control_mode",
+    "control_reason",
+    "latest_event_sequence",
+    "observed_at",
+    "focus_run_id",
+    "active_runs",
+    "stage_instances",
+    "last_activity_at",
+    "last_heartbeat_at",
+    "liveness",
+    "progress_metrics",
+    "blockers",
+    "pending_approvals",
+    "next_action",
+    "user_request",
+    "subjects",
+    "recent_change_refs"
+  ],
+  "additionalProperties": false
+}

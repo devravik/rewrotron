@@ -1,111 +1,43 @@
 # Rewrotron
 
-> **The Universal Behavior-Driven Legacy Application Reconstruction Engine**
+Rewrotron is a vendor-neutral legacy web application reconstruction engine being designed around observable behavior, canonical intermediate representations and differential verification.
 
-Rewrotron is an open-source, vendor-neutral modernization engine that reconstructs the externally observable behavior of legacy web applications in modern software stacks.
+**Current status:** Specification baseline. This repository contains documentation, machine schemas and the initial SQL migration definition. The Go engine, CLI/MCP binaries, runtime fixtures and adapters have not been implemented or tested yet.
 
-Rewrotron understands **applications, not frameworks**. A legacy web application is characterized by its externally observable behavior, entrypoints, state transitions, business rules, and side effects—not the syntax or idiosyncrasies of the legacy framework in which it was authored.
-
----
-
-## The $N + M$ Architectural Advantage: Three-Tier IR
-
-Instead of building fragile $N \times M$ point-to-point transpilers, Rewrotron decouples source understanding from target generation via three progressive intermediate representations:
+## Architecture
 
 ```text
-Source Codebase (PHP, Python, Ruby, Java, Node, .NET)
-                     │
-                     ▼
-             [ Source Adapters ]
-                     │
-                     ▼
-             1. SOURCE IR
-   (Syntax, ASTs, symbols, classes, methods, calls, declared routes)
-                     │
-                     ▼
-           2. APPLICATION IR
-   (Controllers, services, data models, workflows, dependencies)
-                     │
-                     ▼
-             3. BEHAVIOR IR
-   (Entrypoints, inputs, state transitions, business rules, side effects, outputs)
-                     │
-                     ▼
-             [ Target Adapters ]
-                     │
-                     ▼
-Target Stacks (Laravel, Go std/fiber, Rust axum, Python fastapi, TypeScript nest)
+Source adapters → Source IR → Application IR → Behavior IR
+    → reviewed target plan → target adapters → differential verification/repair
 ```
 
-- **Pluggable Source Adapters:** Extract legacy code into the universal model (CodeIgniter 3.x is the initial tested reference, alongside Generic PHP fallback, with Laravel, Symfony, Django, Rails planned).
-- **Pluggable Target Adapters:** Render the universal model into modern stacks (Laravel 13.x is the initial tested reference, alongside Go std-http/Fiber, Rust Axum, and Python FastAPI).
-- **Architecture Decoupled from Framework:** Users configure target language, framework, and architectural style (e.g. `modular_monolith` or `clean_architecture`).
+Core services remain framework/LLM-independent. Migration units are routes, operations or workflows. Initial reference work targets CodeIgniter 3.1.x → Laravel 13/PHP 8.3+, with preserved schemas and independent sandbox databases. Generic PHP begins with inventory/extraction; additional languages and frameworks are roadmap candidates.
 
----
+Every customer migration enforces persisted source confirmation (Gate 1), exact target/plan confirmation (Gate 2), and release/cutover confirmation (Gate 3). Unknown observations cannot pass. Dead-code omission requires current evidence; source files remain unchanged.
 
-## Mandatory Engine-Enforced Confirmation Gates
+Transparent execution is a core product requirement alongside behavioral preservation: every long-running operation must show its work, factual rationale, discoveries, changes, blockers and next action through shared committed events/state. [Execution observability](docs/06-agent/EXECUTION-OBSERVABILITY.md) defines live inspection, honest progress, timelines, human decisions and pause/recovery. These are specified requirements; implementation remains pending.
 
-Rewrotron enforces a strict **Detect ➔ Show ➔ Confirm ➔ Plan ➔ Show ➔ Confirm ➔ Execute** lifecycle. Agents cannot infer confirmation from silence or conversational context:
+## Start here
 
-1. **Gate 1: Source Detection Confirmation:** Engine inspects source repository and presents findings with confidence scores. Deep analysis is blocked until explicit user confirmation is recorded.
-2. **Gate 2: Target & Migration Plan Confirmation:** Engine presents proposed target stack, architecture style, and behavioral migration units. Code generation is blocked until explicit user confirmation is recorded.
-3. **Gate 3: Production Cutover Confirmation:** Requires human sign-off before any live deployment or production data modification.
+- [Documentation index](docs/README.md) — authoritative specifications and reading order.
+- [Development plan](docs/11-roadmap/DEVELOPMENT-PLAN.md) — dependency-ordered tasks, files, interfaces, failure cases and acceptance evidence.
+- [Documentation audit](docs/11-roadmap/DOCUMENTATION-AUDIT.md) — identified gaps and resolutions.
+- [Decision register](docs/11-roadmap/DECISION-REGISTER.md) — fixed engineering choices and remaining validation/operational inputs.
+- [Product](docs/00-vision/PRODUCT.md), [system design](docs/01-architecture/SYSTEM-DESIGN.md), [repository constitution](AGENTS.md).
+- [CLI](docs/06-agent/CLI-SPEC.md), [MCP](docs/06-agent/MCP-SPEC.md), [schema registry](specs/README.md).
+- [Development checks](docs/10-development/DEVELOPMENT.md) and [customer inputs](docs/10-development/PROJECT-INPUTS.md).
 
----
+The [original exploration](REWROTRON_PROJECT_PLAN.md) preserves product context; the development plan/specifications own implementation decisions. Planned command examples in the CLI specification become executable as its tasks are completed.
 
-## Standard CLI Flow
+## Validate the specification artifacts
 
 ```bash
-# 1. Inspect repository and detect framework, runtime, routes, database
-rewrotron detect /path/to/legacy-app
-
-# 2. Confirm detected baseline or provide explicit overrides (Unlocks Gate 1)
-rewrotron confirm source --php 8.2
-
-# 3. Perform static reachability analysis (Emits Source IR)
-rewrotron analyze
-
-# 4. Observe live or synthetic traffic (Captures runtime execution traces)
-rewrotron observe
-
-# 5. Synthesize Application IR and canonical Behavior IR contracts
-rewrotron discover
-
-# 6. Formulate migration units and target architecture plan
-rewrotron plan --target go --style modular_monolith
-
-# 7. Review and confirm target migration plan (Unlocks Gate 2)
-rewrotron confirm plan
-
-# 8. Migrate a vertical behavioral slice (e.g., auth or orders)
-rewrotron migrate --unit orders-create
-
-# 9. Run automated differential verification comparing source vs target
-rewrotron verify --unit orders-create
-
-# 10. Check migration progress and query the next recommended mission
-rewrotron status
-rewrotron next
+python3 -m pip install 'jsonschema>=4.10,<5'
+python3 tools/docs/validate.py
 ```
 
----
-
-## Documentation & Specification Index
-
-- [AGENTS.md](file:///media/System/rewrotron/AGENTS.md) — The Repository Constitution & Invariants
-- [docs/AGENT-WORKFLOW.md](file:///media/System/rewrotron/docs/AGENT-WORKFLOW.md) — Step-by-Step Developer & Agent Workflow
-- [docs/00-vision/PRODUCT.md](file:///media/System/rewrotron/docs/00-vision/PRODUCT.md) — Product Promise, Scope, and $N+M$ IR Advantage
-- [docs/01-architecture/SYSTEM-DESIGN.md](file:///media/System/rewrotron/docs/01-architecture/SYSTEM-DESIGN.md) — Canonical System Architecture & Dependency Graph
-- [docs/02-domain/BEHAVIOR-MODEL.md](file:///media/System/rewrotron/docs/02-domain/BEHAVIOR-MODEL.md) — Three-Tier IR & Behavioral Contract Specification
-- [docs/02-domain/PROJECT-LIFECYCLE.md](file:///media/System/rewrotron/docs/02-domain/PROJECT-LIFECYCLE.md) — Project State Machine & Mandatory Gates
-- [docs/05-verification/COMPATIBILITY-SPEC.md](file:///media/System/rewrotron/docs/05-verification/COMPATIBILITY-SPEC.md) — Equivalence Definition & Normalization Policies
-- [docs/06-agent/AGENT-MODEL.md](file:///media/System/rewrotron/docs/06-agent/AGENT-MODEL.md) — Agent vs Deterministic Engine Boundary & Gate Enforcement
-- [docs/06-agent/CLI-SPEC.md](file:///media/System/rewrotron/docs/06-agent/CLI-SPEC.md) — Machine & Human Command Line Specifications
-- [docs/06-agent/MCP-SPEC.md](file:///media/System/rewrotron/docs/06-agent/MCP-SPEC.md) — Model Context Protocol Tools & Resources Contract
-- [docs/08-storage/SQLITE-SCHEMA.md](file:///media/System/rewrotron/docs/08-storage/SQLITE-SCHEMA.md) — Relational Data Definition (Tables, DDL, Confirmation Gates)
-
----
+This checks documentation links, schemas/references, contract examples, registries and initial SQLite DDL. It does not establish runtime migration correctness.
 
 ## License
 
-Rewrotron is licensed under the Apache License, Version 2.0. See [LICENSE](file:///media/System/rewrotron/LICENSE) for details.
+[Apache-2.0](LICENSE).

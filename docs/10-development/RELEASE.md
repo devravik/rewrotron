@@ -1,22 +1,11 @@
-# RELEASE.md — Semantic Versioning & Binary Distribution
+# Release and distribution
 
-> **Version:** 1.0  
-> **Status:** Release Process Reference  
+Use semantic versioning for the engine and explicit versions for machine contracts, schema migrations, adapters, probes and skills. Breaking public shapes/required fields or incompatible persisted data require a documented upgrade path and appropriate major version after the first public release. No existing deployed API is claimed in this specification-only repository.
 
----
+## Release evidence
 
-## 1. Versioning Protocol
+Require supported-profile tests, `go test -race ./...`, lint, schema/CLI/MCP contracts, previous-version DB upgrades, fresh fixture migrations, security/redaction/egress checks, restart/recovery, independent target builds, license/SBOM review, signed checksums and documentation parity. Pin tool/runtime/dependency versions and image digests; publish the tested adapter capability/maturity matrix and known limitations.
 
-Rewrotron strictly adheres to Semantic Versioning 2.0.0 (`MAJOR.MINOR.PATCH`):
-- **MAJOR:** Breaking changes to CLI machine output schema, MCP tool contracts, or SQLite schema requiring manual intervention.
-- **MINOR:** New framework adapters, new commands, non-breaking contract additions.
-- **PATCH:** Bug fixes, performance improvements, documentation updates.
+Target platforms are Linux amd64/arm64, macOS amd64/arm64 and Windows amd64. The first verified development/runtime profile is Linux amd64. Cross-compilation is insufficient to claim each OS's path/permissions/process behavior works; native smoke tests and driver packaging are release tasks. Container runtime availability is separate from CLI binary portability.
 
----
-
-## 2. Release Artifacts
-
-For each release tag:
-- Statically linked standalone binaries compiled via Go for `linux/amd64`, `linux/arm64`, `darwin/amd64`, `darwin/arm64`, and `windows/amd64`.
-- SHA-256 checksum file signed with release keys.
-- Standalone Agent Skill bundle (`rewrotron-skill-vX.Y.Z.tar.gz`).
+Deliver CLI and MCP binaries, checksum/signature manifest, Skill bundle, licenses/notices and upgrade/recovery instructions. Confirm static linking and race/driver behavior with the selected dependencies rather than promising it in advance. Assign release signing custody and a security contact before publication; these operational facts are explicitly tracked in the decision register.

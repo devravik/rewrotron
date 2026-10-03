@@ -8,7 +8,7 @@
 ## 1. Golden Rules of Development in Rewrotron
 
 1. **Specs are the Authority:** Code conforms to specifications. Specifications are never warped to justify poorly designed code.
-2. **Deterministic over Stochastic:** Core components must be 100% deterministic Go code. Never introduce an LLM prompt or external API into `internal/analyzer`, `internal/behavior`, `internal/verification`, or `internal/storage`.
+2. **Deterministic over Stochastic:** Core components must be 100% deterministic Go code. Never introduce an LLM prompt or external API into `internal/analysis`, `internal/behavior`, `internal/verification`, or `internal/storage`.
 3. **Reuse Before Reinvention:** Always grep/search the repository before writing a new helper, parser, or data structure.
 4. **Machine Interfaces are Sacred:** Any change to CLI flags or JSON structure breaks automated agent pipelines unless updated in `docs/06-agent/CLI-SPEC.md` and `specs/cli/`.
 5. **No Regressions Without Inquest:** If a differential test fails, never relax the comparator or bypass verification without filing a categorized `MISMATCH` or `UNKNOWN` finding.
@@ -73,7 +73,7 @@ Agents frequently reinvent existing functions. Before adding any new utility, pe
 ┌───────────────────────────────────────┬─────────────────────────────────────────────┐
 │ Before You Add...                     │ You MUST Search...                         │
 ├───────────────────────────────────────┼─────────────────────────────────────────────┤
-│ A new string / path / AST helper      │ internal/analyzer/ and tools/               │
+│ A new string / path / AST helper      │ internal/analysis/, adapters/source/php/ and tools/               │
 │ A new data model or entity struct     │ internal/behavior/ and internal/project/    │
 │ A database query or storage method    │ internal/storage/sqlite/ and migrations/    │
 │ A CLI flag or subcommand              │ cmd/rewrotron/ and docs/06-agent/CLI-SPEC.md│
@@ -89,7 +89,7 @@ Agents frequently reinvent existing functions. Before adding any new utility, pe
 
 Modifying the SQLite database schema (`project.db` or `global.db`) requires strict hygiene:
 
-1. **Inspect Existing Schema:** Review [`docs/08-storage/SQLITE-SCHEMA.md`](file:///media/System/rewrotron/docs/08-storage/SQLITE-SCHEMA.md).
+1. **Inspect Existing Schema:** Review [`docs/08-storage/SQLITE-SCHEMA.md`](08-storage/SQLITE-SCHEMA.md).
 2. **Create Numbered Migration:** Add an atomic SQL script in `migrations/` (e.g. `0004_add_mismatch_fingerprint.sql`).
 3. **Never Drop Destructively:** All migrations must be non-destructive or provide automated data backfilling.
 4. **Update Documentation:** Update table schemas, primary keys, indexes, and immutability rules in `SQLITE-SCHEMA.md`.
@@ -128,8 +128,8 @@ When completing any engineering task, the agent response must include:
 - Implemented: [Short description of feature/fix]
 - Specifications consulted: [e.g. docs/03-analysis/RUNTIME-OBSERVATION.md]
 - Touched files:
-  - [`path/to/file.go`](file:///media/System/rewrotron/path/to/file.go#L1-L50): Implemented XYZ
-  - [`path/to/file_test.go`](file:///media/System/rewrotron/path/to/file_test.go): Added regression tests
+  - [`path/to/file.go`](../path/to/file.go): Implemented XYZ
+  - [`path/to/file_test.go`](../path/to/file_test.go): Added regression tests
 
 ### Verification Evidence
 - [x] `go test -race ./...` passed (X packages, Y tests)
@@ -139,3 +139,10 @@ When completing any engineering task, the agent response must include:
 
 ---
 *End of AGENT-WORKFLOW.md — Adhere strictly to this protocol on every turn.*
+
+
+## 8. Documentation-only work and current repository status
+
+This repository has no Go module or engine yet. For documentation/schema/migration-definition changes, run the documentation validator and executable DDL checks and report their scope honestly; `go test -race ./...` cannot establish anything until the implementation tasks create Go packages. Do not report a runtime, parser, adapter or release as tested based on documentation validation.
+
+Canonical task order is [DEVELOPMENT-PLAN](11-roadmap/DEVELOPMENT-PLAN.md). Package paths, gates, errors and resource limits must match the component and machine catalogs. Use schema fixtures and SQL compatibility checks when editing these contracts. The constitution's migration gates apply to customer application execution, not approval to edit this repository's authorized documentation.

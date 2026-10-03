@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/artifact-read.input.schema.json",
+  "title": "artifact-read.input.schema",
+  "type": "object",
+  "properties": {
+    "artifact_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "artifact_ref"
+  ],
+  "additionalProperties": false
+}

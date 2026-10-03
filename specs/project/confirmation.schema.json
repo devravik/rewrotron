@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/project/confirmation.schema.json",
+  "title": "confirmation.schema",
+  "type": "object",
+  "properties": {
+    "confirmation_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "gate": {
+      "type": "string",
+      "enum": [
+        "GATE_1_SOURCE_DETECTION",
+        "GATE_2_PLAN_CONFIRMED",
+        "GATE_3_CUTOVER"
+      ]
+    },
+    "subject_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "configuration_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "confirmed_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "channel": {
+      "type": "string",
+      "enum": [
+        "CLI",
+        "MCP"
+      ]
+    },
+    "action_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "reviewed_payload_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "SOURCE_CONFIRMED",
+        "PLAN_CONFIRMED",
+        "READY_CUTOVER"
+      ]
+    }
+  },
+  "required": [
+    "confirmation_id",
+    "project_id",
+    "gate",
+    "subject_hash",
+    "configuration_hash",
+    "confirmed_by",
+    "channel",
+    "action_id",
+    "reviewed_payload_ref",
+    "created_at",
+    "status"
+  ],
+  "additionalProperties": false
+}

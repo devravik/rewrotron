@@ -1,82 +1,383 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/schemas/trace-schema.json",
-  "title": "ObservationTrace",
-  "description": "Schema for runtime observation execution traces captured by Rewrotron",
+  "title": "trace-schema",
   "type": "object",
-  "required": [
-    "trace_id",
-    "project_id",
-    "environment",
-    "timestamp",
-    "duration_ms",
-    "request",
-    "response"
-  ],
   "properties": {
-    "trace_id": { "type": "string" },
-    "project_id": { "type": "string" },
-    "environment": { "type": "string", "enum": ["source_legacy", "target_modern"] },
-    "timestamp": { "type": "string", "format": "date-time" },
-    "duration_ms": { "type": "number" },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "trace_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "configuration_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "entrypoint_type": {
+      "type": "string",
+      "enum": [
+        "http",
+        "cli",
+        "cron",
+        "event"
+      ]
+    },
+    "environment": {
+      "type": "string",
+      "enum": [
+        "source_legacy",
+        "target_modern"
+      ]
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "duration_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "completeness": {
+      "type": "object",
+      "properties": {
+        "http": {
+          "type": "string",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "body": {
+          "type": "string",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "authentication": {
+          "type": "string",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "authorization": {
+          "type": "string",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "session": {
+          "type": "string",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "database": {
+          "type": "string",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "external": {
+          "type": "string",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "files": {
+          "type": "string",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "cache": {
+          "type": "string",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "errors": {
+          "type": "string",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        },
+        "execution": {
+          "type": "string",
+          "enum": [
+            "COMPLETE",
+            "PARTIAL",
+            "UNAVAILABLE",
+            "NOT_APPLICABLE"
+          ]
+        }
+      },
+      "required": [
+        "http",
+        "body",
+        "authentication",
+        "authorization",
+        "session",
+        "database",
+        "external",
+        "files",
+        "cache",
+        "errors",
+        "execution"
+      ],
+      "additionalProperties": false,
+      "execution": "COMPLETE"
+    },
     "request": {
       "type": "object",
-      "required": ["method", "path", "headers"],
       "properties": {
-        "method": { "type": "string" },
-        "path": { "type": "string" },
-        "query": { "type": "object" },
-        "headers": { "type": "object" },
-        "body_redacted": { "type": "boolean" },
-        "body_ref": { "type": "string" }
-      }
-    },
-    "route": {
-      "type": "object",
-      "properties": {
-        "matched_pattern": { "type": "string" },
-        "controller": { "type": "string" },
-        "action": { "type": "string" }
-      }
-    },
-    "session": {
-      "type": "object",
-      "properties": {
-        "initial": { "type": "object" },
-        "mutations": { "type": "array" }
-      }
-    },
-    "database": {
-      "type": "object",
-      "properties": {
-        "queries": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": ["sql", "duration_us"],
-            "properties": {
-              "query_index": { "type": "integer" },
-              "sql": { "type": "string" },
-              "bindings": { "type": "array" },
-              "duration_us": { "type": "number" },
-              "rows_affected": { "type": "integer" }
-            }
+        "method": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "query": {
+          "type": "object"
+        },
+        "headers": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            ]
           }
+        },
+        "body_redacted": {
+          "type": "boolean"
+        },
+        "body_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
         }
-      }
-    },
-    "external_calls": {
-      "type": "array"
+      },
+      "required": [
+        "method",
+        "path",
+        "headers"
+      ],
+      "additionalProperties": false
     },
     "response": {
       "type": "object",
-      "required": ["status"],
       "properties": {
-        "status": { "type": "integer" },
-        "headers": { "type": "object" },
-        "body_ref": { "type": "string" },
-        "body_sha256": { "type": "string" }
+        "status": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599
+        },
+        "headers": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            ]
+          }
+        },
+        "body_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "body_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "status",
+        "headers"
+      ],
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "exit_code": {
+          "type": "integer"
+        },
+        "stdout_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "stderr_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "required": [
+        "exit_code"
+      ],
+      "additionalProperties": false
+    },
+    "route": {
+      "type": "object"
+    },
+    "session": {
+      "type": "object"
+    },
+    "database": {
+      "type": "object"
+    },
+    "external_calls": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "cache": {
+      "type": "object"
+    },
+    "redaction": {
+      "type": "object",
+      "properties": {
+        "fields": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "withheld_dimensions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "http",
+              "body",
+              "authentication",
+              "authorization",
+              "session",
+              "database",
+              "external",
+              "files",
+              "cache",
+              "errors",
+              "execution"
+            ]
+          }
+        }
+      },
+      "required": [
+        "fields",
+        "withheld_dimensions"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "trace_id",
+    "project_id",
+    "configuration_hash",
+    "entrypoint_type",
+    "environment",
+    "timestamp",
+    "duration_ms",
+    "completeness",
+    "redaction"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "entrypoint_type": {
+            "const": "http"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "request",
+          "response"
+        ]
+      },
+      "else": {
+        "required": [
+          "execution"
+        ]
       }
     }
-  }
+  ]
 }

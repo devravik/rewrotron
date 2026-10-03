@@ -1,0 +1,237 @@
+{
+  "protocol_version": "2025-11-25",
+  "tools": [
+    {
+      "name": "project.init",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/project.init.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "project.detect",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/project.detect.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/schemas/detection-schema.json",
+      "gate": "NONE",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "project.doctor",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/project.doctor.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": true,
+      "side_effects": "audit_only"
+    },
+    {
+      "name": "project.get_snapshot",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/project.get_snapshot.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/snapshot.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": true,
+      "side_effects": "audit_only"
+    },
+    {
+      "name": "project.resume",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/project.resume.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/snapshot.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "analysis.run",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/analysis.run.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_1",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "observation.run",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/observation.run.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_1",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "behavior.discover",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/behavior.discover.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_1",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "migration.plan",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/migration.plan.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/migration/plan.schema.json",
+      "gate": "GATE_1",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "migration.generate_code",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/migration.generate_code.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_2",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "verification.run_case",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/verification.run_case.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/verification/report.schema.json",
+      "gate": "GATE_2",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "benchmark.run",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/benchmark.run.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/verification/benchmark.schema.json",
+      "gate": "GATE_2",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "research.get_next_mission",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/research.get_next_mission.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/mcp/get-next-mission.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": true,
+      "side_effects": "audit_only"
+    },
+    {
+      "name": "research.claim_mission",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/research.claim_mission.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/missions/mission.schema.json",
+      "gate": "STATE",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "research.renew_mission",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/research.renew_mission.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/missions/mission.schema.json",
+      "gate": "STATE",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "research.complete_mission",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/research.complete_mission.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/missions/mission.schema.json",
+      "gate": "STATE",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "reports.generate",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/reports.generate.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "knowledge.record_lesson",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/knowledge.record_lesson.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "skills.search",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/skills.search.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": true,
+      "side_effects": "audit_only"
+    },
+    {
+      "name": "cutover.prepare",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/cutover.prepare.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_3",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "project.prepare_source_confirmation",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/project.prepare_source_confirmation.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/prepared-confirmation.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "project.confirm_source",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/project.confirm_source.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/confirmation.schema.json",
+      "gate": "HUMAN",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "project.confirm_plan",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/project.confirm_plan.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/confirmation.schema.json",
+      "gate": "HUMAN",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "project.confirm_cutover",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/project.confirm_cutover.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/project/confirmation.schema.json",
+      "gate": "HUMAN",
+      "readOnlyHint": false,
+      "side_effects": "project_metadata"
+    },
+    {
+      "name": "behavior.get_case",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/behavior.get_case.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/behavior/behavior-case.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": true,
+      "side_effects": "audit_only"
+    },
+    {
+      "name": "migration.get_plan",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/migration.get_plan.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/migration/plan.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": true,
+      "side_effects": "audit_only"
+    },
+    {
+      "name": "migration.stage_patch",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/migration.stage_patch.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_2",
+      "readOnlyHint": false,
+      "side_effects": "target_patch"
+    },
+    {
+      "name": "migration.apply_patch",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/migration.apply_patch.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/operations/result.schema.json",
+      "gate": "GATE_2",
+      "readOnlyHint": false,
+      "side_effects": "target_patch"
+    },
+    {
+      "name": "project.get_execution",
+      "input_schema": "https://rewrotron.dev/specs/mcp/tools/project.get_execution.input.schema.json",
+      "output_schema": "https://rewrotron.dev/specs/execution/page.schema.json",
+      "gate": "NONE",
+      "readOnlyHint": true,
+      "side_effects": "audit_only"
+    }
+  ]
+}

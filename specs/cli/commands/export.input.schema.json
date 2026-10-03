@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/export.input.schema.json",
+  "title": "export.input.schema",
+  "type": "object",
+  "properties": {
+    "manifest_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "output": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "manifest_ref",
+    "output"
+  ],
+  "additionalProperties": false
+}

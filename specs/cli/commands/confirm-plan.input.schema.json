@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/cli/commands/confirm-plan.input.schema.json",
+  "title": "confirm-plan.input.schema",
+  "type": "object",
+  "properties": {
+    "subject_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "subject_hash"
+  ],
+  "additionalProperties": false
+}

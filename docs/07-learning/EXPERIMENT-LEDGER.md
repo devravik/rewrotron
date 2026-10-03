@@ -1,20 +1,7 @@
-# EXPERIMENT-LEDGER.md — Experiment Fingerprinting & Rollback Ledger
+# Experiment identity and repair history
 
-> **Version:** 1.0  
-> **Status:** Learning Reference Guide  
+An experiment context is canonical JSON containing source configuration, plan/corpus/policy hashes, case/workflow and fixture hashes, target before-tree hash, adapter/tool/dependency versions, hypothesis/patch hash, sandbox identity, and skill/prompt versions when an external agent was used. Its SHA-256 digest is the fingerprint; ambiguous string concatenation is prohibited.
 
----
+A failed identical context cannot be retried as if it were a new technique. Record every attempt, failure and rollback; changed inputs create a new fingerprint. Outcome and evidence are immutable. Cache hits return historical subjects and must be revalidated before counting as current success.
 
-## 1. Fingerprint Calculation
-
-To ensure experiment reproducibility and avoid repeating failed repair attempts, every experiment calculates a cryptographic fingerprint:
-
-$$\text{Fingerprint} = \text{SHA256}(\text{SourceASTHash} + \text{ContractID} + \text{TargetAdapterVersion} + \text{PromptHash} + \text{PreconditionDBHash})$$
-
-If an incoming mission matches a known fingerprint with a recorded failure, the agent is forced to select an alternative strategy or escalate to human review.
-
----
-
-## 2. Rollback Ledger
-
-Every code modification executed during a migration or repair attempt is backed by a transactional Git commit or filesystem stash referenced in the `repair_attempts` table. If verification fails, Rewrotron restores the exact prior state in < 50ms.
+Patch rollback follows [RECOVERY](../08-storage/RECOVERY.md): restore only owned files with matching current after hashes. There is no fixed rollback latency guarantee. Preserve conflict evidence and human edits. External effects are confined to resettable sinks; Git commits cannot reverse a payment or production DB write.
