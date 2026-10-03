@@ -60,6 +60,12 @@ Open the same repository/working tree in the successor agent and send:
 
 Keep Git checkpoints and required repository artifacts available to the successor. Before engine state exists, the Skill uses Git and the development plan; it must not fabricate missions or approvals. Once applicable engine state exists, use its existing records as defined by the authoritative workflow. No separate STATUS/HANDOFF file or tracking system is introduced by these instructions.
 
+### Optional helpers and procedure readiness
+
+The implementation Skill routes to relevant development helpers available in the current agent (for example, Go testing, diagnosis or verification guidance) without requiring specific helper names or installing them. Domain capability routing separately uses the existing SKILL-SPEC/manifest rules. Missing packages, placeholder hashes and unavailable efficiency tools fall back to canonical repository contracts; they cannot invent unspecified semantics. Bootstrap availability flags are not validation of a tool or exact model profile.
+
+The procedure can be used once its structure, owner references and bounded implementation/checkpoint instructions are checked. This is distinct from validating every optional tool, client integration or future domain capability. The Skill remains the single execution entrypoint; its version/content identity and actual execution evidence belong in existing checkpoints. No additional readiness ledger or workflow is introduced.
+
 ### Practical examples to copy
 
 These are prompts to send to your coding agent while it is working in the Rewrotron repository. They are not shell commands, a second task queue, or instructions to implement all the examples together. Named units remain subject to the current plan and prerequisite checks; if already complete, inspect their recorded evidence instead of rebuilding them.
