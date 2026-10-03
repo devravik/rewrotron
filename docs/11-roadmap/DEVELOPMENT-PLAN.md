@@ -136,7 +136,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Owned specs:** MISSION-PROTOCOL, AGENT-MODEL, CLI-SPEC, MCP-SPEC, SKILL-SPEC.
 
-**Implementation scope:** Incident budgets, reviewed patches, CLI/MCP adapters; optional orchestration using fixed capabilities, no provider core coupling.
+**Implementation scope:** Incident budgets, reviewed patches, CLI/MCP adapters; optional orchestration using fixed capabilities, no provider core coupling; optional bounded decision layer (`bounded_decision`, e.g. TypeSafe Jev via `TYPESAFE_API_KEY`) for advisory repair triage and selection routing without verifier or authority coupling.
 
 **Tests:** X24 stale/idempotent work; X26 disconnect; X31 numeric transport/client parity; X60 offline schema bundles; X32 same-account trust; X46/X51/X52/X55 checkpoint/interface parity and no implicit implementation.
 

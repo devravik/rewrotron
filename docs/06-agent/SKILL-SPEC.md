@@ -126,7 +126,7 @@ The repository maintains a repository skill discovery index at `skills/manifest.
 1. When working on a specialized unit, an agent consults `skills/manifest.json` via small bounded manifest lookup (or CLI `skills search --query <domain>`).
 2. **Category filtering:** Capability skill routing evaluates ONLY domain capability categories (`category IN ('migration', 'analysis', 'verification')`). The `operation` category designates execution entrypoints or engine operator skills (such as `operation.rewrotron`), which govern process flow and are never selected as domain transformation capabilities.
 3. **Status filtering:** Only capability skills with `status IN ('STABLE')` are eligible for automatic routing (or `EXPERIMENTAL` when explicitly requested).
-4. **Metadata filtering:** The router applies deterministic low-cost metadata filtering against trigger tags and framework predicates, selecting at most 1–2 matching capability skills.
+4. **Metadata filtering & optional bounded selection:** The router applies deterministic low-cost metadata filtering against trigger tags and framework predicates. When multiple candidate skills match, an optional `bounded_decision` capability (such as TypeSafe Jev via `TYPESAFE_API_KEY`) may provide an advisory choice ranking to select 1–2 skills; if absent or disabled, deterministic tag rank is used directly.
 5. The agent loads only the selected `SKILL.md` (and specific `references/*.md` on demand).
 6. **Absence/malformation fallback:** If `skills/manifest.json` is absent, malformed, or unreadable, the agent falls back directly to canonical specifications in `docs/`. Absence or corruption of the manifest never blocks execution.
 
