@@ -536,3 +536,42 @@ Execution manifests, exact implementation qualification and immutable performanc
 ## Review-2 record storage and qualification
 
 New context/local-identity/response/effect/occurrence/witness/coverage/filesystem/admission artifacts use the existing immutable artifact registry and same-project links; versioned graph artifacts index prerequisite relations. No changes to applied migrations 0001/0002 are required. Event/current-state ownership stays in SQLite; the bounded private emergency journal is reconciled input only, under RECOVERY. New record schemas do not establish actual Go driver, WAL, filesystem or backup behavior. M0 must execute build-version/compile-option checks and X28/X74 on the pinned engine; structural Python SQLite validation cannot qualify them.
+
+## Migration runner and schema_migrations contract
+
+`0001_initial.sql` notes that `-- Connection pragmas and schema_migrations are managed by the runner.` The runner owns SQLite connection policy enforcement, migration transaction boundaries, preflight execution, version ordering, and `schema_migrations` table management.
+
+### Table DDL and immutability
+
+```sql
+CREATE TABLE IF NOT EXISTS schema_migrations (
+    version INTEGER PRIMARY KEY CHECK(version >= 1),
+    name TEXT NOT NULL,
+    checksum TEXT NOT NULL CHECK(length(checksum)=64 AND checksum NOT GLOB '*[^a-f0-9]*'),
+    applied_at TEXT NOT NULL,
+    execution_time_ms INTEGER NOT NULL CHECK(execution_time_ms >= 0)
+);
+
+CREATE TRIGGER IF NOT EXISTS schema_migrations_no_update BEFORE UPDATE ON schema_migrations
+BEGIN SELECT RAISE(ABORT, 'schema_migrations is append-only'); END;
+
+CREATE TRIGGER IF NOT EXISTS schema_migrations_no_delete BEFORE DELETE ON schema_migrations
+BEGIN SELECT RAISE(ABORT, 'schema_migrations is append-only'); END;
+```
+
+### Checksum formula
+
+The migration checksum is the SHA-256 digest of the raw migration script bytes, encoded as a 64-character lowercase hexadecimal string (`^[a-f0-9]{64}$`). This formula produces `b57b0f81f11a5eaef742ed64adb1b03b255966e23969c60970b14ae3b39d796c` for `migrations/0001_initial.sql` (matching the checksum recorded in [RED-TEAM-RESOLUTION](../11-roadmap/RED-TEAM-RESOLUTION.md#final-structural-status-summary)) and `f9fe79f382d4adca179a7b8f7dcfa6580c15e9f95a91ecd7465fadd5bfd37035` for `migrations/0002_revision_contracts.sql`.
+
+### Version sequencing and monotonicity
+
+Migration versions are monotonically increasing positive integers (`1, 2, ...`). The runner requires contiguous numbering without gaps starting at version 1. Gaps, reordering, duplicate versions, or version numbers exceeding the runner's known set are rejected. Downgrading an existing database to an older runner is forbidden.
+
+### Admission, preflight and transactional execution
+
+1. **Connection Policy**: The runner verifies or configures SQLite engine version 3.51.3, `foreign_keys=ON`, `journal_mode=WAL`, `synchronous=FULL`, and `busy_timeout=5000` via `ConfigureConnection` before accessing metadata.
+2. **Admission**: Fresh databases (zero user tables) initialize `schema_migrations` and apply migrations from version 1. Pre-existing databases with user tables but no `schema_migrations` table are rejected as unmanaged.
+3. **Preflight**: For revision 2, `PreflightRevision2` executes within the migration transaction prior to executing DDL. If preflight detects invalid legacy data, the transaction rolls back, leaving the prior schema intact and usable.
+4. **Transactional DDL**: Each migration executes within an exclusive transaction. DDL application and `schema_migrations` recording succeed or fail atomically.
+5. **Concurrency**: Concurrent runner invocations serialize on the SQLite WAL write lock; bounded `busy_timeout` allows sequential execution or clean busy errors without metadata corruption.
+
