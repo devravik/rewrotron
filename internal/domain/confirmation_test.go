@@ -3,6 +3,7 @@ package domain
 import (
 	"encoding/json"
 	"errors"
+	"os"
 	"strings"
 	"testing"
 )
@@ -400,4 +401,43 @@ func TestPreparedConfirmationV2(t *testing.T) {
 		err = ValidatePreparedConfirmation(canon)
 		assertConfirmationRejected(t, err, "unsupported schema version")
 	})
+}
+
+func TestValidateApprovalSubject_ValidationCases(t *testing.T) {
+	raw, err := os.ReadFile("../../specs/examples/validation-cases.json")
+	if err != nil {
+		t.Fatalf("failed to read validation cases: %v", err)
+	}
+
+	var cases []struct {
+		Name     string          `json:"name"`
+		Schema   string          `json:"schema"`
+		Instance json.RawMessage `json:"instance"`
+		Valid    bool            `json:"valid"`
+	}
+	if err := json.Unmarshal(raw, &cases); err != nil {
+		t.Fatalf("failed to unmarshal validation cases: %v", err)
+	}
+
+	targetSchema := "https://rewrotron.dev/specs/project/approval-subject.schema.json"
+	count := 0
+	for _, tc := range cases {
+		if tc.Schema != targetSchema {
+			continue
+		}
+		count++
+		t.Run(tc.Name, func(t *testing.T) {
+			err := ValidateApprovalSubject(tc.Instance)
+			if tc.Valid && err != nil {
+				t.Fatalf("expected valid approval subject fixture %q to pass, got: %v", tc.Name, err)
+			}
+			if !tc.Valid && err == nil {
+				t.Fatalf("expected invalid approval subject fixture %q to fail validation, but it passed", tc.Name)
+			}
+		})
+	}
+
+	if count < 4 {
+		t.Fatalf("expected at least 4 approval subject validation cases, found %d", count)
+	}
 }

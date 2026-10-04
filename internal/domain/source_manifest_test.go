@@ -3,6 +3,7 @@ package domain
 import (
 	"encoding/json"
 	"errors"
+	"os"
 	"strings"
 	"testing"
 )
@@ -197,4 +198,43 @@ func TestSourceManifestBinaryBytes(t *testing.T) {
 	}
 	// A same-length binary mutation must fail independently of text encoding.
 	assertManifestRejected(t, raw, map[string][]byte{"binary": {0, 254, 13, 10}})
+}
+
+func TestValidateSourceManifest_ValidationCases(t *testing.T) {
+	raw, err := os.ReadFile("../../specs/examples/validation-cases.json")
+	if err != nil {
+		t.Fatalf("failed to read validation cases: %v", err)
+	}
+
+	var cases []struct {
+		Name     string          `json:"name"`
+		Schema   string          `json:"schema"`
+		Instance json.RawMessage `json:"instance"`
+		Valid    bool            `json:"valid"`
+	}
+	if err := json.Unmarshal(raw, &cases); err != nil {
+		t.Fatalf("failed to unmarshal validation cases: %v", err)
+	}
+
+	targetSchema := "https://rewrotron.dev/specs/project/source-manifest.schema.json"
+	count := 0
+	for _, tc := range cases {
+		if tc.Schema != targetSchema {
+			continue
+		}
+		count++
+		t.Run(tc.Name, func(t *testing.T) {
+			err := ValidateSourceManifest(tc.Instance)
+			if tc.Valid && err != nil {
+				t.Fatalf("expected valid source manifest fixture %q to pass, got: %v", tc.Name, err)
+			}
+			if !tc.Valid && err == nil {
+				t.Fatalf("expected invalid source manifest fixture %q to fail validation, but it passed", tc.Name)
+			}
+		})
+	}
+
+	if count < 17 {
+		t.Fatalf("expected at least 17 source manifest validation cases, found %d", count)
+	}
 }

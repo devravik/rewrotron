@@ -245,3 +245,40 @@ func validatePreparedConfirmationV2(record map[string]json.RawMessage) error {
 
 	return nil
 }
+
+// ValidateApprovalSubject validates an approval subject against specs/project/approval-subject.schema.json.
+// It verifies schema_version 2.0, canonicalization rwt-cjson-1, project_id, and dispatches to the
+// corresponding kind validator (SOURCE, PLAN, RELEASE) in accordance with CONFIRMATION-PROTOCOL.
+func ValidateApprovalSubject(raw []byte) error {
+	canonical, err := CanonicalJSON(raw)
+	if err != nil {
+		return &ConfirmationError{Reason: "canonical JSON", Cause: err}
+	}
+
+	var record map[string]json.RawMessage
+	if err := json.Unmarshal(canonical, &record); err != nil || record == nil {
+		return &ConfirmationError{Reason: "object fields", Cause: err}
+	}
+
+	for _, field := range []string{"schema_version", "canonicalization", "project_id", "kind"} {
+		if val, present := record[field]; !present || string(val) == "null" {
+			return &ConfirmationError{Reason: "missing required field: " + field}
+		}
+	}
+
+	var kind string
+	if err := json.Unmarshal(record["kind"], &kind); err != nil {
+		return &ConfirmationError{Reason: "kind must be a string", Cause: err}
+	}
+
+	switch kind {
+	case "SOURCE":
+		return ValidateSourceApprovalSubjectShape(raw)
+	case "PLAN":
+		return ValidatePlanApprovalSubjectShape(raw)
+	case "RELEASE":
+		return ValidateReleaseApprovalSubjectShape(raw)
+	default:
+		return &ConfirmationError{Reason: "unsupported subject kind"}
+	}
+}

@@ -19,6 +19,49 @@ func (e *SourceManifestError) Error() string { return "invalid source manifest: 
 // Unwrap preserves decoding/canonicalization failures for inspection.
 func (e *SourceManifestError) Unwrap() error { return e.Cause }
 
+// ValidateSourceManifest validates a source manifest against specs/project/source-manifest.schema.json
+// and ANALYSIS-SPEC ordering and path invariants.
+func ValidateSourceManifest(raw []byte) error {
+	canonical, err := CanonicalJSON(raw)
+	if err != nil {
+		return &SourceManifestError{Reason: "canonical JSON", Cause: err}
+	}
+	manifest, err := manifestObject(canonical, "schema_version", "identity_algorithm", "entries", "exclusions", "completeness", "scanner_ref")
+	if err != nil {
+		return err
+	}
+	if manifestString(manifest["schema_version"]) != "1.0" ||
+		manifestString(manifest["identity_algorithm"]) != "rwt-source-root-1" ||
+		manifestString(manifest["completeness"]) != "COMPLETE" {
+		return &SourceManifestError{Reason: "unsupported version, identity or completeness"}
+	}
+	scanner := manifestString(manifest["scanner_ref"])
+	if !strings.HasPrefix(scanner, "sha256:") || !isManifestDigest(strings.TrimPrefix(scanner, "sha256:")) {
+		return &SourceManifestError{Reason: "scanner reference"}
+	}
+	entries, err := manifestArray(manifest["entries"])
+	if err != nil {
+		return err
+	}
+	kinds := make(map[string]string, len(entries))
+	previous := ""
+	for _, rawEntry := range entries {
+		path, kind, err := verifyManifestEntry(rawEntry)
+		if err != nil {
+			return err
+		}
+		if path <= previous {
+			return &SourceManifestError{Reason: "entry paths must be strictly ordered"}
+		}
+		if slash := strings.LastIndexByte(path, '/'); slash >= 0 && kinds[path[:slash]] != "DIRECTORY" {
+			return &SourceManifestError{Reason: "missing directory parent"}
+		}
+		kinds[path] = kind
+		previous = path
+	}
+	return verifyManifestExclusions(manifest["exclusions"], kinds)
+}
+
 // VerifySourceManifest validates manifest 1.0 and supplied captured file bytes,
 // returning distinct lowercase content-root and full-manifest SHA256 digests.
 // It does not acquire files, follow symlinks, resolve scanner artifacts, prove
@@ -26,46 +69,12 @@ func (e *SourceManifestError) Unwrap() error { return e.Cause }
 // the source service's separate admission evidence. Callers must not mutate the
 // supplied bytes during verification. Only declared FILE paths are read.
 func VerifySourceManifest(raw []byte, capturedFiles map[string][]byte) (rootHash, manifestHash string, err error) {
-	canonical, err := CanonicalJSON(raw)
-	if err != nil {
-		return "", "", &SourceManifestError{Reason: "canonical JSON", Cause: err}
-	}
-	manifest, err := manifestObject(canonical, "schema_version", "identity_algorithm", "entries", "exclusions", "completeness", "scanner_ref")
-	if err != nil {
+	if err := ValidateSourceManifest(raw); err != nil {
 		return "", "", err
 	}
-	if manifestString(manifest["schema_version"]) != "1.0" ||
-		manifestString(manifest["identity_algorithm"]) != "rwt-source-root-1" ||
-		manifestString(manifest["completeness"]) != "COMPLETE" {
-		return "", "", &SourceManifestError{Reason: "unsupported version, identity or completeness"}
-	}
-	scanner := manifestString(manifest["scanner_ref"])
-	if !strings.HasPrefix(scanner, "sha256:") || !isManifestDigest(strings.TrimPrefix(scanner, "sha256:")) {
-		return "", "", &SourceManifestError{Reason: "scanner reference"}
-	}
-	entries, err := manifestArray(manifest["entries"])
-	if err != nil {
-		return "", "", err
-	}
-	kinds := make(map[string]string, len(entries))
-	previous := ""
-	for _, rawEntry := range entries {
-		path, kind, err := verifyManifestEntry(rawEntry)
-		if err != nil {
-			return "", "", err
-		}
-		if path <= previous {
-			return "", "", &SourceManifestError{Reason: "entry paths must be strictly ordered"}
-		}
-		if slash := strings.LastIndexByte(path, '/'); slash >= 0 && kinds[path[:slash]] != "DIRECTORY" {
-			return "", "", &SourceManifestError{Reason: "missing directory parent"}
-		}
-		kinds[path] = kind
-		previous = path
-	}
-	if err := verifyManifestExclusions(manifest["exclusions"], kinds); err != nil {
-		return "", "", err
-	}
+	canonical, _ := CanonicalJSON(raw)
+	manifest, _ := manifestObject(canonical, "schema_version", "identity_algorithm", "entries", "exclusions", "completeness", "scanner_ref")
+	entries, _ := manifestArray(manifest["entries"])
 	if err := verifyCapturedFiles(entries, capturedFiles); err != nil {
 		return "", "", err
 	}
