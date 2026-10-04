@@ -12,7 +12,7 @@ Behavior IR preserves contract/case/scenario refs, executable operators, pre/pos
 
 Every IR transition preserves source/evidence links, identity relations, causal order/transaction boundaries, raw input distinctions, environment/profile, uncertainty and capability gaps. Confidence is an estimate with methodology, never proof. Required-field/schema changes create immutable successor artifacts and dependent invalidation. Legacy v1 descriptive documents remain inspectable; they do not satisfy current execution merely because they validate structurally.
 
-Current data models use data-model.schema version 2.0 with connection/catalog/schema qualification and exact server behavior evidence, owned by DATABASE-COMPARISON. Adapter manifests 2.1 pin schema bytes and qualification refs; execution manifests pin the core interpreter/build/schema closure. Logical schema URIs name contracts but do not freeze their bytes. Missing pinned bytes or unsupported qualification blocks execution, while historical artifacts remain readable under their retained schemas.
+Current data models use data-model.schema version 2.0 with connection/catalog/schema qualification and exact server behavior evidence, owned by DATABASE-COMPARISON. Adapter manifests 2.1 (explicit built-in) / 2.2 (package-callable) pin schema bytes and qualification refs; execution manifests pin the core interpreter/build/schema closure. Logical schema URIs name contracts but do not freeze their bytes. Missing pinned bytes or unsupported qualification blocks execution, while historical artifacts remain readable under their retained schemas.
 
 ## Capture identity and interpretation preservation
 

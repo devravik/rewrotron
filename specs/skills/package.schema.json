@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/skills/package.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "package_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "package_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "adapter": {
+      "type": "object",
+      "properties": {
+        "adapter_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "adapter_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direction": {
+          "enum": [
+            "SOURCE",
+            "TARGET"
+          ]
+        },
+        "manifest_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "adapter_id",
+        "adapter_version",
+        "direction",
+        "manifest_ref"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schema_version",
+    "package_id",
+    "package_version",
+    "adapter"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "inventory": {
+      "type": "object",
+      "properties": {
+        "identity": {
+          "const": "rwt-skill-package-1"
+        },
+        "entries": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "size_bytes": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "path",
+              "size_bytes",
+              "sha256"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "identity",
+        "entries"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

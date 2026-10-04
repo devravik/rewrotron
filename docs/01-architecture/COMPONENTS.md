@@ -6,7 +6,7 @@
 | --- | --- | --- |
 | `cmd/rewrotron` | Entry point and signal handling | CLI request → application services → envelope/exit code |
 | `cmd/rewrotron-mcp` | Entry point and stdio lifecycle | JSON-RPC → MCP handler → same application services |
-| `internal/runtime` | Composition and adapter registration | Concrete constructors → injected neutral ports |
+| `internal/runtime` | Composition and adapter registration | Validated BUILTIN constructors or specified EXTERNAL bindings → injected neutral ports |
 | `internal/domain` | Records, typed IDs, enums, errors, ports | Standard library and canonical types only |
 | `internal/core` | Gate-checked shared application services | Domain requests → persisted state, assessment checkpoint projections and operation results |
 | `internal/project` | Configuration, manifests, workspace opening | Root `rewrotron.yaml`/legacy input → validated intent; generated views have no approval authority |
@@ -36,7 +36,7 @@
 
 ## Dependency enforcement
 
-`internal/domain` imports no other repository package. Neutral services can import domain and other neutral services in an acyclic graph. Framework adapters import domain records/ports; the composition package imports concrete adapters and storage. `internal/core`, `internal/behavior`, and `internal/verification` never import concrete framework packages, SDKs, prompts, or parser-specific AST types.
+`internal/domain` imports no other repository package. Neutral services can import domain and other neutral services in an acyclic graph. Framework adapters import domain records/ports; the composition package imports concrete built-in adapters and storage, and can bind separately distributed implementations through the specified SERVICE-CONTRACTS protocol once that loader is implemented. `internal/core`, `internal/behavior`, and `internal/verification` never import concrete framework packages, SDKs, prompts, or parser-specific AST types.
 
 PHP parsing, CI3 hook semantics, Laravel middleware, and framework template generation are adapter responsibilities. Shared graph algorithms and JSON/session/DB comparison are neutral responsibilities. Table identifiers belong to discovered data models, not hardcoded framework conventions.
 
@@ -49,3 +49,5 @@ The existing neutral behavior/observer/verification services use role-specific p
 ## Framework skill packages
 
 The named PHP/CI3/Laravel paths above are Reference Profile #1 examples, not a complete registry or core dependency. Source packages live under the existing analysis capability category; target packages under migration; independent verification guidance under verification. [SKILL-SPEC](../06-agent/SKILL-SPEC.md) owns layout and machine-record mappings. Executable assets implement the existing SourceAdapter/TargetAdapter ports; discovery guidance cannot introduce core imports, executable operators or a second verifier.
+
+Package discovery is not executable registration. The existing composition root constructs one immutable AdapterRegistry from validated exact bindings. External loading remains SPECIFIED, not implemented; built-in additions may require a distribution rebuild. Neither mode changes the neutral port interfaces or adds a registry/service.

@@ -1,78 +1,183 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/project/execution-manifest.schema.json",
-  "type": "object",
-  "properties": {
-    "schema_version": {
-      "const": "1.0"
-    },
-    "manifest_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "project_id": {
-      "type": "string",
-      "pattern": "^[a-z0-9_-]+$"
-    },
-    "engine_version": {
-      "type": "string",
-      "minLength": 1
-    },
-    "engine_binary_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "build_environment_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "dependency_lock_ref": {
-      "type": "string",
-      "pattern": "^sha256:[a-f0-9]{64}$"
-    },
-    "schema_refs": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^sha256:[a-f0-9]{64}$"
+  "description": "1.0 retains package-free execution closure; 1.1 pins consumed package descriptor/inventory pairs for SOURCE and PLAN without changing approval preimages.",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "manifest_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "engine_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "engine_binary_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "build_environment_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "dependency_lock_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "schema_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "canonicalization_profile": {
+          "const": "rwt-cjson-1"
+        },
+        "capability_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "qualification_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
       },
-      "minItems": 1,
-      "uniqueItems": true
+      "required": [
+        "schema_version",
+        "manifest_id",
+        "project_id",
+        "engine_version",
+        "engine_binary_ref",
+        "build_environment_ref",
+        "dependency_lock_ref",
+        "schema_refs",
+        "canonicalization_profile",
+        "capability_ids",
+        "qualification_refs"
+      ],
+      "additionalProperties": false
     },
-    "canonicalization_profile": {
-      "const": "rwt-cjson-1"
-    },
-    "capability_ids": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "minLength": 1
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.1"
+        },
+        "manifest_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "engine_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "engine_binary_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "build_environment_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "dependency_lock_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "schema_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "canonicalization_profile": {
+          "const": "rwt-cjson-1"
+        },
+        "capability_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "qualification_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "package_refs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "descriptor_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "content_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "descriptor_ref",
+              "content_ref"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
       },
-      "minItems": 1,
-      "uniqueItems": true
-    },
-    "qualification_refs": {
-      "type": "array",
-      "items": {
-        "type": "string",
-        "pattern": "^sha256:[a-f0-9]{64}$"
-      },
-      "minItems": 1,
-      "uniqueItems": true
+      "required": [
+        "schema_version",
+        "manifest_id",
+        "project_id",
+        "engine_version",
+        "engine_binary_ref",
+        "build_environment_ref",
+        "dependency_lock_ref",
+        "schema_refs",
+        "canonicalization_profile",
+        "capability_ids",
+        "qualification_refs",
+        "package_refs"
+      ],
+      "additionalProperties": false
     }
-  },
-  "required": [
-    "schema_version",
-    "manifest_id",
-    "project_id",
-    "engine_version",
-    "engine_binary_ref",
-    "build_environment_ref",
-    "dependency_lock_ref",
-    "schema_refs",
-    "canonicalization_profile",
-    "capability_ids",
-    "qualification_refs"
-  ],
-  "additionalProperties": false
+  ]
 }

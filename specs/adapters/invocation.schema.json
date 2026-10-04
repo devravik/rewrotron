@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/adapters/invocation.schema.json",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "kind": {
+          "const": "REQUEST"
+        },
+        "request_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "adapter_manifest_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "implementation_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "operation": {
+          "enum": [
+            "Detect",
+            "Parse",
+            "Extract",
+            "PrepareInstrumentation",
+            "ValidateCapabilities",
+            "Generate",
+            "PrepareHarness"
+          ]
+        },
+        "input_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "request_id",
+        "project_id",
+        "adapter_manifest_ref",
+        "implementation_ref",
+        "operation",
+        "input_ref"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "schema_version": {
+          "const": "1.0"
+        },
+        "kind": {
+          "const": "RESPONSE"
+        },
+        "request_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "project_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "adapter_manifest_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "implementation_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "operation": {
+          "enum": [
+            "Detect",
+            "Parse",
+            "Extract",
+            "PrepareInstrumentation",
+            "ValidateCapabilities",
+            "Generate",
+            "PrepareHarness"
+          ]
+        },
+        "status": {
+          "enum": [
+            "OK",
+            "ERROR"
+          ]
+        },
+        "output_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "error": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "enum": [
+                    "ERR_UNSUPPORTED_CAPABILITY",
+                    "ERR_INVALID_CONTRACT",
+                    "ERR_INTERNAL"
+                  ]
+                },
+                "diagnostic_ref": {
+                  "oneOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^sha256:[a-f0-9]{64}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "code",
+                "diagnostic_ref"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "schema_version",
+        "kind",
+        "request_id",
+        "project_id",
+        "adapter_manifest_ref",
+        "implementation_ref",
+        "operation",
+        "status",
+        "output_ref",
+        "error"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "OK"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "output_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "error": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "output_ref": {
+                "type": "null"
+              },
+              "error": {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "enum": [
+                      "ERR_UNSUPPORTED_CAPABILITY",
+                      "ERR_UNSUPPORTED_CAPABILITY",
+                      "ERR_INVALID_CONTRACT",
+                      "ERR_INTERNAL"
+                    ]
+                  },
+                  "diagnostic_ref": {
+                    "oneOf": [
+                      {
+                        "type": "string",
+                        "pattern": "^sha256:[a-f0-9]{64}$"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "code",
+                  "diagnostic_ref"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

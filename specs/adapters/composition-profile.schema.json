@@ -1,0 +1,245 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rewrotron.dev/specs/adapters/composition-profile.schema.json",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_-]+$"
+    },
+    "source_package_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "target_package_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "source": {
+      "type": "object",
+      "properties": {
+        "adapter_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "adapter_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direction": {
+          "const": "SOURCE"
+        },
+        "manifest_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "implementation_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "input_profile_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "qualification_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "adapter_id",
+        "adapter_version",
+        "direction",
+        "manifest_ref",
+        "implementation_ref",
+        "input_profile_ref",
+        "qualification_ref"
+      ],
+      "additionalProperties": false
+    },
+    "target": {
+      "type": "object",
+      "properties": {
+        "adapter_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "adapter_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direction": {
+          "const": "TARGET"
+        },
+        "manifest_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "implementation_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "input_profile_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "qualification_ref": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "adapter_id",
+        "adapter_version",
+        "direction",
+        "manifest_ref",
+        "implementation_ref",
+        "input_profile_ref",
+        "qualification_ref"
+      ],
+      "additionalProperties": false
+    },
+    "tim_model_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "lowering_qualification_refs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "verification": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "adapter_id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "adapter_version": {
+            "type": "string",
+            "minLength": 1
+          },
+          "direction": {
+            "enum": [
+              "PROBE",
+              "RUNNER",
+              "COMPARATOR"
+            ]
+          },
+          "manifest_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "implementation_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "input_profile_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "qualification_ref": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "adapter_id",
+          "adapter_version",
+          "direction",
+          "manifest_ref",
+          "implementation_ref",
+          "input_profile_ref",
+          "qualification_ref"
+        ],
+        "additionalProperties": false
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "allOf": [
+        {
+          "contains": {
+            "properties": {
+              "direction": {
+                "const": "PROBE"
+              }
+            },
+            "required": [
+              "direction"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "direction": {
+                "const": "RUNNER"
+              }
+            },
+            "required": [
+              "direction"
+            ]
+          }
+        },
+        {
+          "contains": {
+            "properties": {
+              "direction": {
+                "const": "COMPARATOR"
+              }
+            },
+            "required": [
+              "direction"
+            ]
+          }
+        }
+      ]
+    },
+    "corpus_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "comparison_policy_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "environment_profile_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "source_package_content_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    },
+    "target_package_content_ref": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$"
+    }
+  },
+  "required": [
+    "schema_version",
+    "project_id",
+    "source_package_ref",
+    "target_package_ref",
+    "source",
+    "target",
+    "tim_model_ref",
+    "lowering_qualification_refs",
+    "verification",
+    "corpus_ref",
+    "comparison_policy_ref",
+    "environment_profile_ref",
+    "source_package_content_ref",
+    "target_package_content_ref"
+  ],
+  "additionalProperties": false
+}

@@ -15241,5 +15241,870 @@
       "qualification_refs": []
     },
     "valid": false
+  },
+  {
+    "name": "binding-external-source",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.2",
+      "adapter_id": "example-source",
+      "version": "1.0",
+      "direction": "SOURCE",
+      "implementation_status": "IMPLEMENTED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "IMPLEMENTED",
+      "capabilities": [
+        "extract-example"
+      ],
+      "supported_profiles": [],
+      "limitations": [],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "schema_refs": [
+        "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "qualification_refs": [],
+      "binding": {
+        "mode": "EXTERNAL",
+        "protocol": "rwt-adapter-stdio-1",
+        "executable_path": "bin/adapter",
+        "executable_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "operations": [
+        {
+          "operation": "Extract",
+          "request_schema_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "result_schema_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "timeout_ms": 1000,
+          "max_response_bytes": 4096
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "binding-path-traversal",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.2",
+      "adapter_id": "example-source",
+      "version": "1.0",
+      "direction": "SOURCE",
+      "implementation_status": "IMPLEMENTED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "IMPLEMENTED",
+      "capabilities": [
+        "extract-example"
+      ],
+      "supported_profiles": [],
+      "limitations": [],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "schema_refs": [
+        "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "qualification_refs": [],
+      "binding": {
+        "mode": "EXTERNAL",
+        "protocol": "rwt-adapter-stdio-1",
+        "executable_path": "../escape",
+        "executable_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "operations": [
+        {
+          "operation": "Extract",
+          "request_schema_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "result_schema_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "timeout_ms": 1000,
+          "max_response_bytes": 4096
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-shell-binding",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.2",
+      "adapter_id": "example-source",
+      "version": "1.0",
+      "direction": "SOURCE",
+      "implementation_status": "IMPLEMENTED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "IMPLEMENTED",
+      "capabilities": [
+        "extract-example"
+      ],
+      "supported_profiles": [],
+      "limitations": [],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "schema_refs": [
+        "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "qualification_refs": [],
+      "binding": {
+        "mode": "EXTERNAL",
+        "protocol": "rwt-adapter-stdio-1",
+        "executable_path": "bin/adapter",
+        "executable_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "command": "sh -c run"
+      },
+      "operations": [
+        {
+          "operation": "Extract",
+          "request_schema_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "result_schema_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "timeout_ms": 1000,
+          "max_response_bytes": 4096
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-wrong-direction",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.2",
+      "adapter_id": "example-source",
+      "version": "1.0",
+      "direction": "SOURCE",
+      "implementation_status": "IMPLEMENTED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "IMPLEMENTED",
+      "capabilities": [
+        "extract-example"
+      ],
+      "supported_profiles": [],
+      "limitations": [],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "schema_refs": [
+        "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "qualification_refs": [],
+      "binding": {
+        "mode": "EXTERNAL",
+        "protocol": "rwt-adapter-stdio-1",
+        "executable_path": "bin/adapter",
+        "executable_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "operations": [
+        {
+          "operation": "Generate",
+          "request_schema_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "result_schema_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "timeout_ms": 1000,
+          "max_response_bytes": 4096
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-unknown-operation",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.2",
+      "adapter_id": "example-source",
+      "version": "1.0",
+      "direction": "SOURCE",
+      "implementation_status": "IMPLEMENTED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "IMPLEMENTED",
+      "capabilities": [
+        "extract-example"
+      ],
+      "supported_profiles": [],
+      "limitations": [],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "schema_refs": [
+        "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "qualification_refs": [],
+      "binding": {
+        "mode": "EXTERNAL",
+        "protocol": "rwt-adapter-stdio-1",
+        "executable_path": "bin/adapter",
+        "executable_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "operations": [
+        {
+          "operation": "TranslateEverything",
+          "request_schema_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "result_schema_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "timeout_ms": 1000,
+          "max_response_bytes": 4096
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-missing-binding",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.2",
+      "adapter_id": "example-source",
+      "version": "1.0",
+      "direction": "SOURCE",
+      "implementation_status": "IMPLEMENTED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "IMPLEMENTED",
+      "capabilities": [
+        "extract-example"
+      ],
+      "supported_profiles": [],
+      "limitations": [],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "schema_refs": [
+        "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "qualification_refs": [],
+      "operations": [
+        {
+          "operation": "Extract",
+          "request_schema_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "result_schema_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "timeout_ms": 1000,
+          "max_response_bytes": 4096
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-unknown-protocol",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.2",
+      "adapter_id": "example-source",
+      "version": "1.0",
+      "direction": "SOURCE",
+      "implementation_status": "IMPLEMENTED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "IMPLEMENTED",
+      "capabilities": [
+        "extract-example"
+      ],
+      "supported_profiles": [],
+      "limitations": [],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "schema_refs": [
+        "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "qualification_refs": [],
+      "binding": {
+        "mode": "EXTERNAL",
+        "protocol": "latest",
+        "executable_path": "bin/adapter",
+        "executable_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "operations": [
+        {
+          "operation": "Extract",
+          "request_schema_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "result_schema_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "timeout_ms": 1000,
+          "max_response_bytes": 4096
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-builtin",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.2",
+      "adapter_id": "example-source",
+      "version": "1.0",
+      "direction": "SOURCE",
+      "implementation_status": "IMPLEMENTED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "IMPLEMENTED",
+      "capabilities": [
+        "extract-example"
+      ],
+      "supported_profiles": [],
+      "limitations": [],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "schema_refs": [
+        "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "qualification_refs": [],
+      "binding": {
+        "mode": "BUILTIN",
+        "factory_id": "example-source"
+      },
+      "operations": [
+        {
+          "operation": "Extract",
+          "request_schema_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "result_schema_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "timeout_ms": 1000,
+          "max_response_bytes": 4096
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "binding-planned",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.2",
+      "adapter_id": "example-source",
+      "version": "1.0",
+      "direction": "SOURCE",
+      "implementation_status": "PLANNED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "SPECIFIED",
+      "capabilities": [
+        "extract-example"
+      ],
+      "supported_profiles": [],
+      "limitations": [],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "implementation_ref": null,
+      "schema_refs": [
+        "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "qualification_refs": [],
+      "binding": null,
+      "operations": []
+    },
+    "valid": true
+  },
+  {
+    "name": "binding-planned-callable",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.2",
+      "adapter_id": "example-source",
+      "version": "1.0",
+      "direction": "SOURCE",
+      "implementation_status": "PLANNED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "SPECIFIED",
+      "capabilities": [
+        "extract-example"
+      ],
+      "supported_profiles": [],
+      "limitations": [],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "implementation_ref": null,
+      "schema_refs": [
+        "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "qualification_refs": [],
+      "binding": {
+        "mode": "EXTERNAL",
+        "protocol": "rwt-adapter-stdio-1",
+        "executable_path": "bin/adapter",
+        "executable_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "operations": []
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-package",
+    "schema": "https://rewrotron.dev/specs/skills/package.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "package_id": "example-source",
+      "package_version": "1.0",
+      "adapter": {
+        "adapter_id": "example-source",
+        "adapter_version": "1.0",
+        "direction": "SOURCE",
+        "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "binding-package-prose-only",
+    "schema": "https://rewrotron.dev/specs/skills/package.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "package_id": "example-source",
+      "package_version": "1.0",
+      "adapter": {
+        "adapter_id": "example-source",
+        "adapter_version": "1.0",
+        "direction": "SOURCE"
+      }
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-request",
+    "schema": "https://rewrotron.dev/specs/adapters/invocation.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "kind": "RESPONSE",
+      "request_id": "request-1",
+      "project_id": "project-1",
+      "adapter_manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "operation": "Extract",
+      "status": "OK",
+      "output_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "error": null
+    },
+    "valid": true
+  },
+  {
+    "name": "binding-request-command",
+    "schema": "https://rewrotron.dev/specs/adapters/invocation.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "kind": "REQUEST",
+      "request_id": "request-1",
+      "project_id": "project-1",
+      "adapter_manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "operation": "Extract",
+      "input_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "command": "run"
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-response",
+    "schema": "https://rewrotron.dev/specs/adapters/invocation.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "kind": "RESPONSE",
+      "request_id": "request-1",
+      "project_id": "project-1",
+      "adapter_manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "operation": "Extract",
+      "status": "OK",
+      "output_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "error": null
+    },
+    "valid": true
+  },
+  {
+    "name": "binding-empty-success",
+    "schema": "https://rewrotron.dev/specs/adapters/invocation.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "kind": "RESPONSE",
+      "request_id": "request-1",
+      "project_id": "project-1",
+      "adapter_manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "operation": "Extract",
+      "status": "OK",
+      "output_ref": null,
+      "error": null
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-error-response",
+    "schema": "https://rewrotron.dev/specs/adapters/invocation.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "kind": "RESPONSE",
+      "request_id": "request-1",
+      "project_id": "project-1",
+      "adapter_manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "operation": "Extract",
+      "status": "ERROR",
+      "output_ref": null,
+      "error": {
+        "code": "ERR_UNSUPPORTED_CAPABILITY",
+        "diagnostic_ref": null
+      }
+    },
+    "valid": true
+  },
+  {
+    "name": "binding-composition",
+    "schema": "https://rewrotron.dev/specs/adapters/composition-profile.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "project-1",
+      "source_package_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "target_package_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "source": {
+        "adapter_id": "source-example",
+        "adapter_version": "1.0",
+        "direction": "SOURCE",
+        "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "target": {
+        "adapter_id": "target-example",
+        "adapter_version": "1.0",
+        "direction": "TARGET",
+        "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "tim_model_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "lowering_qualification_refs": [
+        "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      ],
+      "verification": [
+        {
+          "adapter_id": "probe-example",
+          "adapter_version": "1.0",
+          "direction": "PROBE",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "adapter_id": "runner-example",
+          "adapter_version": "1.0",
+          "direction": "RUNNER",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "adapter_id": "comparator-example",
+          "adapter_version": "1.0",
+          "direction": "COMPARATOR",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        }
+      ],
+      "corpus_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "comparison_policy_ref": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "environment_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "source_package_content_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_package_content_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "valid": true
+  },
+  {
+    "name": "binding-no-comparator",
+    "schema": "https://rewrotron.dev/specs/adapters/composition-profile.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "project-1",
+      "source_package_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "target_package_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "source": {
+        "adapter_id": "source-example",
+        "adapter_version": "1.0",
+        "direction": "SOURCE",
+        "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "target": {
+        "adapter_id": "target-example",
+        "adapter_version": "1.0",
+        "direction": "TARGET",
+        "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "tim_model_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "lowering_qualification_refs": [
+        "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      ],
+      "verification": [
+        {
+          "adapter_id": "probe-example",
+          "adapter_version": "1.0",
+          "direction": "PROBE",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "adapter_id": "runner-example",
+          "adapter_version": "1.0",
+          "direction": "RUNNER",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        }
+      ],
+      "corpus_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "comparison_policy_ref": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "environment_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "source_package_content_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_package_content_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-source-as-target",
+    "schema": "https://rewrotron.dev/specs/adapters/composition-profile.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "project-1",
+      "source_package_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "target_package_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "source": {
+        "adapter_id": "source-example",
+        "adapter_version": "1.0",
+        "direction": "SOURCE",
+        "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "target": {
+        "adapter_id": "target-example",
+        "adapter_version": "1.0",
+        "direction": "SOURCE",
+        "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "tim_model_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "lowering_qualification_refs": [
+        "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      ],
+      "verification": [
+        {
+          "adapter_id": "probe-example",
+          "adapter_version": "1.0",
+          "direction": "PROBE",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "adapter_id": "runner-example",
+          "adapter_version": "1.0",
+          "direction": "RUNNER",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        },
+        {
+          "adapter_id": "comparator-example",
+          "adapter_version": "1.0",
+          "direction": "COMPARATOR",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "input_profile_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "qualification_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+        }
+      ],
+      "corpus_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "comparison_policy_ref": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "environment_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "source_package_content_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "target_package_content_ref": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-inventory",
+    "schema": "https://rewrotron.dev/specs/skills/package.schema.json#/$defs/inventory",
+    "valid": true,
+    "instance": {
+      "identity": "rwt-skill-package-1",
+      "entries": [
+        {
+          "path": "package.json",
+          "size_bytes": 100,
+          "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    }
+  },
+  {
+    "name": "binding-inventory-bad-hash",
+    "schema": "https://rewrotron.dev/specs/skills/package.schema.json#/$defs/inventory",
+    "valid": false,
+    "instance": {
+      "identity": "rwt-skill-package-1",
+      "entries": [
+        {
+          "path": "package.json",
+          "size_bytes": 100,
+          "sha256": "latest"
+        }
+      ]
+    }
+  },
+  {
+    "name": "binding-execution-package-closure",
+    "schema": "https://rewrotron.dev/specs/project/execution-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.1",
+      "manifest_id": "engine",
+      "project_id": "fixture",
+      "engine_version": "0.0.0-fixture",
+      "engine_binary_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "build_environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "dependency_lock_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "schema_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "canonicalization_profile": "rwt-cjson-1",
+      "capability_ids": [
+        "canonical.rwt-cjson-1"
+      ],
+      "qualification_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "package_refs": [
+        {
+          "descriptor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "content_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "binding-execution-incomplete-package",
+    "schema": "https://rewrotron.dev/specs/project/execution-manifest.schema.json",
+    "instance": {
+      "schema_version": "1.1",
+      "manifest_id": "engine",
+      "project_id": "fixture",
+      "engine_version": "0.0.0-fixture",
+      "engine_binary_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "build_environment_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "dependency_lock_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "schema_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "canonicalization_profile": "rwt-cjson-1",
+      "capability_ids": [
+        "canonical.rwt-cjson-1"
+      ],
+      "qualification_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "package_refs": [
+        {
+          "descriptor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "binding-external-target",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.2",
+      "adapter_id": "example-target",
+      "version": "1.0",
+      "direction": "TARGET",
+      "implementation_status": "IMPLEMENTED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "IMPLEMENTED",
+      "capabilities": [
+        "extract-example"
+      ],
+      "supported_profiles": [],
+      "limitations": [],
+      "evidence_refs": [
+        "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "implementation_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "schema_refs": [
+        "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "qualification_refs": [],
+      "binding": {
+        "mode": "EXTERNAL",
+        "protocol": "rwt-adapter-stdio-1",
+        "executable_path": "bin/adapter",
+        "executable_ref": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "operations": [
+        {
+          "operation": "Generate",
+          "request_schema_ref": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "result_schema_ref": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "timeout_ms": 1000,
+          "max_response_bytes": 4096
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "binding-reference-codeigniter3-descriptor",
+    "schema": "https://rewrotron.dev/specs/skills/package.schema.json",
+    "valid": true,
+    "instance": {
+      "schema_version": "1.0",
+      "package_id": "codeigniter3",
+      "package_version": "0.1.0",
+      "adapter": {
+        "adapter_id": "codeigniter3",
+        "adapter_version": "0.1.0",
+        "direction": "SOURCE",
+        "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    }
+  },
+  {
+    "name": "binding-reference-laravel-descriptor",
+    "schema": "https://rewrotron.dev/specs/skills/package.schema.json",
+    "valid": true,
+    "instance": {
+      "schema_version": "1.0",
+      "package_id": "laravel",
+      "package_version": "0.1.0",
+      "adapter": {
+        "adapter_id": "laravel13",
+        "adapter_version": "0.1.0",
+        "direction": "TARGET",
+        "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    }
   }
 ]

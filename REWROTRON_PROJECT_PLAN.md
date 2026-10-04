@@ -35,3 +35,5 @@ DEVELOPMENT-PLAN remains the sole queue. M0 builds the persistence/approval/snap
 ## Migration framework packages
 
 [SKILL-SPEC](docs/06-agent/SKILL-SPEC.md) owns reusable source/target packages on existing adapters; [TARGET-ARCHITECTURE](docs/04-migration/TARGET-ARCHITECTURE.md) owns neutral-to-target choices. CI3 → Laravel is Reference Profile #1 intended for first qualification, not a core invariant or a currently qualified migration. Adding packages does not imply universal combinations. Exact-profile admission, shared assessment/gates and independent verification remain unchanged. The general implementation skill builds authorized repository units, not framework-specific interpretation. JEV is deferred and absent from active milestone requirements.
+
+Framework packages resolve exact package.json → adapter manifest → validated binding → individual/composed qualification via existing AdapterRegistry (SKILL-SPEC/SERVICE-CONTRACTS). External protocol 1 is SPECIFIED only and is qualified where external loading is used in M8; it adds no M0/M1 work. New technologies may require intentional neutral contract extensions, not unrelated core framework branches.

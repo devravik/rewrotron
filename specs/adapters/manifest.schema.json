@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
-  "description": "Unversioned/2.0 manifests are historical-readable. Current execution uses 2.1 with exact schema and qualification refs. Advertised supported_profiles are descriptive, never support authority; qualifications bind exact tested inputs.",
+  "description": "2.2 specifies exact package-callable bindings. 2.1 remains usable only for explicitly registered built-in adapters with qualified exact bytes; older branches are historical. Metadata is never admission authority.",
   "oneOf": [
     {
       "title": "manifest.schema",
@@ -415,6 +415,457 @@
             "properties": {
               "schema_refs": {
                 "minItems": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "title": "Exact callable adapter manifest 2.2",
+      "type": "object",
+      "properties": {
+        "adapter_id": {
+          "type": "string",
+          "pattern": "^[a-z0-9_-]+$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "direction": {
+          "enum": [
+            "SOURCE",
+            "TARGET"
+          ]
+        },
+        "implementation_status": {
+          "type": "string",
+          "enum": [
+            "IMPLEMENTED",
+            "PLANNED"
+          ]
+        },
+        "maturity": {
+          "type": "string",
+          "enum": [
+            "EXPERIMENTAL",
+            "BETA",
+            "STABLE"
+          ]
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "supported_profiles": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "evidence_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          }
+        },
+        "schema_version": {
+          "const": "2.2"
+        },
+        "validation_maturity": {
+          "enum": [
+            "DESIGNED",
+            "SPECIFIED",
+            "STRUCTURALLY_VALIDATED",
+            "IMPLEMENTED",
+            "UNIT_TESTED",
+            "RUNTIME_VALIDATED",
+            "INTEGRATION_VALIDATED",
+            "RELEASE_VALIDATED"
+          ]
+        },
+        "implementation_ref": {
+          "oneOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[a-f0-9]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "schema_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "qualification_refs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[a-f0-9]{64}$"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "binding": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "const": "BUILTIN"
+                },
+                "factory_id": {
+                  "type": "string",
+                  "pattern": "^[a-z0-9_-]+$"
+                }
+              },
+              "required": [
+                "mode",
+                "factory_id"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "mode": {
+                  "const": "EXTERNAL"
+                },
+                "protocol": {
+                  "const": "rwt-adapter-stdio-1"
+                },
+                "executable_path": {
+                  "type": "string",
+                  "pattern": "^[A-Za-z0-9_-][A-Za-z0-9_.-]*(?:/[A-Za-z0-9_-][A-Za-z0-9_.-]*)*$"
+                },
+                "executable_ref": {
+                  "type": "string",
+                  "pattern": "^sha256:[a-f0-9]{64}$"
+                }
+              },
+              "required": [
+                "mode",
+                "protocol",
+                "executable_path",
+                "executable_ref"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "operation": {
+                "enum": [
+                  "Detect",
+                  "Parse",
+                  "Extract",
+                  "PrepareInstrumentation",
+                  "ValidateCapabilities",
+                  "Generate",
+                  "PrepareHarness"
+                ]
+              },
+              "request_schema_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "result_schema_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "timeout_ms": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3600000
+              },
+              "max_response_bytes": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 16777216
+              }
+            },
+            "required": [
+              "operation",
+              "request_schema_ref",
+              "result_schema_ref",
+              "timeout_ms",
+              "max_response_bytes"
+            ],
+            "additionalProperties": false
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "adapter_id",
+        "version",
+        "direction",
+        "implementation_status",
+        "maturity",
+        "capabilities",
+        "supported_profiles",
+        "limitations",
+        "evidence_refs",
+        "schema_version",
+        "validation_maturity",
+        "implementation_ref",
+        "schema_refs",
+        "qualification_refs",
+        "binding",
+        "operations"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "implementation_status": {
+                "const": "PLANNED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "validation_maturity": {
+                "enum": [
+                  "DESIGNED",
+                  "SPECIFIED",
+                  "STRUCTURALLY_VALIDATED"
+                ]
+              },
+              "implementation_ref": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "implementation_ref": {
+                "type": "string",
+                "pattern": "^sha256:[a-f0-9]{64}$"
+              },
+              "validation_maturity": {
+                "enum": [
+                  "IMPLEMENTED",
+                  "UNIT_TESTED",
+                  "RUNTIME_VALIDATED",
+                  "INTEGRATION_VALIDATED",
+                  "RELEASE_VALIDATED"
+                ]
+              },
+              "evidence_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "implementation_status": {
+                "const": "IMPLEMENTED"
+              }
+            },
+            "required": [
+              "implementation_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "schema_refs": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "implementation_status": {
+                "const": "PLANNED"
+              }
+            },
+            "required": [
+              "implementation_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "binding": {
+                "type": "null"
+              },
+              "operations": {
+                "maxItems": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "binding": {
+                "oneOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "const": "BUILTIN"
+                      },
+                      "factory_id": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9_-]+$"
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "factory_id"
+                    ],
+                    "additionalProperties": false
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "mode": {
+                        "const": "EXTERNAL"
+                      },
+                      "protocol": {
+                        "const": "rwt-adapter-stdio-1"
+                      },
+                      "executable_path": {
+                        "type": "string",
+                        "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))[A-Za-z0-9_-]+(?:/[A-Za-z0-9_.-]+)*$"
+                      },
+                      "executable_ref": {
+                        "type": "string",
+                        "pattern": "^sha256:[a-f0-9]{64}$"
+                      }
+                    },
+                    "required": [
+                      "mode",
+                      "protocol",
+                      "executable_path",
+                      "executable_ref"
+                    ],
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "operations": {
+                "minItems": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "direction": {
+                "const": "SOURCE"
+              }
+            },
+            "required": [
+              "direction"
+            ]
+          },
+          "then": {
+            "properties": {
+              "operations": {
+                "items": {
+                  "properties": {
+                    "operation": {
+                      "enum": [
+                        "Detect",
+                        "Parse",
+                        "Extract",
+                        "PrepareInstrumentation"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "direction": {
+                "const": "TARGET"
+              }
+            },
+            "required": [
+              "direction"
+            ]
+          },
+          "then": {
+            "properties": {
+              "operations": {
+                "items": {
+                  "properties": {
+                    "operation": {
+                      "enum": [
+                        "ValidateCapabilities",
+                        "Generate",
+                        "PrepareHarness"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "binding": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "const": "EXTERNAL"
+                  }
+                },
+                "required": [
+                  "mode"
+                ]
+              }
+            },
+            "required": [
+              "binding"
+            ]
+          },
+          "then": {
+            "properties": {
+              "direction": {
+                "enum": [
+                  "SOURCE",
+                  "TARGET"
+                ]
               }
             }
           }

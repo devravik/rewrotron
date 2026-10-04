@@ -198,9 +198,9 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 ## M8 — Qualify pluggable source/target framework skills
 
-**Objective:** Demonstrate a substantially different source/target technology through reusable directional skill packages and injected adapters, while preserving neutral core services, IR/TIM meaning, shared workflow and independent verification. Adding another framework alone is insufficient.
+**Objective:** Demonstrate a substantially different source/target technology through the defined package, adapter binding, TIM, capability and qualification contracts without modifying unrelated neutral migration behavior; preserve the shared workflow and independent verification. Adding another framework alone is insufficient.
 
-**Prerequisites:** M6; M7 only for learning-dependent capabilities. Specify/qualify any wider neutral facets and bounded executable profile constraints before widening exact-profile admission. No JEV dependency.
+**Prerequisites:** M6; M7 only for learning-dependent capabilities. Specify/qualify any wider neutral facets and bounded executable profile constraints before widening exact-profile admission. No JEV dependency. For external package execution, first implement/qualify the existing port bridge specified by SERVICE-CONTRACTS; built-in composition remains valid. Installation alone is not execution, and new neutral semantics require intentional versioned contract extensions.
 
 **Inputs:** Reference Profile #1 retained controls; selected extension proposal with exact source/target/package/provider identities, named supported subset, semantic gaps and independent fixtures. Django→Go, Laravel→Rust, custom PHP→Python and React Native/Expo→native Android are candidates, not committed implementations or automatic support claims.
 

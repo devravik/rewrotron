@@ -25,3 +25,5 @@ Primary routing/session references are the [CI3 routing](https://codeigniter.com
 ## Framework skill packaging
 
 This adapter is a candidate for Reference Profile #1 intended for first qualification, not a core framework requirement. Package its reusable knowledge/assets under [SKILL-SPEC](../06-agent/SKILL-SPEC.md). The source and target packages compose through neutral IR/TIM, not through direct framework-to-framework APIs. Existing reference scope and all verification requirements remain unchanged; SPECIFIED is not qualified.
+
+Reference packaging: the planned source/target package contains package.json pinning this adapter's exact manifest. Manifest 2.2 records its BUILTIN factory binding or, after implementation, qualified EXTERNAL native-executable binding under SERVICE-CONTRACTS. CI3 extraction and Laravel lowering remain independently selected through neutral IR/TIM; composed controls use composition-profile 1.0 and existing qualification 1.0. No such package, external loader or qualified profile is claimed to exist today.

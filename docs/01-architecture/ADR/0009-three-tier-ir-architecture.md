@@ -28,7 +28,7 @@ Current HTTP subset and unsupported computations remain explicit. Generated code
 
 ## Machine-contract impact
 
-Resolution 2.1 includes provider interpretation and toolchain components; context/response 1.0 and target-model capability references carry obligations. Manifest 2.1 retains schema/qualification pins.
+Resolution 2.1 includes provider interpretation and toolchain components; context/response 1.0 and target-model capability references carry obligations. Manifest 2.1 retains explicit built-in registration pins; its successor 2.2 adds callable package binding and operation schemas. Package descriptor, invocation envelope and composition input profile 1.0 supply machine-readable references; qualification 1.0 and approval subject/preimage are unchanged. Existing execution-manifest 1.1 adds package_refs for SOURCE/PLAN closure; package-free 1.0 remains supported.
 
 ## Migration/compatibility implications
 
@@ -40,4 +40,16 @@ X40 adds compatible/incompatible directional package composition, reference regr
 
 Target-model 2.1 lowering_bindings make provider manifest, qualification, shape and obligation identities explicit; plain lowering_choice is never executable admission. X67 also rejects an unqualified/mismatched provider binding before generation.
 
-Packaging uses existing manifest 2.1/qualification 1.0 and TIM lowering_bindings; no new service, registry or runtime target is introduced. Adding packages does not authorize an unsupported neutral operator. JEV is deferred and provides no architectural prerequisite.
+Packaging uses the existing versioned adapter manifest/qualification 1.0 and TIM lowering_bindings; no new service, registry or runtime target is introduced. Adding packages does not authorize an unsupported neutral operator. JEV is deferred and provides no architectural prerequisite.
+
+## Executable binding clarification
+
+Context/problem: discovery metadata and guidance do not identify a callable port; constructor-only registration cannot establish separately distributed package execution.
+
+Decision: root package.json pins exact adapter manifest; manifest 2.2 specifies BUILTIN factory or one-shot native EXTERNAL rwt-adapter-stdio-1 binding on the same ports. AdapterRegistry remains immutable injected configuration. Composed controls use typed input_profile_ref with existing ENGINE qualification, never a profile registry.
+
+Alternatives/rejection reasons: prose adapter names are ambiguous; discovery-as-execution bypasses integrity/qualification; an additional plugin registry/service duplicates authority; long-lived RPC/interpreter wrappers add unsupported lifecycle/runtime complexity. Built-in-only remains an implementation option but cannot claim external package execution.
+
+Consequences/compatibility: existing built-in 2.1 remains explicit and qualified; package-callable 2.2 pins operation/executable/schema bytes and requires new applicable controls/approval. External loading is SPECIFIED only. Installation cannot extend neutral semantics, grant gates or certify generation. No milestone is broadened.
+
+Falsification: X40 binding controls reject wrong executable digest, duplicate operation, incorrect request echo, prose-only descriptor, missing composed provider, timeout and self-certified output; compatible controls record actual trusted results, not structural fixtures as runtime evidence.
