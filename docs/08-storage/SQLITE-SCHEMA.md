@@ -575,3 +575,11 @@ Migration versions are monotonically increasing positive integers (`1, 2, ...`).
 4. **Transactional DDL**: Each migration executes within an exclusive transaction. DDL application and `schema_migrations` recording succeed or fail atomically.
 5. **Concurrency**: Concurrent runner invocations serialize on the SQLite WAL write lock; bounded `busy_timeout` allows sequential execution or clean busy errors without metadata corruption.
 
+### Engine compile options and driver qualification
+
+The pinned SQLite baseline driver is `modernc.org/sqlite v1.46.2` (reporting embedded SQLite engine `3.51.3`). Qualification requires:
+- **`THREADSAFE=1`**: Mandatory for multi-connection and concurrent goroutine access under Go's `database/sql` connection pool. Verified via `sqlite_compileoption_used('THREADSAFE') = 1`.
+- **Runtime Pragmas**: Enforced by `ConfigureConnection` on every physical connection: `foreign_keys=ON`, `journal_mode=WAL`, `synchronous=FULL`, and `busy_timeout=5000`.
+- **Query Normalization Boundary**: `SQLITE_ENABLE_NORMALIZE` is a C-level SQLite API compilation option (`sqlite3_normalized_sql`) that is not present in upstream pure-Go `modernc.org/sqlite` builds and is not exposed by Go's `database/sql` driver interfaces. Metadata storage does not use query normalization. Target and fixture SQL normalization is an implementation-independent Rewrotron verification obligation across all supported database dialects (MySQL, PostgreSQL, SQLite), not an embedded SQLite C-library dependency.
+
+
