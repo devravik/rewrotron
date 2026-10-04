@@ -15045,5 +15045,81 @@
       "size_bytes": 6
     },
     "valid": false
+  },
+  {
+    "name": "source-subject-historical-shape",
+    "schema": "https://rewrotron.dev/specs/project/approval-subject.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "canonicalization": "rwt-cjson-1",
+      "project_id": "fixture",
+      "kind": "SOURCE",
+      "snapshot_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "detection_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "assertions_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "adapter_bindings": [
+        {
+          "role": "SOURCE",
+          "adapter_id": "synthetic",
+          "version": "1.0.0",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "source-subject-null-snapshot",
+    "schema": "https://rewrotron.dev/specs/project/approval-subject.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "canonicalization": "rwt-cjson-1",
+      "project_id": "fixture",
+      "kind": "SOURCE",
+      "snapshot_ref": null,
+      "detection_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "assertions_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "adapter_bindings": [
+        {
+          "role": "SOURCE",
+          "adapter_id": "synthetic",
+          "version": "1.0.0",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "source-subject-duplicate-binding",
+    "schema": "https://rewrotron.dev/specs/project/approval-subject.schema.json",
+    "instance": {
+      "schema_version": "2.0",
+      "canonicalization": "rwt-cjson-1",
+      "project_id": "fixture",
+      "kind": "SOURCE",
+      "snapshot_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "detection_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "assertions_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "adapter_bindings": [
+        {
+          "role": "SOURCE",
+          "adapter_id": "synthetic",
+          "version": "1.0.0",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        {
+          "role": "SOURCE",
+          "adapter_id": "synthetic",
+          "version": "1.0.0",
+          "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      ]
+    },
+    "valid": false
   }
 ]
