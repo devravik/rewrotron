@@ -22,7 +22,7 @@ Global flags are omitted from this table. Hyphenated CLI flags map to underscore
 | --- | --- | --- |
 | `init [source-path]` | Defaults source to `.` | Minimal workspace and detection; no auto-confirm or target generation |
 | `detect [source-path]` | `--fast` bounded metadata subset | Detection ID, manifest hash, evidence/confidence and Gate 1 pending |
-| `doctor` | No command flags | Structured check/remediation summary; never executes untrusted PHP on host |
+| `doctor` | No command flags | Structured check/remediation summary; never executes untrusted source/dependency code on host |
 | `confirm source` | Required `--detection-id`, `--manifest-hash`; `--php`, `--framework`, `--database`, repeated `--override key=value`; `--prepare`; `--subject-hash` | Display measured facts and separately proposed assertions; explicit local human approval persists Gate 1 |
 | `confirm plan` | Required `--subject-hash <plan_hash>` | Exact reviewed plan; changes require replanning |
 | `confirm cutover` | Required `--subject-hash <release_hash>` | Current evidence/runbooks; Gate 3 record |
@@ -30,7 +30,7 @@ Global flags are omitted from this table. Hyphenated CLI flags map to underscore
 | `analyze` | No command flags | Gate 1; source/application IR and findings |
 | `observe` | Required `--case <scenario_id>` | Gate 1; scenario may be a supplied input-only case before a locked master |
 | `discover` | No command flags | Gate 1; evidence-backed workflow/contracts/cases |
-| `plan` | Optional `--selection-ref`, `--target php/laravel`, `--style modular_monolith` assertions; `--recalculate` | Gate 1 plus current human CONTINUE_PLANNING selection; exact checkpoint-linked executable plan |
+| `plan` | Optional `--selection-ref`, `--target <target-selector>` (reference example: `php/laravel`), `--style modular_monolith` assertions; `--recalculate` | Gate 1 plus current human CONTINUE_PLANNING selection; exact checkpoint-linked executable plan |
 | `migrate` | Exactly one of `--unit <id>`, `--all` | Gates 1/2; ready units and target patches |
 | `patch stage` | Required `--patch-id` | Gates 1/2; validate/import declared target patch from the project import area |
 | `patch apply` | Required `--patch-ref` | Gates 1/2; journaled target publication with current fence/before hashes |

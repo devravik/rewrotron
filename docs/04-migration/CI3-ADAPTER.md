@@ -21,3 +21,7 @@ Source hooks alone do not capture every query, session driver mutation, file wri
 Config/convention/verb routing and precedence; default/404; `_remap`; loader/autoload; custom base classes; hook ordering; session drivers/flashdata; cache/early exit; transactional DB writes; dynamic models; cron/CLI roots; views/assets. Compare expected neutral IR, source hits, and completeness flags. Promote validation maturity only after named runtime/integration evidence; distribution tier cannot substitute for it.
 
 Primary routing/session references are the [CI3 routing](https://codeigniter.com/userguide3/general/routing.html?highlight=uri) and [session guide](https://codeigniter.com/userguide3/libraries/sessions.html?highlight=sessions). Runtime support for a specific customer remains a doctor/fixture result.
+
+## Framework skill packaging
+
+This adapter is a candidate for Reference Profile #1 intended for first qualification, not a core framework requirement. Package its reusable knowledge/assets under [SKILL-SPEC](../06-agent/SKILL-SPEC.md). The source and target packages compose through neutral IR/TIM, not through direct framework-to-framework APIs. Existing reference scope and all verification requirements remain unchanged; SPECIFIED is not qualified.

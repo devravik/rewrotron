@@ -12,7 +12,7 @@
 | 6 | M5 bounded repair/interfaces | Guarded CLI/MCP/client sessions and resume actually tested |
 | 7 | M6 whole-project/performance/release | Named corpus/release closure and rollback evidence accepted |
 | Optional | M7 quality learning | Independent evidence can promote/retract sanitized techniques |
-| Later | M8 adapters/scale/UI | Each expanded capability earns its own runtime evidence |
+| Later | M8 pluggable source/target skills | A substantially different technology composes through neutral IR/TIM and independently qualifies without core pair coupling |
 
 The early experiment precedes broad adapters, autonomous repair, global synthesis, desktop/vector search and production tooling. Unsupported streams/native/dynamic semantics and hostile-agent isolation stay explicit capability boundaries. Zero setup means portable installation of specified interfaces only; legacy runtimes/images/fixtures/safe operational inputs still require setup. Offline replay requires previously acquired pinned bytes.
 
@@ -23,3 +23,5 @@ Current approval/execution qualification prerequisites are owned by CONFIRMATION
 ## Review-2 implementation admission
 
 DEVELOPMENT-PLAN remains the sole queue. M0 builds the persistence/approval/snapshot/assessment/current-state foundation. Before M1 verifier work, consume the explicit model/checker effect separation and source-local identity contracts; before the stateful fixture, consume canonical context/principal/response/branch/witness/coverage/effect/admission/filesystem and emergency persistence contracts. These are now specified; runtime qualification is still pending. M1 must demonstrate checker write-denial, source-only publication, stale-build rejection and meaningful branch-divergence comparison alongside its existing seventeen controls. TESTING X61–X80 extends the existing registry; no second test or assessment pipeline. M6 owns fixed-N statistics and separate SLO windows; M7 owns offline retraction; broader execution remains deferred.
+
+M8 is a package/adapter composition qualification experiment, not a commitment to any named second framework or mobile target. Reference Profile #1 is CI3 → Laravel, intended for first qualification and currently SPECIFIED. Desktop/scale/vector expansion remains later optional work with separate evidence. JEV is deferred and required by no milestone.

@@ -10,10 +10,10 @@ To prevent scope creep, design dilution, and catastrophic false assumptions, Rew
 ## 1. General Anti-Patterns & Out-of-Scope Behaviors
 
 - **NG1: Not a Generic AST Transpiler**  
-  Rewrotron does not perform 1-to-1 AST conversions from PHP to PHP, Go, or Python. It does not attempt to map every line of legacy code to a corresponding line in the new codebase.
+  Rewrotron does not perform 1-to-1 AST conversions between source and target languages. It does not attempt to map every line of legacy code to a corresponding line in the new codebase.
 
 - **NG2: Not a Blind Framework Upgrade Wizard**  
-  Rewrotron is not Rector or PHPStan-Upgrade. While upgrade tools alter code in-place within the same architecture, Rewrotron reconstructs applications from the ground up into clean target architectures.
+  Rewrotron is not an in-place framework upgrade tool (Rector and PHPStan-Upgrade are reference-ecosystem examples). While upgrade tools alter code in-place within the same architecture, Rewrotron reconstructs applications from the ground up into clean target architectures.
 
 - **NG3: No Autonomous Production Cutover**  
   Rewrotron will never automatically switch DNS, deploy directly to live production infrastructure, or execute unreviewed schema migrations on live production databases. The initial engine packages a Gate 3-approved runbook only; an actual production runner is deferred.

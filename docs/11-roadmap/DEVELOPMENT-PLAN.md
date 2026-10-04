@@ -136,7 +136,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Owned specs:** MISSION-PROTOCOL, AGENT-MODEL, CLI-SPEC, MCP-SPEC, SKILL-SPEC.
 
-**Implementation scope:** Incident budgets, reviewed patches, CLI/MCP adapters; optional orchestration using fixed capabilities, no provider core coupling; optional bounded decision layer (`bounded_decision`, e.g. TypeSafe Jev via `TYPESAFE_API_KEY`) for advisory repair triage and selection routing without verifier or authority coupling.
+**Implementation scope:** Incident budgets, reviewed patches, CLI/MCP adapters; optional orchestration using fixed capabilities, no provider core coupling; JEV/bounded-decision integration is deferred and is not part of this milestone or required routing.
 
 **Tests:** X24 stale/idempotent work; X26 disconnect; X31 numeric transport/client parity; X60 offline schema bundles; X32 same-account trust; X46/X51/X52/X55 checkpoint/interface parity and no implicit implementation.
 
@@ -196,29 +196,29 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Explicit non-goals:** No embeddings/vector service requirement, broad autonomous synthesis or opaque success scores.
 
-## M8 — Broader adapters and optional scale/UI
+## M8 — Qualify pluggable source/target framework skills
 
-**Objective:** Prove one additional source/target path preserves neutral semantics and uncertainty, then qualify any expanded protocol, platform or storage boundary with its own mutants.
+**Objective:** Demonstrate a substantially different source/target technology through reusable directional skill packages and injected adapters, while preserving neutral core services, IR/TIM meaning, shared workflow and independent verification. Adding another framework alone is insufficient.
 
-**Prerequisites:** M6; M7 only for learning-dependent capabilities.
+**Prerequisites:** M6; M7 only for learning-dependent capabilities. Specify/qualify any wider neutral facets and bounded executable profile constraints before widening exact-profile admission. No JEV dependency.
 
-**Inputs:** Neutrality fixtures and capability proposals.
+**Inputs:** Reference Profile #1 retained controls; selected extension proposal with exact source/target/package/provider identities, named supported subset, semantic gaps and independent fixtures. Django→Go, Laravel→Rust, custom PHP→Python and React Native/Expo→native Android are candidates, not committed implementations or automatic support claims.
 
-**Outputs:** Versioned language facets/protocols, independently validated adapter/client maturity, optional UI/scale profiles.
+**Outputs:** Independently packaged source and target skills under existing categories/index; exact adapter/schema/profile qualification records; TIM obligation/provider mappings; compatible and incompatible composition evidence; retained reference regression results. Any new facet is versioned with loss-preservation controls before use.
 
-**Owned specs:** IR-CONTRACTS, adapter manifests, PRODUCT, SYSTEM-DESIGN.
+**Owned specs:** SKILL-SPEC, SERVICE-CONTRACTS, IR-CONTRACTS, TARGET-ARCHITECTURE, adapter manifest/qualification contracts, PRODUCT, SYSTEM-DESIGN; TESTING X40 owns falsification.
 
-**Implementation scope:** Specify and qualify a generic executable capability/profile constraint language before widening exact-profile admission; one additional target then source; capability-gated streams/concurrency; measured archive/compaction/native profiles and desktop rendering later.
+**Implementation scope:** Add at least one substantially different source or target technology via package assets/adapters through existing ports. Demonstrate independently selected source/target composition and reuse of the other side's package, without required pair-specific core branches. If required semantics cannot be represented, add the smallest reviewed neutral facet with qualification first; do not redesign the IR or introduce a parallel workflow. Mobile/native is one optional qualification candidate; any selected lifecycle/navigation/platform effects need explicit facets, facilities, harnesses and independent comparators.
 
-**Tests:** X40 Django→Go/Laravel→Rust/custom PHP→Python; X36 platform; X28 archival; ownership race extensions.
+**Tests:** Extend X40 with package/adapter identity changes, compatible neutral lowering, missing target facility, unsupported operator/protocol, misleading matching tags, unqualified exact profile, source-target pair restriction and self-certifying harness mutants. Repeat Reference Profile #1 regressions. X58/X61/X67 cover pinned qualification, checker separation and lowering; X36/X28 apply only to selected platform/storage expansions.
 
-**Acceptance criteria:** No PHP/Laravel assumption in core; no lost uncertainty; unsupported semantics remain explicit; maturity reflects executed scope only.
+**Acceptance criteria:** A new technology works through existing skill/adapter composition and TIM with no reference-framework assumption added to deterministic core; one compatible composition passes its approved scope, and one incompatible/incomplete composition is rejected before generation or reports the required UNKNOWN capture dimension. Both sides preserve provenance/uncertainty. A target cannot certify its own output. Reference profile scope/controls do not regress. Every support claim names exact qualified bytes/profile/corpus, not all frameworks or all combinations.
 
-**Evidence required:** Adapter capability manifests, independent build/replay controls, scale/native/client test results.
+**Evidence required:** Package version/content manifests, exact installed adapter/schema/profile/control closure, composition/TIM mapping and gap records, independent build/capture/replay/mutant evidence, core dependency/diff audit and retained reference regression reports. Distribution labels alone are insufficient.
 
-**Blockers:** Unrepresentable semantics, unproved concurrency/reset/comparator/retention.
+**Blockers:** Unrepresentable selected semantics, missing required facilities/lowerings, unqualified capture/comparator/reset, hidden pair coupling or absent independent negative controls.
 
-**Explicit non-goals:** No any-source/any-target promise, hostile-agent isolation or years-unbounded-storage claim.
+**Explicit non-goals:** No any-source/any-target promise; no mandatory React Native/Android/mobile profile; no JEV; no broad distributed concurrency, hosted integrations or production execution. Desktop/UI, vector search, scale/compaction and wider platform releases remain separately evidenced later work, not substitutes for the composition experiment.
 
 ## M1 premise checks (all mandatory)
 
@@ -247,7 +247,7 @@ Canonical contracts + structural negative fixtures
   → M4: reference generation and currently implemented regressions
   → M5: CLI and actual client sessions
   → M6: whole-project corpus + fixed-N statistics/SLO + release package
-  → optional M7 consumer/retraction learning; M8 broader capabilities
+  → optional M7 consumer/retraction learning; M8 pluggable profile qualification
 ```
 
 Foundation may start with Go bootstrap, pinned SQLite, immutable artifact registration, canonical serialization/hash, coherent snapshot acquisition, assessment persistence, event/current-state projection and structural contracts. Verifier implementation requires the two P0 contracts now owned by BEHAVIOR-MODEL and RUNTIME-OBSERVATION: no model/checker effects in measured state; source-only identity requires no pair/case. Neither is a claim of executed controls.

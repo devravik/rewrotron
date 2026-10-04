@@ -1,6 +1,6 @@
 # Product contract
 
-**Maturity: SPECIFIED.** Rewrotron is a local-first, open-source, vendor-neutral application reconstruction engine. CI3 → Laravel is a planned reference path, not the definition of its universal core. It migrates behavioral vertical slices while preserving approved externally observable behavior and permits explicit architectural improvement and intentional behavior changes.
+**Maturity: SPECIFIED.** Rewrotron is a local-first, open-source, vendor-neutral application reconstruction engine. CI3 → Laravel is Reference Profile #1 intended for first qualification, currently SPECIFIED rather than qualified. It is not the definition of the core. It migrates behavioral vertical slices while preserving approved externally observable behavior and permits explicit architectural improvement and intentional behavior changes.
 
 ## Defensible claims
 
@@ -23,3 +23,9 @@ The first meaningful experiment must reject plausible wrong reconstructions: mis
 Assessment-only use stops successfully at the [shared assessment checkpoint](../02-domain/PROJECT-LIFECYCLE.md), including when feasibility is BLOCKED/UNKNOWN or runtime evidence is unavailable. Reports preserve provenance, static-only limitations and uncertainty. Later continuation reuses only currently valid findings; completing or reviewing a report never authorizes implementation.
 
 Acceptance names the implementation actually measured through a trusted execution witness, not merely a requested tree hash. Model expectations never manufacture measured effects. The initial executable subset is bounded HTTP/stateful scenarios with supported typed projections, responses/sessions and acknowledged synthetic effects; unsupported byte encodings, computations, long-delay behavior and unavailable capture remain explicit. A credential-safe execution variant is characterized as that variant, never asserted byte-identical or equivalent to the original without independent evidence.
+
+## Extensibility and support claims
+
+Source and target framework skills package reusable knowledge and deterministic adapters under [SKILL-SPEC](../06-agent/SKILL-SPEC.md); the core consumes neutral IR, TIM and evidence. Neither a framework name nor a prompt grants migration support. New combinations require exact-profile capability admission and independent composed-profile qualification. There is no any-source/any-target guarantee.
+
+Architecturally supported means the existing ports can express the capability boundary; SPECIFIED means contracts exist; IMPLEMENTED means executable assets exist; qualified means the exact named profile passed its independent positive/negative controls with retained evidence. Qualification is profile-scoped evidence under SERVICE-CONTRACTS, not a new maturity enum or a synonym for STABLE. Presently foundation primitives exist, but no migration profile is runtime-qualified. M8 proves extension through packages/ports before widening support.

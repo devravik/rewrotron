@@ -7,3 +7,5 @@ Fixed choices are canonical owner specifications and accepted ADRs, not duplicat
 Deferred capabilities: general streams/concurrency, wider neutral language facets/adapters, hostile-agent OS separation, active-history compaction, global tool/skill synthesis, optional embeddings/desktop and production infrastructure execution. An unavailable capability returns UNKNOWN/UNSUPPORTED or blocks scope, never a guessed substitute.
 
 Review-2 implementation validation is sequenced in DEVELOPMENT-PLAN, not a new backlog pipeline. X61–X77/X80 belong to their stated M0–M4 boundaries; fixed-N/SLO X78 is M6; detached-consumer X79 remains M7. Non-HTTP, long-delay/concurrency, compaction, broad platforms and UI remain deferred with explicit unsupported behavior.
+
+M8 now owns pluggable source/target skill qualification through existing ports and neutral IR/TIM; see DEVELOPMENT-PLAN and SKILL-SPEC for canonical contracts. Named additional technologies are candidates, not commitments. JEV is deferred outside the active queue. Reference Profile #1 remains CI3 → Laravel, currently SPECIFIED.

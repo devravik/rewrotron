@@ -2,7 +2,7 @@
 name: rewrotron-implementation
 description: Implement one authorized Rewrotron development unit using existing repository contracts, relevant available skills, focused validation and durable checkpoints.
 metadata:
-  version: 2.2.0
+  version: 2.3.0
   author: Rewrotron Core Team
 ---
 
@@ -24,6 +24,8 @@ Execution procedure for building Rewrotron itself. Applicable `AGENTS.md` files 
 - Domain migration/analysis/verification routing follows [SKILL-SPEC](../../../docs/06-agent/SKILL-SPEC.md) and `skills/manifest.json`. Use only eligible entries whose actual package exists and whose version/content identity can be verified. A placeholder hash or `STABLE` label alone proves nothing. Absent, unmatched or invalid entries fall back to canonical specs; the operation category is not a transformation capability.
 - Inspect `tools/agent/capabilities.json` or run `tools/agent/bootstrap status` for optional aids. Availability/configuration flags do not prove operation, model compatibility, authentication or quality. Use only compatible approved aids; do not install or change interception/client configuration without explicit operator authorization. Absence never blocks work.
 - Prefer exact search for location, bounded reads for code, a usable graph/index for impact narrowing, and native output for decisions/diagnostics. Indexes and output filters are not authority; re-read exact source and preserve exit codes/unmasked failure details.
+
+Framework migration knowledge belongs in source/target capability packages under [SKILL-SPEC](../../../docs/06-agent/SKILL-SPEC.md), with executable behavior supplied by qualified adapters through neutral IR/TIM. This implementation procedure stays general: it implements the authorized repository unit, never chooses a mandatory framework pair or certifies generated migration output.
 
 ## 3. Preserve precision; use pxpipe only when qualified
 

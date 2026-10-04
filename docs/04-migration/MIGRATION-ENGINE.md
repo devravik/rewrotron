@@ -22,3 +22,7 @@ Initial mutation is serialized per project, including shared files. Sandbox repl
 Optimization is optional only after relevant scope parity; it produces new implementation bytes and scoped regression/performance evidence, never alters behavior obligations silently. A plausible target is not accepted until the verifier can reject deliberate wrong variants under the same approved policy.
 
 The [assessment checkpoint](../02-domain/PROJECT-LIFECYCLE.md) is shared with this sequence. Assessment never enqueues implementation, creates Gate 2 receipts or publishes target code. Current version 2.1 plan envelopes bind assessment/selection/planning-basis artifacts through the existing approval subject decision refs; service equality/currentness checks precede Gate 2 and unit admission.
+
+## Profile composition
+
+Select SOURCE and TARGET packages independently under [SKILL-SPEC](../06-agent/SKILL-SPEC.md) and [SERVICE-CONTRACTS](../01-architecture/SERVICE-CONTRACTS.md). Source extraction establishes neutral obligations; target capabilities lower them through TIM. A source package never directly calls a specific target package. Framework/version matches or intersecting capability names are candidate filters only; exact qualification, executable obligation coverage and independent verification are required before affected execution/acceptance. CI3 → Laravel is the planned Reference Profile #1, not an execution default overriding target intent. New packages use the same lifecycle, unit scopes and gates.

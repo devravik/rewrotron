@@ -15121,5 +15121,125 @@
       ]
     },
     "valid": false
+  },
+  {
+    "name": "framework-skill-planned-source",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "adapter_id": "fixture_source_platform",
+      "version": "0.0.0-fixture",
+      "direction": "SOURCE",
+      "implementation_status": "PLANNED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "SPECIFIED",
+      "implementation_ref": null,
+      "capabilities": [
+        "state_transition"
+      ],
+      "supported_profiles": [
+        {
+          "technology": "illustrative-platform",
+          "profile": "unqualified"
+        }
+      ],
+      "limitations": [
+        "No executable adapter or composed-profile qualification exists"
+      ],
+      "evidence_refs": [],
+      "schema_refs": [],
+      "qualification_refs": []
+    },
+    "valid": true
+  },
+  {
+    "name": "framework-skill-planned-source-cannot-claim-runtime",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "adapter_id": "fixture_source_platform",
+      "version": "0.0.0-fixture",
+      "direction": "SOURCE",
+      "implementation_status": "PLANNED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "RUNTIME_VALIDATED",
+      "implementation_ref": null,
+      "capabilities": [
+        "state_transition"
+      ],
+      "supported_profiles": [
+        {
+          "technology": "illustrative-platform",
+          "profile": "unqualified"
+        }
+      ],
+      "limitations": [
+        "No executable adapter or composed-profile qualification exists"
+      ],
+      "evidence_refs": [],
+      "schema_refs": [],
+      "qualification_refs": []
+    },
+    "valid": false
+  },
+  {
+    "name": "framework-skill-planned-target",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "adapter_id": "fixture_target_platform",
+      "version": "0.0.0-fixture",
+      "direction": "TARGET",
+      "implementation_status": "PLANNED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "SPECIFIED",
+      "implementation_ref": null,
+      "capabilities": [
+        "state_transition"
+      ],
+      "supported_profiles": [
+        {
+          "technology": "illustrative-platform",
+          "profile": "unqualified"
+        }
+      ],
+      "limitations": [
+        "No executable adapter or composed-profile qualification exists"
+      ],
+      "evidence_refs": [],
+      "schema_refs": [],
+      "qualification_refs": []
+    },
+    "valid": true
+  },
+  {
+    "name": "framework-skill-planned-target-cannot-claim-runtime",
+    "schema": "https://rewrotron.dev/specs/adapters/manifest.schema.json",
+    "instance": {
+      "schema_version": "2.1",
+      "adapter_id": "fixture_target_platform",
+      "version": "0.0.0-fixture",
+      "direction": "TARGET",
+      "implementation_status": "PLANNED",
+      "maturity": "EXPERIMENTAL",
+      "validation_maturity": "RUNTIME_VALIDATED",
+      "implementation_ref": null,
+      "capabilities": [
+        "state_transition"
+      ],
+      "supported_profiles": [
+        {
+          "technology": "illustrative-platform",
+          "profile": "unqualified"
+        }
+      ],
+      "limitations": [
+        "No executable adapter or composed-profile qualification exists"
+      ],
+      "evidence_refs": [],
+      "schema_refs": [],
+      "qualification_refs": []
+    },
+    "valid": false
   }
 ]

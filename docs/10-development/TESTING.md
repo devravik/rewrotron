@@ -45,7 +45,7 @@ The core question is whether the engine detects a plausible WRONG reconstruction
 | X37 | Contaminated learning | Three correlated generated fixtures with same wrong oracle and holdout failure cannot promote | M7 |
 | X38 | Low-quality capability | Experimental tool drops hard traces; apparent success improves but quality/unknown/capture/mutation denominators reject activation | M7 |
 | X39 | Retraction | Pattern/skill/tool revision retracted; all current consumer artifacts/results discovered and stale; old pinned approvals/history retained; promotion crash reconciles | M7 |
-| X40 | Neutral representations | Django→Go, Laravel→Rust, custom PHP→Python structural/effect/async fixtures preserve uncertainty and fail incompatible PHP-only lowering; unsupported protocol explicit | M8 |
+| X40 | Pluggable neutral composition | Independently selected source/target packages preserve IR/TIM obligations and uncertainty; compatible exact profile passes independent controls, incompatible/partial pairing refuses generation; reference regressions retained. Named technologies are candidates only. | M8 |
 | X41 | Successful checkpoint stop | Request assessment-only; publish useful report and terminate COMPLETED without a plan row or implementation mission; a planted auto-plan transition must fail | M0/M1 |
 | X42 | Blocked planning, useful assessment | Missing runtime/extension, unresolved package or unsupported behavior prevents executable planning; assessment still COMPLETED with provenance/limits and BLOCKED/UNKNOWN/PARTIALLY_UNDERSTOOD feasibility | M1/M2 |
 | X43 | Original source non-mutation | Compare coherent source manifest/permissions/symlinks before/after static and sandbox assessment; planted instrumentation write into original source must be refused | M0/M2 |
@@ -136,3 +136,18 @@ These extend X36, not the experiment numbering or engine workflow. [RELEASE](REL
 | X36-H publication repeatability | Build exact named revision twice under pinned native build profile | Change included resource without updating release metadata; publish unsupported platform as tested | Unsigned payload bytes reproduce; modified assets/unsupported claims block publication | Both build logs/digests, artifact manifest/signatures/SBOM and tested-platform/client matrix |
 
 These are installation/infrastructure tests, not semantic reconstruction mutation kills. Expected refusal must match the planted fault; an unrelated sandbox startup error cannot satisfy an installation control. Do not label X36-G successful assessment unless report bytes and prerequisites are actually persisted. No installer test may mint Gate 1/2/3 or silently execute source/runtime acquisition.
+
+## X40 extension: framework skill composition controls
+
+These extend the existing registry, not a second qualification system. Select a substantially different technology at M8; acquire/license/pin its fixture bytes before executing tests. Each control records exact package/adapter/schema/profile/TIM/corpus/policy refs and independent evidence.
+
+| Setup | Mutant | Expected result and reason | Evidence | Failure class |
+| --- | --- | --- | --- | --- |
+| Compatible qualified source/target packages and reviewed neutral obligations | None | Independent PASS for named scope only | Actual source/target witnesses and complete comparator report | Positive control; infrastructure failure is not success |
+| Same source obligations with another candidate target package | Remove required facility/lowering but keep matching tags | Block affected executable planning; tags cannot establish semantics | TIM gap, qualification and refusal before generation | Admission control |
+| Supported capture profile | Remove a required independent capture mechanism | UNKNOWN for affected obligations | Capture controls and incomplete dimension refs | Evidence insufficiency, not semantic kill |
+| Qualified exact profile and unchanged declared version | Swap package/adapter bytes or input profile | Stale qualification/approval refused; no automatic widening | Old/new refs, validity and admission result | Admission control |
+| Compatible neutral fixture independent of reference framework | Add CI3/Laravel-name-only dispatch to core or require pair-specific extraction | Neutrality/import audit or qualified composition control fails | Core diff/import graph, package reuse and reference regression results | Architectural/semantic control |
+| Wrong generated target with valid startup/capture | Target harness declares its generator output PASS or hides a missing effect | Independent MISMATCH; generation cannot certify capture | Actual effects, negative control and checker role provenance | Semantic kill only when execution/capture are valid |
+
+Django→Go, Laravel→Rust, custom PHP→Python or React Native/Expo→native Android may supply future fixtures; none is mandatory or qualified by this document. UI/native/reactive/offline obligations absent from supported facets are explicit blockers, never silently converted to HTTP cases.

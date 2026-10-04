@@ -1,6 +1,6 @@
 # Route and entrypoint discovery
 
-The CI3 adapter resolves framework routing into neutral Application IR. Sources are static route configuration, controller conventions, supplied tests/traffic/logs, and sandbox observations. Every discovered candidate has provenance, dispatch priority, HTTP method (or `ANY` when undetermined), handler, classification and uncertainty.
+Source framework skills/adapters resolve supported entrypoint and dispatch semantics into neutral Application IR. The following routing details belong to the CI3 Reference Profile #1 source adapter; they do not define all application entrypoints. Sources are static route configuration, controller conventions, supplied tests/traffic/logs, and sandbox observations. Every discovered candidate has provenance, dispatch priority, HTTP method (or `ANY` when undetermined), handler, classification and uncertainty.
 
 CI3 supports HTTP verb-specific route arrays, regular-expression routes and URI conventions. Preserve route declaration precedence, `(:num)`/`(:any)` semantics, capture substitution, default controller, 404 override, `translate_uri_dashes`, nested controller directories and case-sensitive filesystem behavior. Public controller methods are candidates; inherited/private/reserved methods and custom `_remap` need adapter semantics rather than blanket exposure.
 

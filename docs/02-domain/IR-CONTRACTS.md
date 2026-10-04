@@ -17,3 +17,7 @@ Current data models use data-model.schema version 2.0 with connection/catalog/sc
 ## Capture identity and interpretation preservation
 
 Source-only ledgers are observation identities, not verification correspondence. A source observation/context/effect has no dependency on target values or a future case; derived maps/reports reference immutable captures downstream. Preserve actor partition, session epoch, qualified resource, original value, occurrence and trusted capture provenance at all IR transitions. File initialization/top-level effects are application entry/initialization nodes; unsupported initialization remains unresolved, never discarded as declaration-free dead content. Broader non-HTTP invocation envelopes and language-specific detection facets remain M8 prerequisites; HTTP response/status is a named current capability, not a universal application law.
+
+## Source/target skill composition
+
+[SKILL-SPEC](../06-agent/SKILL-SPEC.md) packages deterministic adapters without changing these three IR layers. Source conventions end at evidence-backed neutral records; target-specific organization belongs in TIM/provider lowering. Never encode a source→target recipe as canonical application meaning. Reactive state, native navigation or offline synchronization are future qualification candidates: lacking a faithful versioned facet produces UNSUPPORTED/UNKNOWN, not HTTP flattening or implicit target code. X40/M8 tests source-independent obligation preservation and incompatible lowerings.

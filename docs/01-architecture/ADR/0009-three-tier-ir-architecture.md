@@ -12,7 +12,7 @@ Reference HTTP/numeric versions and prose provider defaults can become unintende
 
 ## Decision
 
-Keep three IRs and Target Implementation Model. Use exact schema/profile qualification, opaque provider-qualified releases and digest identity; explicit response/session obligations constrain lowerings. Wider language/invocation facets wait for M8.
+Keep three IRs and Target Implementation Model. Source/target framework skills package independently selected adapters through existing ports, categories and qualification records under SKILL-SPEC; no required source→target pair belongs in the core. CI3 → Laravel is Reference Profile #1 intended for first qualification, currently SPECIFIED. Use exact schema/profile qualification, opaque provider-qualified releases and digest identity; explicit response/session obligations constrain lowerings. Wider language/invocation facets wait for M8.
 
 ## Alternatives considered
 
@@ -36,6 +36,8 @@ No automatic range widening or loss of unsupported source initialization. Histor
 
 ## Acceptance experiment / falsification test
 
-X40/X58/X67/X75: preserve unsupported source facets, reject unqualified profile, catch dropped cookies and accept digest-pinned nonnumeric release.
+X40 adds compatible/incompatible directional package composition, reference regression and generator self-certification mutants at M8. X40/X58/X67/X75: preserve unsupported source facets, reject unqualified profile, catch dropped cookies and accept digest-pinned nonnumeric release.
 
 Target-model 2.1 lowering_bindings make provider manifest, qualification, shape and obligation identities explicit; plain lowering_choice is never executable admission. X67 also rejects an unqualified/mismatched provider binding before generation.
+
+Packaging uses existing manifest 2.1/qualification 1.0 and TIM lowering_bindings; no new service, registry or runtime target is introduced. Adding packages does not authorize an unsupported neutral operator. JEV is deferred and provides no architectural prerequisite.

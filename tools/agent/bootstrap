@@ -107,17 +107,6 @@ def detect_capability(cap_id: str, cap_meta: dict) -> dict:
         result["details"] = (
             "Code graph indexer active" if result["installed"] else "Not installed"
         )
-    elif cap_id == "jev":
-        key_present = bool(os.environ.get("TYPESAFE_API_KEY"))
-        result["installed"] = key_present
-        result["configured"] = key_present
-        result["version"] = "authenticated" if key_present else "disabled"
-        result["details"] = (
-            "TYPESAFE_API_KEY present in environment"
-            if key_present
-            else "TYPESAFE_API_KEY absent (fail-open / disabled)"
-        )
-
     return result
 
 

@@ -12,7 +12,7 @@ Its two central promises are to preserve the behavior covered by approved contra
 
 There is **no runnable migration engine, Rewrotron CLI/MCP binary, or runtime-validated source/target adapter yet**. The user workflow below describes the specified product. The quick start runs the repository checks available today.
 
-The first planned reference migration is **CodeIgniter 3 → Laravel**, using independent environments and initially preserving the database schema. The core is designed to remain language, framework, and agent vendor neutral. Other source/target combinations require adapters and validation; they are not supported merely because the architecture can describe them.
+**Reference Profile #1, intended to be the first qualified migration profile, is CodeIgniter 3 → Laravel. It is currently SPECIFIED, not qualified.** It will use independent environments and initially preserve the database schema. The core is designed to remain language, framework, and agent vendor neutral. Other source/target combinations require adapters and validation; they are not supported merely because the architecture can describe them.
 
 ## What problem does it solve?
 
@@ -156,3 +156,11 @@ The README is an introduction. [AGENTS.md](AGENTS.md) and the canonical owners l
 ## License
 
 [Apache-2.0](LICENSE).
+
+## Extending migration capabilities
+
+Rewrotron is designed as a generic, extensible application migration engine. Source framework skills package detection, parsing and extraction adapters; target framework skills package TIM lowering rules, generators and target constraints. They compose through Source IR → Application IR → Behavior IR → TIM, rather than through a hard-coded CI3/Laravel translator.
+
+A skill includes structured adapter metadata, deterministic assets and qualification fixtures, with optional agent guidance. The engine checks exact installed capabilities; independent verification establishes PASS / MISMATCH / UNKNOWN. A skill cannot certify its own output. Adding a package does not automatically support every source/target combination.
+
+[SKILL-SPEC](docs/06-agent/SKILL-SPEC.md) owns this model. The repository implementation skill remains a general contributor procedure. [M8](docs/11-roadmap/DEVELOPMENT-PLAN.md) will qualify pluggable composition using a substantially different technology; React Native/Expo → native Android is one possible candidate, not implemented support or a commitment. JEV is deferred and is not required.

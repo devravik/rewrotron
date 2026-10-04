@@ -1,12 +1,12 @@
 # Static parsing and reachability
 
-PHP syntax handling belongs in `adapters/source/php/parser`; CI3 interpretation belongs in `adapters/source/php/codeigniter3`. Neutral graph algorithms live in `internal/analysis`. The chosen backend is [VKCOM/php-parser](https://github.com/VKCOM/php-parser), which documents PHP 5, PHP 7, and PHP 8.0–8.2 syntax. Pin the backend revision in RWT-007. Newer syntax is inventoried as unsupported until corpus evidence establishes support.
+Source framework skills select their own parser/analyzer through qualified adapters; the neutral core has no required source language. For Reference Profile #1, PHP syntax handling belongs in `adapters/source/php/parser`; CI3 interpretation belongs in `adapters/source/php/codeigniter3`. Neutral graph algorithms live in `internal/analysis`. The chosen backend is [VKCOM/php-parser](https://github.com/VKCOM/php-parser), which documents PHP 5, PHP 7, and PHP 8.0–8.2 syntax. Pin the backend revision in RWT-007. Newer syntax is inventoried as unsupported until corpus evidence establishes support.
 
 ## Parsing contract
 
 Never execute `routes.php`, Composer hooks, includes or application bootstrap for static detection. Parse source bytes from the confirmed manifest, retain spans and errors, and return neutral Source IR records. A failed/partial parse creates a finding and prevents DEAD proof for its affected region. Regex inventory can assist detection but cannot replace an AST while reporting analysis complete.
 
-Collect classes, interfaces, traits, inheritance, functions, methods, closures, declarations, imports/includes, calls, potential entrypoints, configuration expressions and dependency metadata. ASTs are auxiliary artifacts; canonical symbols and edges reference baseline/file hashes and evidence.
+For the PHP reference parser, collect classes, interfaces, traits, inheritance, functions, methods, closures, declarations, imports/includes, calls, potential entrypoints, configuration expressions and dependency metadata. Other languages preserve their supported declarations through versioned neutral facets or report explicit limitations. ASTs are auxiliary artifacts; canonical symbols and edges reference baseline/file hashes and evidence.
 
 ## Reachability
 

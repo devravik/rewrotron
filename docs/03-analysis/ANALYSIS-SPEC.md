@@ -24,7 +24,7 @@ The manifest_ref instead hashes the complete canonical manifest bytes, including
 
 Measure runtime/framework/dependencies/config profiles where safely possible; keep human assertions separate. Source version labels cannot establish vendor modifications or installed bytes. Parse status is PARSED/PARTIAL/UNSUPPORTED/FAILED per region. Dynamic dispatch/include/autoload/reflection/magic/eval/generated code, service locators/config/database-driven routing and production-only paths remain unresolved unless a supported safe mechanism records them. Runtime hits prove presence, not absence.
 
-Operational roots include HTTP/admin/webhooks, CLI, cron/timezones, queues/workers, plugins, feature flags and environment/config/data-controlled loading. The customer supplies/reviews a versioned operational inventory; omitted root categories prevent boundary closure. No static evaluator executes PHP/dependency scripts. Unknown/unsupported regions prevent affected DEAD proofs and behavior acceptance.
+Operational roots include HTTP/admin/webhooks, CLI, cron/timezones, queues/workers, plugins, feature flags and environment/config/data-controlled loading. The customer supplies/reviews a versioned operational inventory; omitted root categories prevent boundary closure. No static evaluator executes source/dependency scripts. Unknown/unsupported regions prevent affected DEAD proofs and behavior acceptance.
 
 Acceptance must falsify coherent acquisition with source mutation/ABA/symlink swaps; reject unsafe acquisition. Fixtures include DB-driven route, cron-only helper, modified vendor, mixed versions, dynamic method/class/include, reflection/autoloader/eval, unavailable extension, flag profiles and generic source. Successful parsing is not coverage completeness.
 

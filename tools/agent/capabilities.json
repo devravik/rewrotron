@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "scope": "Repository-local agent efficiency capabilities manifest. All capabilities are optional aids; none establish project authority or modify Rewrotron specifications.",
   "capabilities": {
     "pxpipe": {
@@ -81,26 +81,6 @@
       "changes_global_user_config": false,
       "project_local_possible": true,
       "security_approval_requirement": "Built-in repository version control; no third-party installation needed."
-    },
-    "jev": {
-      "capability": "bounded_decision",
-      "name": "jev",
-      "purpose": "Optional server-side System 1 decision model (TypeSafe AI) providing fast, calibrated, structured judgments (Choice, Score, Noul) for skill selection, candidate file ranking, failure triage hints, and mismatch classification during real migration execution. Fail-open, advisory only, never authoritative.",
-      "required": false,
-      "detection_command": "jev",
-      "minimum_version": "unverified",
-      "configuration_state": "TYPESAFE_API_KEY environment variable present in environment; optional local proxy/SDK installed",
-      "supported_agents": [
-        "agy",
-        "codex",
-        "opencode",
-        "hermes"
-      ],
-      "installation_mechanism": "Server-side API authenticated via TYPESAFE_API_KEY; see TypeSafe AI documentation",
-      "source_url": "https://typesafe.ai",
-      "changes_global_user_config": false,
-      "project_local_possible": true,
-      "security_approval_requirement": "Server-side judgment API; outbound HTTPS calls; requires TYPESAFE_API_KEY environment variable."
     }
   }
 }

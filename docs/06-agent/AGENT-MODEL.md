@@ -36,11 +36,8 @@ Assessment completion and selection are never implementation authority. Agents r
 
 Schema-valid agent or application-produced records remain proposals unless a guarded service establishes capture provenance. Agents cannot issue ACTUAL_OBSERVED identity/principal/write evidence or execution-witness authority. The evaluator/simulator receives no measured mutation capability. Known vulnerabilities and execution variants require the explicit SECURITY decision; agents cannot silently repair or preserve them as a security/equivalence claim.
 
-## Optional bounded decision capability (`bounded_decision`)
+## Framework knowledge and deferred selection aids
 
-During actual migration execution, Rewrotron may optionally consult a vendor-neutral bounded decision capability (`bounded_decision`, implemented for example via TypeSafe Jev authenticated by the server-side environment variable `TYPESAFE_API_KEY`).
+Source/target framework knowledge belongs in migration capability packages under [SKILL-SPEC](SKILL-SPEC.md). An external coding agent may implement an approved bounded target unit; it does not replace extraction, TIM planning or independent acceptance. The repository implementation skill builds Rewrotron itself and remains framework-neutral.
 
-1. **Advisory and Non-Authoritative:** Bounded decisions provide fast, calibrated, structured classification (such as skill candidate disambiguation, candidate file shortlisting, initial failure triage hints, or mismatch categorization). They are strictly advisory hints. They cannot grant confirmation gates (Gate 1, Gate 2, Gate 3), alter schemas, modify contracts, mark code DEAD, waive discrepancies, or override deterministic verifier verdicts (PASS, MISMATCH, UNKNOWN).
-2. **Fail-Open Contract:** If `TYPESAFE_API_KEY` is absent, invalid, or times out, the decision layer fails open immediately. Rewrotron falls back to standard deterministic filtering and frontier model investigation without blocking, halting, or degrading migration correctness.
-3. **Compact Input Boundary:** Queries pass only minimal, non-sensitive decision state (e.g. error signatures, candidate tag lists, bounded file paths). Queries never include customer secrets, credentials, full source files, or entire conversation histories.
-4. **Typed Decision Primitives:** Uses calibrated, structured primitives (`Choice` over explicit options, `Score` on an ordered scale, `Noul` for proposition likelihood) with explicit fallback options (`unknown`, `none`, `review`).
+JEV / TypeSafe bounded-decision integration is DEFERRED. It is outside active routing, code generation, M8 prerequisites and migration skill requirements. No provider credentials or replacement AI selector are required. Future consideration needs a separate applicability/privacy/evidence decision; current routing uses deterministic metadata filtering and canonical owners.

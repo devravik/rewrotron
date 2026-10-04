@@ -1,145 +1,81 @@
-# SKILL-SPEC.md — Agent Skill Architecture & Packaging Specification
+# Migration framework skills and agent skill packaging
 
-> **Version:** 1.1
-> **Status:** Agent Skill Reference Specification
+**Owner:** Skill packaging, discovery and the boundary between guidance and executable adapter capabilities. **Status:** SPECIFIED. [SERVICE-CONTRACTS](../01-architecture/SERVICE-CONTRACTS.md) owns deterministic ports and qualification; [TARGET-ARCHITECTURE](../04-migration/TARGET-ARCHITECTURE.md) owns the Target Implementation Model (TIM). No framework skill or migration profile is runtime-qualified yet.
 
----
+## Existing layouts and distinct responsibilities
 
-## 1. Skill Packaging and Directory Layout
+| Package | Role | Authority |
+| --- | --- | --- |
+| `.agents/skills/rewrotron-implementation/` | Portable procedure for implementing Rewrotron itself, one authorized development unit at a time | References repository owners; no framework semantics or second workflow |
+| `skills/rewrotron/` (planned) | Operator guidance for the shared assessment/migration workflow | Calls existing guarded CLI/MCP; grants no gates |
+| `skills/capabilities/analysis/<source-name>/` (planned) | Source framework skill | Packages source knowledge and references a SOURCE adapter |
+| `skills/capabilities/migration/<target-name>/` (planned) | Target framework skill | Packages target lowering knowledge and references a TARGET adapter |
+| `skills/capabilities/verification/<name>/` (planned) | Probe, harness or comparator guidance | References separately qualified observation/comparison providers |
 
-The repository distinguishes execution entrypoints from domain capability packages:
+Reuse these category directories and `skills/manifest.json`; do not create a parallel source/target registry. Source and target names identify individual technologies, not mandatory pairs. CI3 and Laravel packages are Reference Profile #1 candidates, currently SPECIFIED. Their adapter specifications remain [CI3-ADAPTER](../04-migration/CI3-ADAPTER.md) and [LARAVEL-ADAPTER](../04-migration/LARAVEL-ADAPTER.md).
 
-* `.agents/skills/`: Agent CLI execution entrypoints discovered directly by coding agents (such as `.agents/skills/rewrotron-implementation/`).
-* `skills/`: Repository capability packages and engine operator skills, indexed by `skills/manifest.json`:
-  * `skills/rewrotron/`: Core engine operator skill.
-  * `skills/capabilities/<category>/<skill-name>/`: Scoped domain capabilities (e.g., `skills/capabilities/migration/ci3-controller-to-laravel/`).
+A migration framework skill is a capability package, not merely prompts. It contains concise `SKILL.md` guidance plus only the necessary declarative metadata, mappings, templates, fixtures and deterministic adapter assets or references. The engine consumes installed adapter manifests and qualified ports, not natural-language instructions as executable semantics. Adding a framework normally supplies a package and adapter implementation through existing ports. A genuinely new neutral semantic capability requires an explicit versioned contract decision; a skill cannot extend the behavior interpreter implicitly.
 
-The planned packaging for the core engine operator is `skills/rewrotron/`:
+## Source and target contracts
 
-```text
-skills/rewrotron/
-├── SKILL.md                  # Main entrypoint with YAML frontmatter & core instructions
-├── references/               # Detailed cheat-sheets loaded on demand
-│   ├── lifecycle.md          # State machine transitions
-│   ├── ci3.md                # CodeIgniter 3 architecture quirks
-│   ├── laravel13.md          # Laravel 13 best practices
-│   ├── compatibility.md      # Equivalence & comparison rules
-│   ├── troubleshooting.md    # Common mismatch remedies
-│   └── safety.md             # Sandbox constraints & redaction
-└── scripts/                  # Deterministic helper scripts
-    ├── bootstrap.sh          # Initialize project environment
-    ├── inspect.sh            # Inspect traces and mismatches
-    └── report.sh             # Generate human-readable summaries
-```
+| Concern | Source skill | Target skill |
+| --- | --- | --- |
+| Identity/profile | Framework/language detection rules, supported version/profile declarations | Target framework/language, build/runtime/platform profile declarations |
+| Deterministic implementation | Parser/analyzer, conventions, source semantics, extraction/probe assets | TIM lowerings, component/structure/dependency constraints, templates/generators and harness assets |
+| Neutral boundary | Source → Source IR → Application IR → Behavior IR with provenance/uncertainty | Behavior obligations → proposed TIM → approved TIM → target implementation |
+| Capabilities | Extracted/observed constructs, unresolved dynamic behavior, limitations and capture coverage | Supported operators/effects, required target facilities, unresolved lowering gaps |
+| Evidence | Detection/extraction/capture controls and source fixtures | Build/lowering controls, target fixtures and independently executed verification |
+| Agent guidance | Optional interpretation and characterization hints | Optional implementation/repair hints; no acceptance authority |
 
----
+Neither package depends on the other's framework identity to interpret neutral contracts. A pair-specific recipe may remain advisory, but cannot replace neutral IR, TIM or exact-profile admission. No source skill emits Laravel classes into neutral IR; no target skill requires CI3 controller names as input semantics.
 
-## 2. Frontmatter and Capability Package Contract
+## Machine-readable contract: reuse existing records
 
-`SKILL.md` must declare standard frontmatter:
+| Information | Existing owning record |
+| --- | --- |
+| Discovery/category/tags/framework selectors | `skills/manifest.json` discovery entry and SKILL frontmatter; advisory filtering only |
+| Package identity | Skill version and `rwt-skill-package-1` content hash |
+| Executable role/identity/bytes | [Adapter manifest](../../specs/adapters/manifest.schema.json) 2.1: direction, adapter_id/version, implementation_ref |
+| Advertised framework/version/capabilities/limitations | Manifest capabilities, supported_profiles and limitations; profiles are descriptive, never executable constraints |
+| Exact supported input and control evidence | [Qualification](../../specs/adapters/qualification.schema.json): schema_refs, capability_ids, input_profile_ref, control suite/results, limitations/status |
+| Source-required semantics and uncertainty | IR/contract/scenario records plus actual capture/coverage attestations |
+| Target-required facilities and lowering providers | Exact resolution and TIM 2.1 component capabilities, gaps and lowering_bindings (provider manifest, qualification, obligation/shape refs) |
+| Independent comparison capability | Pinned comparator/probe/runner bindings, qualifications and approved comparison policies |
 
-```yaml
----
-name: rewrotron
-description: Operates guarded Rewrotron services for evidence-bounded application reconstruction.
-version: 1.0.0
-author: Rewrotron Core Team
----
-```
+Source/target skill guidance must identify the exact adapter manifest it uses. Consumed skill revisions and installed adapter bytes/schema/qualification closure are pinned through [CONFIRMATION-PROTOCOL](../02-domain/CONFIRMATION-PROTOCOL.md); current registries cannot reconstruct historical approvals. No new manifest schema is needed for the current exact-profile subset. A generic executable profile constraint language is an explicit M8 prerequisite, not inferred from open supported_profiles JSON.
 
-### Capability skill packages
+## Composition and admission
 
-Specialized capability skills (such as migration, analysis, and verification packages) follow a modular structure:
+1. Discover source and target packages independently; detection remains an evidence-backed proposal.
+2. Validate installed manifests, exact bytes/schema/profile qualifications and applicable source extraction/capture capabilities through existing services.
+3. Derive required neutral obligations from characterized application behavior and selected scope, not from package names or a union of advertised tags.
+4. Resolve each required target lowering through TIM and each required observation/comparison dimension through independently qualified providers. Match exact obligation, input/output shape, profile, implementation and schema refs.
+5. Record unsupported/unresolved obligations as typed capability gaps. Missing lowering blocks affected executable planning; missing required capture/comparison remains UNKNOWN. Assessment can still finish with gaps.
+6. Freeze the selected package/provider revisions in the exact approved plan. Execute only after Gate 2; independent verifier derives PASS / MISMATCH / UNKNOWN.
 
-```text
-skills/capabilities/<category>/<skill-name>/
-├── SKILL.md                  # Concise entrypoint (< 100 lines) with frontmatter
-└── references/               # Deep cheat-sheets loaded only on demand
-    ├── mapping.md            # Syntax / AST transformation table
-    ├── edge-cases.md         # Framework idiosyncrasies and exceptions
-    └── verification.md       # Focused unit test and verification commands
-```
+Capability tag intersection is insufficient: `routing` and `navigation` are not equivalent without an executable neutral obligation and qualified lowering. Partial compatibility requires an explicit resolution or scope decision and a successor feasible plan; approval cannot waive missing correctness evidence. Neither qualifications of each individual adapter nor a compatible schema alone qualify the composed migration profile: run its end-to-end positive and deliberate-negative controls under the named scope.
 
-Capability skills must declare extended frontmatter:
+The initial architecture admits exact qualified profiles. M8 demonstrates pluggable composition with a substantially different technology and specifies any additional neutral facets/constraints before executing them. React Native/Expo → Kotlin/Jetpack Compose/Room/Android APIs is one future candidate, not a commitment or currently supported profile. Reactive/native lifecycle, navigation, offline persistence or platform effects that lack qualified semantics remain explicit gaps; never flatten them into HTTP.
 
-```yaml
----
-name: ci3-controller-to-laravel
-description: Transforms CI3 controllers, methods, and view loaders to Laravel 13 single-action or resource controllers.
-version: 1.0.0
-status: STABLE
-category: migration
-source_framework: codeigniter@3.*
-target_framework: laravel@13.*
-tags:
-  - controller
-  - http
-  - routing
-  - view-loader
-provenance:
-  lessons:
-    - les-01h8abc
-author: Rewrotron Core Team
----
-```
+## Package structure and guidance
 
-**Advisory invariants:** Capability skills are strictly advisory aids for target generation and repair. They cannot grant Gate 1, Gate 2, or Gate 3 approval, cannot override or alter deterministic verifier verdicts (PASS, MISMATCH, UNKNOWN), cannot turn UNKNOWN into PASS, cannot declare code DEAD, and cannot alter canonical machine contracts or schemas.
+`SKILL.md` has name/description and version metadata; optional references load on demand. A package may include deterministic mappings/templates/fixtures or reference separately distributed pinned adapter bytes. Do not execute arbitrary package scripts through the agent interface: helpers use fixed guarded commands/qualified Runner ToolSpecs under the existing security/gate policy.
 
-### Canonical content-hash preimage (`rwt-skill-package-1`)
+Discovery entries retain existing id/name/version/status/category/tags/description/path/content_hash fields. Framework selectors used for guidance are descriptive; no `source_framework` plus `target_framework` pair is mandatory. `operation` entries are not transformation capabilities. `STABLE` is a distribution/routing label, never runtime maturity or evidence. Missing package, placeholder digest or absent qualification cannot establish a usable migration capability. The current index is empty because no domain capability/operator package is present; `.agents` implementation guidance is independently discoverable by coding agents.
 
-To ensure deterministic content-addressing across clients and environments without divergence:
+Routing uses deterministic category/tag/profile filtering and stable tie-breaking by entry ID; load only relevant guidance. No match falls back to canonical documentation for investigation, never to unsupported execution. JEV and other bounded-decision integrations are deferred; there is no required AI selector. Agents may propose code through their existing coding capability, but the engine and verifier retain authority. Framework knowledge belongs in these packages, not in the general implementation procedure.
 
-1. Enumerate all regular files within the skill package directory (`SKILL.md`, `references/*`, `scripts/*`), excluding VCS and ephemeral files.
-2. Represent each file by its relative POSIX path, raw byte length (`size_bytes`), and SHA-256 digest of raw file bytes (`sha256`, 64 lowercase hex characters).
-3. Construct a canonical JSON manifest with key `"identity": "rwt-skill-package-1"` and `"entries"` sorted strictly by unnormalized UTF-8 path bytes.
-4. Serialize using [rwt-cjson-1](../02-domain/CONFIRMATION-PROTOCOL.md).
-5. Compute the SHA-256 digest of the serialized UTF-8 bytes: `content_hash = "sha256:" + lowercase_hex(SHA256(preimage))`.
+## Canonical package identity (`rwt-skill-package-1`)
 
----
+1. Enumerate regular package files, excluding VCS/ephemeral files.
+2. Record relative POSIX path, raw size_bytes and lowercase raw-byte SHA-256.
+3. Form `{identity: "rwt-skill-package-1", entries: [...]}` with entries strictly sorted by unnormalized UTF-8 path bytes.
+4. Serialize with rwt-cjson-1 and hash those bytes; prefix the lowercase digest with `sha256:`.
 
-## 3. Skill Routing Manifest
+Pin all executable assets and consumed revisions separately through the approved closure. The guidance hash does not prove adapter bytes are installed, safe or qualified. Updating a package cannot retroactively change historical approval/evidence.
 
-The repository maintains a repository skill discovery index at `skills/manifest.json` (a non-authoritative discovery cache; canonical specifications remain the sole authority):
+## Verification and portability
 
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "version": "1.0",
-  "skills": [
-    {
-      "id": "operation.rewrotron",
-      "name": "rewrotron",
-      "version": "1.0.0",
-      "status": "STABLE",
-      "category": "operation",
-      "tags": ["core", "engine", "orchestration", "assessment", "migration"],
-      "description": "Operates guarded Rewrotron services for evidence-bounded application reconstruction.",
-      "path": "skills/rewrotron",
-      "content_hash": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
-    }
-  ]
-}
-```
+Source/target skills may supply control fixtures, platform harnesses and test guidance. Expected obligations are independently reviewed and approved; generation assets do not establish actual capture truth or comparator authority. A target package cannot mark its own output PASS, broaden normalization, fill missing effects or turn UNKNOWN/UNSUPPORTED_CAPABILITY into PASS. Any co-distributed harness/comparator must be independently qualified and receive only its role-specific handles.
 
-### Deterministic routing semantics
-
-1. When working on a specialized unit, an agent consults `skills/manifest.json` via small bounded manifest lookup (or CLI `skills search --query <domain>`).
-2. **Category filtering:** Capability skill routing evaluates ONLY domain capability categories (`category IN ('migration', 'analysis', 'verification')`). The `operation` category designates execution entrypoints or engine operator skills (such as `operation.rewrotron`), which govern process flow and are never selected as domain transformation capabilities.
-3. **Status filtering:** Only capability skills with `status IN ('STABLE')` are eligible for automatic routing (or `EXPERIMENTAL` when explicitly requested).
-4. **Metadata filtering & optional bounded selection:** The router applies deterministic low-cost metadata filtering against trigger tags and framework predicates. When multiple candidate skills match, an optional `bounded_decision` capability (such as TypeSafe Jev via `TYPESAFE_API_KEY`) may provide an advisory choice ranking to select 1–2 skills; if absent or disabled, deterministic tag rank is used directly.
-5. The agent loads only the selected `SKILL.md` (and specific `references/*.md` on demand).
-6. **Absence/malformation fallback:** If `skills/manifest.json` is absent, malformed, or unreadable, the agent falls back directly to canonical specifications in `docs/`. Absence or corruption of the manifest never blocks execution.
-
-See [SKILL-EVOLUTION](../07-learning/SKILL-EVOLUTION.md) for lifecycle states and promotion criteria, and [LEARNING-SYSTEM](../07-learning/LEARNING-SYSTEM.md) for multi-context validation rules.
-
----
-
-## 4. Portability and operating contract
-
-The Skill is a planned external orchestration package, not engine implementation. Its default flow uses the canonical CLI/MCP catalogs, waits for explicit human assessment continuation decisions and persisted gate approvals, claims fenced missions, distinguishes unsupported/UNKNOWN behavior, and distinguishes assessment completion from implementation acceptance. An assessment-only run can complete with blocked/unknown feasibility; migration unit completion still requires scoped current verification. Reference documents load on demand; scripts invoke fixed domain commands and never provide a shell/SQL escape hatch.
-
-Record Skill version/content hash when used; a client without skill support can perform the same flow manually through CLI. Test with at least two client integrations, interrupted/resumed sessions and a blocked gate. No client brand is required by core services.
-
-No Skill/client integration is implemented or validated here. Pin exact consumed revisions, never use evolving live instructions as approved execution truth. CLI fallback supports all decision actions/gates.
-
-The Skill presents the shared assessment report and may stop successfully there; it must not automatically plan or generate. An explicit human local assessment decision selects continuation, followed by a separate plan request and Gate 2 approval. It cannot treat report completion, recommendation acceptance or conversation as authorization. See [PROJECT-LIFECYCLE](../02-domain/PROJECT-LIFECYCLE.md).
+Use the shared assessment checkpoint, mission/state system and three human gates. Skills introduce no new workflow. CLI remains the complete fallback when a client lacks skill support; client support remains UNVERIFIED until integration evidence exists. [TESTING](../10-development/TESTING.md) X40/X58/X61/X67 owns neutrality, profile admission, checker separation and lowering falsification; M8 adds composition controls to X40.

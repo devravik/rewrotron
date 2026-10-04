@@ -45,3 +45,7 @@ No second artifact store or normalization implementation is introduced. `interna
 Assessment reporting/selection is a checkpoint projection coordinated by the existing services, not an `internal/assessment` analyzer or parallel adapter pipeline. [PROJECT-LIFECYCLE](../02-domain/PROJECT-LIFECYCLE.md) owns its completion and continuation contract.
 
 The existing neutral behavior/observer/verification services use role-specific ports under SYSTEM-DESIGN/SERVICE-CONTRACTS: fixture driver, shadow simulator, application runner, observer, assertion evaluator and comparator. These do not require a new package per role. Writable measured-store capabilities never enter simulator/evaluator/comparator constructors; execution witness qualification tests that boundary.
+
+## Framework skill packages
+
+The named PHP/CI3/Laravel paths above are Reference Profile #1 examples, not a complete registry or core dependency. Source packages live under the existing analysis capability category; target packages under migration; independent verification guidance under verification. [SKILL-SPEC](../06-agent/SKILL-SPEC.md) owns layout and machine-record mappings. Executable assets implement the existing SourceAdapter/TargetAdapter ports; discovery guidance cannot introduce core imports, executable operators or a second verifier.

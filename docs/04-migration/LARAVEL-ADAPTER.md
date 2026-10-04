@@ -19,3 +19,7 @@ Use independent sandbox DB copies. Preserve transaction boundaries, decimal arit
 Bootstrap and slice generation occur only after Gate 2. The adapter emits files to staging plus a patch manifest `{path, before_sha256, after_sha256, action, unit_id}`. New files require absence; modifications require matching before hashes; escaping paths/symlinks and unexpected customer edits fail `ERR_TARGET_CONFLICT`. Generate `.env.example` with references/placeholders and no customer credentials.
 
 Run syntax checks, PHPStan level 8 and Pint against the pinned fixture tool versions, then differential cases and the regression corpus. Failure preserves diagnostics and reverts only owned unchanged patches. Provenance records source/plan/adapter/target/dependency/corpus hashes. Targets run independently without Rewrotron, SQLite metadata or source-framework runtime.
+
+## Framework skill packaging
+
+This adapter is a candidate for Reference Profile #1 intended for first qualification, not a core framework requirement. Package its reusable knowledge/assets under [SKILL-SPEC](../06-agent/SKILL-SPEC.md). The source and target packages compose through neutral IR/TIM, not through direct framework-to-framework APIs. Existing reference scope and all verification requirements remain unchanged; SPECIFIED is not qualified.

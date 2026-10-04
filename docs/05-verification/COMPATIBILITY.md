@@ -1,6 +1,6 @@
 # Reference adapter compatibility map
 
-The [canonical compatibility specification](COMPATIBILITY-SPEC.md) owns verdicts and comparison rules. Framework APIs are implementation choices rather than evidence of compatibility.
+The [canonical compatibility specification](COMPATIBILITY-SPEC.md) owns verdicts and comparison rules. This table covers Reference Profile #1 (CI3 → Laravel), currently SPECIFIED. Framework APIs are implementation choices rather than evidence of compatibility; other profiles use the same independent obligations/verdicts with their own qualified providers.
 
 | Behavior | CI3 extraction | Laravel implementation | Required evidence |
 | --- | --- | --- | --- |
