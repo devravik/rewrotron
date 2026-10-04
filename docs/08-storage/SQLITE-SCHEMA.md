@@ -16,7 +16,7 @@ Initial durable projects.status enum is unchanged; display OBSERVE/VERIFY/REPAIR
 
 [ARTIFACT-STORE](ARTIFACT-STORE.md) owns quotas/retention/scale targets; [RECOVERY](RECOVERY.md) owns coordinated online backup, integrity/foreign-key checks, restore closure and checksummed migration rollback. Admission stops before quota exhaustion; no silent evidence GC. FTS5 is optional search capability verified at doctor; vector search is deferred. Project and optional global DBs have separate transactions/privacy boundaries; promotion uses idempotent outbox reconciliation. No claim of years-long unlimited trace retention.
 
-Required runtime experiments: actual pinned driver/version/compile options, busy/reader/checkpoint behavior, abrupt kill/power-loss simulation, network filesystem rejection, backup during publication, disk exhaustion and restore of protected approval refs. Python in-memory DDL validation is structural evidence only, not these operational tests.
+Required runtime experiments: actual pinned driver/version/compile options, busy/reader/checkpoint behavior, abrupt process termination crash simulation (with hardware power-loss qualification deferred to M6), network filesystem rejection, backup during publication, disk exhaustion and restore of protected approval refs. Python in-memory DDL validation is structural evidence only, not these operational tests.
 
 ## Initial DDL (immutable migration 0001)
 
@@ -581,5 +581,12 @@ The pinned SQLite baseline driver is `modernc.org/sqlite v1.46.2` (reporting emb
 - **`THREADSAFE=1`**: Mandatory for multi-connection and concurrent goroutine access under Go's `database/sql` connection pool. Verified via `sqlite_compileoption_used('THREADSAFE') = 1`.
 - **Runtime Pragmas**: Enforced by `ConfigureConnection` on every physical connection: `foreign_keys=ON`, `journal_mode=WAL`, `synchronous=FULL`, and `busy_timeout=5000`.
 - **Query Normalization Boundary**: `SQLITE_ENABLE_NORMALIZE` is a C-level SQLite API compilation option (`sqlite3_normalized_sql`) that is not present in upstream pure-Go `modernc.org/sqlite` builds and is not exposed by Go's `database/sql` driver interfaces. Metadata storage does not use query normalization. Target and fixture SQL normalization is an implementation-independent Rewrotron verification obligation across all supported database dialects (MySQL, PostgreSQL, SQLite), not an embedded SQLite C-library dependency.
+
+### Crash recovery vs physical power-loss qualification boundary
+
+Qualification explicitly distinguishes software crash recovery from physical power loss:
+- **Software Crash Recovery (M0 Qualified)**: Process termination via `SIGKILL`, abrupt exit mid-transaction, SQLite WAL automatic journal recovery, multi-process concurrency, POSIX locking, and disk exhaustion under X28/X74 are verified and qualified on the host filesystem (`/media/System` ext4).
+- **Physical Power Loss & Torn-Write Boundary (Deferred to M6)**: Hardware-level electrical power cuts and storage controller write-cache flush failures require dedicated physical test benches with power-interruption hardware. This property is unvalidated in local software environments and explicitly moved to M6 distribution and release qualification. M0 claims only software process crash atomicity and WAL recovery, never guaranteed recovery from physical device loss or lying storage hardware caches.
+
 
 

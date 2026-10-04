@@ -739,11 +739,15 @@ func TestHostQualification_5_X74_DiskExhaustionBoundary(t *testing.T) {
 func TestHostQualification_6_PowerLossBoundary(t *testing.T) {
 	t.Parallel()
 
-	// Physical power-loss and hardware torn-write testing cannot be established
-	// on a live shared user environment without physical power-cycling hardware.
-	// As mandated by M0 host qualification specification:
-	// Report exact finding: NOT QUALIFIED — environment cannot establish this property.
+	// As established in docs/08-storage/SQLITE-SCHEMA.md and docs/11-roadmap/DEVELOPMENT-PLAN.md:
+	// - M0 qualifies software process crash recovery (SIGKILL mid-transaction, WAL rollback,
+	//   POSIX locking, restart recovery) — tested and passed in TestHostQualification_4_X28_StorageRecovery.
+	// - Physical power-loss and hardware torn-write testing requires dedicated power-cycling test bench
+	//   hardware and is explicitly moved to M6 distribution and release qualification.
+	// On this live local software host environment, physical power-loss is recorded as:
+	//   NOT QUALIFIED — environment cannot establish this property (deferred to M6)
 	t.Logf("--- POWER-LOSS / TORN-WRITE BOUNDARY ASSESSMENT ---")
-	t.Logf("Result: NOT QUALIFIED — environment cannot establish this property")
+	t.Logf("Software Process Crash Recovery (M0): QUALIFIED (verified via X28 SIGKILL)")
+	t.Logf("Physical Hardware Power-Loss (M6): NOT QUALIFIED — environment cannot establish this property (deferred to M6)")
 	t.Logf("Limitation: True physical power-cut and torn-sector testing requires dedicated power-cycling test bench.")
 }

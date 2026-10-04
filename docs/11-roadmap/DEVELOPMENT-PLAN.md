@@ -26,7 +26,7 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Blockers:** Unsupported local FS; missing pinned SQLite build/version; unavailable canonical/ownership checks.
 
-**Explicit non-goals:** No source runtime/adapters, generation, background survival or universal discovery.
+**Explicit non-goals:** No source runtime/adapters, generation, background survival, physical power-loss hardware qualification (deferred to M6) or universal discovery.
 
 ## M1 — Falsifiable deterministic reconstruction experiment
 
