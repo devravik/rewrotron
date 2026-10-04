@@ -14997,5 +14997,53 @@
       "elapsed_ms": -1
     },
     "valid": false
+  },
+  {
+    "name": "artifact-content-utf8-shape",
+    "schema": "https://rewrotron.dev/specs/operations/artifact-content.schema.json",
+    "instance": {
+      "artifact_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "media_type": "text/plain",
+      "encoding": "utf8",
+      "content": "hello\n",
+      "size_bytes": 6
+    },
+    "valid": true
+  },
+  {
+    "name": "artifact-content-base64-shape",
+    "schema": "https://rewrotron.dev/specs/operations/artifact-content.schema.json",
+    "instance": {
+      "artifact_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "media_type": "application/octet-stream",
+      "encoding": "base64",
+      "content": "AP8NCg==",
+      "size_bytes": 4
+    },
+    "valid": true
+  },
+  {
+    "name": "artifact-content-negative-size",
+    "schema": "https://rewrotron.dev/specs/operations/artifact-content.schema.json",
+    "instance": {
+      "artifact_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "media_type": "text/plain",
+      "encoding": "utf8",
+      "content": "hello\n",
+      "size_bytes": -1
+    },
+    "valid": false
+  },
+  {
+    "name": "artifact-content-unknown-encoding",
+    "schema": "https://rewrotron.dev/specs/operations/artifact-content.schema.json",
+    "instance": {
+      "artifact_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "media_type": "text/plain",
+      "encoding": "gzip",
+      "content": "hello\n",
+      "size_bytes": 6
+    },
+    "valid": false
   }
 ]
