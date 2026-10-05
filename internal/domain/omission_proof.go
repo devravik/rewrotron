@@ -1,8 +1,47 @@
 package domain
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 )
+
+// OmissionProof represents an omission proof bundle conforming to specs/analysis/omission-proof.schema.json.
+type OmissionProof struct {
+	SchemaVersion                string   `json:"schema_version"`
+	ProjectID                    string   `json:"project_id"`
+	OmittedIDs                   []string `json:"omitted_ids"`
+	SnapshotRef                  string   `json:"snapshot_ref"`
+	ProfileRef                   string   `json:"profile_ref"`
+	ClosedOperationalBoundaryRef string   `json:"closed_operational_boundary_ref"`
+	ParseCompletenessRef         string   `json:"parse_completeness_ref"`
+	GraphRef                     string   `json:"graph_ref"`
+	AnalyzerManifestRef          string   `json:"analyzer_manifest_ref"`
+	NoReachablePathRef           string   `json:"no_reachable_path_ref"`
+	NoUnresolvedCandidateRef     string   `json:"no_unresolved_candidate_ref"`
+	UsableCorpusRef              string   `json:"usable_corpus_ref"`
+	ZeroRuntimeHitsRef           string   `json:"zero_runtime_hits_ref"`
+	ValidityGraphRef             string   `json:"validity_graph_ref"`
+}
+
+// CanonicalJSON renders the OmissionProof into canonical JSON bytes.
+func (op *OmissionProof) CanonicalJSON() ([]byte, error) {
+	raw, err := json.Marshal(op)
+	if err != nil {
+		return nil, &OmissionProofError{Reason: "serialization failure", Cause: err}
+	}
+	return CanonicalJSON(raw)
+}
+
+// Digest computes the sha256 digest of the canonical OmissionProof.
+func (op *OmissionProof) Digest() (string, error) {
+	cjson, err := op.CanonicalJSON()
+	if err != nil {
+		return "", err
+	}
+	sum := sha256.Sum256(cjson)
+	return "sha256:" + hex.EncodeToString(sum[:]), nil
+}
 
 // OmissionProofError describes an invalid omission proof record without echoing private contents.
 type OmissionProofError struct {
