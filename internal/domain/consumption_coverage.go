@@ -1,7 +1,9 @@
 package domain
 
 import (
+	"crypto/sha256"
 	"encoding/json"
+	"fmt"
 	"strings"
 )
 
@@ -303,3 +305,149 @@ func validateCoverageCategories(raw json.RawMessage, coverageStatus string, exam
 
 	return nil
 }
+
+// CoverageCategory represents the coverage status and evidence for an evaluated prerequisite category.
+type CoverageCategory struct {
+	Category     string   `json:"category"`
+	Status       string   `json:"status"`
+	InputRefs    []string `json:"input_refs"`
+	EvidenceRefs []string `json:"evidence_refs"`
+}
+
+// ConsumptionCoverageRecord represents an immutable positive consumption-coverage record (schema 1.0).
+type ConsumptionCoverageRecord struct {
+	SchemaVersion        string             `json:"schema_version"`
+	ProjectID            string             `json:"project_id"`
+	ScopeRef             string             `json:"scope_ref"`
+	DiscoveryMethodRef   string             `json:"discovery_method_ref"`
+	AnalysisRevisionRef  string             `json:"analysis_revision_ref"`
+	InputsExamined       []string           `json:"inputs_examined"`
+	RootsExamined        []string           `json:"roots_examined"`
+	Categories           []CoverageCategory `json:"categories"`
+	UnresolvedCandidates []string           `json:"unresolved_candidates"`
+	ExcludedMechanisms   []string           `json:"excluded_mechanisms"`
+	ClosureControlRefs   []string           `json:"closure_control_refs"`
+	Status               string             `json:"status"`
+	Issuer               string             `json:"issuer"`
+}
+
+// IsSufficient returns true if the consumption coverage proves sufficient prerequisite closure.
+func (c *ConsumptionCoverageRecord) IsSufficient() bool {
+	if c == nil {
+		return false
+	}
+	return c.Status == "SUFFICIENT"
+}
+
+// CanonicalJSON renders the consumption coverage into RFC 8785 canonical bytes and validates it.
+func (c *ConsumptionCoverageRecord) CanonicalJSON() ([]byte, error) {
+	if c == nil {
+		return nil, &ConsumptionCoverageError{Reason: "consumption coverage is nil"}
+	}
+	inputs := c.InputsExamined
+	if inputs == nil {
+		inputs = []string{}
+	}
+	roots := c.RootsExamined
+	if roots == nil {
+		roots = []string{}
+	}
+	cats := c.Categories
+	if cats == nil {
+		cats = []CoverageCategory{}
+	}
+	unresolved := c.UnresolvedCandidates
+	if unresolved == nil {
+		unresolved = []string{}
+	}
+	excluded := c.ExcludedMechanisms
+	if excluded == nil {
+		excluded = []string{}
+	}
+	controls := c.ClosureControlRefs
+	if controls == nil {
+		controls = []string{}
+	}
+
+	recordMap := map[string]any{
+		"schema_version":        c.SchemaVersion,
+		"project_id":            c.ProjectID,
+		"scope_ref":             c.ScopeRef,
+		"discovery_method_ref":  c.DiscoveryMethodRef,
+		"analysis_revision_ref": c.AnalysisRevisionRef,
+		"inputs_examined":       inputs,
+		"roots_examined":        roots,
+		"categories":            cats,
+		"unresolved_candidates": unresolved,
+		"excluded_mechanisms":   excluded,
+		"closure_control_refs":  controls,
+		"status":                c.Status,
+		"issuer":                c.Issuer,
+	}
+
+	raw, err := json.Marshal(recordMap)
+	if err != nil {
+		return nil, &ConsumptionCoverageError{Reason: "failed to marshal consumption coverage", Cause: err}
+	}
+	canon, err := CanonicalJSON(raw)
+	if err != nil {
+		return nil, &ConsumptionCoverageError{Reason: "failed to canonicalize consumption coverage JSON", Cause: err}
+	}
+	if err := ValidateConsumptionCoverage(canon); err != nil {
+		return nil, err
+	}
+	return canon, nil
+}
+
+// Digest computes the canonical sha256 reference for the consumption coverage record.
+func (c *ConsumptionCoverageRecord) Digest() (string, error) {
+	canon, err := c.CanonicalJSON()
+	if err != nil {
+		return "", err
+	}
+	h := sha256.Sum256(canon)
+	return fmt.Sprintf("sha256:%x", h), nil
+}
+
+// ParseConsumptionCoverage parses and validates a consumption-coverage JSON record.
+func ParseConsumptionCoverage(raw []byte) (*ConsumptionCoverageRecord, error) {
+	if err := ValidateConsumptionCoverage(raw); err != nil {
+		return nil, err
+	}
+	canon, err := CanonicalJSON(raw)
+	if err != nil {
+		return nil, &ConsumptionCoverageError{Reason: "canonical JSON", Cause: err}
+	}
+	var record ConsumptionCoverageRecord
+	if err := json.Unmarshal(canon, &record); err != nil {
+		return nil, &ConsumptionCoverageError{Reason: "unmarshal consumption coverage", Cause: err}
+	}
+	if record.InputsExamined == nil {
+		record.InputsExamined = []string{}
+	}
+	if record.RootsExamined == nil {
+		record.RootsExamined = []string{}
+	}
+	if record.Categories == nil {
+		record.Categories = []CoverageCategory{}
+	}
+	for i := range record.Categories {
+		if record.Categories[i].InputRefs == nil {
+			record.Categories[i].InputRefs = []string{}
+		}
+		if record.Categories[i].EvidenceRefs == nil {
+			record.Categories[i].EvidenceRefs = []string{}
+		}
+	}
+	if record.UnresolvedCandidates == nil {
+		record.UnresolvedCandidates = []string{}
+	}
+	if record.ExcludedMechanisms == nil {
+		record.ExcludedMechanisms = []string{}
+	}
+	if record.ClosureControlRefs == nil {
+		record.ClosureControlRefs = []string{}
+	}
+	return &record, nil
+}
+

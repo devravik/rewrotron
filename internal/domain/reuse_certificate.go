@@ -1,7 +1,9 @@
 package domain
 
 import (
+	"crypto/sha256"
 	"encoding/json"
+	"fmt"
 )
 
 // ReuseCertificateError describes an invalid reuse-certificate record without echoing private contents.
@@ -141,3 +143,104 @@ func validateReuseRefList(raw json.RawMessage, fieldName string) error {
 	}
 	return nil
 }
+
+// ReuseCertificateRecord represents an immutable reuse-certificate record (schema 2.0 or 2.1).
+type ReuseCertificateRecord struct {
+	SchemaVersion           string   `json:"schema_version"`
+	ProjectID               string   `json:"project_id"`
+	OldPlanHash             string   `json:"old_plan_hash"`
+	NewPlanHash             string   `json:"new_plan_hash"`
+	ArtifactRef             string   `json:"artifact_ref"`
+	GraphRef                string   `json:"graph_ref"`
+	Kind                    string   `json:"kind"`
+	CheckedEdgeRefs         []string `json:"checked_edge_refs"`
+	EvidenceRefs            []string `json:"evidence_refs"`
+	Issuer                  string   `json:"issuer"`
+	Valid                   bool     `json:"valid"`
+	ConsumptionCoverageRefs []string `json:"consumption_coverage_refs,omitempty"`
+}
+
+// CanonicalJSON renders the reuse certificate into RFC 8785 canonical bytes and validates it.
+func (r *ReuseCertificateRecord) CanonicalJSON() ([]byte, error) {
+	if r == nil {
+		return nil, &ReuseCertificateError{Reason: "reuse certificate is nil"}
+	}
+	checked := r.CheckedEdgeRefs
+	if checked == nil {
+		checked = []string{}
+	}
+	evidence := r.EvidenceRefs
+	if evidence == nil {
+		evidence = []string{}
+	}
+
+	recordMap := map[string]any{
+		"schema_version":    r.SchemaVersion,
+		"project_id":        r.ProjectID,
+		"old_plan_hash":     r.OldPlanHash,
+		"new_plan_hash":     r.NewPlanHash,
+		"artifact_ref":      r.ArtifactRef,
+		"graph_ref":         r.GraphRef,
+		"kind":              r.Kind,
+		"checked_edge_refs": checked,
+		"evidence_refs":     evidence,
+		"issuer":            r.Issuer,
+		"valid":             r.Valid,
+	}
+	if r.SchemaVersion == "2.1" {
+		coverageRefs := r.ConsumptionCoverageRefs
+		if coverageRefs == nil {
+			coverageRefs = []string{}
+		}
+		recordMap["consumption_coverage_refs"] = coverageRefs
+	}
+
+	raw, err := json.Marshal(recordMap)
+	if err != nil {
+		return nil, &ReuseCertificateError{Reason: "failed to marshal reuse certificate", Cause: err}
+	}
+	canon, err := CanonicalJSON(raw)
+	if err != nil {
+		return nil, &ReuseCertificateError{Reason: "failed to canonicalize reuse certificate JSON", Cause: err}
+	}
+	if err := ValidateReuseCertificate(canon); err != nil {
+		return nil, err
+	}
+	return canon, nil
+}
+
+// Digest computes the canonical sha256 reference for the reuse certificate record.
+func (r *ReuseCertificateRecord) Digest() (string, error) {
+	canon, err := r.CanonicalJSON()
+	if err != nil {
+		return "", err
+	}
+	h := sha256.Sum256(canon)
+	return fmt.Sprintf("sha256:%x", h), nil
+}
+
+// ParseReuseCertificate parses and validates a reuse-certificate JSON record.
+func ParseReuseCertificate(raw []byte) (*ReuseCertificateRecord, error) {
+	if err := ValidateReuseCertificate(raw); err != nil {
+		return nil, err
+	}
+	canon, err := CanonicalJSON(raw)
+	if err != nil {
+		return nil, &ReuseCertificateError{Reason: "canonical JSON", Cause: err}
+	}
+	var record ReuseCertificateRecord
+	if err := json.Unmarshal(canon, &record); err != nil {
+		return nil, &ReuseCertificateError{Reason: "unmarshal reuse certificate", Cause: err}
+	}
+	if record.CheckedEdgeRefs == nil {
+		record.CheckedEdgeRefs = []string{}
+	}
+	if record.EvidenceRefs == nil {
+		record.EvidenceRefs = []string{}
+	}
+	if record.SchemaVersion == "2.1" && record.ConsumptionCoverageRefs == nil {
+		record.ConsumptionCoverageRefs = []string{}
+	}
+	return &record, nil
+}
+

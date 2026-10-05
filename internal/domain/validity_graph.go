@@ -1,7 +1,9 @@
 package domain
 
 import (
+	"crypto/sha256"
 	"encoding/json"
+	"fmt"
 )
 
 var allowedEdgeKinds = map[string]struct{}{
@@ -193,4 +195,101 @@ func validateGraphRefList(raw json.RawMessage, fieldName string, minItems int) e
 		seen[ref] = struct{}{}
 	}
 	return nil
+}
+
+// ValidityEdge represents an immutable directed edge from prerequisite to dependent in a validity graph.
+type ValidityEdge struct {
+	FromRef     string   `json:"from_ref"`
+	ToRef       string   `json:"to_ref"`
+	Kind        string   `json:"kind"`
+	Predicate   string   `json:"predicate"`
+	WitnessRefs []string `json:"witness_refs"`
+}
+
+// ValidityGraphRecord represents an immutable typed dependency graph artifact (schema 2.0 or 2.1).
+type ValidityGraphRecord struct {
+	SchemaVersion           string         `json:"schema_version"`
+	GraphID                 string         `json:"graph_id"`
+	ProjectID               string         `json:"project_id"`
+	Edges                   []ValidityEdge `json:"edges"`
+	UnknownImpactRefs       []string       `json:"unknown_impact_refs"`
+	ConsumptionCoverageRefs []string       `json:"consumption_coverage_refs,omitempty"`
+}
+
+// CanonicalJSON renders the validity graph into RFC 8785 canonical bytes and validates it.
+func (v *ValidityGraphRecord) CanonicalJSON() ([]byte, error) {
+	if v == nil {
+		return nil, &ValidityGraphError{Reason: "validity graph is nil"}
+	}
+	edges := v.Edges
+	if edges == nil {
+		edges = []ValidityEdge{}
+	}
+	unknownImpact := v.UnknownImpactRefs
+	if unknownImpact == nil {
+		unknownImpact = []string{}
+	}
+
+	recordMap := map[string]any{
+		"schema_version":      v.SchemaVersion,
+		"graph_id":            v.GraphID,
+		"project_id":          v.ProjectID,
+		"edges":               edges,
+		"unknown_impact_refs": unknownImpact,
+	}
+	if v.SchemaVersion == "2.1" {
+		coverageRefs := v.ConsumptionCoverageRefs
+		if coverageRefs == nil {
+			coverageRefs = []string{}
+		}
+		recordMap["consumption_coverage_refs"] = coverageRefs
+	}
+
+	raw, err := json.Marshal(recordMap)
+	if err != nil {
+		return nil, &ValidityGraphError{Reason: "failed to marshal validity graph", Cause: err}
+	}
+	canon, err := CanonicalJSON(raw)
+	if err != nil {
+		return nil, &ValidityGraphError{Reason: "failed to canonicalize validity graph JSON", Cause: err}
+	}
+	if err := ValidateValidityGraph(canon); err != nil {
+		return nil, err
+	}
+	return canon, nil
+}
+
+// Digest computes the canonical sha256 reference for the validity graph record.
+func (v *ValidityGraphRecord) Digest() (string, error) {
+	canon, err := v.CanonicalJSON()
+	if err != nil {
+		return "", err
+	}
+	h := sha256.Sum256(canon)
+	return fmt.Sprintf("sha256:%x", h), nil
+}
+
+// ParseValidityGraph parses and validates a validity-graph JSON record.
+func ParseValidityGraph(raw []byte) (*ValidityGraphRecord, error) {
+	if err := ValidateValidityGraph(raw); err != nil {
+		return nil, err
+	}
+	canon, err := CanonicalJSON(raw)
+	if err != nil {
+		return nil, &ValidityGraphError{Reason: "canonical JSON", Cause: err}
+	}
+	var record ValidityGraphRecord
+	if err := json.Unmarshal(canon, &record); err != nil {
+		return nil, &ValidityGraphError{Reason: "unmarshal validity graph", Cause: err}
+	}
+	if record.Edges == nil {
+		record.Edges = []ValidityEdge{}
+	}
+	if record.UnknownImpactRefs == nil {
+		record.UnknownImpactRefs = []string{}
+	}
+	if record.SchemaVersion == "2.1" && record.ConsumptionCoverageRefs == nil {
+		record.ConsumptionCoverageRefs = []string{}
+	}
+	return &record, nil
 }
