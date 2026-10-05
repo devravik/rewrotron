@@ -1,7 +1,9 @@
 package domain
 
 import (
+	"crypto/sha256"
 	"encoding/json"
+	"fmt"
 )
 
 // AssessmentPlanningBasisError describes an invalid assessment-planning-basis record without echoing private contents.
@@ -288,3 +290,136 @@ func validateBasisChangesSinceAssessment(raw json.RawMessage) error {
 	}
 	return nil
 }
+
+// CurrentInputRef specifies an evaluated project input and its role.
+type CurrentInputRef struct {
+	Role string `json:"role"`
+	Ref  string `json:"ref"`
+}
+
+// ReusedFinding describes a finding reused from a previous assessment with its checked witnesses.
+type ReusedFinding struct {
+	AnalysisRecordRef       string   `json:"analysis_record_ref"`
+	CheckedPrerequisiteRefs []string `json:"checked_prerequisite_refs"`
+	WitnessRefs             []string `json:"witness_refs"`
+}
+
+// ChangeSinceAssessment describes a material change in inputs since assessment was performed.
+type ChangeSinceAssessment struct {
+	InputRole      string   `json:"input_role"`
+	BeforeRef      *string  `json:"before_ref"`
+	AfterRef       *string  `json:"after_ref"`
+	Reason         string   `json:"reason"`
+	ProvenanceRefs []string `json:"provenance_refs"`
+}
+
+// AssessmentPlanningBasisRecord represents an immutable assessment-planning-basis 1.0 record.
+type AssessmentPlanningBasisRecord struct {
+	SchemaVersion          string                  `json:"schema_version"`
+	ProjectID              string                  `json:"project_id"`
+	AssessmentRef          string                  `json:"assessment_ref"`
+	SelectionRef           string                  `json:"selection_ref"`
+	SelectedScopeRef       string                  `json:"selected_scope_ref"`
+	CurrentInputRefs       []CurrentInputRef       `json:"current_input_refs"`
+	ValidityGraphRef       string                  `json:"validity_graph_ref"`
+	ReusedFindings         []ReusedFinding         `json:"reused_findings"`
+	StaleFindingRefs       []string                `json:"stale_finding_refs"`
+	NewFindingRefs         []string                `json:"new_finding_refs"`
+	ChangesSinceAssessment []ChangeSinceAssessment `json:"changes_since_assessment"`
+}
+
+// CanonicalJSON renders the assessment planning basis into RFC 8785 canonical bytes and validates it.
+func (b *AssessmentPlanningBasisRecord) CanonicalJSON() ([]byte, error) {
+	if b == nil {
+		return nil, &AssessmentPlanningBasisError{Reason: "assessment planning basis is nil"}
+	}
+	currentInputs := b.CurrentInputRefs
+	if currentInputs == nil {
+		currentInputs = []CurrentInputRef{}
+	}
+	reused := b.ReusedFindings
+	if reused == nil {
+		reused = []ReusedFinding{}
+	}
+	stale := b.StaleFindingRefs
+	if stale == nil {
+		stale = []string{}
+	}
+	newFindings := b.NewFindingRefs
+	if newFindings == nil {
+		newFindings = []string{}
+	}
+	changes := b.ChangesSinceAssessment
+	if changes == nil {
+		changes = []ChangeSinceAssessment{}
+	}
+
+	recordMap := map[string]any{
+		"schema_version":           b.SchemaVersion,
+		"project_id":               b.ProjectID,
+		"assessment_ref":           b.AssessmentRef,
+		"selection_ref":            b.SelectionRef,
+		"selected_scope_ref":       b.SelectedScopeRef,
+		"current_input_refs":       currentInputs,
+		"validity_graph_ref":       b.ValidityGraphRef,
+		"reused_findings":          reused,
+		"stale_finding_refs":       stale,
+		"new_finding_refs":         newFindings,
+		"changes_since_assessment": changes,
+	}
+
+	raw, err := json.Marshal(recordMap)
+	if err != nil {
+		return nil, &AssessmentPlanningBasisError{Reason: "failed to marshal assessment planning basis", Cause: err}
+	}
+	canon, err := CanonicalJSON(raw)
+	if err != nil {
+		return nil, &AssessmentPlanningBasisError{Reason: "failed to canonicalize assessment planning basis JSON", Cause: err}
+	}
+	if err := ValidateAssessmentPlanningBasis(canon); err != nil {
+		return nil, err
+	}
+	return canon, nil
+}
+
+// Digest computes the canonical sha256 reference for the assessment planning basis record.
+func (b *AssessmentPlanningBasisRecord) Digest() (string, error) {
+	canon, err := b.CanonicalJSON()
+	if err != nil {
+		return "", err
+	}
+	h := sha256.Sum256(canon)
+	return fmt.Sprintf("sha256:%x", h), nil
+}
+
+// ParseAssessmentPlanningBasis parses and validates an assessment-planning-basis JSON record.
+func ParseAssessmentPlanningBasis(raw []byte) (*AssessmentPlanningBasisRecord, error) {
+	if err := ValidateAssessmentPlanningBasis(raw); err != nil {
+		return nil, err
+	}
+	canon, err := CanonicalJSON(raw)
+	if err != nil {
+		return nil, &AssessmentPlanningBasisError{Reason: "canonical JSON", Cause: err}
+	}
+	var record AssessmentPlanningBasisRecord
+	if err := json.Unmarshal(canon, &record); err != nil {
+		return nil, &AssessmentPlanningBasisError{Reason: "unmarshal assessment planning basis", Cause: err}
+	}
+	if record.CurrentInputRefs == nil {
+		record.CurrentInputRefs = []CurrentInputRef{}
+	}
+	if record.ReusedFindings == nil {
+		record.ReusedFindings = []ReusedFinding{}
+	}
+	if record.StaleFindingRefs == nil {
+		record.StaleFindingRefs = []string{}
+	}
+	if record.NewFindingRefs == nil {
+		record.NewFindingRefs = []string{}
+	}
+	if record.ChangesSinceAssessment == nil {
+		record.ChangesSinceAssessment = []ChangeSinceAssessment{}
+	}
+	return &record, nil
+}
+
