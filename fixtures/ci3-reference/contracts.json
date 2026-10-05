@@ -1,0 +1,8 @@
+{
+  "boundary": "ci3-reference-b1",
+  "authority": ["X19", "X68", "X69", "X70", "X11", "X12", "X14", "X67"],
+  "entrypoints": ["/health", "/login", "/whoami", "/csrf", "/create", "/item", "/note", "/logout"],
+  "actors": {"alice": 1, "bob": 2},
+  "obligations": ["failed-login", "missing-session", "fixation-rotation", "principal-continuity", "flash-once", "wrong-csrf", "csrf-regeneration", "cross-session-csrf", "csrf-single-use", "expired-csrf", "tampered-session", "expired-session", "logout-invalidates", "bob-denied-alice-item", "insert-and-trigger-audit", "direct-pdo-read", "file-content-and-mode", "queued-sink-ack", "ordered-cookies-and-redirect", "egress-denied", "read-only-root", "observer-write-denied", "fresh-state-reset"],
+  "unqualified": ["full M2 >=50-route ugly-reference breadth", "Redis/cache TTL and distributed concurrency", "arbitrary password/session formats or encryption", "server outbound routines/native helpers", "DB read sets/locks/transaction intermediate visibility", "cron schedules and long async horizons", "cross-framework active bridge/rollback", "remember-me/reset/throttle", "customer Gate 1/Gate 2 and target qualification"]
+}

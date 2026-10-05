@@ -124,6 +124,10 @@ Execution order: M0 → M1 → M2 → M3 → M4 → M5 → M6; M7 optional after
 
 **Explicit non-goals:** No broad autonomous business-rule inference; no live production data/effects.
 
+### Authorized reference-runtime prerequisite checkpoint
+
+Before Unit 5, the operator explicitly authorized Checkpoint A — Reference Fixture & Runtime Qualification. [ci3-reference](../../fixtures/ci3-reference/README.md) is the small source-only boundary ci3-reference-b1, with pinned dependencies/runtime, sealed source, two independent offline builds and three fresh observed repetitions. Its development evidence proves the listed bounded fixture obligations; its existing 2.1 attestation remains PARTIAL for DB intermediate visibility and current async causal/completion publication. It does not complete M2's full reference breadth or Unit 5, qualify a target/provider, create customer Gate 1/Gate 2 receipts or widen the M4 graph. Unit 5 must preserve these evidence limits. This prerequisite is validated and committed independently; implementation stops at Checkpoint A before Unit 5.
+
 ### Explicit M4 implementation unit graph
 
 **Planning decision:** The operator explicitly authorized this engineering decomposition to close the missing M4 unit-graph contract. The original milestone specified the behavior and evidence, but did not uniquely determine these numbered boundaries. This decision preserves that scope, X19–X23 ownership and the canonical specifications; it introduces no new RWT identifiers. “Migration Reconstruction Engine” names the M4 implementation work below, not a separate engine or workflow.
