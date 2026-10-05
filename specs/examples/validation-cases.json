@@ -16106,5 +16106,291 @@
         "manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
       }
     }
+  },
+  {
+    "name": "session-continuity-bounded-contract",
+    "schema": "https://rewrotron.dev/specs/verification/session-continuity.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "case_id": "session-case",
+      "logical_workflow_id": "session-workflow",
+      "decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "strategy": "SAFE_BRIDGE",
+      "codec_binding": {
+        "capability_id": "safe-codec",
+        "provider_manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "qualification_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "obligation_refs": [
+          "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ],
+        "input_shape_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "output_shape_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "codec_implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "codec_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "checks": [
+        {
+          "id": "reject-logout-replay",
+          "observation": {
+            "side": "TARGET",
+            "step_id": "logout-replay",
+            "visit": 1,
+            "phase": "POST_OPERATION",
+            "actor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "predicate": {
+            "op": "eq",
+            "left": {
+              "op": "ref",
+              "namespace": "actor",
+              "pointer": "/actual_principal/authentication",
+              "value_type": "string"
+            },
+            "right": {
+              "op": "literal",
+              "value_type": "string",
+              "value": "ANONYMOUS"
+            }
+          }
+        }
+      ],
+      "relations": [
+        {
+          "id": "principal-continuity",
+          "left": {
+            "observation": {
+              "side": "TARGET",
+              "step_id": "logout-replay",
+              "visit": 1,
+              "phase": "POST_OPERATION",
+              "actor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "path": "/actor/actual_principal/subject_local_id"
+          },
+          "right": {
+            "observation": {
+              "side": "TARGET",
+              "step_id": "logout-replay",
+              "visit": 1,
+              "phase": "POST_OPERATION",
+              "actor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "path": "/actor/actual_principal/subject_local_id"
+          },
+          "different": false,
+          "identity_rule_id": "",
+          "actor_id": "actor-a",
+          "connection_id": null
+        }
+      ]
+    },
+    "valid": true
+  },
+  {
+    "name": "session-continuity-no-shadow-observation",
+    "schema": "https://rewrotron.dev/specs/verification/session-continuity.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "case_id": "session-case",
+      "logical_workflow_id": "session-workflow",
+      "decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "strategy": "SAFE_BRIDGE",
+      "codec_binding": {
+        "capability_id": "safe-codec",
+        "provider_manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "qualification_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "obligation_refs": [
+          "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ],
+        "input_shape_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "output_shape_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "codec_implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "codec_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "checks": [
+        {
+          "id": "reject-logout-replay",
+          "observation": {
+            "side": "SHADOW",
+            "step_id": "logout-replay",
+            "visit": 1,
+            "phase": "POST_OPERATION",
+            "actor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "predicate": {
+            "op": "eq",
+            "left": {
+              "op": "ref",
+              "namespace": "actor",
+              "pointer": "/actual_principal/authentication",
+              "value_type": "string"
+            },
+            "right": {
+              "op": "literal",
+              "value_type": "string",
+              "value": "ANONYMOUS"
+            }
+          }
+        }
+      ],
+      "relations": [
+        {
+          "id": "principal-continuity",
+          "left": {
+            "observation": {
+              "side": "TARGET",
+              "step_id": "logout-replay",
+              "visit": 1,
+              "phase": "POST_OPERATION",
+              "actor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "path": "/actor/actual_principal/subject_local_id"
+          },
+          "right": {
+            "observation": {
+              "side": "TARGET",
+              "step_id": "logout-replay",
+              "visit": 1,
+              "phase": "POST_OPERATION",
+              "actor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "path": "/actor/actual_principal/subject_local_id"
+          },
+          "different": false,
+          "identity_rule_id": "",
+          "actor_id": "actor-a",
+          "connection_id": null
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "session-continuity-safe-bridge-requires-provider",
+    "schema": "https://rewrotron.dev/specs/verification/session-continuity.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "case_id": "session-case",
+      "logical_workflow_id": "session-workflow",
+      "decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "strategy": "SAFE_BRIDGE",
+      "codec_binding": null,
+      "codec_implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "codec_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "checks": [
+        {
+          "id": "reject-logout-replay",
+          "observation": {
+            "side": "TARGET",
+            "step_id": "logout-replay",
+            "visit": 1,
+            "phase": "POST_OPERATION",
+            "actor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          },
+          "predicate": {
+            "op": "eq",
+            "left": {
+              "op": "ref",
+              "namespace": "actor",
+              "pointer": "/actual_principal/authentication",
+              "value_type": "string"
+            },
+            "right": {
+              "op": "literal",
+              "value_type": "string",
+              "value": "ANONYMOUS"
+            }
+          }
+        }
+      ],
+      "relations": [
+        {
+          "id": "principal-continuity",
+          "left": {
+            "observation": {
+              "side": "TARGET",
+              "step_id": "logout-replay",
+              "visit": 1,
+              "phase": "POST_OPERATION",
+              "actor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "path": "/actor/actual_principal/subject_local_id"
+          },
+          "right": {
+            "observation": {
+              "side": "TARGET",
+              "step_id": "logout-replay",
+              "visit": 1,
+              "phase": "POST_OPERATION",
+              "actor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "path": "/actor/actual_principal/subject_local_id"
+          },
+          "different": false,
+          "identity_rule_id": "",
+          "actor_id": "actor-a",
+          "connection_id": null
+        }
+      ]
+    },
+    "valid": false
+  },
+  {
+    "name": "session-continuity-no-empty-obligations",
+    "schema": "https://rewrotron.dev/specs/verification/session-continuity.schema.json",
+    "instance": {
+      "schema_version": "1.0",
+      "project_id": "fixture",
+      "case_id": "session-case",
+      "logical_workflow_id": "session-workflow",
+      "decision_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "strategy": "SAFE_BRIDGE",
+      "codec_binding": {
+        "capability_id": "safe-codec",
+        "provider_manifest_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "qualification_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "obligation_refs": [
+          "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ],
+        "input_shape_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "output_shape_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "codec_implementation_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "codec_profile_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "checks": [],
+      "relations": [
+        {
+          "id": "principal-continuity",
+          "left": {
+            "observation": {
+              "side": "TARGET",
+              "step_id": "logout-replay",
+              "visit": 1,
+              "phase": "POST_OPERATION",
+              "actor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "path": "/actor/actual_principal/subject_local_id"
+          },
+          "right": {
+            "observation": {
+              "side": "TARGET",
+              "step_id": "logout-replay",
+              "visit": 1,
+              "phase": "POST_OPERATION",
+              "actor_ref": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "path": "/actor/actual_principal/subject_local_id"
+          },
+          "different": false,
+          "identity_rule_id": "",
+          "actor_id": "actor-a",
+          "connection_id": null
+        }
+      ]
+    },
+    "valid": false
   }
 ]

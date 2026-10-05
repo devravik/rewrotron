@@ -61,10 +61,10 @@ var allowedPairingOutcomes = map[string]struct{}{
 }
 
 var allowedDivergenceReasons = map[string]struct{}{
-	"BRANCH":             {},
-	"EARLY_TERMINAL":     {},
-	"UNEXPECTED_BRANCH":  {},
-	"UNKNOWN_GUARD":      {},
+	"BRANCH":            {},
+	"EARLY_TERMINAL":    {},
+	"UNEXPECTED_BRANCH": {},
+	"UNKNOWN_GUARD":     {},
 }
 
 var allowedReportStatuses = map[string]struct{}{
@@ -777,8 +777,8 @@ type VerificationCaseResult struct {
 	Verdict              string                 `json:"verdict"`
 	Dimensions           VerificationDimensions `json:"dimensions"`
 	MismatchIDs          []string               `json:"mismatch_ids"`
-	IdentityMapRef       *string                `json:"identity_map_ref,omitempty"`
-	OccurrencePairingRef *string                `json:"occurrence_pairing_ref,omitempty"`
+	IdentityMapRef       *string                `json:"identity_map_ref"`
+	OccurrencePairingRef *string                `json:"occurrence_pairing_ref"`
 }
 
 // VerificationDimensions records the outcome across all 11 evaluation dimensions.

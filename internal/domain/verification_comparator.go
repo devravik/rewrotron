@@ -45,6 +45,13 @@ type CompareCaseInput struct {
 	// Normalization rules (optional)
 	NormalizationRules []*NormalizationRule
 
+	// Session lifecycle obligations are projections of the approved plan, not
+	// supplied observations. Qualifications come from the engine admission port.
+	RequiredSessionContractRef    string
+	SessionContinuity             *SessionContinuityContract
+	SessionPlanSubject            *PlanApprovalSubject
+	AdmittedSessionQualifications map[string]*QualificationRecord
+
 	// Divergence recorded by driver (optional)
 	DriverDivergence *BranchDivergence
 
@@ -180,6 +187,15 @@ func (c *BehaviorComparator) CompareCase(input *CompareCaseInput) (*CompareCaseO
 	}
 	for dimName, reason := range input.MissingDimensions {
 		c.setDimensionUnknown(&dims, dimName, reason, defaultEvidence)
+	}
+	// X19 runs only through this witnessed, read-only verifier. Missing capture
+	// does not erase an independently established lifecycle violation.
+	if input.RequiredSessionContractRef != "" || input.SessionContinuity != nil {
+		result := evaluateSessionContinuity(input, idMap)
+		mergeSessionContinuity(&dims, result)
+		if result.Verdict == "MISMATCH" {
+			mismatchIDs = append(mismatchIDs, "mismatch-session-lifecycle")
+		}
 	}
 
 	// 7. Aggregate Verdict
@@ -608,27 +624,19 @@ func (c *BehaviorComparator) evaluateDimensions(
 				dims.Body.Reason = stringPtr(fmt.Sprintf("body mismatch: source %q vs target %q", normSrcBody, normTgtBody))
 			}
 
-			// 3. Cookies & Session Lowering (X67)
-			if len(srcResp.Cookies) > 0 {
-				if len(tgtResp.Cookies) != len(srcResp.Cookies) {
-					mismatchIDs = append(mismatchIDs, "mismatch-cookie-count")
-					dims.Session.Verdict = stringPtr("MISMATCH")
-					dims.Session.Reason = stringPtr(fmt.Sprintf("cookie count mismatch: source %d vs target %d", len(srcResp.Cookies), len(tgtResp.Cookies)))
-				} else {
-					for _, sc := range srcResp.Cookies {
-						tc := findCookie(tgtResp.Cookies, sc.Name)
-						if tc == nil {
-							mismatchIDs = append(mismatchIDs, "mismatch-missing-cookie")
-							dims.Session.Verdict = stringPtr("MISMATCH")
-							dims.Session.Reason = stringPtr(fmt.Sprintf("missing cookie in target: %s", sc.Name))
-						} else {
-							// Verify security attributes preserved
-							if sc.HTTPOnly != tc.HTTPOnly || sc.Secure != tc.Secure || !stringPtrEqual(sc.SameSite, tc.SameSite) {
-								mismatchIDs = append(mismatchIDs, "mismatch-cookie-attributes")
-								dims.Session.Verdict = stringPtr("MISMATCH")
-								dims.Session.Reason = stringPtr(fmt.Sprintf("cookie attribute mismatch for cookie %s", sc.Name))
-							}
-						}
+			// Ordered cookie occurrences retain scope, security and lifetime (X19/X67).
+			// Duplicate names may have distinct path/domain and cannot be collapsed.
+			if len(srcResp.Cookies) != len(tgtResp.Cookies) {
+				mismatchIDs = append(mismatchIDs, "mismatch-cookie-count")
+				dims.Session.Verdict = stringPtr("MISMATCH")
+				dims.Session.Reason = stringPtr("cookie occurrence count mismatch")
+			} else {
+				for i, sc := range srcResp.Cookies {
+					tc := tgtResp.Cookies[i]
+					if !sessionCookieAttributesEqual(sc, tc) {
+						mismatchIDs = append(mismatchIDs, "mismatch-cookie-attributes")
+						dims.Session.Verdict = stringPtr("MISMATCH")
+						dims.Session.Reason = stringPtr("cookie occurrence scope/security/lifetime mismatch")
 					}
 				}
 			}
@@ -911,15 +919,6 @@ func findHeader(headers []EvaluationHeader, name string) *string {
 	for _, h := range headers {
 		if strings.EqualFold(h.Name, name) {
 			return &h.Value
-		}
-	}
-	return nil
-}
-
-func findCookie(cookies []EvaluationCookie, name string) *EvaluationCookie {
-	for i := range cookies {
-		if cookies[i].Name == name {
-			return &cookies[i]
 		}
 	}
 	return nil
