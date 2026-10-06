@@ -170,3 +170,7 @@ These use the same X40 control suite and qualification publication mechanism, no
 | Historical subject retains exact package/binding closure | Upgrade installed index/package without successor qualification/approval | Historical reconstruction unchanged; changed current execution blocked | Original subject bytes/inventory/schema refs, currentness checks | Approval/reproducibility |
 
 Structural positive/negative binding-* cases in specs/examples/validation-cases.json cover package descriptor/inventory, planned/noncallable manifest, BUILTIN/EXTERNAL shape, traversal/shell/wrong operation/protocol, request/response errors and missing comparison role. Equalities, process behavior, gates, graph cycles, inventory hashing and control-derived support require the X40 runtime/semantic controls above; JSON Schema alone cannot establish them.
+
+### Scoped generation admission regression
+
+`TestGenerationAdmission_*` exercises MIGRATION-UNITS generation admission alongside X35: a plan-derived synchronous routing/auth/session scope admits with sufficient required contracts/cases/capabilities while a separate async completion scope remains BLOCKED/UNKNOWN and PROJECT cannot complete. Missing required evidence or dependencies, invalid/stale source/plan/target/approval closure, contamination, caller scope manipulation and invalid plan bytes fail closed. These are domain tests with a controlled evidence-resolution port, not runtime qualification or customer approval. Existing X19–X23, M2/M3 closure and independent verifier controls remain required.
