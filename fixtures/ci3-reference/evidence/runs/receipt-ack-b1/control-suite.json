@@ -1,0 +1,1 @@
+{"implementation_ref":"sha256:7b95c67f940336f590a0d895aa2365222dc129f390d0f84f48d9a00c1049c660","limits":"ACK send is not ACK consumption or completion; no horizon/quiescence","required":["independent-durable-receipt","actual-wire-ack-response","dispatch-anchor-binding","withheld-worker-no-receipt","producer-storage-write-denied","receiver-forged-envelope-refused"]}
