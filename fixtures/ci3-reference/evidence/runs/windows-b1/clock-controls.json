@@ -1,0 +1,1 @@
+{"activity_rounding":"ceil milliseconds","clock":"supervisor time.monotonic_ns anchored once to time.time_ns at dispatch","completion":"UNQUALIFIED; interval capture only","implementation_ref":"sha256:d08bbdf5e9cb20aab47f734cb49939ce074da5785b3211927e12baa37be83547","timer_rounding":"floor milliseconds"}

@@ -132,6 +132,8 @@ The operator additionally authorized closing pre-Unit-5 admission prerequisites 
 
 The separately authorized [SOURCE capture role-isolation qualification](../../tools/fixtures/SOURCE-ROLES.md) executes the `rwt-model-roles-1` handle controls against a pinned disposable reference runtime. It qualifies only the successor mediated SOURCE capture/checker implementation and exact profile; it does not upgrade retained captures or publish witnesses/traces. Controlled observation windows and fresh witnessed capture remain the next prerequisite. DB intermediate visibility and async causal/completion ABI remain PARTIAL.
 
+The separately authorized [controlled SOURCE interval checkpoint](../../tools/fixtures/SOURCE-WINDOWS.md) records live supervisor monotonic-to-UTC dispatch anchors and actual end boundaries, qualifies their raw attribution, and collects two fresh reference executions through the unchanged role-isolated read capability. Completion/horizon/queue evidence stays unavailable; DB intermediate visibility and async causal/completion ABI stay PARTIAL. These raw captures do not publish final witnesses, occurrences or traces; source publication closure remains the next prerequisite.
+
 ### Explicit M4 implementation unit graph
 
 **Planning decision:** The operator explicitly authorized this engineering decomposition to close the missing M4 unit-graph contract. The original milestone specified the behavior and evidence, but did not uniquely determine these numbered boundaries. This decision preserves that scope, X19–X23 ownership and the canonical specifications; it introduces no new RWT identifiers. “Migration Reconstruction Engine” names the M4 implementation work below, not a separate engine or workflow.

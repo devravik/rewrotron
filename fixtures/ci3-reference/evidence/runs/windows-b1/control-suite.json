@@ -1,0 +1,1 @@
+{"clock_controls_ref":"sha256:8f08b6bf41c1a3e6f42dd6fc4abfd825fa55ec9103940c20889bd6c46498fb7a","required":["live-boundaries","all-driver-operations-covered","unique-intervals","pinned-build-repetition","altered-window-rejected","missing-boundary-rejected","failed-delivery-incomplete"]}
