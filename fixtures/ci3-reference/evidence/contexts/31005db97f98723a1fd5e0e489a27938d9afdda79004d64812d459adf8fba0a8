@@ -1,0 +1,1 @@
+{"actor_id":"captured_selector_2bd806c97f0e00af","credential_ref":null,"db_identity_ref":null,"initial_session_ref":null,"intended_subject":{"type":"string","value":"alice"},"project_id":"ci3_reference","provenance_refs":["sha256:423816c43a684dc0eb5da85766e3cfa6651d91dfa52c05c0726236aafe91d837"],"schema_version":"1.0"}

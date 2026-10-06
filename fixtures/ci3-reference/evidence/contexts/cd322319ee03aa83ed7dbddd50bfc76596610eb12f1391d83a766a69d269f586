@@ -1,0 +1,1 @@
+{"actor_id":"captured_selector_a9dc16a7a3875d17","credential_ref":null,"db_identity_ref":null,"initial_session_ref":null,"intended_subject":{"reason_code":"ERR_UNCAPTURED_ACTOR_SELECTION","type":"missing"},"project_id":"ci3_reference","provenance_refs":["sha256:d14ec0663d35afee1558cbeead27f420611df3b537837d44de0d46cbcbaf1872"],"schema_version":"1.0"}

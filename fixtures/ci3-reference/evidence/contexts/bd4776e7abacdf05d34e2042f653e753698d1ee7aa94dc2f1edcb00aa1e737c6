@@ -1,0 +1,1 @@
+{"actor_id":"captured_selector_81b637d8fcd2c6da","credential_ref":null,"db_identity_ref":null,"initial_session_ref":null,"intended_subject":{"type":"string","value":"bob"},"project_id":"ci3_reference","provenance_refs":["sha256:399f71da64f445c0e05d2c59221243a0a309c9f467f512f9b01d0e4377ed5181"],"schema_version":"1.0"}
