@@ -1,0 +1,2 @@
+mysql: [Warning] Using a password on the command line interface can be insecure.
+ERROR 1142 (42000) at line 1: INSERT command denied to user 'observer'@'localhost' for table 'items'

@@ -1,0 +1,67 @@
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
+select @@version_comment limit 1
+INSERT INTO fixture.items(owner,name) VALUES(1,'poisoned-expected-insert')
+select @@version_comment limit 1
+SELECT id,name,role FROM fixture.users ORDER BY id
+SELECT id,owner,name FROM fixture.items ORDER BY id
+SELECT id,item,owner FROM fixture.audit ORDER BY id
+SELECT id,item,status,receipt FROM fixture.jobs ORDER BY id
