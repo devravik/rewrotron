@@ -1,0 +1,1 @@
+{"boundary":"actual raw queue/worker/sink snapshots; missing causal/completion ABI remains UNKNOWN","implementation_ref":"sha256:d2ad7004b7ebceda8c396e42f4a1f97a1d0f2505de3937c83c598d731d8784c9","required":["http-202-withheld-worker-not-complete","worker-exit-and-stored-receipt-not-complete","altered-capture-refused","independent-pinned-build-reproduction"]}

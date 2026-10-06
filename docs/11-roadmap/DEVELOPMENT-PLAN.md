@@ -136,6 +136,8 @@ The separately authorized [controlled SOURCE interval checkpoint](../../tools/fi
 
 The authorized [Trace 2.1 horizon resolution](../../tools/fixtures/SOURCE-HORIZON.md) confirms Case C: required horizon/due evidence blocks trace qualification when unavailable. The unchanged schema is exercised by fresh, narrowly qualified synchronous `/health` windows with positive queue/scheduler inspection. Older windows-b1 remains unchanged and unpublishable under that ABI; broader scheduled/async horizon qualification remains a prerequisite before whole-source publication. No M4 unit or acceptance rule changes.
 
+The authorized [remaining async qualification attempt](../../tools/fixtures/SOURCE-ASYNC.md) retains two fresh raw `/create` → pending job → manual worker → local sink experiments. HTTP success with withheld worker remains UNKNOWN; worker exit and stored receipt still lack propagated cause/span and independently timed wire ACK evidence. The existing B1 ABI remains INCONCLUSIVE/PARTIAL with horizon/due/completion unavailable. Trusted job-envelope propagation and receipt/ACK timing qualification is the next prerequisite before source publication; no old captures, fixture behavior or M4 graph changes.
+
 ### Explicit M4 implementation unit graph
 
 **Planning decision:** The operator explicitly authorized this engineering decomposition to close the missing M4 unit-graph contract. The original milestone specified the behavior and evidence, but did not uniquely determine these numbered boundaries. This decision preserves that scope, X19–X23 ownership and the canonical specifications; it introduces no new RWT identifiers. “Migration Reconstruction Engine” names the M4 implementation work below, not a separate engine or workflow.
