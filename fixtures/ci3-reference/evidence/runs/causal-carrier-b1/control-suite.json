@@ -1,0 +1,1 @@
+{"implementation_ref":"sha256:9abd77c2acf136cac6cde7c9b10256b619f7b1ef4c02b89b6ca0f40f8089924e","required":["persisted-producer-envelope","worker-to-receiver-carrier","wrong-cause-refused","cross-run-refused","withheld-worker-not-completion","source-role-controls"]}
