@@ -1,0 +1,1 @@
+{"expected_receipts":0,"mode":"HTTP_RESPONSE","predicate":{"op":"literal","value":true,"value_type":"boolean"},"quiescence_ms":0,"timeout_ms":5000}
