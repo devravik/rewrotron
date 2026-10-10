@@ -224,10 +224,125 @@ func (a *GoStdlibTargetAdapter) buildArtifacts(input GenerationInput) map[string
 		artifacts["internal/middleware/session.go"] = a.renderSessionMiddlewareGo(input, provenanceLine)
 	}
 
-	// 6. Machine-readable provenance record
+	// 6. Database repository & transaction lowering if database capability is present
+	hasDB := false
+	for _, cap := range input.Admission.Capabilities {
+		if cap == "database" || cap == "transactions" {
+			hasDB = true
+			break
+		}
+	}
+	if hasDB {
+		artifacts["internal/repository/db.go"] = a.renderDatabaseGo(input, provenanceLine)
+		artifacts["internal/repository/errors.go"] = a.renderDatabaseErrorsGo(input, provenanceLine)
+	}
+
+	// 7. Machine-readable provenance record
 	artifacts["generated/provenance.json"] = a.renderProvenanceRecord(input)
 
 	return artifacts
+}
+
+func (a *GoStdlibTargetAdapter) renderDatabaseGo(input GenerationInput, header string) []byte {
+	var sb strings.Builder
+	sb.WriteString("package repository\n\n")
+	sb.WriteString(header)
+	sb.WriteString("\nimport (\n")
+	sb.WriteString("\t\"context\"\n")
+	sb.WriteString("\t\"database/sql\"\n")
+	sb.WriteString("\t\"fmt\"\n")
+	sb.WriteString(")\n\n")
+	sb.WriteString("type DBRepository struct {\n")
+	sb.WriteString("\tdb *sql.DB\n")
+	sb.WriteString("}\n\n")
+	sb.WriteString("func NewDBRepository(db *sql.DB) *DBRepository {\n")
+	sb.WriteString("\treturn &DBRepository{db: db}\n")
+	sb.WriteString("}\n\n")
+
+	sb.WriteString("// WithTransaction executes fn within an explicit database transaction boundary.\n")
+	sb.WriteString("// It automatically rolls back on error and commits on nil error.\n")
+	sb.WriteString("func (r *DBRepository) WithTransaction(ctx context.Context, fn func(tx *sql.Tx) error) error {\n")
+	sb.WriteString("\ttx, err := r.db.BeginTx(ctx, nil)\n")
+	sb.WriteString("\tif err != nil {\n")
+	sb.WriteString("\t\treturn fmt.Errorf(\"begin tx: %w\", err)\n")
+	sb.WriteString("\t}\n")
+	sb.WriteString("\tdefer func() {\n")
+	sb.WriteString("\t\tif p := recover(); p != nil {\n")
+	sb.WriteString("\t\t\t_ = tx.Rollback()\n")
+	sb.WriteString("\t\t\tpanic(p)\n")
+	sb.WriteString("\t\t}\n")
+	sb.WriteString("\t}()\n")
+	sb.WriteString("\tif err := fn(tx); err != nil {\n")
+	sb.WriteString("\t\t_ = tx.Rollback()\n")
+	sb.WriteString("\t\treturn err\n")
+	sb.WriteString("\t}\n")
+	sb.WriteString("\treturn tx.Commit()\n")
+	sb.WriteString("}\n\n")
+
+	cases := append([]string{}, input.Admission.Scope.CaseIDs...)
+	sort.Strings(cases)
+
+	if len(cases) == 0 {
+		sb.WriteString("// ExecStatement executes a parameterized mutation and returns affected row count.\n")
+		sb.WriteString("func (r *DBRepository) ExecStatement(ctx context.Context, query string, args ...any) (int64, error) {\n")
+		sb.WriteString("\tres, err := r.db.ExecContext(ctx, query, args...)\n")
+		sb.WriteString("\tif err != nil {\n")
+		sb.WriteString("\t\treturn 0, MapDBError(err)\n")
+		sb.WriteString("\t}\n")
+		sb.WriteString("\treturn res.RowsAffected()\n")
+		sb.WriteString("}\n")
+	} else {
+		for _, caseID := range cases {
+			safeName := sanitizeGoIdentifier(caseID)
+			sb.WriteString(fmt.Sprintf("// Query%s performs schema-aware query lowering for case %s.\n", safeName, caseID))
+			sb.WriteString(fmt.Sprintf("func (r *DBRepository) Query%s(ctx context.Context, query string, args ...any) (*sql.Rows, error) {\n", safeName))
+			sb.WriteString("\trows, err := r.db.QueryContext(ctx, query, args...)\n")
+			sb.WriteString("\tif err != nil {\n")
+			sb.WriteString("\t\treturn nil, MapDBError(err)\n")
+			sb.WriteString("\t}\n")
+			sb.WriteString("\treturn rows, nil\n")
+			sb.WriteString("}\n\n")
+
+			sb.WriteString(fmt.Sprintf("// Mutate%s executes parameterized mutation for case %s preserving rows-affected semantics.\n", safeName, caseID))
+			sb.WriteString(fmt.Sprintf("func (r *DBRepository) Mutate%s(ctx context.Context, query string, args ...any) (int64, error) {\n", safeName))
+			sb.WriteString("\tres, err := r.db.ExecContext(ctx, query, args...)\n")
+			sb.WriteString("\tif err != nil {\n")
+			sb.WriteString("\t\treturn 0, MapDBError(err)\n")
+			sb.WriteString("\t}\n")
+			sb.WriteString("\treturn res.RowsAffected()\n")
+			sb.WriteString("}\n\n")
+		}
+	}
+
+	return []byte(sb.String())
+}
+
+func (a *GoStdlibTargetAdapter) renderDatabaseErrorsGo(input GenerationInput, header string) []byte {
+	var sb strings.Builder
+	sb.WriteString("package repository\n\n")
+	sb.WriteString(header)
+	sb.WriteString("\nimport (\n")
+	sb.WriteString("\t\"database/sql\"\n")
+	sb.WriteString("\t\"errors\"\n")
+	sb.WriteString("\t\"fmt\"\n")
+	sb.WriteString(")\n\n")
+	sb.WriteString("// Standard typed database errors preserving source behavior.\n")
+	sb.WriteString("var (\n")
+	sb.WriteString("\tErrRecordNotFound = errors.New(\"record not found\")\n")
+	sb.WriteString("\tErrConstraintViolation = errors.New(\"constraint violation\")\n")
+	sb.WriteString("\tErrTransactionAborted = errors.New(\"transaction aborted\")\n")
+	sb.WriteString(")\n\n")
+	sb.WriteString("// MapDBError normalizes driver-level errors into domain error types.\n")
+	sb.WriteString("func MapDBError(err error) error {\n")
+	sb.WriteString("\tif err == nil {\n")
+	sb.WriteString("\t\treturn nil\n")
+	sb.WriteString("\t}\n")
+	sb.WriteString("\tif errors.Is(err, sql.ErrNoRows) {\n")
+	sb.WriteString("\t\treturn ErrRecordNotFound\n")
+	sb.WriteString("\t}\n")
+	sb.WriteString("\treturn fmt.Errorf(\"database operation: %w\", err)\n")
+	sb.WriteString("}\n")
+	return []byte(sb.String())
 }
 
 func (a *GoStdlibTargetAdapter) renderGoMod(input GenerationInput, header string) []byte {

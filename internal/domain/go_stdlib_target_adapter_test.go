@@ -149,3 +149,70 @@ func TestGoStdlibTargetAdapter_RoutingAndLifecycleLowering(t *testing.T) {
 		t.Errorf("middlewareSource missing strategy: %s", middlewareSource)
 	}
 }
+
+func TestGoStdlibTargetAdapter_DatabaseAndTransactionLowering(t *testing.T) {
+	ctx := context.Background()
+	unitID := "sync-orders"
+	adm := makeTestAdmission(t, unitID, []string{"http", "routing", "database", "transactions"}, []string{"order-create", "order-cancel"})
+	tm := makeTestTargetModel(t, unitID)
+
+	adapter := NewGoStdlibTargetAdapter()
+	input := GenerationInput{
+		Admission:   adm,
+		TargetModel: tm,
+		UnitID:      unitID,
+	}
+
+	out, err := adapter.Generate(ctx, input)
+	if err != nil {
+		t.Fatalf("Generate failed: %v", err)
+	}
+
+	// Verify database repository artifact generated
+	dbSource, ok := out.Artifacts["internal/repository/db.go"]
+	if !ok {
+		t.Fatalf("internal/repository/db.go not found in generated artifacts")
+	}
+	s := string(dbSource)
+	if !strings.Contains(s, "WithTransaction(ctx context.Context, fn func(tx *sql.Tx) error) error") {
+		t.Errorf("db.go missing WithTransaction implementation: %s", s)
+	}
+	if !strings.Contains(s, "QueryOrderCreate(ctx context.Context, query string, args ...any) (*sql.Rows, error)") {
+		t.Errorf("db.go missing QueryOrderCreate: %s", s)
+	}
+	if !strings.Contains(s, "MutateOrderCreate(ctx context.Context, query string, args ...any) (int64, error)") {
+		t.Errorf("db.go missing MutateOrderCreate: %s", s)
+	}
+	if !strings.Contains(s, "QueryOrderCancel(ctx context.Context, query string, args ...any) (*sql.Rows, error)") {
+		t.Errorf("db.go missing QueryOrderCancel: %s", s)
+	}
+	if !strings.Contains(s, "MutateOrderCancel(ctx context.Context, query string, args ...any) (int64, error)") {
+		t.Errorf("db.go missing MutateOrderCancel: %s", s)
+	}
+
+	// Verify errors artifact generated
+	errSource, ok := out.Artifacts["internal/repository/errors.go"]
+	if !ok {
+		t.Fatalf("internal/repository/errors.go not found in generated artifacts")
+	}
+	errStr := string(errSource)
+	if !strings.Contains(errStr, "ErrRecordNotFound") || !strings.Contains(errStr, "MapDBError(err error) error") {
+		t.Errorf("errors.go missing standard errors or MapDBError: %s", errStr)
+	}
+
+	// Manifest check: repository files must be present
+	foundDB := false
+	foundErr := false
+	for _, entry := range out.Manifest.Entries {
+		if entry.Path == "internal/repository/db.go" {
+			foundDB = true
+		}
+		if entry.Path == "internal/repository/errors.go" {
+			foundErr = true
+		}
+	}
+	if !foundDB || !foundErr {
+		t.Errorf("manifest missing repository entries: foundDB=%v, foundErr=%v", foundDB, foundErr)
+	}
+}
+
