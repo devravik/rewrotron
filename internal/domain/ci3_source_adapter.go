@@ -19,6 +19,10 @@ var (
 	ci3ModelClass      = regexp.MustCompile(`(?i)\bclass\s+([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s+extends\s+(?:CI_Model|MY_Model)`)
 	ci3RemapRegex      = regexp.MustCompile(`(?i)\bfunction\s+_remap\s*\(`)
 	ci3AutoloadModel   = regexp.MustCompile(`\$autoload\[['"]model['"]\]\s*=\s*(?:array\(|\[)([^;]+)`)
+	ci3DBDriverRegex   = regexp.MustCompile(`\$db\[['"][^'"]+['"]\]\[['"]dbdriver['"]\]\s*=\s*['"]([^'"]+)['"]`)
+	ci3SessDriverRegex = regexp.MustCompile(`\$config\[['"]sess_driver['"]\]\s*=\s*['"]([^'"]+)['"]`)
+	ci3HooksEnable     = regexp.MustCompile(`\$config\[['"]enable_hooks['"]\]\s*=\s*(TRUE|true|1)`)
+	ci3DBTransRegex    = regexp.MustCompile(`\$this->db->trans_start\(\)|\$this->db->trans_begin\(\)`)
 )
 
 // CodeIgniter3SourceAdapter implements the CodeIgniter 3 source adapter conforming to
@@ -55,11 +59,15 @@ func NewCodeIgniter3SourceAdapter() *CodeIgniter3SourceAdapter {
 				string(CapSourceEntrypointDiscovery),
 				string(CapSourceRouteExtraction),
 				string(CapSourceControllerExtraction),
+				string(CapSourceDatabaseAccess),
+				string(CapSourceSessionManagement),
+				string(CapSourceMiddlewareLifecycle),
 				string(CapSourceProbeInstrumentation),
 			},
 			Limitations: []string{
-				"static routing and controller analysis; does not execute application bootstrap",
+				"static routing, database, and session analysis; does not execute application bootstrap",
 				"_remap dynamic dispatch flagged as UNKNOWN coverage state",
+				"unsupported session drivers (e.g. redis/memcached) marked as UNKNOWN gaps",
 				"HMVC and third-party extensions remain unresolved without specialized fixtures",
 			},
 			EvidenceRefs: []string{"sha256:" + strings.Repeat("c", 64)},
@@ -185,11 +193,11 @@ func (a *CodeIgniter3SourceAdapter) Extract(ctx context.Context, input SourceExt
 		}
 	}
 
-	var entrypoints []ApplicationEntrypoint
-	var components []ApplicationComponent
+	entrypoints := make([]ApplicationEntrypoint, 0)
+	components := make([]ApplicationComponent, 0)
 	dependencies := make([]ApplicationDependency, 0)
-	var findings []ApplicationFinding
-	var evidence []ApplicationEvidence
+	findings := make([]ApplicationFinding, 0)
+	evidence := make([]ApplicationEvidence, 0)
 	var gaps []string
 
 	evCounter := 1
@@ -354,6 +362,73 @@ func (a *CodeIgniter3SourceAdapter) Extract(ctx context.Context, input SourceExt
 				SymbolIDs:   []string{sanitizeIdentifier(className)},
 				EvidenceIDs: []string{evID},
 			})
+
+			// Check for explicit database transaction usage
+			if ci3DBTransRegex.MatchString(contentStr) {
+				findID := fmt.Sprintf("find-ci3-%d", findCounter)
+				findCounter++
+				findings = append(findings, ApplicationFinding{
+					FindingID:   findID,
+					Code:        "CI3_DB_TRANSACTION_BOUNDARY",
+					Severity:    FindingSeverityLow,
+					AffectedIDs: []string{compID},
+					EvidenceIDs: []string{evID},
+					Message:     fmt.Sprintf("Model %s uses manual trans_start/trans_begin transaction boundaries", className),
+				})
+			}
+		}
+
+		// Database configuration analysis
+		if strings.HasSuffix(path, "application/config/database.php") || strings.HasSuffix(path, "database.php") {
+			matches := ci3DBDriverRegex.FindAllStringSubmatch(contentStr, -1)
+			for _, m := range matches {
+				if len(m) > 1 {
+					driver := m[1]
+					evID := fmt.Sprintf("ev-ci3-%d", evCounter)
+					evCounter++
+					evidence = append(evidence, ApplicationEvidence{
+						EvidenceID:  evID,
+						Kind:        "STATIC",
+						ArtifactRef: "sha256:" + sumHex,
+						Description: fmt.Sprintf("Configured database driver: %s in %s", driver, path),
+					})
+
+					// If not standard supported driver (mysqli, pdo), mark gap
+					if driver != "mysqli" && driver != "pdo" && driver != "sqlite3" {
+						gaps = append(gaps, fmt.Sprintf("unsupported database driver: %s", driver))
+					}
+				}
+			}
+		}
+
+		// Session and hooks configuration analysis in config.php
+		if strings.HasSuffix(path, "application/config/config.php") || strings.HasSuffix(path, "config.php") {
+			if m := ci3SessDriverRegex.FindStringSubmatch(contentStr); len(m) > 1 {
+				sessDriver := m[1]
+				evID := fmt.Sprintf("ev-ci3-%d", evCounter)
+				evCounter++
+				evidence = append(evidence, ApplicationEvidence{
+					EvidenceID:  evID,
+					Kind:        "STATIC",
+					ArtifactRef: "sha256:" + sumHex,
+					Description: fmt.Sprintf("Configured session driver: %s in %s", sessDriver, path),
+				})
+
+				if sessDriver != "files" && sessDriver != "database" {
+					gaps = append(gaps, fmt.Sprintf("unsupported session driver: %s; requires runtime bridge", sessDriver))
+				}
+			}
+
+			if ci3HooksEnable.MatchString(contentStr) {
+				evID := fmt.Sprintf("ev-ci3-%d", evCounter)
+				evCounter++
+				evidence = append(evidence, ApplicationEvidence{
+					EvidenceID:  evID,
+					Kind:        "STATIC",
+					ArtifactRef: "sha256:" + sumHex,
+					Description: fmt.Sprintf("Hooks lifecycle enabled in %s", path),
+				})
+			}
 		}
 	}
 

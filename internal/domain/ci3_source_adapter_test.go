@@ -154,3 +154,91 @@ func TestCodeIgniter3SourceAdapter_InstrumentationSpec(t *testing.T) {
 		t.Errorf("expected post_controller_constructor hook")
 	}
 }
+
+func TestCodeIgniter3SourceAdapter_DatabaseSessionAndHooks(t *testing.T) {
+	ctx := context.Background()
+	adapter := NewCodeIgniter3SourceAdapter()
+
+	files := map[string][]byte{
+		"application/config/database.php": []byte(`<?php
+$db['default']['dbdriver'] = 'mysqli';
+$db['analytics']['dbdriver'] = 'oracle'; // unsupported driver
+`),
+		"application/config/config.php": []byte(`<?php
+$config['sess_driver'] = 'redis'; // unsupported driver -> gap
+$config['enable_hooks'] = TRUE;
+`),
+		"application/models/Order_model.php": []byte(`<?php
+class Order_model extends CI_Model {
+    public function place_order() {
+        $this->db->trans_start();
+        $this->db->insert('orders', []);
+        $this->db->trans_complete();
+    }
+}
+`),
+	}
+
+	input := SourceExtractionInput{
+		ProjectID:   "proj-db-session",
+		SnapshotRef: "sha256:" + strings.Repeat("d", 64),
+		Files:       files,
+	}
+
+	out, err := adapter.Extract(ctx, input)
+	if err != nil {
+		t.Fatalf("Extract failed: %v", err)
+	}
+
+	// 1. Transaction boundary finding
+	foundTransFinding := false
+	for _, f := range out.Document.Findings {
+		if f.Code == "CI3_DB_TRANSACTION_BOUNDARY" {
+			foundTransFinding = true
+			break
+		}
+	}
+	if !foundTransFinding {
+		t.Errorf("expected CI3_DB_TRANSACTION_BOUNDARY finding for trans_start")
+	}
+
+	// 2. Unsupported DB & session drivers reported as gaps
+	foundDBGap := false
+	foundSessGap := false
+	for _, g := range out.Gaps {
+		if strings.Contains(g, "unsupported database driver: oracle") {
+			foundDBGap = true
+		}
+		if strings.Contains(g, "unsupported session driver: redis") {
+			foundSessGap = true
+		}
+	}
+	if !foundDBGap {
+		t.Errorf("expected gap for oracle database driver, got: %v", out.Gaps)
+	}
+	if !foundSessGap {
+		t.Errorf("expected gap for redis session driver, got: %v", out.Gaps)
+	}
+
+	// 3. Evidence collected for db driver, session driver, and hooks
+	foundHookEvidence := false
+	for _, ev := range out.Document.Evidence {
+		if strings.Contains(ev.Description, "Hooks lifecycle enabled") {
+			foundHookEvidence = true
+			break
+		}
+	}
+	if !foundHookEvidence {
+		t.Errorf("expected evidence for hooks enabled")
+	}
+
+	// 4. Validate canonical Application IR document
+	cjson, err := out.Document.CanonicalJSON()
+	if err != nil {
+		t.Fatalf("CanonicalJSON failed: %v", err)
+	}
+	if err := ValidateApplicationIR(cjson); err != nil {
+		t.Fatalf("generated ApplicationIRDocument failed ValidateApplicationIR: %v", err)
+	}
+}
+
