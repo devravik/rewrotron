@@ -1,8 +1,8 @@
 # Rewrotron
 
-**Rewrotron is an open-source modernization engine that reconstructs legacy application behavior in modern stacks using verifiable observation evidence and differential contracts.**
+**Rewrotron is an open-source legacy application modernization engine for behavior-preserving code migration.** It analyzes legacy PHP applications, reconstructs behavior contracts, and helps migrate supported workflows to modern targets such as Laravel, with differential testing to detect regressions.
 
-Rather than performing blind source-to-source syntax transpilation or unpredictable LLM file rewriting, Rewrotron models application obligations across bounded vertical slices, generates idiomatic target code, and proves behavioral compatibility through dual-environment execution witnesses.
+Unlike a source-to-source transpiler or unguided LLM file rewriter, Rewrotron focuses on migrating bounded application workflows and comparing original and reconstructed implementations through dual-environment execution witnesses. Its initial demonstrated profile is CodeIgniter 3 to Laravel 13. Support is bounded by characterized capabilities and tested scope; it is not a universal one-click migration tool.
 
 ---
 
