@@ -191,6 +191,21 @@ Implement exactly one authorized unit per execution checkpoint; validate, commit
 
 **Explicit non-goals:** No advertised Claude/Cursor/Codex/Aider/Hermes support without test; no raw SQL/shell.
 
+### Explicit M5 implementation unit graph
+
+**Planning decision:** The operator explicitly authorized this engineering decomposition to close the missing M5 unit-graph contract. The original milestone specified the behavior and evidence, but did not uniquely determine these numbered boundaries. This decision preserves that scope, X24/X26/X31/X32/X60/X46/X51/X52/X55 ownership and the canonical specifications; it introduces no new RWT identifiers. “Vendor-Neutral Client Interfaces” names the M5 implementation work below, not a separate engine or workflow.
+
+The execution dependency chain is M4 → M5 Unit 1 → Unit 2 → Unit 3 → Unit 4 → Unit 5 → Unit 6 → M6.
+
+| Unit | Scope and implementation artifacts | Prerequisites | Owning requirements and acceptance | Checkpoint status |
+| --- | --- | --- | --- | --- |
+| 1 — Incident Budgets & Bounded Repair | Persisted incident records, three-attempt budget per incident subject, idempotency receipts, trivial context edit rejection, stale lease publication rejection | M4 | X24 in [TESTING](../10-development/TESTING.md); [MISSION-PROTOCOL](../06-agent/MISSION-PROTOCOL.md), [MIGRATION-ENGINE](../04-migration/MIGRATION-ENGINE.md), [RECOVERY](../08-storage/RECOVERY.md). Reconcile receipts before retry; reject trivial fingerprint resets; enforce max 3 attempts per incident subject | INCOMPLETE |
+| 2 — CLI Machine Protocol & Guarded Command Dispatcher | Strict CLI flag parser, standard envelope generator (cli-output 1.0), exit codes (0-4), dry-run safety, and guarded domain service delegation for public commands | Unit 1 | [CLI-SPEC](../06-agent/CLI-SPEC.md), commands.json, [CONFIRMATION-PROTOCOL](../02-domain/CONFIRMATION-PROTOCOL.md). Emit single newline-terminated envelope on stdout; structured error catalog on failure; no gate bypass | INCOMPLETE |
+| 3 — MCP Stdio Protocol & Semantic Tool Dispatcher | JSON-RPC 2.0 stdio server, protocol lifecycle (initialize, tools/list, tools/call, resources/read), resource templates, token-gated human approvals, and domain delegation | Unit 2 | [MCP-SPEC](../06-agent/MCP-SPEC.md), tools.json, [CONFIRMATION-PROTOCOL](../02-domain/CONFIRMATION-PROTOCOL.md). Pinned stdio transport; tool errors with structuredContent; no raw SQL/shell; token required for approvals | INCOMPLETE |
+| 4 — Process Lifetime, Observability & Trust Boundary | Supervisor lifetime, foreground/client disconnect recovery, human pause/continue state, progress truth, and same-account trust boundary | Unit 3 | X26, X27, X32 in [TESTING](../10-development/TESTING.md); [EXECUTION-OBSERVABILITY](../06-agent/EXECUTION-OBSERVABILITY.md), [SECURITY](../09-security/SECURITY.md). Supervisor survives client disconnect; no invented progress; pause stops new claims | INCOMPLETE |
+| 5 — Cross-Interface Parity & Offline Bundles | CLI vs MCP parity on assessment, report retrieval, gate enforcement, offline schema bundle validation, and no automatic implementation | Unit 4 | X31, X60, X46, X51, X52, X55 in [TESTING](../10-development/TESTING.md). Vendor-neutral transport parity; offline schema bundles; assessment does not implement or approve plan | INCOMPLETE |
+| 6 — Milestone M5 Acceptance Closure | Comprehensive closure suite integrating X24, X26, X31, X32, X60, X46, X51, X52, X55, and final M5 interface acceptance gate | Units 1–5 complete with current valid evidence | All M5 acceptance criteria, interface parity, and security invariants. This is the **only M5 completion gate**; M6 owns release package | INCOMPLETE |
+
 ## M6 — Whole-project correctness and performance/release package
 
 **Objective:** Accept the full current corpus, recompute the approved statistical claim and rehearse write-aware rollback before publishing the exact Gate 3 release package.
