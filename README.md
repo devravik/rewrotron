@@ -145,7 +145,7 @@ go vet ./...
 
 ## Community & Contributing
 
-Contributions are welcome! Please review our [Contributing Guidelines](docs/10-development/CONTRIBUTING.md) before submitting pull requests.
+Contributions are welcome! Please review our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before submitting pull requests.
 
 Rewrotron uses a strict unit-based development discipline managed via [`.agents/skills/rewrotron-implementation/SKILL.md`](.agents/skills/rewrotron-implementation/SKILL.md). All pull requests must include unit test evidence, pass race detection (`go test -race ./...`), and satisfy `python3 tools/docs/validate.py`.
 
@@ -153,7 +153,7 @@ Rewrotron uses a strict unit-based development discipline managed via [`.agents/
 
 ## Security
 
-To report a security vulnerability or sandbox escape, please follow the instructions in [Security Policy](docs/09-security/SECURITY.md). Do not file public GitHub issues for security vulnerabilities.
+To report a security vulnerability or sandbox escape, please follow the instructions in [Security Policy](SECURITY.md). Do not file public GitHub issues for security vulnerabilities.
 
 ---
 
