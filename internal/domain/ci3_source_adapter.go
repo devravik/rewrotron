@@ -23,6 +23,7 @@ var (
 	ci3SessDriverRegex = regexp.MustCompile(`\$config\[['"]sess_driver['"]\]\s*=\s*['"]([^'"]+)['"]`)
 	ci3HooksEnable     = regexp.MustCompile(`\$config\[['"]enable_hooks['"]\]\s*=\s*(TRUE|true|1)`)
 	ci3DBTransRegex    = regexp.MustCompile(`\$this->db->trans_start\(\)|\$this->db->trans_begin\(\)`)
+	ci3ForeachRoute    = regexp.MustCompile(`foreach\s*\(\s*\[([^\]]+)\]\s+as\s+\$([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)\s*\)`)
 )
 
 // CodeIgniter3SourceAdapter implements the CodeIgniter 3 source adapter conforming to
@@ -285,6 +286,51 @@ func (a *CodeIgniter3SourceAdapter) Extract(ctx context.Context, input SourceExt
 						CoverageState:    CoverageStateResolved,
 					})
 					epCounter++
+				}
+			}
+
+			// Check foreach static route pattern: foreach (['a', 'b'] as $name) { $route[$name] = 'controller/'.$name; }
+			routesContentStr := string(content)
+			if fMatch := ci3ForeachRoute.FindStringSubmatch(routesContentStr); len(fMatch) > 2 {
+				itemsRaw := fMatch[1]
+				varName := fMatch[2]
+				targetPattern := regexp.MustCompile(fmt.Sprintf(`\$route\[\$%s\]\s*=\s*['"]([^'"]+)['"]\s*\.\s*\$%s`, varName, varName))
+				if tMatch := targetPattern.FindStringSubmatch(routesContentStr); len(tMatch) > 1 {
+					baseTarget := strings.TrimSuffix(tMatch[1], "/")
+					itemRegex := regexp.MustCompile(`['"]([^'"]+)['"]`)
+					itemMatches := itemRegex.FindAllStringSubmatch(itemsRaw, -1)
+					for _, im := range itemMatches {
+						if len(im) > 1 {
+							name := im[1]
+							routePath := "/" + strings.TrimPrefix(name, "/")
+							fullTarget := baseTarget + "/" + name
+
+							evID := fmt.Sprintf("ev-ci3-%d", evCounter)
+							evCounter++
+							evidence = append(evidence, ApplicationEvidence{
+								EvidenceID:  evID,
+								Kind:        "STATIC",
+								ArtifactRef: "sha256:" + sumHex,
+								Description: fmt.Sprintf("CI3 loop route %s -> %s in %s", routePath, fullTarget, path),
+							})
+
+							disp, _ := json.Marshal(map[string]interface{}{
+								"type":   "http",
+								"method": "ANY",
+								"path":   routePath,
+							})
+
+							entrypoints = append(entrypoints, ApplicationEntrypoint{
+								EntrypointID:     fmt.Sprintf("ep-ci3-%d", epCounter),
+								Type:             EntrypointTypeHTTP,
+								Dispatch:         disp,
+								HandlerSymbolIDs: []string{sanitizeIdentifier(fullTarget)},
+								EvidenceIDs:      []string{evID},
+								CoverageState:    CoverageStateResolved,
+							})
+							epCounter++
+						}
+					}
 				}
 			}
 		}
