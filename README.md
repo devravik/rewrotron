@@ -1,166 +1,162 @@
 # Rewrotron
 
-**Rewrotron is an open-source tool being built to reconstruct legacy applications in a user-selected technology stack, using evidence about how the application behaves.**
+**Rewrotron is an open-source modernization engine that reconstructs legacy application behavior in modern stacks using verifiable observation evidence and differential contracts.**
 
-You bring an old application and describe the target you want. Rewrotron is designed to inspect the source, observe supported workflows, explain the required changes, and produce a reviewable assessment. If you choose to continue, it plans the selected work, requests your approval, and reconstructs and verifies the application one behavioral slice at a time.
+Rather than performing blind source-to-source syntax transpilation or unpredictable LLM file rewriting, Rewrotron models application obligations across bounded vertical slices, generates idiomatic target code, and proves behavioral compatibility through dual-environment execution witnesses.
 
-Its two central promises are to preserve the behavior covered by approved contracts and to show you what it is doing, why, and what remains uncertain.
+---
 
-## What can I use today?
+## What Problem Does Rewrotron Solve?
 
-**Early development: M0 foundation work has begun; no milestone is complete.** The repository contains specifications, machine schemas, SQL migration definitions, structural validation, and a small Go implementation of canonical JSON serialization and hashing with tests.
+Legacy applications hide critical business behavior across controllers, global state, dynamic database queries, session lifecycles, background jobs, and framework-specific quirks. Replacing these applications presents a classic dilemma:
+- **Manual rewrites** take months or years, lose subtle edge-case behaviors, and introduce regressions.
+- **Automated file transpilers** carry legacy anti-patterns forward into modern languages without leveraging target idioms.
+- **Direct LLM code generation** suffers from hallucinations, incomplete context windows, and inability to prove runtime equivalence.
 
-There is **no runnable migration engine, Rewrotron CLI/MCP binary, or runtime-validated source/target adapter yet**. The user workflow below describes the specified product. The quick start runs the repository checks available today.
+Rewrotron solves this by organizing reconstruction around **behavioral vertical slices**—complete functional workflows (such as user authentication, stateful checkout, or authorization gating). It verifies each slice in an isolated target environment against the legacy source before declaring success.
 
-**Reference Profile #1, intended to be the first qualified migration profile, is CodeIgniter 3 → Laravel. It is currently SPECIFIED, not qualified.** It will use independent environments and initially preserve the database schema. The core is designed to remain language, framework, and agent vendor neutral. Other source/target combinations require adapters and validation; they are not supported merely because the architecture can describe them.
+---
 
-## What problem does it solve?
+## Current Project Maturity & Verified Evidence
 
-A legacy application often hides important behavior in controllers, helpers, database queries, session state, scheduled jobs, and third-party libraries. Rewriting those files does not establish that the replacement still works for its users.
+| Area | Current Status | Evidence & Qualification |
+| :--- | :--- | :--- |
+| **Engine Foundation & Core IR** | **Implemented & Verified** | 3-tier IR (Source → Application → Behavior) and Target Implementation Model 2.1 qualified across M0–M4. |
+| **Source Adapters** | **Implemented & Verified** | Generic PHP syntax characterization and CodeIgniter 3.x adapter qualified on [`fixtures/ci3-reference`](fixtures/ci3-reference) in M10. |
+| **Target Adapters** | **Implemented & Verified** | Idiomatic Laravel 13 target adapter (PHP 8.3+, Eloquent, middleware) and Go standard-library HTTP generator qualified in M9 & M11. |
+| **End-to-End Demonstration** | **Demonstrated (24 Cases)** | Dual-environment differential execution verified across 24 compatibility cases in Reference Profile #1 (CodeIgniter 3 → Laravel 13). |
+| **Defect Detection & Repair** | **Demonstrated & Verified** | Deliberate authorization defect (HTTP 403 vs 200) detected as `MISMATCH`, diagnosed, repaired, and re-verified as `PASS` (M11 Unit 4). |
+| **Security & Sandbox Isolation** | **Implemented & Verified** | Strict workspace containment, traversal refusal (`../`, null bytes), HMAC secret scrubbing, and production write denial (`ERR_PRODUCTION_EFFECT_REFUSED`). |
+| **Packaging & Rollback Rehearsal** | **Qualified in Test Suites** | Byte-reproducible packaging (`linux-amd64`), atomic symlinks, and write-aware rollback rehearsal (X34) pass automated suites. |
+| **Downloadable Release Binaries** | **Pending Publication** | Local packaging is qualified, but precompiled binaries on GitHub Releases are not yet published. Evaluation currently runs from source. |
 
-Rewrotron organizes the migration around **behavioral vertical slices**: a complete operation or workflow, such as signing in, creating an order, or rejecting an unauthorized request. A slice can span several files and services.
+See the authoritative [Product Claim Matrix](docs/11-roadmap/PRODUCT-CLAIM-MATRIX.md) for full mapping of capabilities, test verifications, and known limitations.
 
-For example, a successful order submission may need to:
+---
 
-- Authenticate the user and check ownership.
-- Validate input and write the correct database records.
-- Queue a notification once.
-- Update session state and redirect to the correct page.
-
-The target must satisfy the approved obligations for that workflow. Internal architecture can improve, and intentional behavior changes must be explicit.
-
-## What will Rewrotron do?
-
-| Capability | What you get |
-| --- | --- |
-| Source and environment detection | Findings about the application, runtime, framework, dependencies, and operational entrypoints, with evidence and gaps. |
-| Migration assessment | Required changes, dependency options, constraints, risks, blockers, alternatives, and missing evidence. |
-| Target configuration and feasibility | Your requested environment kept separate from recommendations, followed by exact resolution for executable planning. |
-| Behavior characterization | Supported observations and executable contracts for selected workflows, including state and side effects. |
-| Incremental reconstruction | An approved plan and implementation in bounded slices, with explicit component ownership. |
-| Differential verification | Comparison of actual source and target evidence in independent environments. |
-| Transparent, resumable execution | Persisted work, decisions, evidence, current task, blockers, and next action. |
-| Release preparation | An approved release package and runbook after required verification and performance/rollback evidence. Initial release scope does not deploy production. |
-
-These are product requirements, not a list of features already implemented. See the [development plan](docs/11-roadmap/DEVELOPMENT-PLAN.md) for delivery order.
-
-## How does it work?
+## How Rewrotron Works
 
 ```text
-Coherent source snapshot + environment and operational scope
-    ↓
-Analyze source + observe supported behavior
-    ↓
-Assessment report
-    ↓
-Your decision: stop, gather more evidence, change scope/target, or continue
-    ↓
-Resolve exact target + produce executable plan
-    ↓
-Your explicit approval
-    ↓
-Implement selected behavioral slices
-    ↓
-Verify actual behavior → repair mismatches → verify again
-    ↓
-Performance evidence + approved release package
+  Legacy Application (e.g. CI3 Reference)
+                   │
+                   ▼
+  1. Capture & Extract Source IR
+     ├─ Route definitions, controllers, database models, session hooks
+     └─ Preserve uncertainty (unresolved dynamic paths remain UNKNOWN)
+                   │
+                   ▼
+  2. Gate 1: Human Confirmation of Coherent Snapshot
+                   │
+                   ▼
+  3. Plan Bounded Vertical Slices & Synthesize Target Model (TIM 2.1)
+                   │
+                   ▼
+  4. Gate 2: Explicit Plan Approval
+                   │
+                   ▼
+  5. Generate Idiomatic Target Code (e.g. Laravel 13)
+     ├─ Routes (`routes/web.php`), Eloquent models, controllers, middleware
+     └─ Deterministic, byte-reproducible generation with cryptographic digests
+                   │
+                   ▼
+  6. Differential Verification Harness
+     ├─ Source Witness Execution ──┐
+     │                             ├─► Comparator (HTTP Status, Headers, Body, Cookies, DB State)
+     ├─ Target Witness Execution ──┘
+     │
+     ├──► PASS: Verified Equivalent
+     └──► MISMATCH: Defect Diagnosed ──► Repair Workflow ──► Re-Verify
+                   │
+                   ▼
+  7. Gate 3: Release Package & Write-Aware Rollback Runbook
 ```
 
-Internally, source adapters extract a **Source IR** (source structure). The core organizes it into an **Application IR** (application relationships) and a **Behavior IR** (behavior obligations with evidence and uncertainty). A **Target Implementation Model** records how those obligations map to target components before generation. These are inspectable representations rather than reliance on an agent's conversation memory.
+---
 
-The deterministic engine owns state, approvals, safety checks, and verification results. Coding agents can propose implementations and explanations through the specified CLI/MCP/Skill interfaces. An agent's assertion does not establish correctness.
+## Why Rewrotron Is Different
 
-Project metadata is designed to live locally in SQLite, with large artifacts on disk. Local-first describes storage and execution defaults; an external coding agent or an explicitly enabled integration can still transmit data under its own configuration.
+1. **Behavioral Vertical Slices, Not Files:** Migrates complete functional slices across routing, models, controllers, and state rather than translating file-by-file.
+2. **Dual-Environment Differential Verification:** Proves equivalence by executing source and target in independent environments and comparing HTTP responses, headers, session cookies, database mutations, and side effects.
+3. **Preservation of Uncertainty:** When legacy code contains ambiguous or unresolvable dynamic dispatch, Rewrotron records `UNKNOWN` rather than hallucinating an implementation. **`UNKNOWN` never silently becomes `PASS`.**
+4. **Three Persistent Human Authorization Gates:**
+   - **Gate 1:** Authorizes observation and snapshot acquisition.
+   - **Gate 2:** Authorizes execution of an exact, reviewed migration plan.
+   - **Gate 3:** Authorizes release packaging and rollback runbook.
+5. **Cryptographic Provenance:** SHA-256 hashes bind source code, migration plans, target models, and generated artifacts into an immutable audit trail conforming to machine schemas.
 
-### What does verification mean?
+---
 
-A result is bounded by the approved source snapshot, environment, workflow cases, contracts, comparison policies, and exact target resolution:
+## Quickstart: Validate & Explore Today
 
-- **PASS:** The required comparisons and obligations passed for the named scope.
-- **MISMATCH:** Actual behavior violates a required comparison or obligation.
-- **UNKNOWN:** Required evidence or supported capture is missing; no passing claim can be made for that affected scope.
+You can inspect, build, and run the verified demonstration directly from the repository.
 
-Finite tests cannot prove every possible application behavior or that the test corpus is complete. Expected model state cannot fill a missing observation, and the checker cannot manufacture application effects to make a target pass. Safe sinks and disposable environments are required for supported side-effect tests; real payments and other irreversible actions are never blindly replayed.
+### Prerequisites
+- **Go:** 1.25.0+ (pinned in [`tools/toolchain.json`](tools/toolchain.json))
+- **Python:** 3.10+ (with `jsonschema>=4.10,<5` for contract validation)
 
-## How will a user use it?
-
-### 1. Bring the application and describe the scope
-
-Supply readable source, available runtime/dependency information, critical workflows, business constraints, and safe test data/accounts. Include entrypoints outside HTTP, such as cron or workers. Missing information remains a visible gap.
-
-Rewrotron captures a coherent snapshot and presents detected facts. **Gate 1** is your persisted approval to analyze and observe that source under the reviewed boundary.
-
-### 2. Choose the target and get an assessment
-
-Describe your target in the planned root configuration file, `rewrotron.yaml`: language/runtime, framework, database, cache, architecture, and related constraints. Recommendations never silently replace your choices. If you request PHP 8.4 and a recommendation suggests 8.3, your request remains 8.4; infeasibility is reported.
-
-The assessment explains what was examined, what needs to change, why, and what is unknown. Static-only findings are labeled with their limitations. An assessment can complete successfully even when migration is blocked.
-
-**You can stop here.** Assessment-only use is a supported checkpoint in the same workflow; it does not authorize implementation.
-
-### 3. Select work, review the plan, and approve it
-
-To continue, explicitly select the work and request planning. Rewrotron revalidates relevant evidence, resolves exact target components, and prepares an executable plan. **Gate 2** approves that exact plan separately from assessment or continuation.
-
-A changed target or other relevant input invalidates affected downstream work and approval. Historical evidence remains available; reuse requires current validity checks.
-
-### 4. Follow implementation and verification
-
-Inspect current work, its factual rationale, discoveries, blockers, and next steps. Complete slices are checked against their approved cases and applicable already-implemented regressions. Whole-project acceptance is a separate, stricter scope.
-
-Required performance and rollback evidence precede **Gate 3**, which approves release packaging and its runbook.
-
-The exact planned commands and arguments are in the [CLI specification](docs/06-agent/CLI-SPEC.md). CLI JSON is the complete vendor-neutral fallback; MCP and Skills use the same guarded engine services. Named coding-agent integrations remain unverified until exercised.
-
-## Quick start: explore and validate the repository today
-
-This starts contributor exploration and checks, not a customer migration. Python 3 and Go 1.25.0 are needed for the commands below; the pinned bootstrap tooling is recorded in [tools/toolchain.json](tools/toolchain.json). First-time dependency/toolchain acquisition may need network access.
-
+### 1. Clone & Validate Repository Contracts
 ```bash
 git clone https://github.com/devravik/rewrotron.git
 cd rewrotron
 
-# Validate documentation links, schemas, fixtures, SQL definitions, and vectors.
+# Validate all schemas, fixtures, and documentation links
 python3 -m pip install 'jsonschema>=4.10,<5'
 python3 tools/docs/validate.py
-
-# Test the currently implemented Go foundation.
-GOTOOLCHAIN=go1.25.0 go test -race ./...
-GOTOOLCHAIN=go1.25.0 go vet ./...
 ```
 
-Structural validation checks specification artifacts. Go tests exercise the existing bootstrap code. Neither demonstrates a working migration, adapter, approval service, or verifier.
+### 2. Run the End-to-End CI3-to-Laravel Differential Verification Demonstration
+Execute the 24-case differential verification suite and controlled mutation detection/repair workflow:
+```bash
+# Run the differential verification and mutation repair test
+go test -race -v ./internal/domain -run "TestM11_Unit4_DifferentialVerificationAndMutationRepair"
+```
+*Expected result:* The test executes 24 compatibility cases, injects a deliberate behavioral defect (authorization bypass), verifies that the harness detects it as `MISMATCH`, applies a diagnosed repair, and re-verifies that the target returns `PASS`.
 
-For implementation work, read [AGENTS.md](AGENTS.md), then select the currently authorized unit from the [development plan](docs/11-roadmap/DEVELOPMENT-PLAN.md). The repository's [implementation skill](.agents/skills/rewrotron-implementation/SKILL.md) references the existing workflow and durable checkpoints for compatible coding agents.
+### 3. Run the Release Qualification & Automated Gate Evaluator
+```bash
+# Run the Milestone M12 acceptance closure test
+go test -race -v ./internal/domain -run "TestM12_AcceptanceClosure"
+```
+*Expected result:* Evaluates all 9 release qualification requirements, verifies deterministic generation, validates security sandbox path containment and secret redaction, and evaluates the automated release gate to a clean `PASS`.
 
-## Where should I look next?
+### 4. Run Full Test Suite with Race Detection
+```bash
+go test -race -count=1 ./...
+go vet ./...
+```
 
-| If you want to… | Read |
-| --- | --- |
-| Remember the product's purpose and limits | [Product contract](docs/00-vision/PRODUCT.md) |
-| Understand the architecture | [System design](docs/01-architecture/SYSTEM-DESIGN.md) |
-| Understand assessment, continuation, and approvals | [Project lifecycle](docs/02-domain/PROJECT-LIFECYCLE.md) and [confirmation protocol](docs/02-domain/CONFIRMATION-PROTOCOL.md) |
-| Ask a coding agent to build or resume Rewrotron | [Implementation Skill usage and copyable prompts](docs/10-development/CONTRIBUTING.md#4-using-the-implementation-skill) |
-| Understand planned installation and first assessment | [Installation guide](docs/10-development/INSTALLATION.md) and [release contract](docs/10-development/RELEASE.md) |
-| Prepare a legacy application | [Customer inputs](docs/10-development/PROJECT-INPUTS.md) |
-| Understand target choices and dependency handling | [Target specification](docs/04-migration/TARGET-SPECIFICATION.md) and [dependency resolution](docs/04-migration/DEPENDENCY-RESOLUTION.md) |
-| Understand verification and its boundaries | [Differential testing](docs/05-verification/DIFFERENTIAL-TESTING.md) |
-| Find planned user commands | [CLI specification](docs/06-agent/CLI-SPEC.md) and [MCP specification](docs/06-agent/MCP-SPEC.md) |
-| See what will be built next | [Development plan](docs/11-roadmap/DEVELOPMENT-PLAN.md), [roadmap](docs/11-roadmap/ROADMAP.md), and [project plan](REWROTRON_PROJECT_PLAN.md) |
-| Find a specification or machine contract | [Documentation index](docs/README.md) and [schema registry](specs/README.md) |
-| Review engineering checks and falsification tests | [Development](docs/10-development/DEVELOPMENT.md) and [testing](docs/10-development/TESTING.md) |
-| Inspect prior architectural review dispositions | [Red-team resolution record](docs/11-roadmap/RED-TEAM-RESOLUTION.md) |
+---
 
-The README is an introduction. [AGENTS.md](AGENTS.md) and the canonical owners listed in the documentation index govern implementation and resolve authority; dated review-baseline descriptions are not current implementation inventories.
+## Documentation & Learning Paths
+
+| If you want to... | Read |
+| :--- | :--- |
+| Understand verified capabilities and known limitations | [Product Claim Matrix](docs/11-roadmap/PRODUCT-CLAIM-MATRIX.md) |
+| Review the project principles and authority structure | [AGENTS.md](AGENTS.md) |
+| Explore the system architecture and component boundaries | [System Design](docs/01-architecture/SYSTEM-DESIGN.md) |
+| Follow the human confirmation protocol and lifecycle gates | [Confirmation Protocol](docs/02-domain/CONFIRMATION-PROTOCOL.md) & [Project Lifecycle](docs/02-domain/PROJECT-LIFECYCLE.md) |
+| Read the CodeIgniter 3 source adapter specification | [CI3 Adapter](docs/04-migration/CI3-ADAPTER.md) |
+| Understand differential testing and comparator policies | [Differential Testing](docs/05-verification/DIFFERENTIAL-TESTING.md) |
+| Inspect security boundaries, sandboxing, and secret scrubbing | [Security Policy](docs/09-security/SECURITY.md) & [Sandbox](docs/09-security/SANDBOX.md) |
+| Review the development plan and milestone progress | [Development Plan](docs/11-roadmap/DEVELOPMENT-PLAN.md) |
+| Learn how to contribute to Rewrotron | [Contributing Guidelines](docs/10-development/CONTRIBUTING.md) |
+
+---
+
+## Community & Contributing
+
+Contributions are welcome! Please review our [Contributing Guidelines](docs/10-development/CONTRIBUTING.md) before submitting pull requests.
+
+Rewrotron uses a strict unit-based development discipline managed via [`.agents/skills/rewrotron-implementation/SKILL.md`](.agents/skills/rewrotron-implementation/SKILL.md). All pull requests must include unit test evidence, pass race detection (`go test -race ./...`), and satisfy `python3 tools/docs/validate.py`.
+
+---
+
+## Security
+
+To report a security vulnerability or sandbox escape, please follow the instructions in [Security Policy](docs/09-security/SECURITY.md). Do not file public GitHub issues for security vulnerabilities.
+
+---
 
 ## License
 
-[Apache-2.0](LICENSE).
-
-## Extending migration capabilities
-
-Rewrotron is designed as a generic, extensible application migration engine. Source framework skills package detection, parsing and extraction adapters; target framework skills package TIM lowering rules, generators and target constraints. They compose through Source IR → Application IR → Behavior IR → TIM, rather than through a hard-coded CI3/Laravel translator.
-
-A skill includes structured adapter metadata, deterministic assets and qualification fixtures, with optional agent guidance. The engine checks exact installed capabilities; independent verification establishes PASS / MISMATCH / UNKNOWN. A skill cannot certify its own output. Adding a package does not automatically support every source/target combination.
-
-[SKILL-SPEC](docs/06-agent/SKILL-SPEC.md) owns this model. The repository implementation skill remains a general contributor procedure. [M8](docs/11-roadmap/DEVELOPMENT-PLAN.md) will qualify pluggable composition using a substantially different technology; React Native/Expo → native Android is one possible candidate, not implemented support or a commitment. JEV is deferred and is not required.
+[Apache-2.0](LICENSE) © 2026 Dev Ravi & Rewrotron Contributors.
