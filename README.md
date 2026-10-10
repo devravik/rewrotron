@@ -157,6 +157,39 @@ To report a security vulnerability or sandbox escape, please follow the instruct
 
 ---
 
+## About the Creator
+
+**Rewrotron is built by [Ravi K. Gupta](https://github.com/devravik), a software engineer with 12+ years of experience building backend systems, SaaS applications, and developer tools.**
+
+My professional background spans PHP, Laravel, CodeIgniter, Go, relational databases, API architecture, and production operations. I've worked on multi-tenant SaaS products, workflow-driven applications, database-heavy systems, background processing pipelines, and third-party integrations.
+
+Over the years, I've worked on the kinds of systems that make legacy modernization difficult: applications with years of accumulated business logic, framework-specific behavior, complex database interactions, and dependencies that cannot simply be rewritten without consequences.
+
+### Why I'm Building Rewrotron
+
+Rewriting a legacy application is not just a coding exercise. The difficult part is understanding what the existing application actually does and ensuring the replacement continues to do it correctly.
+
+I started building Rewrotron around that challenge.
+
+The idea is to make application modernization more systematic and verifiable: reconstruct behavior from source evidence and runtime observations, migrate in small vertical slices, compare the old and new implementations, and make unresolved behavior visible instead of hiding it behind a successful build.
+
+Rewrotron is an independent open-source engineering project built around three principles:
+
+- **Behavior over source structure.** Modernize the implementation without blindly reproducing legacy architecture.
+- **Evidence over assumptions.** Verify behavior through explicit contracts, independent execution, and differential testing.
+- **Human control over consequential changes.** Keep uncertainty visible and require approval at critical migration and release gates.
+
+The long-term objective is to make legacy modernization more repeatable, transparent, and accessible to developers who maintain important business applications.
+
+Rewrotron is under active development. I welcome technically grounded feedback, reproducible bug reports, documentation improvements, and contributions that help make its migration capabilities more useful and reliable.
+
+**Maintainer:** [Ravi K. Gupta](https://github.com/devravik)  
+**GitHub:** [@devravik](https://github.com/devravik)  
+**Professional profile:** [LinkedIn](https://www.linkedin.com/in/ravi-k-dev)  
+**Portfolio:** [devravik.github.io](https://devravik.github.io/)
+
+---
+
 ## License
 
 [Apache-2.0](LICENSE) © 2026 Dev Ravi & Rewrotron Contributors.
