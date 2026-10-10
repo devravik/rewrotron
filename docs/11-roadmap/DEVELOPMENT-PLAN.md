@@ -230,6 +230,22 @@ The execution dependency chain is M4 → M5 Unit 1 → Unit 2 → Unit 3 → Uni
 
 **Explicit non-goals:** No engine production deployment; no rollback guarantee from preserved schema alone.
 
+### Explicit M6 implementation unit graph
+
+**Planning decision:** The operator authorized this engineering decomposition to provide the structured unit graph for Milestone M6. The original milestone specified the behavior, tests (X78, X33, X59, X34, X35, X28, X36-A–H) and release criteria, but did not uniquely determine these numbered boundaries. This decision preserves all existing requirement ownership, statistical definitions, rollback protocols, native packaging invariants, and acceptance semantics; it introduces no new RWT identifiers.
+
+The execution dependency chain is M5 → M6 Unit 1 → Unit 2 → Unit 3 → Unit 4 → Unit 5 → Unit 6.
+
+| Unit | Scope and implementation artifacts | Prerequisites | Owning requirements and acceptance | Checkpoint status |
+| --- | --- | --- | --- | --- |
+| 1 — Statistical Performance & Operational SLO Acceptance | Deterministic paired trial bootstrap (`RWT_PAIRED_BOOTSTRAP_1`), fixed stopping rule ($N \in [10, 20]$), ratio estimands, confidence interval computation, and fixed-window operational SLO evaluation | M5 | X33, X59, X78 in [TESTING](../10-development/TESTING.md); [PERFORMANCE](../05-verification/PERFORMANCE.md). Deterministic SHA-256 resampling (10,000 draws); reject early stopping; recompute outcome from raw samples; evaluate operational SLO across complete fixed windows; handle NOT_APPLICABLE policy | SPECIFIED |
+| 2 — Write-Aware Rollback & Target Data Reconciliation | Rollback rehearsal reconciling target files, database state, sessions, and external side-effects; refusal of schema-only rollback guarantees | Unit 1 | X34 in [TESTING](../10-development/TESTING.md); [CUTOVER-RUNBOOK](../10-development/CUTOVER-RUNBOOK.md). Verify write-aware rollback; reconcile target writes/sessions/database mutations before release; schema-only rollback rejected | SPECIFIED |
+| 3 — Storage Disaster Recovery & WAL Backup/Restore | Coordinated backup during active publication, WAL checkpoint recovery, missing referenced artifact detection, and corrupted/partial backup refusal | Unit 2 | X28 in [TESTING](../10-development/TESTING.md); [SQLITE-SCHEMA](../08-storage/SQLITE-SCHEMA.md), [RECOVERY](../08-storage/RECOVERY.md). Coordinated backup during active publication; restore verified with WAL checkpoints; refuse incomplete or corrupted backups | SPECIFIED |
+| 4 — Release Artifacts, Packaging & Native Installation Lifecycle | Release archive packaging (`rewrotron-<version>-linux-amd64.tar.gz`), reproducible unsigned payloads, checksum digests, and native installation lifecycle controls | Unit 3 | X36-A–H in [TESTING](../10-development/TESTING.md); [RELEASE](../10-development/RELEASE.md), [INSTALLATION](../10-development/INSTALLATION.md). Clean install (A), authenticity check (B), interrupted install (C), PATH/offline invocation (D), upgrade/rollback (E), preserving uninstall (F), packaged onboarding walkthrough (G), reproducible unsigned payloads (H) | SPECIFIED |
+| 5 — Whole-Project Corpus Acceptance & Gate 3 Release Package | Full-corpus verification enforcement, whole-project scope check (login + checkout required; partial project cannot reach READY_CUTOVER), and Gate 3 release package compilation | Unit 4 | X35 in [TESTING](../10-development/TESTING.md); [PROJECT-LIFECYCLE](../02-domain/PROJECT-LIFECYCLE.md), [CONFIRMATION-PROTOCOL](../02-domain/CONFIRMATION-PROTOCOL.md). All units and full project corpus accepted; Gate 3 release subject compilation (`specs/migration/release.schema.json`) | SPECIFIED |
+| 6 — Milestone M6 Acceptance Closure | Comprehensive closure suite integrating X78, X33, X59, X34, X35, X28, X36-A–H, and final release gate verification | Units 1–5 complete with current valid evidence | All M6 acceptance criteria, statistical evidence, write-aware rollback, storage recovery, native distribution, and Gate 3 packaging invariants verified | SPECIFIED |
+
+
 ## M7 — Evidence-quality learning and capability reuse
 
 **Objective:** Promote only independently evaluated sanitized revisions and locate/invalidate every consumer on retraction without changing historical approvals.
