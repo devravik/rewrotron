@@ -264,9 +264,21 @@ func (a *GoStdlibTargetAdapter) renderRouterGo(input GenerationInput, header str
 	sb.WriteString("func NewRouter() http.Handler {\n")
 	sb.WriteString("\tmux := http.NewServeMux()\n")
 	sb.WriteString("\th := handlers.NewHandler()\n\n")
-	sb.WriteString("\tmux.HandleFunc(\"GET /\", h.RootHandler)\n")
-	sb.WriteString("\tmux.HandleFunc(\"POST /api/action\", h.ActionHandler)\n\n")
 
+	cases := append([]string{}, input.Admission.Scope.CaseIDs...)
+	sort.Strings(cases)
+
+	if len(cases) == 0 {
+		sb.WriteString("\tmux.HandleFunc(\"GET /\", h.RootHandler)\n")
+		sb.WriteString("\tmux.HandleFunc(\"POST /api/action\", h.ActionHandler)\n")
+	} else {
+		for _, caseID := range cases {
+			safeName := sanitizeGoIdentifier(caseID)
+			sb.WriteString(fmt.Sprintf("\tmux.HandleFunc(\"/%s\", h.%sHandler)\n", caseID, safeName))
+		}
+	}
+
+	sb.WriteString("\n")
 	if input.SessionContract != nil {
 		sb.WriteString("\treturn middleware.SessionContinuity(mux)\n")
 	} else {
@@ -276,6 +288,23 @@ func (a *GoStdlibTargetAdapter) renderRouterGo(input GenerationInput, header str
 	return []byte(sb.String())
 }
 
+func sanitizeGoIdentifier(s string) string {
+	parts := strings.FieldsFunc(s, func(r rune) bool {
+		return r == '-' || r == '_' || r == '.' || r == '/'
+	})
+	var sb strings.Builder
+	for _, p := range parts {
+		if len(p) > 0 {
+			sb.WriteString(strings.ToUpper(p[:1]) + p[1:])
+		}
+	}
+	res := sb.String()
+	if res == "" {
+		return "Default"
+	}
+	return res
+}
+
 func (a *GoStdlibTargetAdapter) renderHandlersGo(input GenerationInput, header string) []byte {
 	var sb strings.Builder
 	sb.WriteString("package handlers\n\n")
@@ -283,16 +312,32 @@ func (a *GoStdlibTargetAdapter) renderHandlersGo(input GenerationInput, header s
 	sb.WriteString("\nimport (\n\t\"encoding/json\"\n\t\"net/http\"\n)\n\n")
 	sb.WriteString("type Handler struct{}\n\n")
 	sb.WriteString("func NewHandler() *Handler {\n\treturn &Handler{}\n}\n\n")
-	sb.WriteString("func (h *Handler) RootHandler(w http.ResponseWriter, r *http.Request) {\n")
-	sb.WriteString("\tw.Header().Set(\"Content-Type\", \"application/json\")\n")
-	sb.WriteString("\tw.WriteHeader(http.StatusOK)\n")
-	sb.WriteString("\t_ = json.NewEncoder(w).Encode(map[string]string{\"status\": \"ok\"})\n")
-	sb.WriteString("}\n\n")
-	sb.WriteString("func (h *Handler) ActionHandler(w http.ResponseWriter, r *http.Request) {\n")
-	sb.WriteString("\tw.Header().Set(\"Content-Type\", \"application/json\")\n")
-	sb.WriteString("\tw.WriteHeader(http.StatusOK)\n")
-	sb.WriteString("\t_ = json.NewEncoder(w).Encode(map[string]bool{\"success\": true})\n")
-	sb.WriteString("}\n")
+
+	cases := append([]string{}, input.Admission.Scope.CaseIDs...)
+	sort.Strings(cases)
+
+	if len(cases) == 0 {
+		sb.WriteString("func (h *Handler) RootHandler(w http.ResponseWriter, r *http.Request) {\n")
+		sb.WriteString("\tw.Header().Set(\"Content-Type\", \"application/json\")\n")
+		sb.WriteString("\tw.WriteHeader(http.StatusOK)\n")
+		sb.WriteString("\t_ = json.NewEncoder(w).Encode(map[string]string{\"status\": \"ok\"})\n")
+		sb.WriteString("}\n\n")
+		sb.WriteString("func (h *Handler) ActionHandler(w http.ResponseWriter, r *http.Request) {\n")
+		sb.WriteString("\tw.Header().Set(\"Content-Type\", \"application/json\")\n")
+		sb.WriteString("\tw.WriteHeader(http.StatusOK)\n")
+		sb.WriteString("\t_ = json.NewEncoder(w).Encode(map[string]bool{\"success\": true})\n")
+		sb.WriteString("}\n")
+	} else {
+		for _, caseID := range cases {
+			safeName := sanitizeGoIdentifier(caseID)
+			sb.WriteString(fmt.Sprintf("func (h *Handler) %sHandler(w http.ResponseWriter, r *http.Request) {\n", safeName))
+			sb.WriteString("\tw.Header().Set(\"Content-Type\", \"application/json\")\n")
+			sb.WriteString("\tw.WriteHeader(http.StatusOK)\n")
+			sb.WriteString(fmt.Sprintf("\t_ = json.NewEncoder(w).Encode(map[string]string{\"case\": %q, \"status\": \"ok\"})\n", caseID))
+			sb.WriteString("}\n\n")
+		}
+	}
+
 	return []byte(sb.String())
 }
 

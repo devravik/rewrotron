@@ -3,6 +3,7 @@ package domain
 import (
 	"context"
 	"encoding/json"
+	"strings"
 	"testing"
 )
 
@@ -101,5 +102,50 @@ func TestGoStdlibTargetAdapter_MissingSessionContract_Fails(t *testing.T) {
 	_, err := adapter.Generate(ctx, input)
 	if err == nil {
 		t.Fatalf("expected error when session capability is in scope without session contract, got nil")
+	}
+}
+
+func TestGoStdlibTargetAdapter_RoutingAndLifecycleLowering(t *testing.T) {
+	ctx := context.Background()
+	unitID := "sync-checkout"
+	adm := makeTestAdmission(t, unitID, []string{"http", "routing", "session", "auth"}, []string{"login", "checkout-pay"})
+	tm := makeTestTargetModel(t, unitID)
+	sc := makeTestSessionContract(t, "proj-test", "case-auth", "SAFE_BRIDGE")
+
+	adapter := NewGoStdlibTargetAdapter()
+	input := GenerationInput{
+		Admission:       adm,
+		TargetModel:     tm,
+		UnitID:          unitID,
+		SessionContract: sc,
+	}
+
+	out, err := adapter.Generate(ctx, input)
+	if err != nil {
+		t.Fatalf("Generate failed: %v", err)
+	}
+
+	routerSource := string(out.Artifacts["internal/server/router.go"])
+	if !strings.Contains(routerSource, `mux.HandleFunc("/login", h.LoginHandler)`) {
+		t.Errorf("routerSource missing /login route: %s", routerSource)
+	}
+	if !strings.Contains(routerSource, `mux.HandleFunc("/checkout-pay", h.CheckoutPayHandler)`) {
+		t.Errorf("routerSource missing /checkout-pay route: %s", routerSource)
+	}
+	if !strings.Contains(routerSource, "middleware.SessionContinuity(mux)") {
+		t.Errorf("routerSource missing SessionContinuity wrapping: %s", routerSource)
+	}
+
+	handlerSource := string(out.Artifacts["internal/handlers/handler.go"])
+	if !strings.Contains(handlerSource, "func (h *Handler) LoginHandler(") {
+		t.Errorf("handlerSource missing LoginHandler: %s", handlerSource)
+	}
+	if !strings.Contains(handlerSource, "func (h *Handler) CheckoutPayHandler(") {
+		t.Errorf("handlerSource missing CheckoutPayHandler: %s", handlerSource)
+	}
+
+	middlewareSource := string(out.Artifacts["internal/middleware/session.go"])
+	if !strings.Contains(middlewareSource, "Session continuity strategy: SAFE_BRIDGE") {
+		t.Errorf("middlewareSource missing strategy: %s", middlewareSource)
 	}
 }
