@@ -375,10 +375,17 @@ func (a *GenericPHPSourceAdapter) PrepareInstrumentation(ctx context.Context, in
 }
 
 func sanitizeIdentifier(s string) string {
-	parts := strings.FieldsFunc(s, func(r rune) bool {
-		return (r < 'a' || r > 'z') && (r < '0' || r > '9') && r != '_' && r != '-'
-	})
-	res := strings.ToLower(strings.Join(parts, "-"))
+	var sb strings.Builder
+	for _, r := range s {
+		if (r >= 'a' && r <= 'z') || (r >= '0' && r <= '9') || r == '_' || r == '-' {
+			sb.WriteRune(r)
+		} else if r >= 'A' && r <= 'Z' {
+			sb.WriteRune(r + ('a' - 'A'))
+		} else {
+			sb.WriteRune('-')
+		}
+	}
+	res := strings.Trim(sb.String(), "-")
 	if res == "" {
 		return "item"
 	}
