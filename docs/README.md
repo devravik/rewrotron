@@ -27,9 +27,10 @@ Start with [PRODUCT](00-vision/PRODUCT.md), then [SYSTEM-DESIGN](01-architecture
 | CLI and MCP | [CLI-SPEC](06-agent/CLI-SPEC.md), [MCP-SPEC](06-agent/MCP-SPEC.md) | [Errors](06-agent/ERROR-CATALOG.md), [missions](06-agent/MISSION-PROTOCOL.md), [schemas](../specs/README.md) |
 | SQLite, events, artifacts | [SQLITE-SCHEMA](08-storage/SQLITE-SCHEMA.md) | [Events](08-storage/EVENT-MODEL.md), [recovery](08-storage/RECOVERY.md) |
 | Permissions and privacy | [SECURITY](09-security/SECURITY.md) | [Secrets](09-security/SECRET-HANDLING.md), [input checklist](10-development/PROJECT-INPUTS.md) |
-| Contributor and release checks | [DEVELOPMENT](10-development/DEVELOPMENT.md) | [Testing](10-development/TESTING.md), [fixtures](10-development/FIXTURE-CORPUS.md), [cutover](10-development/CUTOVER-RUNBOOK.md), [release/install owner](10-development/RELEASE.md), [user installation guide](10-development/INSTALLATION.md), [implementation Skill usage](10-development/CONTRIBUTING.md#4-using-the-implementation-skill) |
+| Contributor and release checks | [DEVELOPMENT](10-development/DEVELOPMENT.md) | [Testing](10-development/TESTING.md), [fixtures](10-development/FIXTURE-CORPUS.md), [cutover](10-development/CUTOVER-RUNBOOK.md), [release/install owner](10-development/RELEASE.md), [user installation guide](10-development/INSTALLATION.md), [implementation Skill usage](10-development/CONTRIBUTING.md#4-using-the-implementation-skill), [quickstart](10-development/QUICKSTART.md) |
 | Development order | [DEVELOPMENT-PLAN](11-roadmap/DEVELOPMENT-PLAN.md) | [Milestones](11-roadmap/MILESTONES.md), [backlog](11-roadmap/BACKLOG.md) |
 | Product claim matrix and evidence | [PRODUCT-CLAIM-MATRIX](11-roadmap/PRODUCT-CLAIM-MATRIX.md) | [DEVELOPMENT-PLAN](11-roadmap/DEVELOPMENT-PLAN.md), [RELEASE](10-development/RELEASE.md) |
+| Reference Profile #1 demonstration | [CI3-LARAVEL-WALKTHROUGH](04-migration/CI3-LARAVEL-WALKTHROUGH.md) | [CI3-ADAPTER](04-migration/CI3-ADAPTER.md), [DIFFERENTIAL-TESTING](05-verification/DIFFERENTIAL-TESTING.md) |
 
 The [project plan](../REWROTRON_PROJECT_PLAN.md) summarizes the current milestone sequence and references its owners; historical phases are superseded. Each task in the development plan has an owner role, prerequisites, files, failure cases, verification, and completion evidence.
 
