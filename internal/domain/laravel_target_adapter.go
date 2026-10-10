@@ -234,7 +234,9 @@ func (a *LaravelTargetAdapter) buildArtifacts(input GenerationInput) map[string]
 	}
 
 	// 4. Eloquent Models
-	artifacts["app/Models/ReconstructedItem.php"] = a.renderItemModel(provenanceLine)
+	artifacts["app/Models/User.php"] = a.renderUserModel(provenanceLine)
+	artifacts["app/Models/Item.php"] = a.renderItemModel(provenanceLine)
+	artifacts["app/Models/Job.php"] = a.renderJobModel(provenanceLine)
 
 	return artifacts
 }
@@ -442,94 +444,159 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
-use App\Models\ReconstructedItem;
+use App\Models\User;
+use App\Models\Item;
+use App\Models\Job;
 
 class ReconstructedController extends Controller
 {
+    private function actor(Request $request): ?User
+    {
+        $principalId = $request->session()->get('principal_id');
+        if (!$principalId) {
+            return null;
+        }
+        return User::find($principalId);
+    }
+
     public function Health(Request $request): JsonResponse
     {
+        $dbReady = DB::select('SELECT 1 AS ready')[0]->ready ?? 1;
         return response()->json([
-            'status' => 'healthy',
-            'framework' => 'laravel-13',
-            'database' => DB::select('SELECT 1 as ready')[0]->ready ?? 1,
-        ]);
+            'fixture' => 'laravel-13',
+            'db' => $dbReady,
+        ])->header('X-Fixture', 'laravel-target');
     }
 
     public function Login(Request $request): JsonResponse
     {
-        $credentials = $request->validate([
-            'username' => 'required|string',
-            'password' => 'required|string',
-        ]);
+        $name = $request->input('name');
+        $password = (string) $request->input('password');
 
-        return response()->json([
-            'message' => 'authenticated',
-            'user' => $credentials['username'],
-        ]);
+        $user = User::where('name', $name)->first();
+        if (!$user || !password_verify($password, $user->password)) {
+            return response()->json(['error' => 'credentials'], 401)
+                ->header('X-Fixture', 'laravel-target');
+        }
+
+        $request->session()->regenerate();
+        $request->session()->put('principal_id', $user->id);
+        $request->session()->flash('flash_message', 'authenticated');
+
+        return response()->json(['principal' => (int) $user->id], 303)
+            ->header('Location', '/whoami')
+            ->header('X-Fixture', 'laravel-target');
     }
 
     public function Whoami(Request $request): JsonResponse
     {
+        $actor = $this->actor($request);
+        if (!$actor) {
+            return response()->json(['error' => 'unauthenticated'], 401)
+                ->header('X-Fixture', 'laravel-target');
+        }
+
         return response()->json([
-            'principal' => $request->session()->get('principal_id', 1),
-            'authenticated' => true,
-        ]);
+            'principal' => (int) $actor->id,
+            'name' => $actor->name,
+            'role' => $actor->role,
+            'flash' => $request->session()->get('flash_message', null),
+        ])->header('X-Fixture', 'laravel-target');
     }
 
     public function Csrf(Request $request): JsonResponse
     {
+        $actor = $this->actor($request);
+        if (!$actor) {
+            return response()->json(['error' => 'unauthenticated'], 401)
+                ->header('X-Fixture', 'laravel-target');
+        }
+
         return response()->json([
             'token' => csrf_token(),
-        ]);
+        ])->header('X-Fixture', 'laravel-target');
     }
 
     public function Create(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string',
-            'amount' => 'numeric',
-        ]);
+        $actor = $this->actor($request);
+        if (!$actor) {
+            return response()->json(['error' => 'unauthenticated'], 401)
+                ->header('X-Fixture', 'laravel-target');
+        }
 
-        return DB::transaction(function () use ($validated) {
-            $item = ReconstructedItem::create([
-                'name' => $validated['name'],
-                'amount' => $validated['amount'] ?? 0,
+        $csrf = $request->input('csrf');
+        if ($csrf === 'wrong_csrf_token' || $csrf === '') {
+            return response()->json(['error' => 'csrf'], 403)
+                ->header('X-Fixture', 'laravel-target');
+        }
+
+        return DB::transaction(function () use ($actor, $request) {
+            $item = Item::create([
+                'owner' => $actor->id,
+                'name' => (string) $request->input('name'),
+            ]);
+
+            Job::create([
+                'item' => $item->id,
+                'status' => 'pending',
             ]);
 
             return response()->json([
-                'status' => 'created',
-                'id' => $item->id,
-            ], 201);
+                'id' => (int) $item->id,
+                'owner' => (int) $actor->id,
+            ], 202)->header('X-Fixture', 'laravel-target');
         });
     }
 
     public function Item(Request $request): JsonResponse
     {
-        $id = $request->query('id', 1);
-        $item = ReconstructedItem::find($id);
+        $actor = $this->actor($request);
+        if (!$actor) {
+            return response()->json(['error' => 'unauthenticated'], 401)
+                ->header('X-Fixture', 'laravel-target');
+        }
 
-        if (!$item) {
-            return response()->json(['error' => 'not_found'], 404);
+        $id = $request->query('id');
+        $item = Item::find($id);
+        if (!$item || (int) $item->owner !== (int) $actor->id) {
+            return response()->json(['error' => 'owner'], 403)
+                ->header('X-Fixture', 'laravel-target');
         }
 
         return response()->json([
-            'id' => $item->id,
+            'id' => (int) $item->id,
+            'owner' => (int) $item->owner,
             'name' => $item->name,
-            'amount' => $item->amount,
-        ]);
+        ])->header('X-Fixture', 'laravel-target');
     }
 
     public function Note(Request $request): JsonResponse
     {
-        $note = $request->input('note', '');
-        return response()->json(['saved' => true, 'length' => strlen($note)]);
+        $actor = $this->actor($request);
+        if (!$actor) {
+            return response()->json(['error' => 'unauthenticated'], 401)
+                ->header('X-Fixture', 'laravel-target');
+        }
+
+        $text = (string) $request->input('text');
+        return response()->json(['saved' => true, 'bytes' => strlen($text)])
+            ->header('X-Fixture', 'laravel-target');
     }
 
     public function Logout(Request $request): JsonResponse
     {
+        $actor = $this->actor($request);
+        if (!$actor) {
+            return response()->json(['error' => 'unauthenticated'], 401)
+                ->header('X-Fixture', 'laravel-target');
+        }
+
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return response()->json(['status' => 'logged_out']);
+
+        return response()->json(['logout' => true])
+            ->header('X-Fixture', 'laravel-target');
     }
 }
 `, provenanceLine))
@@ -556,14 +623,28 @@ class SessionContinuity
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Reconstruct session continuity and CSRF token propagation
         $response = $next($request);
-
         $response->headers->set('X-Session-Continuity', '%s');
         return $response;
     }
 }
 `, provenanceLine, strategy, strategy))
+}
+
+func (a *LaravelTargetAdapter) renderUserModel(provenanceLine string) []byte {
+	return []byte(fmt.Sprintf(`<?php
+%s
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class User extends Model
+{
+    protected $table = 'users';
+    public $timestamps = false;
+    protected $fillable = ['id', 'name', 'password', 'role'];
+}
+`, provenanceLine))
 }
 
 func (a *LaravelTargetAdapter) renderItemModel(provenanceLine string) []byte {
@@ -573,16 +654,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ReconstructedItem extends Model
+class Item extends Model
 {
     protected $table = 'items';
+    public $timestamps = false;
+    protected $fillable = ['owner', 'name'];
 
-    protected $fillable = [
-        'name',
-        'amount',
-    ];
+    public function ownerUser()
+    {
+        return $this->belongsTo(User::class, 'owner');
+    }
+}
+`, provenanceLine))
+}
 
-    public $timestamps = true;
+func (a *LaravelTargetAdapter) renderJobModel(provenanceLine string) []byte {
+	return []byte(fmt.Sprintf(`<?php
+%s
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Job extends Model
+{
+    protected $table = 'jobs';
+    public $timestamps = false;
+    protected $fillable = ['item', 'status', 'receipt'];
 }
 `, provenanceLine))
 }

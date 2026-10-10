@@ -106,7 +106,9 @@ func TestM11_Unit2_LaravelTargetAdapter(t *testing.T) {
 		"routes/api.php",
 		"app/Http/Controllers/ReconstructedController.php",
 		"app/Http/Middleware/SessionContinuity.php",
-		"app/Models/ReconstructedItem.php",
+		"app/Models/User.php",
+		"app/Models/Item.php",
+		"app/Models/Job.php",
 	}
 
 	for _, rf := range requiredFiles {
