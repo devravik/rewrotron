@@ -31,6 +31,7 @@ Start with [PRODUCT](00-vision/PRODUCT.md), then [SYSTEM-DESIGN](01-architecture
 | Development order | [DEVELOPMENT-PLAN](11-roadmap/DEVELOPMENT-PLAN.md) | [Milestones](11-roadmap/MILESTONES.md), [backlog](11-roadmap/BACKLOG.md) |
 | Product claim matrix and evidence | [PRODUCT-CLAIM-MATRIX](11-roadmap/PRODUCT-CLAIM-MATRIX.md) | [DEVELOPMENT-PLAN](11-roadmap/DEVELOPMENT-PLAN.md), [RELEASE](10-development/RELEASE.md) |
 | Reference Profile #1 demonstration | [CI3-LARAVEL-WALKTHROUGH](04-migration/CI3-LARAVEL-WALKTHROUGH.md) | [CI3-ADAPTER](04-migration/CI3-ADAPTER.md), [DIFFERENTIAL-TESTING](05-verification/DIFFERENTIAL-TESTING.md) |
+| Launch publication checklist | [LAUNCH-CHECKLIST](10-development/LAUNCH-CHECKLIST.md) | [RELEASE](10-development/RELEASE.md), [INSTALLATION](10-development/INSTALLATION.md) |
 
 The [project plan](../REWROTRON_PROJECT_PLAN.md) summarizes the current milestone sequence and references its owners; historical phases are superseded. Each task in the development plan has an owner role, prerequisites, files, failure cases, verification, and completion evidence.
 
